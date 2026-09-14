@@ -7,7 +7,7 @@
 
 - [x] 1. **scaffold** — `index.html` 제거, Next.js 16 앱 생성, tsconfig·vitest·playwright 설정, `.env.example`, `docs/TODO.md`, `/`→`/column` 301
 - [x] 2. **header** — `MadiHeader.tsx`·`MadiHeaderBehavior.tsx`·`styles/madi/header.css`·`public/madi/img/*`·Noto Sans KR `@font-face`. 본 사이트와 5폭 픽셀 diff
-- [ ] 3. **shell** — `tokens.css`, `MadiSubVisual`, `MadiBreadcrumb`, `MadiFooter`, `data/{site,clinic,nav}.ts`, `seo/schema.ts`, `layout.tsx`, 파비콘·OG, `styles/madi/patterns.css`
+- [x] 3. **shell** — `tokens.css`, `MadiSubVisual`, `MadiBreadcrumb`, `MadiFooter`, `data/{site,clinic,nav}.ts`, `seo/schema.ts`, `layout.tsx`, 파비콘·OG, `styles/madi/patterns.css`
 - [ ] 4. **cms-infra** — `features/cms/*`, `features/seo/*`, `api/revalidate`, `preview`, `cms/content-models.json`(PLAN §4.2)
 - [ ] 5. **column** — 목록·카테고리·상세·검색 포트, 브랜드 교체, 테스트 재작성
 - [ ] 6. **reviews** — 목록·상세 포트
@@ -52,3 +52,27 @@ letter-spacing 0→-0.02em, 5번째 드롭다운 `left:50%`·`width:120px`·`tra
 5번째 메뉴 이름이 본 사이트(`커뮤니티`)와 이 저장소(`건강정보`)에서 다르다.
 하위 항목도 본 사이트는 블로그·자주 묻는 질문·후기(링크는 아직 `#`), 이 저장소는
 칼럼·치료후기·자주 묻는 질문이다. 한쪽으로 맞출지 사용자 확인이 필요하다.
+
+## 3단계 shell 확인 (2026-09-15)
+
+`MadiHeader → MadiSubVisual → MadiBreadcrumb → <main> → MadiFooter` 골격을
+`MadiPageFrame`으로 묶고 `/column`·`/reviews`·`/faq`에 적용했다. 실브라우저 측정:
+
+| 폭 | 헤더 | 서브 배너 | 배너 제목 y | 브레드크럼 | main | 본문 가림 |
+|---|---|---|---|---|---|---|
+| 1440px | 0~140 | 0~300 (padding-top 140) | 180 | 300~360 | 360~ | 없음 |
+| 390px | 0~120 | 0~200 (padding-top 120) | 140 | 200~260 | 260~ | 없음 |
+
+본 사이트 서브 페이지(`/doctor/doctor01.html`)와 부분 비교(차이>24 픽셀):
+
+| 부분 | 폭 | 차이 픽셀 | 비고 |
+|---|---|---|---|
+| 서브 배너 | 1440 | 2,669 / 432,000 | 제목 글자 상자(칼럼 vs 원장 소개)만 |
+| 서브 배너 | 390 | 1,655 / 78,000 | 같음 |
+| 브레드크럼 | 1440·390 | 라벨만 | 칸·홈 아이콘·화살표·색 동일 |
+| 푸터 | 1440 | 2,797 / 472,320 | 아래 항목 참고 |
+| 푸터 | 390 | 6,272 / 136,890 | 같음 |
+
+푸터 차이는 본 사이트의 `.nabyArea`(제작사 크레딧 띠·관리자 로그인, 1440에서
+60px)를 옮기지 않아 `#bottom` 높이가 388→328px로 줄고 `background-size: cover`
+배경이 다르게 잘린 것이다. 메뉴 띠·로고·사업자 정보·저작권은 같다.

@@ -1,0 +1,326 @@
+/*
+ * 본 사이트 컴포넌트 문법. DESIGN.md §5의 표에 오른 규칙을 원본 값 그대로
+ * 옮겼다. 값을 새로 만들지 않는다.
+ *
+ * 출처
+ *   docs/assets/madiclinic-header/sub-visual.css (= subStyle.css L4-42)
+ *   http://gwangju2020.madiclinic.co.kr/css/subStyle.css  (표·브레드크럼·cBox·탭·안내 박스)
+ *   http://gwangju2020.madiclinic.co.kr/css/baseStyle.css (표 기본, 푸터 #bottom)
+ *   2026-09-15 추출. 줄번호는 원본 기준.
+ *
+ * 정본과 다르게 옮긴 곳
+ *   - 이미지 경로 ../img/ -> /madi/img/
+ *     (서브 탭 내비)는 블로그에 없어서 옮기지 않았다
+ *   - 푸터의 .nabyArea(제작사 크레딧·관리자 로그인)와 .BtGoTop은 이 사이트의
+ *     것이 아니라 옮기지 않았다
+ *   - 헤더 글꼴·body 기본값은 src/styles/madi/header.css가 이미 선언한다
+ */
+
+
+/* ==== subStyle.css L4-42: 서브 배너 ====
+   .subPageing(이전/다음 글 화살표)과 주석 처리된 sbnText.png 규칙은
+   블로그에 없어서 옮기지 않았다. 나머지 값은 원본 그대로다. */
+#bnSubArea {position: relative; width: 100%; height: auto;}
+
+#bnSubArea > .subVisualArea {position: relative; width: 100%; height: 300px; box-sizing: border-box; padding-top: 140px; background: url('/madi/img/sbn01.jpg') center center no-repeat; background-size: cover; overflow: hidden; transition: all 0.3s;}
+#bnSubArea > .subVisualArea.sbnNo01 {background: url('/madi/img/sbn01.jpg') center bottom no-repeat; background-size: cover;}
+#bnSubArea > .subVisualArea.sbnNo02 {background: url('/madi/img/sbn02.jpg') center bottom no-repeat; background-size: cover;}
+#bnSubArea > .subVisualArea.sbnNo03 {background: url('/madi/img/sbn03.jpg') center bottom no-repeat; background-size: cover;}
+#bnSubArea > .subVisualArea.sbnNo04 {background: url('/madi/img/sbn04.jpg') center bottom no-repeat; background-size: cover;}
+#bnSubArea > .subVisualArea.sbnNo05 {background: url('/madi/img/sbn05.jpg') center bottom no-repeat; background-size: cover;}
+#bnSubArea > .subVisualArea > .sbn {width: 100%; max-width: 1200px; height: 100%; box-sizing: border-box; padding: 40px 0 0; margin: 0 auto; transition: all 0.3s}
+#bnSubArea > .subVisualArea > .sbn > h2 {line-height: 40px; font-size: 36px; font-weight: 700; color: rgba(68,78,88,1.0); text-align: center; text-transform: lowercase; letter-spacing: -2px; transition: all 0.3s}
+#bnSubArea > .subVisualArea > .sbn > h2::first-letter {text-transform: uppercase;}
+
+
+@media screen and (max-width: 980px) {
+	#bnSubArea > .subVisualArea {height: 260px !important; padding-top: 120px !important;}
+	#bnSubArea > .subVisualArea > .sbn {padding: 30px 0 0;}
+}
+@media screen and (max-width: 660px) {
+	#bnSubArea > .subVisualArea {height: 220px !important;}
+	#bnSubArea > .subVisualArea > .sbn {padding: 30px 0 0;}
+	#bnSubArea > .subVisualArea > .sbn > h2 {line-height: 40px; font-size: 32px;}
+}
+@media screen and (max-width: 500px) {
+	#bnSubArea > .subVisualArea {height: 200px !important;}
+	#bnSubArea > .subVisualArea > .sbn {padding: 20px 0 0;}
+	#bnSubArea > .subVisualArea > .sbn > h2 {line-height: 40px; font-size: 28px;}
+}
+
+/* ==== subStyle.css L125: 본문 컨테이너 ==== */
+#subContainer {width: 100%; min-height: 600px; padding-bottom: 60px; background-color: #fff; overflow: hidden;}
+
+/* ==== baseStyle.css L146-154: 표 기본 ====
+   DESIGN.md §5의 '표' 행이 인용한 층이다. 서브 페이지에서는 바로 아래
+   subStyle 층이 위쪽 테두리 색·글자 크기·머리 배경을 덮어쓴다. */
+table {table-layout: fixed; width: 100%; margin: 0 auto; padding: 0; border-collapse: collapse; border-top: 2px solid #6eb92b; border-bottom: 1px solid #999; font-size: 13px;}
+table td, table th {padding: 10px; border: 1px solid #eee;}
+table tr:first-child th {border-top: 0;}
+table tr:last-child th,
+table tr:last-child td {border-bottom: 0;}
+table tr td:first-child,
+table tr th:first-child {border-left: 0;}
+table tr td:last-child,
+table tr th:last-child {border-right: 0;}
+
+/* ==== subStyle.css L127-185: 표 서브 스타일(서브 페이지에서 실제로 보이는 값) ==== */
+	/* Table Sub Style Start */
+	/* Table Base Style Start */
+	table {table-layout: fixed; width: 100%; margin: 0 auto; padding: 0; border-collapse: collapse; border-top: 2px solid #222; border-bottom: 1px solid #999; font-size: 13px;}
+	table th {text-align: center; background-color: #f4f4f4;}
+	table tr {background-color: #fff;}
+	table th,
+	table td {font-size: 15px; font-weight: 400; line-height: 1.67em; color: #222; padding: 10px; border: 1px solid #ddd;}
+	table tr:first-child th {border-top: 0;}
+	table tr:first-child td {border-top: 0;}
+	table tbody th:last-of-type,
+	table tbody tr:last-child th,
+	table tbody tr:last-child td,
+	table th.noBottom,
+	table td.noBottom {border-bottom: 0;}
+	table tr th:first-child,
+	table tr td:first-child {border-left: 0;}
+	table tr th:last-child,
+	table tr td:last-child {border-right: 0;}
+	table a.bt {display: block; width: 100%; max-width: 160px; height: 30px; box-sizing: border-box; padding: 5px; line-height: 20px; font-size: 13px; font-weight: 400; color: #fff; text-align: center; background-color: #3163b4;}
+	table a.bt:hover {color: #fff;}
+	table a {display: inline-block; width: 100%; height: 30px; box-sizing: border-box; padding: 5px 0; line-height: 20px; font-size: 13px; font-weight: 400; color: #3163b4; text-align: left;}
+	table a:hover {color: #222;}
+	table th br.onOff,
+	table td br.onOff {display: none;}
+	table td span.btCancel {font-size: 13px; font-weight: 400; color: #606c7c; text-align: center;}
+	table td span.btClose {font-size: 13px; font-weight: 400; color: #e8456b; text-align: center;}
+	table td a.blankLink {font-size: 15px; font-weight: 500; color: #222; text-align: inherit;}
+	table td a.blankLink span {display: inline-block; width: 20px; height: 20px; padding-left: 10px; vertical-align: top; background: url('/madi/img/iconNewWin.png') center center no-repeat;}
+	@media screen and (max-width: 660px) {
+		table th br.onOff,
+		table td br.onOff {display: inline-block;}
+		table th,
+		table td {font-size: 14px !important;}
+		table td br {display: block;}
+	}
+	table.spineType01 {margin: 20px auto; border-top: 1px solid #999; border-bottom: 1px solid #bbb;}
+	table.spineType01 th {font-size: 13px; font-weight: 400; line-height: 1.67em; color: #222; padding: 10px; border: 1px solid #ddd;}
+	table.spineType01 td {font-size: 13px; font-weight: 300; line-height: 1.67em; color: #777; padding: 10px; border: 1px solid #ddd;}
+
+
+
+	/* 980 scroll */
+	table.subTable01 {margin: 0 auto; border-top: 2px solid #1e2b4b;}
+	table.subTable01 th,
+	table.subTable01 td {text-align: center;}
+	table.subTable01 tbody th {background-color: #f2f4f9;}
+	@media screen and (max-width: 980px) {
+		table.subTable01 {width: 960px;}
+		table.subTable01 th,
+		table.subTable01 td {font-size: 13px !important;}
+	}
+
+	table.subTable01 h1 {line-height: 40px; font-size: 24px; text-align: center;}
+	table.subTable01 h2 {line-height: 30px; font-size: 20px; text-align: center;}
+	table.subTable01 h3 {line-height: 30px; font-size: 18px; text-align: center;}
+	table.subTable01 h1,
+	table.subTable01 h2,
+	table.subTable01 h3 {font-weight: 500; color: #222;}
+	/* Table Base Style End */
+
+/* ==== subStyle.css L187-212: 브레드크럼 ==== */
+	/* Where is Start */
+	.whereIsLine {width: 100%; height: 60px; box-sizing: border-box; padding: 0; border-top: 1px #eee solid; border-bottom: 1px #eee solid; background-color: #f9f9f9; transition: all 0.3s;}
+	.whereIsLine ul.whereIs {width: 100%; max-width: 1200px; height: 58px; margin: 0 auto; transition: all 0.3s;}
+	.whereIsLine ul.whereIs > li {position: relative; float: left; display: block; width: 140px; height: 58px; box-sizing: border-box; border-left: 1px #eee solid; border-right: 1px #eee solid; padding: 9px 9px; line-height: 40px; font-size: 13px; font-weight: 300; color: #777; text-align: left; background: url('/madi/img/iconWhereisDown.png') right center no-repeat; transition: all 0.3s;}
+	.whereIsLine ul.whereIs > li:nth-child(1) {width: 40px; background: url('/madi/img/iconWhereIsHome.png') center center no-repeat;}
+	.whereIsLine ul.whereIs > li:nth-child(1) > a {position: absolute; display: block; top: 0; left: 0; width: 100%; height: 100%; z-index: 1;}
+	.whereIsLine ul.whereIs > li:nth-child(n+2) {border-left: 0;}
+	.whereIsLine ul.whereIs > li:last-child {color: rgba(119,119,119,1); }
+
+	ul.whereIs > li > .depthMenu {position: absolute; display: none; top: 59px; left: 0; right: auto; width: 140px; height: auto; min-height: 40px; max-height: 460px; border-top: 0px #777 solid; background-color: rgba(240,240,240,0.95); box-shadow: 0 0 0 0 #999; z-index: 100;}
+	ul.whereIs > li > .depthMenu > li {width: 100%; height: 40px; box-sizing: border-box; transition: all 0.3s;}
+	ul.whereIs > li > .depthMenu > li > a {display: block; width: 100%; height: 40px; box-sizing: border-box; padding: 10px 10px; line-height: 20px; font-size: 12px; font-weight: 300; color: #666; text-align: left; text-decoration: none; transition: all 0.3s;}
+	ul.whereIs > li > .depthMenu > li:hover {background-color: rgba(0,0,0,0.1);}
+	ul.whereIs > li > .depthMenu > li.on {background-color: rgba(0,0,0,0.8);}
+	ul.whereIs > li > .depthMenu > li.on > a {color: #fff;}
+	ul.whereIs > li > .depthMenu > li.on:hover {background-color: rgba(0,0,0,0.9);}
+	@media screen and (max-width: 1220px) {
+		.whereIsLine ul.whereIs {max-width: 960px;}
+	}
+	@media screen and (max-width: 660px) {
+		.whereIsLine ul.whereIs > li {font-size: 12px;}
+	}
+	@media screen and (max-width: 360px) {
+		ul.whereIs > li > .depthMenu {left: auto; right: 0;}
+	}
+	/*
+	 * 원본의 브레드크럼 칸은 글자 + 형제 메뉴 드롭다운(ul.depthMenu)이다.
+	 * 블로그는 드롭다운 대신 상위 칸을 링크로 두므로(MadiBreadcrumb 주석 참고),
+	 * 칸 안의 a가 baseStyle의 `a {color: #444}`를 물려받아 색이 달라진다.
+	 * 칸의 글자 속성을 그대로 쓰게 되돌린다. 원본 화면과 같은 색·크기다.
+	 */
+	.whereIsLine ul.whereIs > li > a {color: inherit; font-size: inherit; font-weight: inherit; letter-spacing: inherit;}
+	.whereIsLine ul.whereIs > li:nth-child(1) > a {font-size: 0;}
+
+	/* Where is End */
+
+/* ==== subStyle.css L214-218: 본문 폭 ==== */
+	/* cBoxArea Start */
+	.cBoxArea {position: relative; display: block; margin: 0 auto; width: 100%; max-width: 1200px; min-height: 600px; box-sizing: border-box; padding: 0; background-color: #fff; border-radius: 0; transition: all 0.3s;}
+	@media screen and (max-width: 1220px) {
+		.cBoxArea {max-width: 960px; padding: 0 10px;}
+	}
+
+/* ==== subStyle.css L242-280: 섹션·소제목(cBox h4/h5/h6) ==== */
+	.cBox {position: relative; width: 100%; min-height: 200px; box-sizing: border-box; padding: 60px 0 0; margin: 0; z-index: 2;}
+	.cBox .cBoxLine {display: block; width: 100%; height: 59px; font-size: 0; line-height: 0; box-sizing: border-box; border-bottom: 1px #bbb dashed; margin: 0 auto;}
+	.cBox:last-child .cBoxLine {height: 60px; font-size: 60px; line-height: 60px; border-bottom: 0;}
+
+	/*
+	.cBox h4 {position: relative; display: block; margin: 0 auto 40px; line-height: 40px; font-size: 36px; padding: 20px 0 20px; font-weight: 300; text-align: center; letter-spacing: -1px; z-index: 0;}
+	.cBox h4:before {position: absolute; bottom: 0; left: 0; right: 0; margin: 0 auto; display: inline-block; width: 40px; height: 2px; z-index: -1; content: ""; background-color: rgba(266,26,37,1.0); transition: all 0.3s;}
+	.cBox h4.cGray:before {background-color: #eeeeee;}
+	.cBox h4.cGreen:before {background-color: #eeffb1;}
+	.cBox h4.cPurple:before {background-color: #fcf0ff;}
+	.cBox h4.cRed:before {background-color: #ffd8d8;}
+	.cBox h4.cGold:before {background-color: #efe6bc;}
+	.cBox h4.cSky:before {background-color: #cff9ff;}
+
+	.cBox h5 {position: relative; display: block; margin: 30px auto 0; width: 120px; line-height: 40px; font-size: 26px; padding: 10px 0 10px; font-weight: 500; text-align: center; z-index: 0;}
+	.cBox h5:before {position: absolute; top: 50%; left: 0; display: inline-block; width: 100%; height: 20px; text-align: center; box-sizing: border-box; padding: 0 10px; z-index: -1; content: ""; background-color: #efecfd; transition: all 0.3s;}
+	*/
+	.cBox h4 {position: relative; display: block; margin: 0 auto 10px; width: 100%; line-height: 40px; font-size: 36px; padding: 0 0 19px; border-bottom: 1px #08539d solid; font-weight: 700; text-align: left; letter-spacing: -1px; z-index: 0; transition: all 0.3s;}
+	.cBox h5 {position: relative; display: block; margin: 0 auto 0; width: 100%; line-height: 20px; font-size: 18px; padding: 10px 0; font-weight: 500; text-align: left;  letter-spacing: -1px; z-index: 0;}
+	.cBox h5:before {position: absolute; top: 50%; left: 0; display: inline-block; width: 80px; height: 20px; text-align: center; box-sizing: border-box; padding: 0 10px; z-index: -1; content: ""; background-color: #efecfd; transition: all 0.3s;}
+	@media screen and (max-width: 980px) {
+		.cBox h4 {font-size: 28px;}
+	}
+	@media screen and (max-width: 660px) {
+		.cBox h4 {line-height: 30px; font-size: 22px;}
+	}
+
+	.cBox h6 {margin-top: 10px; padding: 10px 0 10px; line-height: 30px; font-size: 18px; font-weight: 500; text-align: left;}
+	@media screen and (max-width: 1220px) {
+		.cBox {max-width: 960px;}
+	}
+	@media screen and (max-width: 980px) {
+		.cBox {max-width: none; padding: 0 10px;}
+	}
+	@media screen and (max-width: 660px) {
+		.cBox h4 {font-size: 28px;}
+		.cBox h4:before {}
+		.cBox h5 {line-height: 30px; font-size: 18px;}
+	}
+
+/* ==== subStyle.css L326-366: 탭 ==== */
+	/* cBoxArea tabMenu Start */
+	.tabMenuLine {display: block; margin: 0 auto 39px; width: 100%; border-bottom: 1px #ddd solid;}
+	.selectTab {display: none; width: 100%;}
+	.selectTab > span {text-indent: -9999px;}
+	ul.tabMenuArea {position: relative; margin: 0 auto; display: block; width: 100%; max-width: 360px; height: 40px; box-sizing: border-box; z-index: 2;}
+	ul.tabMenuArea > li {float: left; display: block; width: 160px; height: 40px; background-color: #f3f4f1; overflow: hidden; transition: all 0.3s;}
+	ul.tabMenuArea > li:first-child {border-radius: 0 0 0 0;}
+	ul.tabMenuArea > li:last-child {border-radius: 0 0 0 0;}
+	ul.tabMenuArea > li > a {display: block; width: 100%; height: 59px; box-sizing: border-box; line-height: 40px; font-size: 14px; font-weight: 400; color: #777; text-align: center; letter-spacing: -0.5px; text-decoration: none;  transition: all 0.3s;}
+	ul.tabMenuArea > li:hover {background-color: #dfe3d8;}
+	ul.tabMenuArea > li:hover a {color: #222;}
+	ul.tabMenuArea > li.on {background-color: #414a59;} /* rgba(145,37,195,0.8); #08539d */
+	ul.tabMenuArea > li.on > a {color: #fff;}
+	ul.tabMenuArea > li.on:hover {background-color: #222222;}
+	.tabMenuArea.tab1 > li {width: 100%;}
+	.tabMenuArea.tab2 > li {width: 50%;}
+	.tabMenuArea.tab3 > li {width: 33.3333%;}
+	.tabMenuArea.tab3 > li:nth-child(2) {width: 33.3334%;}
+	.tabMenuArea.tab4 > li {width: 25%;}
+	.tabMenuArea.tab5 > li {width: 20%;}
+	.tabMenuArea.tab6 > li {width: 16.667%;}
+	.tabMenuArea.tab6 > li:nth-child(2), 
+	.tabMenuArea.tab6 > li:nth-child(5) {width: 16.666%;}
+	.tabMenuArea.tab7 > li:nth-child(odd) {width: 14.275%;}
+	.tabMenuArea.tab7 > li:nth-child(even) {width: 14.3%;}
+	.tabMenuArea.tab8 > li {width: 12.5px;}
+	@media screen and (max-width: 1220px) {
+		ul.tabMenuArea > li > a {font-size: 13px;}
+	}
+	/*
+	@media screen and (max-width: 660px) {
+		.tabMenuLine {margin: 0 auto 40px; border-bottom: 0;}
+		.selectTab {position: relative; display: block; cursor: pointer; width: 100%; height: 38px; box-sizing: border-box; padding: 9px 9px 9px 19px; border: 1px #ddd solid; line-height: 20px; font-size: 14px; font-weight: 700; color: #444; text-align: left; background: url('/madi/img/iconWhereisDown.png') right 20px center no-repeat #f3f4f1; overflow: hidden; z-index: 2; transition: all 0.3s;}
+		ul.tabMenuArea {display: none; max-width: 640px; height: auto; border: 0;}
+		ul.tabMenuArea {display: none;}
+		ul.tabMenuArea > li {float: none; width: 100% !important; height: 40px; box-sizing: border-box; border-bottom: 1px #eee solid; background-color: #f9f9f9;}
+		ul.tabMenuArea > li > a {height: 39px; padding: 10px 0 9px 20px; line-height: 20px; text-align: left; letter-spacing: 0px;}
+	}
+	*/
+	/* cBoxArea tabMenu End */
+	/* cBoxArea End */
+
+/* ==== subStyle.css L634-656: 안내 박스 commonBox ==== */
+	/* for special00 start */
+	.commonBox {display: table; width: 100%; min-height: 160px; margin: 20px auto 0; box-sizing: border-box; padding: 0; border-top: 1px #08539d solid; background-color: #f8f9fa;}
+	.commonBox > .commonTitle {display: table-cell; width: 220px; height: 100%; background: url('/madi/img/iconCommonInfoTitle.png') center top 30px no-repeat #e6eaed;}
+	.commonBox > .commonText {display: table-cell; width: calc(100% - 220px); height: 100%; box-sizing: border-box; padding: 30px;}
+	.commonBox > .commonText > p {width: 100%; line-height: 1.56em; font-size: 15px; font-weight: 300; color: #444;}
+	.commonBox > .commonText > p > span {font-weight: 700;}	
+	.commonBox > .commonText > p > span.comment {width: 100%; line-height: 1.56em; font-size: 14px; font-weight: 300; color: #666;}
+	@media screen and (max-width: 1220px) {
+		.commonBox > .commonTitle {width: 180px; min-height: 140px; background: url('/madi/img/iconCommonInfoTitle.png') center top 20px no-repeat #e6eaed; background-size: 140px 88px;}
+		.commonBox > .commonText {width: calc(100% - 180px); padding: 20px;}
+	}
+	@media screen and (max-width: 980px) {
+		.commonBox {min-height: 140px;}
+		.commonBox > .commonText > p {font-size: 14px;}
+		.commonBox > .commonText > p.comment {font-size: 13px;}
+	}
+	@media screen and (max-width: 660px) {
+		.commonBox {display: block; min-height: 0;}
+		.commonBox > .commonTitle {display: block; width: 100%; min-height: 100px; background: url('/madi/img/iconCommonInfoTitle.png') center top 15px no-repeat #e6eaed; background-size: 120px 75px;}
+		.commonBox > .commonText {display: block; width: 100%; padding: 20px;}
+		.commonBox > .commonText > p {font-size: 13px;}
+		.commonBox > .commonText > p.comment {font-size: 12px;}
+	}
+
+/* ==== baseStyle.css L391-442, L449-453: 푸터 #bottom ====
+   L422-433(.nabyArea)과 L434-435(.BtGoTop), 그리고 660px 미디어 쿼리의
+   .nabyArea·.BtGoTop 규칙은 옮기지 않았다. */
+
+	/* Copyright Start */
+	#bottom {position: relative; width: 100%; box-sizing: border-box; padding: 0; background: url('/madi/img/bgBottomArea.jpg') center center no-repeat; background-size: cover; background-color: rgba(53,58,81,0.7);}
+
+	#bottom ul.bottomMenu {display: flex; justify-content: space-around; margin: 0 auto; width: 100%; max-width: 500px; height: 60px; box-sizing: border-box; padding: 10px 0;}
+	#bottom ul.bottomMenu > li {position: relative; flex-grow: 1;}
+	#bottom ul.bottomMenu > li:before {position: absolute; top: 0; bottom: 0; right: 0; display: block; margin: auto 0; content: ""; width: 1px; height: 10px; z-index: 1; background-color: rgba(255,255,255,0.2);}
+	#bottom ul.bottomMenu > li:last-child:before {width: 0;}
+	#bottom ul.bottomMenu > li > a {display: block; width: 100%; height: 100%; line-height: 40px; font-size: 14px; font-weight: 400; color: #fff; text-align: center; text-decoration: none;}
+
+	@media screen and (max-width: 660px) {
+		#bottom ul.bottomMenu {max-width: 320px;}
+		#bottom ul.bottomMenu > li > a {font-size: 11px; letter-spacing: -0.5px;}
+	}
+
+	#bottom .bottomArea {display: block; margin: 0 auto; width: 100%; box-sizing: border-box; padding: 40px calc((100% - 1200px) / 2); background-color: rgba(45,41,61,0.6); transition: all 0.3s;}
+	#bottom .bottomArea .bottomCI {display: block; width: 100%; max-width: 240px; height: 60px; margin: 0 auto;}
+	#bottom .bottomArea .bottomCI > img {vertical-align: top; display: block; width: 100%; height: 100%; line-height: 40px; font-size: 16px; font-weight: 700; color: #fff; text-align: center;}
+
+	#bottom .bottomArea .copyrightArea {display: block; margin: 0 auto; width: 100%; box-sizing: border-box; padding: 20px 0 0;}
+
+	#bottom .bottomArea .copyrightArea > ul.companyInfo {width: 100%; padding: 0; margin: 0 auto;}
+	#bottom .bottomArea .copyrightArea > ul.companyInfo > li {width: 100%; line-height: 20px;}
+	#bottom .bottomArea .copyrightArea > ul.companyInfo > li > ul {width: 100%; text-align: center; line-height: 20px;}
+	#bottom .bottomArea .copyrightArea > ul.companyInfo > li > ul > li {display: inline-block; line-height: 20px; font-size: 12px; font-weight: 200; color: #eee; text-align: center; margin: 0 auto; padding: 0 5px;}
+
+	#bottom .bottomArea .copyrightArea > p.copyright {display: block; margin-top: 20px; width: 100%; height: 20px; line-height: 20px; font-size: 11px; font-weight: 400; color: #bbb; text-align: center;}
+	#bottom .bottomArea .copyrightArea > a.url {display: block; margin-top: 40px; width: 100%; height: 40px; line-height: 40px; font-size: 15px; font-weight: 500; color: #fff; text-align: center;}
+
+
+
+	@media screen and (max-width: 1220px) {
+		#bottom .bottomArea {padding: 40px calc((100% - 960px) / 2);}
+	}
+	@media screen and (max-width: 980px) {
+		#bottom .bottomArea {padding: 40px 10px;}
+	}
+	@media screen and (max-width: 660px) {
+	}
+	@media screen and (max-width: 500px) {
+		#bottom .bottomArea {padding: 40px 10px;}
+	}
+	/* Copyright End */

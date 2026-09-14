@@ -13,22 +13,16 @@ import { branchTabs, gnb, isBlogPath, isNavChildActive, officialWebUrl, topLinks
  * 이 서브도메인에서 `/column`으로 301되므로 "처음으로"가 성립하지 않는다.
  *
  * 동작은 `MadiHeaderBehavior`(client)가 이 DOM에 붙는다.
+ *
+ * 원본에서 `#header` 바로 앞에 있는 `#skipBind`는 `components/site/SkipLink`가
+ * 맡는다. 포커스를 실제로 `<main>`으로 옮기려면 클라이언트 컴포넌트가 필요하고,
+ * `SiteLayout`이 body 최상단에 둬서 DOM 순서는 원본과 같다.
  */
 export default function MadiHeader({ pathname }: Readonly<{ pathname: string }>) {
   const blogActive = isBlogPath(pathname);
 
   return (
     <>
-      <ul id="skipBind">
-        <li>
-          {' '}
-          <a href="#gnb">주메뉴 바로가기</a>
-        </li>
-        <li>
-          <a href="#main">본문으로 바로가기</a>
-        </li>
-      </ul>
-
       <div id="pageBlack" />
       <div id="header">
         <div className="headerFix slideanim4">

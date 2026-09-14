@@ -1,0 +1,69 @@
+/*
+ * 마디클리닉 디자인 토큰. 정본은 docs/DESIGN.md §7이고 이 파일은 그 §7을
+ * 그대로 옮긴 것이다. 값은 본 사이트 CSS 실측이라 새로 만들지 않는다.
+ *
+ * 헤더(src/styles/madi/header.css)는 1px 재현 대상이라 토큰을 쓰지 않는다.
+ * 토큰이 바뀌면 src/styles/tokens.test.ts가 DESIGN.md와 어긋난 것을 잡는다.
+ */
+:root {
+  --madi-font: 'Noto Sans KR', 'Nanum Gothic', 'Malgun Gothic', '맑은 고딕', sans-serif;
+
+  --madi-primary: #08539d;
+  --madi-primary-hover: #2e60a1;
+  --madi-primary-soft: rgba(46, 96, 161, 0.7);
+  --madi-accent-line: rgba(89, 113, 176, 0.6);
+  --madi-link: #3163b4;
+  --madi-tab-active: #414a59;
+  --madi-danger: #e7404f;
+
+  --madi-text-strong: #222;
+  --madi-text: #444;
+  --madi-text-muted: #666;
+  --madi-text-subtle: #777;
+  --madi-text-faint: #999;
+  --madi-text-disabled: #bbb;
+  --madi-title-navy: rgb(68, 78, 88);
+  --madi-text-inverse: #fff;
+
+  --madi-bg: #fff;
+  --madi-bg-soft: #f9f9f9;
+  --madi-bg-panel: #f8f9fa;
+  --madi-bg-panel-title: #e6eaed;
+  --madi-bg-tip: #f8f8f6;
+  --madi-bg-tip-title: #eae9e6;
+  --madi-bg-tab: #f3f4f1;
+  --madi-bg-tab-hover: #dfe3d8;
+  --madi-bg-topline: #e5e5e5;
+  --madi-bg-topline-strong: #cecece;
+  --madi-border: #eee;
+  --madi-border-strong: #ddd;
+  --madi-dim: rgba(0, 0, 0, 0.8);
+
+  --madi-fs-xs: 11px;  --madi-fs-sm: 12px;  --madi-fs-base-sm: 13px;
+  --madi-fs-base: 14px; --madi-fs-md: 15px;  --madi-fs-body: 16px;
+  --madi-fs-lg: 18px;  --madi-fs-h4: 20px;  --madi-fs-h3: 24px;
+  --madi-fs-h2: 30px;  --madi-fs-h1: 34px;  --madi-fs-section: 36px;
+  --madi-fs-display: 48px;
+  --madi-lh-body: 1.67em; --madi-lh-panel: 1.56em;
+  --madi-ls-title: -1px; --madi-ls-display: -2px; --madi-ls-ui: -0.5px;
+
+  --madi-container: 1200px;
+  --madi-container-narrow: 960px;
+  --madi-header-h: 140px;
+  --madi-subvisual-h: 300px;
+  --madi-breadcrumb-h: 60px;
+  --madi-section-py: 80px;
+  --madi-space-1: 5px; --madi-space-2: 10px; --madi-space-3: 20px;
+  --madi-space-4: 30px; --madi-space-5: 40px; --madi-space-6: 60px; --madi-space-7: 80px;
+
+  --madi-radius-pill: 20px; --madi-radius-lg: 40px; --madi-radius-md: 10px; --madi-radius-round: 50%;
+  --madi-shadow-header: 0 1px 3px 2px rgba(0, 0, 0, 0.1);
+  --madi-shadow-dropdown: 1px 1px 4px 2px rgba(0, 0, 0, 0.1);
+  --madi-shadow-soft: 0 0 7px 3px #f5f5f5;
+  --madi-motion: all 0.3s;
+}
+@media (max-width: 980px) {
+  :root { --madi-header-h: 120px; --madi-subvisual-h: 260px; --madi-section-py: 60px; }
+}
+@media (max-width: 660px) { :root { --madi-subvisual-h: 220px; } }
+@media (max-width: 500px) { :root { --madi-subvisual-h: 200px; } }
