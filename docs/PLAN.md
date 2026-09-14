@@ -16,12 +16,12 @@
 2. RootTale CMS(ROOT-ADMIN) 테넌트·사이트를 새로 만들고 콘텐츠는 거기서 작성한다. 기존 글 이관은 없다.
 3. 헤더는 본 사이트와 동일하게 두고, 기존 GNB 메뉴는 본 사이트 절대주소로 연결하며 블로그 메뉴(칼럼·치료후기·FAQ)를 같은 스타일로 GNB에 추가한다.
 4. 기술 스택은 headnerve와 같은 Next.js + Vercel이다.
-5. 카테고리는 모두 뺀다. 칼럼·FAQ·치료후기 모두 분류 없는 평면 구조다.
+5. 세 기능의 구조(라우트·카테고리 계층·FAQ 4단계·검색·페이지네이션·RSS·사이트맵·미리보기·웹훅)는 headnerve 그대로 가져온다. 다만 분류 값(카테고리 이름·slug)은 설계에서 미리 정하지 않고 ROOT-ADMIN에서 만든다. 코드는 분류를 하드코딩하지 않는다.
 6. 디자인 토큰(색·글꼴·간격·모양)과 로고·파비콘은 마디의원 홈페이지에서 추출한 값만 쓴다.
 
 완료 조건:
 
-- `/column`, `/column/{slug}`, `/reviews`, `/reviews/{slug}`, `/faq`, `/faq/{slug}`가 새 ROOT-ADMIN 사이트의 발행 글을 서버 렌더링한다.
+- `/column`, `/column/{category}`, `/column/{category}/{slug}`, `/reviews`, `/reviews/{slug}`, `/faq`, `/faq/{section}`, `/faq/{section}/{topic}`, `/faq/{section}/{topic}/{slug}`가 새 ROOT-ADMIN 사이트의 발행 글과 분류를 서버 렌더링한다.
 - 헤더가 1440·1220·980·768·390px에서 본 사이트와 픽셀 일치한다(추가 메뉴 1개 때문에 생기는 GNB 가로 이동은 §3.4의 허용 차이만).
 - 사이트맵 인덱스·RSS·robots·서명 웹훅 재검증이 동작한다.
 - typecheck·vitest·production build·Playwright(칼럼·후기·FAQ·사이트맵)가 통과하고 Aside 실브라우저로 3개 폭을 확인한다.
@@ -34,17 +34,20 @@
 |---|---|---|
 | `/` | `/column`으로 301 | 신규. 블로그 전용 서브도메인이라 별도 홈을 만들지 않는다 |
 | `/column` | 칼럼 목록(검색·페이지네이션) | headnerve `ColumnArchive` |
-| `/column/{slug}` | 칼럼 상세(TOC·병원 안내·면책) | headnerve `ColumnDetailRoute`, 경로만 2단계로 |
+| `/column/{category}` | 카테고리 목록 | headnerve `ColumnCategoryPage` |
+| `/column/{category}/{slug}` | 칼럼 상세(TOC·병원 안내·면책) | headnerve `ColumnDetailRoute` |
 | `/column/rss.xml`, `/column-sitemap.xml` | 피드·사이트맵 | headnerve |
 | `/reviews`, `/reviews/{slug}` | 치료후기 목록·상세 | headnerve `reviews` |
 | `/reviews/rss.xml`, `/reviews-sitemap.xml` | 피드·사이트맵 | headnerve |
-| `/faq` | 질문 목록(질문+핵심 답변 펼침, 검색) | headnerve `FaqHomePage` 골격을 평면 목록으로 |
-| `/faq/{slug}` | 답변 상세(`FAQPage` JSON-LD) | headnerve `FaqDetailPage` |
+| `/faq` | 질문 홈(진료 영역 카드) | headnerve `FaqHomePage` |
+| `/faq/{section}` | 진료 영역 목록 | headnerve `FaqSectionPage` |
+| `/faq/{section}/{topic}` | 세부 질환 목록 | headnerve `FaqTopicPage` |
+| `/faq/{section}/{topic}/{slug}` | 답변 상세(`FAQPage` JSON-LD) | headnerve `FaqDetailPage` |
 | `/faq-sitemap.xml`, `/sitemap.xml`, `/sitemap-static.xml`, `/robots.txt` | SEO | headnerve, 정적 목록만 교체 |
 | `/api/revalidate` | ROOT-ADMIN 서명 웹훅 | headnerve |
 | `/preview/post/{id}` | ROOT-ADMIN 초안 미리보기(noindex) | headnerve |
 
-가져오지 않는 것: `/qa`·`/blog`·`/bbs` 등 410 스텁, `/about`·질환 라우트, 노출(팝업·배너) API, 디자인 시스템 카탈로그, 다국어 라우트, 88건 칼럼 이관 데이터와 리다이렉트 표, 칼럼 카테고리 라우트, FAQ 영역·질환 라우트.
+세 기능에 속하지 않아 가져오지 않는 headnerve 라우트: `/qa`·`/blog`·`/bbs` 등 옛 게시판 410 스텁, `/about`과 질환 페이지(`/headache` 등), 팝업·배너 노출 API, 디자인 시스템 카탈로그, 다국어 라우트. 세 기능의 라우트·구성 요소는 전부 가져온다.
 
 ### 2.2 페이지 골격
 
@@ -129,15 +132,15 @@
 
 ### 4.2 콘텐츠 모델(`cms/content-models.json`)
 
-세 모델 모두 카테고리 없이 `detail` 표시 계약을 쓴다(headnerve `reviews` 모델과 같은 형태). `categories: []`, `category_tree`는 쓰지 않는다.
+headnerve 선언을 그대로 쓴다. 분류 목록만 비운다.
 
-| 모델 | 표시 | 필드 |
+| 모델 | 표시(headnerve와 동일) | 분류 |
 |---|---|---|
-| `column` | `detail`, `detailPath: /column/:slug`, `templateKey: column`, feed·og | 기본 제목·발췌·본문·대표 이미지 |
-| `reviews` | `detail`, `detailPath: /reviews/:slug`, `templateKey: reviews` | 커스텀 `patient_name`·`doctor_name`·`treatment_period`(ADR-0001) |
-| `faq` | `detail`, `detailPath: /faq/:slug`, `templateKey: faq`, feed 없음 | 제목=질문, 발췌=핵심 답변(필수), 본문=상세 답변(선택), 커스텀 `clinic_perspective`(라벨 "마디클리닉 관점") |
+| `column` | `category_tree`, `basePath: /column`, `categoryDepth: 1`, `categoryCardinality: exactly-one`, feed·og | `categories: []`. ROOT-ADMIN에서 1단계 분류를 만든다. 글마다 정확히 1개 |
+| `reviews` | `detail`, `/reviews/:slug`, 커스텀 필드 `patient_name`·`doctor_name`·`treatment_period`(ADR-0001) | 없음 |
+| `faq` | `category_tree`, `basePath: /faq`, `categoryDepth: 2`, 필드 `clinic_perspective`(라벨 "마디클리닉 관점") | `categories: []`. ROOT-ADMIN에서 진료 영역(1단계)→세부 질환(2단계)을 만든다. 글마다 2단계 말단 분류 정확히 1개 |
 
-ROOT-ADMIN 기본 `category` taxonomy는 비워 두고 화면·URL·사이트맵 어디서도 읽지 않는다. 나중에 분류가 필요해지면 모델 계약을 바꾸는 별도 결정으로 다룬다.
+분류 값은 이 설계에서 정하지 않는다. 화면·URL·사이트맵은 CMS 공개 API의 분류(`/v1/cms/public/categories`, `content-models`)만 읽어 만들고 코드에는 slug를 두지 않는다. headnerve에서 정적 분류 원장 역할을 하던 `column-category-manifest.json`·`faq-registry.ts`의 질환 트리는 CMS 조회로 대체한다.
 
 ### 4.3 환경 변수
 
@@ -150,9 +153,9 @@ ROOT-ADMIN 기본 `category` taxonomy는 비워 두고 화면·URL·사이트맵
 - `src/features/cms/{tiptap-body,cf-image-url,body-image,content-text,internal-content-links,revalidation}.ts` (+ 테스트). `raw-html.ts`는 `LEGACY_CONTENT_ORIGIN`을 제거한다.
 - `src/features/seo/{sitemap-xml,rss-xml,preview-noindex,site-sitemap}.ts`
 - `src/components/site/{JsonLd,SiteLayout,SkipLink,SiteBreadcrumb,BreadcrumbJsonLd}.tsx`
-- `src/features/column/{column-cache,column-pagination,column-search,column-document,column-wire,column-rss,column-sitemap}.ts`, `ColumnTableOfContents.tsx`, `ColumnArchiveSearch.tsx`
+- `src/features/column/{column-cache,column-pagination,column-search,column-document,column-wire,column-rss,column-sitemap}.ts`, `ColumnTableOfContents.tsx`, `ColumnArchiveSearch.tsx`, `ColumnCategoryNav.tsx`, `ColumnCategoryPage.tsx`
 - `src/features/reviews/{review-cache,review-api,review-body,review-faq,review-rss,review-sitemap}.ts`, `ReviewFaq.tsx`
-- `src/features/faq/{faq-cache,faq-wire,faq-api,faq-source,faq-sitemap,faq-revalidation,faq-detail-outline,faq-import,faq-sheet-import}.ts`, `FaqPageFrame.tsx`. `faq-wire`·`faq-api`는 `category_tree` 모델 요구(`fetchFaqModel`의 kind·depth 검사)와 말단 분류 1개 규칙을 제거하고 `model_key=faq` 발행 글만 읽도록 단순화
+- `src/features/faq/{faq-cache,faq-wire,faq-model,faq-api,faq-source,faq-sitemap,faq-revalidation,faq-detail-outline,faq-import,faq-sheet-import}.ts`, `FaqPageFrame.tsx`, `FaqHomePage/FaqSectionPage/FaqTopicPage/FaqDetailPage/FaqShared.tsx`(문구·이미지만 교체)
 - `src/app/api/revalidate/route.ts`, 사이트맵·RSS 라우트 5개, `src/app/preview/post/[id]`, `public/sitemap.xsl`
 - `scripts/{faq-cms-api,import-faq-sheet,sync-faq-content}.ts`(FAQ 시트 가져오기 파이프라인. 데이터만 새 테넌트용)
 
@@ -165,20 +168,20 @@ ROOT-ADMIN 기본 `category` taxonomy는 비워 두고 화면·URL·사이트맵
 | `src/data/nav.ts` | 네이버예약 `https://m.booking.naver.com/booking/13/bizes/823238`, 카카오 `http://pf.kakao.com/_YIYSxj`, 인스타 `madiclinic2020`, 유튜브 `@practicalpainmanagementwit8115`, GNB 트리(§3.4). `cafeUrl`은 없음 → `ContentCafeLink`는 제거 |
 | `src/features/seo/schema.ts` | `siteEntityJsonLd`를 MedicalClinic(마디클리닉)+Physician(이경무)로 |
 | `src/app/layout.tsx` | 제목·설명·파비콘(`docs/assets/madiclinic-brand/favicon/` 세트를 `app/`으로)·OG 이미지(헤더 로고 1200×630 생성). GTM·서치콘솔·네이버 인증 토큰은 발급 후 삽입, 없으면 비움 |
-| `src/features/column/column-model.ts`, `column-content.ts`, `column-source.ts` | 88건 JSON 폴백·`legacy-column-list-excerpts`·`DISEASE_LINK_RULES`·manifest 검증·카테고리 참조(`columnCategoryRefForArticle`, `exactly-one` 검사) 제거. 상세 경로는 `/column/{slug}`. CMS 응답만 사용, 실패 시 빈 목록+오류 상태 |
-| `ColumnDetailRoute.tsx`, `ColumnArchiveRow.tsx` | 바이라인 "마디클리닉 이경무 원장", 로고 대체 이미지, 라벨 "칼럼", 카테고리 배지·카테고리 링크 제거 |
+| `src/features/column/column-model.ts`, `column-content.ts`, `column-category.ts`, `column-source.ts` | 88건 JSON 폴백·`legacy-column-list-excerpts`·`DISEASE_LINK_RULES`·manifest(88건 단정) 제거. 카테고리 목록·SEO 제목은 CMS 분류 API에서 읽는다. 실패 시 빈 목록+오류 상태 |
+| `ColumnDetailRoute.tsx`, `ColumnCategoryPage.tsx`, `ColumnArchiveRow.tsx` | 바이라인 "마디클리닉 이경무 원장", 로고 대체 이미지, 라벨 "칼럼" |
 | `review-model.ts`, `ReviewCard.tsx` | 로고 대체 이미지, 대표원장 판별 |
-| `src/features/faq/faq-model.ts` | `FAQ_SECTION_SLUGS`·section/topic 경로 계산 제거. `faqEntryPath = /faq/{slug}`. `FAQ_INTENTS` 질문 성격 판별과 그 필터도 제거(분류로 보이는 요소는 두지 않음) |
-| `FaqHomePage.tsx`, `FaqDetailPage.tsx`, `FaqShared.tsx` | 홈은 영역 카드 대신 질문 평면 목록(질문·핵심 답변 펼침·검색·페이지네이션). 상세는 유지. 의사 사진·문구 교체, 카페 카드 제거. `FaqSectionPage`·`FaqTopicPage`·`faq-registry.ts`는 가져오지 않음 |
+| `src/features/faq/faq-model.ts`, `faq-registry.ts` | `FAQ_SECTION_SLUGS` 상수와 headnerve 질환 콘텐츠 import를 걷어내고 영역·질환 트리를 CMS 모델·분류에서 읽는다. `fallbackFaqArchive`는 빈 원장. 4단계 경로 계산·JSON-LD·사이트맵 로직은 그대로 |
+| `FaqHomePage/FaqSectionPage/FaqTopicPage/FaqDetailPage/FaqShared.tsx` | 문구·영역 카드 이미지·의사 사진 교체, 카페 카드 제거. 화면 구조는 유지 |
 | `src/features/clinic-guide/*` | `clinic-guide-body.json`을 마디클리닉 진료 안내로 새로 작성(전화·네이버예약·카카오 버튼 3개, 색 `#08539d`·`#2e60a1`) |
 | `src/styles/*` | `site.css` 배럴 + `column.css`·`reviews.css`·`review-detail.css`·`review-faq.css`·`faq*.css`·`post-pattern.css` 유지. `tokens.css`는 `docs/DESIGN.md` §7 그대로. 각 시트의 `--figma-*`·하드코딩 색·Pretendard를 `--madi-*`·Noto Sans KR로 치환. `figma-*`·`home`·`about`·`disease*`·`ds/` 삭제. 13개 `*-contract.test.ts`는 삭제하고 `tokens.css`가 DESIGN.md 값과 일치하는지 검사하는 테스트 1개로 대체 |
 | `next.config.ts` | `images.formats`·`reactStrictMode`·`allowedDevOrigins` 유지, 리다이렉트는 `/ → /column` 1건 |
-| `public/robots.txt`, `sitemap-static.xml` | 새 호스트·정적 페이지 목록(`/column`, `/reviews`, `/faq`). FAQ 사이트맵은 목록+상세만 |
+| `public/robots.txt`, `sitemap-static.xml` | 새 호스트·정적 페이지 목록(`/column`, `/reviews`, `/faq`) |
 | `tests/{column-list,column-detail,reviews,sitemap,seo-schema}.spec.ts` | 셀렉터·canonical·slug 재작성. 사이트맵 자식 4개 기준 |
 
 ### 5.3 남기는 것
 
-`column-articles.json`(942KB)·`column-category-manifest.json`·`column-redirect-alias-manifest.json`·`legacy-column-list-excerpts.ts`·`column-redirects.ts`·`column-category.ts`·`ColumnCategoryNav.tsx`·`ColumnCategoryPage.tsx`·`src/app/column/[category]/**`, `faq-registry.ts`·`FaqSectionPage.tsx`·`FaqTopicPage.tsx`·`src/app/faq/[section]/**`, headnerve 콘텐츠를 단정하는 테스트 12개(§5.2에서 새 데이터 기준으로 다시 씀), `features/{disease,headache,about,policy,legacy,exposures}`, `src/design-system`, 다국어·410 라우트, `pnpm-workspace.yaml`(존재하지 않는 패치 참조), headnerve 이미지 자산 전부.
+headnerve 고유 데이터만 남긴다(구조·화면 코드는 모두 가져온다): `column-articles.json`(942KB, 88건 본문)·`column-category-manifest.json`·`column-redirect-alias-manifest.json`·`legacy-column-list-excerpts.ts`·`column-redirects.ts`(옛 URL 301 표), headnerve 콘텐츠를 단정하는 테스트 12개(§5.2에서 새 데이터 기준으로 다시 씀), `features/{disease,headache,about,policy,legacy,exposures}`, `src/design-system`, 다국어·410 라우트, `pnpm-workspace.yaml`(존재하지 않는 패치 참조), headnerve 이미지 자산 전부.
 
 ### 5.4 패키지
 
@@ -192,9 +195,9 @@ ROOT-ADMIN 기본 `category` taxonomy는 비워 두고 화면·URL·사이트맵
 2. **header**: `src/components/madi/MadiHeader.tsx` + `MadiHeaderBehavior.tsx`(client) + `src/styles/madi/header.css`(`docs/assets/madiclinic-header/header.css` 그대로, 이미지 경로만 `/madi/img/`) + `public/madi/img/*`(헤더 아이콘·`madiclinic-brand` 로고 3종) + Noto Sans KR `@font-face`. 검증: Aside로 본 사이트와 새 사이트를 1440·1220·980·768·390px에서 헤더 영역 캡처 후 픽셀 diff(§3.4 허용 차이 외 0). 드롭다운·드로어 동작 확인.
 3. **shell**: `tokens.css`(DESIGN.md §7), `MadiSubVisual`, `MadiBreadcrumb`, `MadiFooter`(본 사이트 `#bottom` 재현), `data/{site,clinic,nav}.ts`, `seo/schema.ts`, `layout.tsx`, 파비콘·OG. DESIGN.md §5 문법을 `src/styles/madi/patterns.css`로.
 4. **cms-infra**: `features/cms/*`, `features/seo/*`, `api/revalidate`, `preview`, `cms/content-models.json`(§4.2).
-5. **column**: 기능 포트·카테고리 제거·브랜드 교체·테스트 재작성. 로컬 목 CMS(headnerve 테스트 픽스처 방식)로 목록·상세·검색·RSS·사이트맵 확인.
+5. **column**: 목록·카테고리·상세·검색 포트, 브랜드 교체, 테스트 재작성. 로컬 목 CMS(headnerve 테스트 픽스처 방식)로 목록·상세·검색·RSS·사이트맵 확인.
 6. **reviews**: 동일.
-7. **faq**: 평면 목록·상세로 축소 포트. 발행 글 0건·API 장애 상태에서 빈 화면이 아닌 안내 문구가 나오는지 확인.
+7. **faq**: 4단계 화면 포트. `faq-registry`를 CMS 분류 기반으로 재작성. 분류 0건·모델 없음(`no-model`)·API 장애 상태에서 빈 화면이 아닌 안내 문구가 나오는지 확인.
 8. **seo**: `sitemap.xml` 인덱스·`sitemap-static.xml`·robots·JSON-LD·metadata 표(`docs/metadata-table.md`).
    각 단계의 화면 결과는 `docs/DESIGN.md` 토큰과 §5 문법에 맞는지 Aside 캡처로 확인한다.
 9. **provision**(사용자 참여): ROOT-ADMIN 사이트 생성 → 모델 동기화 → API 키 Vercel 등록 → 웹훅 등록 → 글 1건씩 발행해 실데이터 확인.
@@ -212,7 +215,8 @@ ROOT-ADMIN 기본 `category` taxonomy는 비워 두고 화면·URL·사이트맵
 
 ## 8. 미결 사항(구현 병행 가능)
 
-1. GTM·Google/Naver 서치콘솔 인증 토큰, ROOT-ANALYTICS 사이트 ID 발급 여부.
-2. 치료후기 의료광고 심의 문구(headnerve `reviews`의 치료경험담 고지 문구를 마디클리닉 기준으로 검토).
-3. 본 사이트 GNB에 블로그 링크를 역으로 추가할지(본 사이트는 이 저장소 범위 밖).
-4. 로고 벡터 원본 확보 여부(현재 PNG 240×60만 있어 고해상도 화면에서 흐릿함. 헤더 1px 재현에는 원본 PNG를 그대로 쓴다).
+1. 칼럼 1단계 분류와 FAQ 진료 영역·세부 질환 분류의 이름·slug. 설계에서 정하지 않으며 ROOT-ADMIN에서 만든다. 분류가 0건이면 칼럼 글을 발행할 수 없고(`exactly-one`) FAQ 화면은 비어 있으므로, 9단계 프로비저닝 때 최소 1세트는 만들어야 한다.
+2. GTM·Google/Naver 서치콘솔 인증 토큰, ROOT-ANALYTICS 사이트 ID 발급 여부.
+3. 치료후기 의료광고 심의 문구(headnerve `reviews`의 치료경험담 고지 문구를 마디클리닉 기준으로 검토).
+4. 본 사이트 GNB에 블로그 링크를 역으로 추가할지(본 사이트는 이 저장소 범위 밖).
+5. 로고 벡터 원본 확보 여부(현재 PNG 240×60만 있어 고해상도 화면에서 흐릿함. 헤더 1px 재현에는 원본 PNG를 그대로 쓴다).
