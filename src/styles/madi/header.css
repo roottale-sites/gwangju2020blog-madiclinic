@@ -1,12 +1,44 @@
-/* 원본: http://gwangju2020.madiclinic.co.kr/css/baseStyle.css?v=20260914
-   2026-09-15 재추출. 헤더 관련 규칙만, 값 무변경. 줄번호는 원본 기준.
+/*
+ * 마디클리닉 헤더 스타일. 1px 재현 대상이라 값을 토큰으로 바꾸지 않는다
+ * (DESIGN.md §7 마지막 문단).
+ *
+ * 정본: http://gwangju2020.madiclinic.co.kr/css/baseStyle.css?v=20260914
+ *       (2026-09-15 재추출. docs/assets/madiclinic-header/header.css 갱신본과 같다)
+ *
+ * docs의 2026-09-14 추출본과 달라진 점: 본 사이트가 그 뒤 1차 메뉴를 5개로
+ * 늘리면서(5번째 `커뮤니티`) GNB 치수를 직접 조정했다.
+ *   li 120px -> 95px, li:nth-child(4) 160px -> 140px,
+ *   li > a font-size 18px -> 17px, letter-spacing 0 -> -0.02em,
+ *   li:nth-child(5) > .subMenu {left: 50%; width: 120px; transform: translateX(-50%)} 추가,
+ *   980px 이하 li:nth-child(n) > .subMenu에 transform: none 추가.
+ * 이 저장소도 1차 메뉴가 5개라 위 값이 그대로 맞다. PLAN.md §3.4가 허용 차이로
+ * 둔 "GNB 120px 가로 이동"은 더 이상 발생하지 않는다.
+ *
+ * 정본과 다르게 옮긴 곳(해당 위치 주석에도 표시):
+ *   - 이미지 경로 ../img/ -> /madi/img/
+ *   - @charset·http @import 제거 (아래 @font-face가 같은 woff2를 선언한다)
+ *   - 원본 서버에서 302로 사라진 두 배경 이미지 참조 제거 (배경색만 남김)
+ *   - .clearFix의 IE5.5~7 star hack 제거 (Next의 CSS 파서가 구문 오류로 막는다)
+ *   - 헤더와 무관한 Response Box 규칙은 옮기지 않았다
+ */
 
-   2026-09-14 추출본과 달라진 점: 본 사이트가 1차 메뉴를 5개(5번째 `커뮤니티`)로
-   늘리면서 GNB 치수를 조정했다 - li 95px, li:nth-child(4) 140px,
-   li > a 17px / letter-spacing -0.02em, li:nth-child(5) > .subMenu 규칙 신설,
-   980px 이하 .subMenu에 transform: none. 아래는 그 현행 값이다.
+/*
+ * ==== baseStyle.css L3: Noto Sans KR earlyaccess ====
+ *
+ * 이 @import가 실제로 화면의 글꼴을 결정한다. 아래 @font-face가 참조하는
+ * //fonts.gstatic.com/ea/notosanskr/v2/* 는 지금 전부 로드 실패다(본 사이트에서도
+ * document.fonts 상태가 error다). earlyaccess 시트만 성공해서, 이 줄이 없으면
+ * 본 사이트는 Noto Sans KR로, 이 저장소는 시스템 sans-serif로 그려져 글자
+ * 폭이 어긋난다(13px 기준 169.84px vs 161.08px, 실측).
+ *
+ * 원본은 http://다. https 페이지에서 http 하위 리소스는 차단되므로
+ * 프로토콜 상대 주소로만 바꿨다. 선언 순서는 원본과 같다(@import -> @font-face).
+ */
+@import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
 
-   구현본은 src/styles/madi/header.css. */
+/* ==== baseStyle.css L1: @charset "utf-8" ====
+   이 파일은 UTF-8이고 Next가 charset을 붙인다. 옮기지 않는다. */
+
 
 /* ==== baseStyle.css L4-6 ==== */
 /* font-family: 'Noto Sans KR', sans-serif; */
@@ -321,6 +353,18 @@ a:hover {text-decoration: underline; color: #222;}
 		#header .headerFix .topLineArea .topLineBox > ul.contact > li:nth-child(n+3) {width: 90px;}
 		#header .headerFix .topLineArea .topLineBox > ul.contact > li > a {font-size: 12px;}
 	}
+	/*
+	 * 원본 /js/common.js L353-357·L360-364는 페이지 로드와 스크롤마다
+	 * `$(".headerFix").css("background-color","rgba(255,255,255,1.0)")`를 실행한다.
+	 * 두 분기 값이 같아 조건과 무관하게 항상 흰색이고, 인라인 스타일이라
+	 * 위 980px 미디어 쿼리의 rgba(0,0,0,0.2)는 실제 화면에 한 번도 나오지 않는다
+	 * (실측: 본 사이트 .headerFix의 인라인 style이 background-color: rgb(255,255,255)).
+	 *
+	 * 같은 값을 JS로 박는 대신 규칙으로 둔다. 최종 화면은 같고, 하이드레이션
+	 * 이전과 JS 없는 환경에서도 헤더가 회색으로 깜빡이지 않는다.
+	 */
+	#header .headerFix {background-color: rgba(255,255,255,1.0);}
+
 	/* Top Header End */
 
 /* ==== baseStyle.css L456-501: slideanim ==== */
