@@ -1,0 +1,601 @@
+/*
+ * 후기 상세.
+ *
+ * headnerve `src/styles/site/review-detail.css`를 옮긴 것이다. 토큰 치환 규칙은
+ * `reviews.css`와 같다.
+ *
+ * headnerve와 다르게 한 곳
+ *   - 하단 예약 CTA(`.review-detail__cta`)와 의료진 카드(`.review-detail__doctor`)는
+ *     옮기지 않았다. 앞의 것은 진료 안내 박스의 버튼 3개와 겹치고, 뒤의 것은 쓸
+ *     원장 사진 자산이 없다.
+ *   - 카페 링크(`.content-cafe-link`) 규칙도 옮기지 않았다(이 사이트에 카페가 없다).
+ */
+
+.review-detail {
+  padding-block: var(--madi-space-5) var(--madi-space-6);
+  background: var(--madi-bg);
+}
+
+.review-detail__surface {
+  max-width: var(--madi-container);
+}
+
+.review-detail__header {
+  max-width: var(--reviews-measure);
+  margin-inline: auto;
+  padding-block: var(--madi-space-4);
+  border-block: 1px solid var(--madi-border);
+}
+
+.review-detail__meta-row {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--madi-space-4);
+  margin-bottom: var(--madi-space-3);
+  color: var(--madi-text-muted);
+  font-size: var(--madi-fs-base);
+  font-variant-numeric: tabular-nums;
+  line-height: var(--madi-lh-body);
+}
+
+.review-detail__meta-row time {
+  justify-self: end;
+  white-space: nowrap;
+}
+
+.review-detail__meta-row > span {
+  display: inline-flex;
+  justify-self: start;
+  padding: var(--madi-space-1) var(--madi-space-3);
+  border-radius: var(--madi-radius-pill);
+  background: var(--madi-bg-tip);
+  color: var(--madi-text-strong);
+  font-weight: 500;
+}
+
+@media (max-width: 47.9375rem) {
+  .review-detail__meta-row {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: var(--madi-space-2) var(--madi-space-3);
+  }
+}
+
+.review-detail__header h1 {
+  max-width: var(--reviews-measure);
+  margin: 0;
+  color: var(--madi-text-strong);
+  font-family: var(--madi-font);
+  font-size: var(--madi-fs-h3);
+  font-weight: 700;
+  line-height: 30px;
+  letter-spacing: var(--madi-ls-title);
+  text-wrap: balance;
+}
+
+.review-detail__facts {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin: var(--madi-space-4) 0 0;
+  border-block: 1px solid var(--madi-border);
+}
+
+.review-detail__facts:has(> div:nth-child(2):last-child) {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.review-detail__facts:has(> div:nth-child(3):last-child) {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.review-detail__facts div {
+  min-width: 0;
+  padding: var(--madi-space-2) var(--madi-space-3);
+  border-left: 1px solid var(--madi-border);
+}
+
+.review-detail__facts div:first-child {
+  border-left: 0;
+}
+
+.review-detail__facts dt {
+  margin-bottom: var(--madi-space-1);
+  color: var(--madi-text-muted);
+  font-size: var(--madi-fs-base);
+  font-weight: 500;
+  line-height: var(--madi-lh-body);
+}
+
+.review-detail__facts dd {
+  margin: 0;
+  color: var(--madi-text-strong);
+  font-size: var(--madi-fs-lg);
+  font-weight: 500;
+  line-height: var(--madi-lh-body);
+  overflow-wrap: anywhere;
+}
+
+.review-detail__summary {
+  /* 제목·환자 정보와 같은 상세 레일을 사용해, 짧은 요약 폭 때문에
+     오른쪽에 불필요한 빈 공간이 남지 않게 한다. */
+  max-width: var(--reviews-measure);
+  margin: var(--madi-space-4) 0 0;
+  padding-left: var(--madi-space-3);
+  border-left: 2px solid var(--madi-primary);
+  color: var(--madi-text-muted);
+  font-size: var(--madi-fs-lg);
+  line-height: var(--madi-lh-body);
+}
+
+/* 환자 원문은 장식 카드가 아니라 사례의 1차 근거로 평평하게 제시한다. */
+.review-detail__original {
+  max-width: var(--reviews-measure);
+  margin: var(--madi-space-5) auto 0;
+  padding: var(--madi-space-4);
+  border: 1px solid var(--madi-border);
+  background: var(--madi-bg-panel);
+}
+
+.review-detail__original img {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 74rem;
+  margin-inline: auto;
+  outline: 1px solid var(--madi-border);
+  outline-offset: calc(1px * -1);
+  background: var(--madi-bg);
+  object-fit: contain;
+}
+
+.review-detail__original figcaption {
+  margin: var(--madi-space-3) 0 0;
+  color: var(--madi-text-muted);
+  font-size: var(--madi-fs-base);
+  font-weight: 500;
+  line-height: var(--madi-lh-body);
+}
+
+.review-detail__content-grid {
+  max-width: var(--reviews-measure);
+  margin: var(--madi-space-5) auto 0;
+}
+
+.review-richtext {
+  max-width: var(--reviews-measure);
+  margin: 0 auto;
+  color: var(--madi-text-strong);
+  font-size: var(--madi-fs-lg);
+  line-height: var(--madi-lh-body);
+}
+
+.review-richtext + .review-richtext,
+.review-detail__record + .review-richtext {
+  margin-top: var(--madi-space-7);
+}
+
+.review-richtext > :first-child {
+  margin-top: 0;
+}
+
+.review-richtext > :last-child {
+  margin-bottom: 0;
+}
+
+.review-richtext h2,
+.review-richtext h3,
+.review-richtext h4 {
+  color: var(--madi-text-strong);
+  font-family: var(--madi-font);
+  font-weight: 700;
+  letter-spacing: var(--madi-ls-title);
+}
+
+.review-richtext h2 {
+  margin: var(--madi-space-6) 0 var(--madi-space-3);
+  padding-top: var(--madi-space-4);
+  border-top: 1px solid var(--madi-border-strong);
+  font-size: var(--madi-fs-h3);
+  line-height: 30px;
+}
+
+.review-richtext h3 {
+  margin: var(--madi-space-5) 0 var(--madi-space-3);
+  padding-left: var(--madi-space-3);
+  border-left: 2px solid var(--madi-primary);
+  font-size: var(--madi-fs-h4);
+  line-height: var(--madi-lh-body);
+}
+
+.review-richtext h4 {
+  margin: var(--madi-space-4) 0 var(--madi-space-2);
+  font-size: var(--madi-fs-lg);
+  line-height: var(--madi-lh-body);
+}
+
+.review-richtext p,
+.review-richtext ul,
+.review-richtext ol,
+.review-richtext blockquote,
+.review-richtext pre,
+.review-richtext figure,
+.review-richtext table {
+  margin-block: var(--madi-space-4);
+}
+
+.review-richtext p + p {
+  margin-top: var(--madi-space-3);
+}
+
+.review-richtext ul,
+.review-richtext ol {
+  padding-left: var(--madi-space-4);
+}
+
+.review-richtext li + li {
+  margin-top: var(--madi-space-2);
+}
+
+.review-richtext em {
+  font-style: normal;
+}
+
+.review-richtext a {
+  color: var(--madi-primary);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.review-richtext blockquote {
+  margin-inline: 0;
+  padding: var(--madi-space-3);
+  border-left: 2px solid var(--madi-primary);
+  background: var(--madi-bg-panel);
+  color: var(--madi-text-muted);
+}
+
+.review-richtext img {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 74rem;
+  margin-inline: auto;
+  object-fit: contain;
+}
+
+.review-richtext pre {
+  overflow-x: auto;
+  padding: var(--madi-space-3);
+  background: var(--madi-tab-active);
+  color: var(--madi-text-inverse);
+  scrollbar-color: var(--madi-text-subtle) var(--madi-tab-active);
+  scrollbar-width: thin;
+}
+
+.review-richtext table {
+  display: block;
+  width: 100%;
+  overflow-x: auto;
+  background: var(--madi-bg);
+  border-collapse: collapse;
+  font-size: var(--madi-fs-lg);
+  scrollbar-color: var(--madi-border) var(--madi-bg);
+  scrollbar-width: thin;
+}
+
+.review-richtext pre::-webkit-scrollbar,
+.review-richtext table::-webkit-scrollbar {
+  height: var(--madi-space-2);
+}
+
+.review-richtext table::-webkit-scrollbar-track {
+  background: var(--madi-bg);
+}
+
+.review-richtext pre::-webkit-scrollbar-track {
+  background: var(--madi-tab-active);
+}
+
+.review-richtext pre::-webkit-scrollbar-thumb {
+  background: var(--madi-text-subtle);
+}
+
+.review-richtext table::-webkit-scrollbar-thumb {
+  background: var(--madi-border);
+}
+
+.review-richtext th,
+.review-richtext td {
+  min-width: 8rem;
+  padding: var(--madi-space-2);
+  border: 1px solid var(--madi-border);
+  text-align: left;
+}
+
+.review-richtext th {
+  background: var(--madi-bg-panel);
+}
+
+.review-detail__record {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  max-width: var(--reviews-measure);
+  gap: var(--madi-space-4);
+  margin: var(--madi-space-6) auto 0;
+  padding: var(--madi-space-3) var(--madi-space-4);
+  border: 1px solid var(--madi-border);
+  border-left: 2px solid var(--madi-primary);
+  background: var(--madi-bg-panel);
+  box-shadow: var(--madi-shadow-soft);
+}
+
+.review-detail__record span {
+  display: inline-flex;
+  align-items: center;
+  min-width: 0;
+  color: var(--madi-text-muted);
+  font-size: var(--madi-fs-base);
+  font-weight: 500;
+  line-height: var(--madi-lh-body);
+}
+
+.review-detail__record a {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  padding: 0 var(--madi-space-3);
+  border: 1px solid var(--madi-primary);
+  border-radius: var(--madi-radius-md);
+  background: var(--madi-primary);
+  color: var(--madi-text-inverse);
+  font-size: var(--madi-fs-lg);
+  font-weight: 500;
+  line-height: var(--madi-lh-body);
+  text-align: center;
+  text-decoration: none;
+  transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+}
+
+.review-detail__record a:hover {
+  background: var(--madi-primary-hover);
+  border-color: var(--madi-primary-hover);
+  color: var(--madi-text-inverse);
+  transform: translateY(-1px);
+}
+
+.review-detail__record a:focus-visible {
+  outline: 2px solid var(--madi-primary);
+  outline-offset: 2px;
+}
+
+.review-detail__note {
+  display: grid;
+  grid-template-columns: 8rem minmax(0, 1fr);
+  gap: var(--madi-space-4);
+  max-width: var(--reviews-measure);
+  margin: var(--madi-space-6) auto 0;
+  padding-top: var(--madi-space-3);
+  border-top: 1px solid var(--madi-border);
+  color: var(--madi-text-muted);
+  font-size: var(--madi-fs-lg);
+  line-height: var(--madi-lh-body);
+}
+
+.review-detail__note strong {
+  color: var(--madi-text-strong);
+  font-size: var(--madi-fs-base);
+  line-height: var(--madi-lh-body);
+}
+
+.review-detail__note p {
+  margin: 0;
+}
+
+.review-detail__navigation {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: stretch;
+  gap: var(--madi-space-4);
+  max-width: var(--reviews-measure);
+  margin: var(--madi-space-4) auto 0;
+  padding-top: var(--madi-space-3);
+  border-top: 1px solid var(--madi-border);
+  font-size: var(--madi-fs-lg);
+  line-height: var(--madi-lh-body);
+}
+
+.review-detail__navigation > a:not(.review-detail__list-link) {
+  display: grid;
+  min-width: 0;
+  gap: var(--madi-space-1);
+  overflow-wrap: anywhere;
+}
+
+.review-detail__navigation > a:last-child {
+  text-align: right;
+}
+
+.review-detail__navigation > a:hover {
+  color: var(--madi-primary-hover);
+}
+
+.review-detail__navigation span {
+  color: var(--madi-text-muted);
+  font-size: var(--madi-fs-base);
+  line-height: var(--madi-lh-body);
+}
+
+.review-detail__list-link {
+  align-self: start;
+  font-weight: 500;
+}
+
+.review-related {
+  padding-block: var(--madi-space-7);
+  border-top: 1px solid var(--madi-border);
+  /* 같은 이유로 관련 후기 띠도 흰 바닥이다(reviews.css `.reviews-archive` 참고). */
+  background: var(--madi-bg);
+}
+
+.review-related__head {
+  margin-bottom: var(--madi-space-4);
+}
+
+.review-related .review-card {
+  background: var(--madi-bg);
+}
+
+@media (max-width: 700px) {
+  .review-detail__facts,
+  .review-detail__facts:has(> div:nth-child(2):last-child),
+  .review-detail__facts:has(> div:nth-child(3):last-child) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .review-detail__facts div {
+    padding-inline: 0 var(--madi-space-3);
+  }
+
+  .review-detail__facts div:nth-child(odd) {
+    border-left: 0;
+  }
+
+  .review-detail__facts div:nth-child(even) {
+    padding-left: var(--madi-space-3);
+  }
+
+  .review-detail__facts div:nth-child(n + 3) {
+    border-top: 1px solid var(--madi-border);
+  }
+
+  .review-detail__facts:has(> div:nth-child(3):last-child) div:nth-child(3) {
+    grid-column: 1 / -1;
+    padding-left: 0;
+    border-left: 0;
+  }
+
+  .review-detail__navigation {
+    grid-template-columns: 1fr;
+    gap: var(--madi-space-3);
+  }
+
+  .review-detail__navigation > span:empty {
+    display: none;
+  }
+
+  .review-detail__navigation > a:last-child {
+    text-align: left;
+  }
+
+  .review-detail__list-link {
+    grid-row: 1;
+  }
+}
+
+@media (max-width: 560px) {
+  .review-detail {
+    padding-block: var(--madi-space-3) var(--madi-space-6);
+  }
+
+  .review-detail__surface {
+    width: min(var(--madi-container-narrow), calc(100% - var(--madi-space-5)));
+  }
+
+  .review-detail__header {
+    padding-block: var(--madi-space-3);
+  }
+
+  .review-detail__meta-row {
+    gap: var(--madi-space-2);
+    margin-bottom: var(--madi-space-3);
+  }
+
+  .review-detail__header h1 {
+    max-width: none;
+    font-size: var(--madi-fs-h4);
+    line-height: 25px;
+  }
+
+  .review-detail__facts {
+    margin-top: var(--madi-space-4);
+  }
+
+  .review-detail__facts,
+  .review-detail__facts:has(> div:nth-child(2):last-child),
+  .review-detail__facts:has(> div:nth-child(3):last-child) {
+    grid-template-columns: 1fr;
+  }
+
+  .review-detail__facts div,
+  .review-detail__facts div:nth-child(even),
+  .review-detail__facts:has(> div:nth-child(3):last-child) div:nth-child(3) {
+    display: grid;
+    grid-template-columns: var(--madi-space-7) minmax(0, 1fr);
+    gap: var(--madi-space-2);
+    padding: var(--madi-space-2) 0;
+    border-left: 0;
+  }
+
+  .review-detail__facts div:nth-child(n + 2) {
+    border-top: 1px solid var(--madi-border);
+  }
+
+  .review-detail__facts dt {
+    margin-bottom: 0;
+  }
+
+  .review-detail__summary {
+    margin-top: var(--madi-space-4);
+    padding-left: var(--madi-space-3);
+  }
+
+  .review-detail__record {
+    grid-template-columns: 1fr;
+    gap: var(--madi-space-2);
+    padding: var(--madi-space-3);
+  }
+
+  .review-detail__record a {
+    width: 100%;
+  }
+
+  .review-detail__original {
+    padding: var(--madi-space-3);
+  }
+
+  .review-richtext h2,
+  .review-richtext h3,
+  .review-richtext h4 {
+    margin-top: var(--madi-space-5);
+  }
+
+  .review-richtext h2 {
+    font-size: var(--madi-fs-h4);
+    line-height: 25px;
+  }
+
+  .review-richtext h3 {
+    margin-top: var(--madi-space-4);
+  }
+
+  .review-detail__note {
+    grid-template-columns: 1fr;
+    gap: var(--madi-space-1);
+  }
+
+  .review-detail__navigation {
+    margin-top: var(--madi-space-4);
+  }
+
+  .review-related {
+    padding-block: var(--madi-space-6);
+  }
+
+  .review-related__head {
+    margin-bottom: var(--madi-space-4);
+  }
+}

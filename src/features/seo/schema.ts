@@ -4,6 +4,7 @@ import { siteOrigin, siteUrl } from '../../data/site';
 
 export type JsonLdNode = Readonly<Record<string, unknown>>;
 export type SchemaBreadcrumb = Readonly<{ name: string; href?: string }>;
+export type SchemaFaq = Readonly<{ question: string; answer: string }>;
 
 const websiteSchemaId = `${siteOrigin}/#website`;
 export const clinicSchemaId = `${siteOrigin}/#medical-clinic`;
@@ -152,5 +153,25 @@ export function articleJsonLd({
     author: { '@id': physicianSchemaId },
     publisher: { '@id': clinicSchemaId },
     mainEntityOfPage: { '@id': pageSchemaId(path) },
+  };
+}
+
+/**
+ * 한 페이지 안의 질문·답변 묶음(`FAQPage`).
+ *
+ * 후기 상세의 FAQ 블록과 7단계 FAQ 상세가 같이 쓴다. 항목이 없으면 null이라
+ * 호출부가 빈 `mainEntity`를 내보내지 않는다(구조화 데이터 오류가 된다).
+ */
+export function faqPageJsonLd(path: string, items: readonly SchemaFaq[]): JsonLdNode | null {
+  if (items.length === 0) return null;
+
+  return {
+    '@type': 'FAQPage',
+    '@id': `${siteUrl(path)}#faq`,
+    mainEntity: items.map((item) => ({
+      '@type': 'Question',
+      name: plainSchemaText(item.question),
+      acceptedAnswer: { '@type': 'Answer', text: plainSchemaText(item.answer) },
+    })),
   };
 }

@@ -1,0 +1,125 @@
+/*
+ * 후기 상세의 자주 묻는 질문. headnerve `review-faq.css`를 마디 토큰으로 옮겼다.
+ */
+.review-detail__faq {
+  max-width: var(--reviews-measure);
+  margin: var(--madi-space-6) auto 0;
+  padding: var(--madi-space-4);
+  border: 1px solid var(--madi-border);
+  border-top: 2px solid var(--madi-primary);
+  background: var(--madi-bg);
+}
+
+.review-detail__faq-heading {
+  display: grid;
+  gap: var(--madi-space-1);
+  padding-bottom: var(--madi-space-3);
+  border-bottom: 1px solid var(--madi-border);
+}
+
+.review-detail__faq-heading > p {
+  margin: 0;
+  color: var(--madi-primary);
+  font-size: var(--madi-fs-base);
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  line-height: var(--madi-lh-body);
+}
+
+.review-detail__faq-heading > h2 {
+  margin: 0;
+  color: var(--madi-text-strong);
+  font-family: var(--madi-font);
+  font-size: var(--madi-fs-h4);
+  font-weight: 700;
+  line-height: var(--madi-lh-body);
+  letter-spacing: var(--madi-ls-title);
+}
+
+.review-detail__faq > ul {
+  display: grid;
+  margin: var(--madi-space-3) 0 0;
+  padding: 0;
+  gap: var(--madi-space-2);
+  list-style: none;
+}
+
+.review-detail__faq details {
+  padding: var(--madi-space-3) var(--madi-space-4);
+  border: 1px solid var(--madi-border);
+  background: var(--madi-bg-panel);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.review-detail__faq details[open] {
+  border-color: var(--madi-border);
+  box-shadow: var(--madi-shadow-soft);
+}
+
+.review-detail__faq summary {
+  display: flex;
+  min-height: 44px;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--madi-space-3);
+  cursor: pointer;
+  list-style: none;
+}
+
+.review-detail__faq summary::-webkit-details-marker {
+  display: none;
+}
+
+.review-detail__faq summary::marker {
+  content: '';
+}
+
+.review-detail__faq summary h3 {
+  margin: 0;
+  color: var(--madi-text-strong);
+  font: inherit;
+  font-size: var(--madi-fs-lg);
+  font-weight: 500;
+  line-height: var(--madi-lh-body);
+}
+
+.review-detail__faq summary > span {
+  width: 10px;
+  height: 10px;
+  flex: 0 0 auto;
+  border-right: 1px solid currentColor;
+  border-bottom: 1px solid currentColor;
+  color: var(--madi-primary);
+  transform: translateY(-2px) rotate(45deg);
+  transition: transform 0.3s ease;
+}
+
+.review-detail__faq details[open] summary > span {
+  transform: translateY(2px) rotate(225deg);
+}
+
+.review-detail__faq details > p {
+  margin: var(--madi-space-3) 0 0;
+  padding-top: var(--madi-space-3);
+  border-top: 1px solid var(--madi-border);
+  color: var(--madi-text-muted);
+  font-size: var(--madi-fs-lg);
+  line-height: var(--madi-lh-body);
+}
+
+@media (max-width: 560px) {
+  .review-detail__faq {
+    margin-top: var(--madi-space-5);
+    padding: var(--madi-space-3) var(--madi-space-3);
+  }
+
+  .review-detail__faq details {
+    padding: var(--madi-space-3);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .review-detail__faq summary > span {
+    transition: none;
+  }
+}

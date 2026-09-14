@@ -1,0 +1,612 @@
+/*
+ * 후기 목록과 관련 사례.
+ *
+ * headnerve `src/styles/site/reviews.css`를 옮긴 것이다. 구조·간격 체계는 그대로
+ * 두고 `--figma-*`·headnerve 토큰·Pretendard만 `docs/DESIGN.md` §7의 `--madi-*`·
+ * Noto Sans KR로 바꿨다. 폭은 `--madi-container`(1200px) 기준이다.
+ *
+ * headnerve와 다르게 한 곳
+ *   - 목록 상단 어두운 소개 띠(`.reviews-hero`)는 `MadiSubVisual`이 대신하므로
+ *     옮기지 않았다.
+ *   - `ds/` 버튼 규칙 대신 빈 상태 버튼은 헤더 버튼 문법(`.reviews-state__link`)이다.
+ */
+
+.reviews-page,
+.review-detail-page {
+  /* headnerve `--reading-wide`·`--reading`. 읽기 좋은 한 줄 길이라 폭 토큰과 별도다. */
+  --reviews-measure: 58rem;
+  --reviews-measure-narrow: 42rem;
+}
+
+/*
+ * 목록 화면의 h1. 본 사이트 섹션 제목(`.cBox h4`, DESIGN.md §5)과 같은 값이다 —
+ * 그 규칙은 요소 선택자라 h1에 재사용할 수 없어 값을 옮겼다.
+ */
+.reviews-page__title {
+  position: relative;
+  display: block;
+  width: 100%;
+  margin: 0 auto var(--madi-space-2);
+  padding: 0 0 19px;
+  border-bottom: 1px solid var(--madi-primary);
+  color: var(--madi-text-strong);
+  font-size: var(--madi-fs-section);
+  font-weight: 700;
+  line-height: 40px;
+  letter-spacing: var(--madi-ls-title);
+}
+
+/* 빈 상태·오류 안내의 버튼. DESIGN.md §5의 주 버튼(40px pill)이다. */
+.reviews-state__link {
+  display: inline-flex;
+  min-height: 40px;
+  align-items: center;
+  margin-top: var(--madi-space-3);
+  padding-inline: var(--madi-space-3);
+  border-radius: var(--madi-radius-pill);
+  background: var(--madi-primary);
+  color: var(--madi-text-inverse);
+  font-size: var(--madi-fs-base);
+  font-weight: 700;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.reviews-state__link:hover,
+.reviews-state__link:focus-visible {
+  background: var(--madi-primary-hover);
+  color: var(--madi-text-inverse);
+}
+
+.reviews-shell {
+  width: min(var(--madi-container), calc(100% - var(--madi-space-5)));
+  margin-inline: auto;
+}
+
+.reviews-archive {
+  padding-block: var(--madi-space-5) var(--madi-space-7);
+  /*
+   * headnerve는 목록 전체에 옅은 색 띠(`--figma-surface-alt`)를 깔았다. 본 사이트
+   * 본문(`#subContainer`)은 흰 바닥이라(DESIGN.md §1.3) 띠를 두지 않는다. 옅은 색은
+   * 카드·패널에만 쓴다.
+   */
+  background: var(--madi-bg);
+}
+
+.reviews-archive__bar,
+.review-related__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--madi-space-3);
+  padding-bottom: var(--madi-space-3);
+  border-bottom: 1px solid var(--madi-border);
+}
+
+.reviews-archive__bar h2,
+.review-related__head h2 {
+  margin: 0;
+  color: var(--madi-text-strong);
+  font-family: var(--madi-font);
+  font-size: var(--madi-fs-h4);
+  line-height: var(--madi-lh-body);
+  letter-spacing: var(--madi-ls-title);
+}
+
+.reviews-archive__bar h2 {
+  scroll-margin-top: calc(var(--madi-header-h) + var(--madi-space-4));
+}
+
+.reviews-archive__bar p,
+.review-related__head a {
+  margin: 0;
+  color: var(--madi-text-muted);
+  font-size: var(--madi-fs-lg);
+  font-weight: 500;
+  line-height: var(--madi-lh-body);
+}
+
+.review-related__head a:hover {
+  color: var(--madi-primary-hover);
+}
+
+.reviews-filter {
+  display: flex;
+  gap: var(--madi-space-3);
+  margin-block: var(--madi-space-3) var(--madi-space-4);
+  padding-bottom: var(--madi-space-2);
+  overflow-x: auto;
+  border-bottom: 1px solid var(--madi-border);
+  scrollbar-color: var(--madi-border) var(--madi-bg-panel-title);
+  scrollbar-width: thin;
+}
+
+.reviews-filter a {
+  display: inline-flex;
+  flex: 0 0 auto;
+  min-height: 44px;
+  align-items: center;
+  margin-bottom: calc(1px * -1);
+  padding-inline: var(--madi-space-2);
+  border-bottom: 2px solid transparent;
+  color: var(--madi-text-muted);
+  font-size: var(--madi-fs-lg);
+  font-weight: 500;
+  line-height: var(--madi-lh-body);
+  text-decoration: none;
+  transition: border-color 0.3s ease, color 0.3s ease;
+}
+
+.reviews-filter a:hover {
+  color: var(--madi-text-strong);
+}
+
+.reviews-filter a[aria-current='page'] {
+  border-bottom-color: var(--madi-primary);
+  color: var(--madi-text-strong);
+  font-weight: 700;
+}
+
+.reviews-filter a:focus-visible {
+  outline: 2px solid var(--madi-primary);
+  outline-offset: calc(2px * -1);
+}
+
+.reviews-grid,
+.review-related__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--madi-space-4);
+}
+
+.review-card {
+  position: relative;
+  min-width: 0;
+  border-top: 2px solid var(--madi-border);
+  background: var(--madi-bg);
+  transition: border-color 0.3s ease;
+}
+
+.review-card:has(.review-card__title-link:hover) {
+  border-top-color: var(--madi-primary);
+}
+
+.review-card__link {
+  display: flex;
+  height: 100%;
+  min-width: 0;
+  flex-direction: column;
+  color: var(--madi-text-strong);
+  text-decoration: none;
+}
+
+.review-card__media {
+  display: grid;
+  aspect-ratio: 4 / 3;
+  margin: 0;
+  padding: var(--madi-space-3);
+  overflow: hidden;
+  border-bottom: 1px solid var(--madi-border);
+  background: var(--madi-bg-panel);
+  place-items: center;
+  transition: background-color 0.3s ease;
+}
+
+.review-card__link:has(.review-card__title-link:hover) .review-card__media {
+  background: var(--madi-bg-panel-title);
+}
+
+.review-card__media img {
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+  outline: 1px solid var(--madi-border);
+  outline-offset: calc(1px * -1);
+  background: var(--madi-bg);
+  object-fit: contain;
+  object-position: top center;
+}
+
+/* 기본 도판은 로고를 작게 앉히고, 흰 배경이 든 로고 자산을 표면에 합성한다. */
+.review-card__media .review-card__placeholder {
+  outline: 0;
+}
+
+/* `.review-card__media img`의 width:auto를 이기려면 같은 자리에서 더 구체적으로 적는다. */
+.review-card__media .review-card__brand-logo {
+  width: min(62%, 11rem);
+  height: auto;
+  background: transparent;
+  mix-blend-mode: multiply;
+}
+
+.review-card__body {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: var(--madi-space-4) var(--madi-space-3) var(--madi-space-3);
+}
+
+.review-card__topline {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--madi-space-1) var(--madi-space-2);
+  width: 100%;
+  color: var(--madi-text-muted);
+  font-size: var(--madi-fs-base);
+  font-variant-numeric: tabular-nums;
+  line-height: var(--madi-lh-body);
+}
+
+.review-card__topline span {
+  color: var(--madi-text-strong);
+  font-weight: 500;
+}
+
+.review-card h2,
+.review-card h3 {
+  margin: var(--madi-space-3) 0 0;
+  color: var(--madi-text-strong);
+  font-family: var(--madi-font);
+  font-size: var(--madi-fs-h4);
+  font-weight: 700;
+  line-height: var(--madi-lh-body);
+  letter-spacing: var(--madi-ls-title);
+  text-wrap: balance;
+}
+
+/* 제목 링크를 카드 전체로 펼쳐 어디를 눌러도 후기로 가게 한다. */
+.review-card__title-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.review-card__title-link::after {
+  position: absolute;
+  content: '';
+  inset: 0;
+}
+
+.review-card__link:has(.review-card__title-link:focus-visible) {
+  outline: 2px solid var(--madi-primary);
+  outline-offset: calc(2px * -1);
+}
+
+.review-card__excerpt {
+  display: -webkit-box;
+  margin: var(--madi-space-2) 0 0;
+  overflow: hidden;
+  color: var(--madi-text-muted);
+  font-size: var(--madi-fs-lg);
+  line-height: var(--madi-lh-body);
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+.review-card__facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--madi-space-1) var(--madi-space-3);
+  width: 100%;
+  margin: var(--madi-space-3) 0 0;
+  padding-top: var(--madi-space-2);
+  border-top: 1px solid var(--madi-border);
+  color: var(--madi-text-muted);
+  font-size: var(--madi-fs-base);
+  line-height: var(--madi-lh-body);
+}
+
+.review-card__facts div {
+  display: flex;
+  min-width: 0;
+  gap: var(--madi-space-1);
+}
+
+.review-card__facts dt {
+  flex: 0 0 auto;
+  color: var(--madi-text-strong);
+  font-weight: 500;
+}
+
+.review-card__facts dd {
+  min-width: 0;
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+/* 담당 원장 링크는 카드 링크의 겹면 위에 올려야 따로 눌린다. */
+.review-card__doctor {
+  text-decoration: underline;
+  text-underline-offset: var(--madi-space-1);
+  position: relative;
+  z-index: 1;
+  color: var(--madi-text-strong);
+}
+
+.review-card__more {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--madi-space-2);
+  margin-top: auto;
+  padding-top: var(--madi-space-4);
+  color: var(--madi-text-strong);
+  font-size: var(--madi-fs-lg);
+  font-weight: 500;
+  line-height: var(--madi-lh-body);
+}
+
+.review-card__link:has(.review-card__title-link:hover) .review-card__more {
+  color: var(--madi-primary-hover);
+}
+
+.reviews-pagination {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: center;
+  gap: var(--madi-space-4);
+  margin-top: var(--madi-space-5);
+  padding-top: var(--madi-space-4);
+  border-top: 1px solid var(--madi-border);
+  font-size: var(--madi-fs-lg);
+  font-weight: 500;
+  line-height: var(--madi-lh-body);
+}
+
+.reviews-pagination a {
+  display: inline-flex;
+  min-width: 44px;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  color: var(--madi-text-strong);
+  text-decoration: none;
+}
+
+.reviews-pagination a:hover,
+.reviews-pagination a:focus-visible {
+  background: var(--madi-bg-panel);
+  color: var(--madi-primary-hover);
+}
+
+.reviews-pagination a:focus-visible {
+  outline: 2px solid var(--madi-primary);
+  outline-offset: 2px;
+}
+
+.reviews-pagination__direction--next {
+  text-align: right;
+}
+
+.reviews-pagination__pages {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--madi-space-1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.reviews-pagination__pages a[aria-current='page'] {
+  background: var(--madi-tab-active);
+  color: var(--madi-text-inverse);
+}
+
+.reviews-state {
+  max-width: var(--reviews-measure-narrow);
+  margin: var(--madi-space-6) auto;
+  padding: var(--madi-space-5) var(--madi-space-4);
+  border-block: 1px solid var(--madi-border);
+  text-align: center;
+}
+
+.reviews-state--page {
+  min-height: 580px;
+  margin-block: 0;
+  padding-block: var(--madi-space-7);
+}
+
+.reviews-state h1,
+.reviews-state h2 {
+  margin: 0;
+  color: var(--madi-text-strong);
+  font-family: var(--madi-font);
+  font-weight: 700;
+  letter-spacing: var(--madi-ls-title);
+}
+
+.reviews-state h1,
+.reviews-state h2 {
+  font-size: var(--madi-fs-h4);
+  line-height: var(--madi-lh-body);
+}
+
+.reviews-state p {
+  margin: var(--madi-space-3) 0 var(--madi-space-4);
+  color: var(--madi-text-muted);
+}
+
+.reviews-filter::-webkit-scrollbar {
+  height: var(--madi-space-2);
+}
+
+.reviews-filter::-webkit-scrollbar-track {
+  background: var(--madi-bg-panel-title);
+}
+
+.reviews-filter::-webkit-scrollbar-thumb {
+  background: var(--madi-border);
+}
+
+@media (max-width: 980px) {
+  .reviews-grid,
+  .review-related__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* 모바일 목록 문법: 흰 바탕 · 알약 분류 · 둥근 도판 · 제목·요약·메타 순서. */
+@media (max-width: 767px) {
+  .reviews-shell {
+    width: min(var(--madi-container-narrow), calc(100% - (var(--madi-space-2) * 2)));
+  }
+
+  /* 사진 히어로가 첫 화면을 다 먹지 않도록 글 높이만큼만 쓴다. */
+  .reviews-page .site-page-hero {
+    min-height: 0;
+  }
+
+  .reviews-page .site-page-hero__content {
+    gap: var(--madi-space-3);
+    padding-block: var(--madi-space-5);
+  }
+
+  .reviews-archive {
+    padding-block: var(--madi-space-5) var(--madi-space-6);
+    background: var(--madi-bg);
+  }
+
+  .reviews-archive__bar,
+  .review-related__head {
+    align-items: center;
+    padding-bottom: 0;
+    border-bottom: 0;
+  }
+
+  .reviews-archive__bar h2,
+  .review-related__head h2 {
+    font-size: var(--madi-fs-h4);
+    line-height: 30px;
+  }
+
+  /* 분류는 밑줄 탭 대신 가로로 흐르는 알약으로 둔다. */
+  .reviews-filter {
+    gap: var(--madi-space-2);
+    margin-block: var(--madi-space-3) var(--madi-space-4);
+    margin-inline: calc(var(--madi-space-2) * -1);
+    padding-block: 0;
+    padding-inline: var(--madi-space-2);
+    border-bottom: 0;
+    scrollbar-width: none;
+  }
+
+  .reviews-filter::-webkit-scrollbar {
+    display: none;
+  }
+
+  .reviews-filter a {
+    min-height: 44px;
+    margin-bottom: 0;
+    padding-inline: var(--madi-space-3);
+    border: 1px solid var(--madi-border);
+    border-radius: var(--madi-radius-pill);
+    font-size: var(--madi-fs-base);
+    line-height: 20px;
+    white-space: nowrap;
+  }
+
+  .reviews-filter a[aria-current='page'] {
+    border-color: var(--madi-tab-active);
+    background: var(--madi-tab-active);
+    color: var(--madi-text-inverse);
+  }
+
+  .reviews-grid,
+  .review-related__grid {
+    grid-template-columns: 1fr;
+    gap: var(--madi-space-5);
+  }
+
+  .review-card {
+    border-top: 0;
+    background: transparent;
+  }
+
+  .review-card__media {
+    aspect-ratio: 3 / 2;
+    padding: var(--madi-space-3);
+    border-bottom: 0;
+    border-radius: var(--madi-radius-md);
+  }
+
+  .review-card__media img {
+    border-radius: var(--madi-radius-md);
+  }
+
+  .review-card__body {
+    padding: var(--madi-space-3) 0 0;
+  }
+
+  /* 도판 다음은 제목 · 요약 · 메타 순서로 읽힌다. */
+  .review-card h2,
+  .review-card h3 {
+    order: 1;
+    margin-top: 0;
+    font-size: var(--madi-fs-h4);
+    line-height: 30px;
+  }
+
+  .review-card__excerpt {
+    order: 2;
+    margin-top: var(--madi-space-2);
+    font-size: var(--madi-fs-base);
+    line-height: 20px;
+    -webkit-line-clamp: 2;
+  }
+
+  .review-card__facts {
+    order: 3;
+    margin-top: var(--madi-space-3);
+    padding-top: 0;
+    border-top: 0;
+  }
+
+  /* 날짜는 왼쪽, 분류는 오른쪽 알약으로 카드 맨 아래에 둔다. */
+  .review-card__topline {
+    order: 4;
+    align-items: center;
+    flex-direction: row-reverse;
+    margin-top: var(--madi-space-2);
+  }
+
+  .review-card__topline span {
+    padding: var(--madi-space-1) var(--madi-space-2);
+    border-radius: var(--madi-radius-pill);
+    background: var(--madi-bg-panel);
+    color: var(--madi-text-muted);
+    font-size: var(--madi-fs-sm);
+  }
+
+  .review-card__more {
+    display: none;
+  }
+
+  .reviews-pagination {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--madi-space-2);
+    margin-top: var(--madi-space-5);
+  }
+
+  .reviews-pagination__pages {
+    grid-column: 1 / -1;
+    grid-row: 1;
+  }
+
+  .reviews-pagination__direction {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  .reviews-pagination__direction--next {
+    grid-column: 2;
+  }
+
+  .reviews-state {
+    margin-block: var(--madi-space-5);
+    padding-inline: var(--madi-space-3);
+  }
+}

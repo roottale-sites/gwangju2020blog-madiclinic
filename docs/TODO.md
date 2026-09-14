@@ -10,7 +10,7 @@
 - [x] 3. **shell** — `tokens.css`, `MadiSubVisual`, `MadiBreadcrumb`, `MadiFooter`, `data/{site,clinic,nav}.ts`, `seo/schema.ts`, `layout.tsx`, 파비콘·OG, `styles/madi/patterns.css`
 - [x] 4. **cms-infra** — `features/cms/*`, `features/seo/*`, `api/revalidate`, `preview`, `cms/content-models.json`(PLAN §4.2)
 - [x] 5. **column** — 목록·카테고리·상세·검색 포트, 브랜드 교체, 테스트 재작성
-- [ ] 6. **reviews** — 목록·상세 포트
+- [x] 6. **reviews** — 목록·상세 포트
 - [ ] 7. **faq** — 4단계 화면 포트, `faq-registry`를 CMS 분류 기반으로 재작성
 - [ ] 8. **seo** — `sitemap.xml` 인덱스·`sitemap-static.xml`·robots·JSON-LD·`docs/metadata-table.md`
 - [ ] 9. **provision**(사용자 참여) — ROOT-ADMIN 사이트 생성 → 모델 동기화 → API 키 Vercel 등록 → 웹훅 등록 → 글 1건씩 발행
@@ -146,3 +146,66 @@ headnerve와 다르게 한 것:
 - `pnpm build` 통과
 - `pnpm test:e2e` 6케이스 통과(`tests/column-list.spec.ts`·`column-detail.spec.ts`,
   목 CMS 없이 도는 골격·빈 상태·404·RSS·사이트맵 범위)
+
+## 6단계 reviews 결과 (2026-09-15)
+
+라우트: `/reviews`, `/reviews/{slug}`(+`not-found.tsx`), `/reviews/rss.xml`,
+`/reviews-sitemap.xml`. 화면은 `MadiPageFrame`(배너 02, 제목 "후기") 안이다.
+`review-api`는 `@roottale/cms-client/server` 공식 클라이언트를 그대로 쓴다.
+
+headnerve와 다르게 한 것:
+
+- `review-content.ts` 신설: 라우트 안에 흩어져 있던 목록 문구·상세 `<title>` 조립·
+  치료경험담 고지를 한 곳으로 모았다. 라벨은 GNB 하위 항목과 같은 "후기"다.
+- `review-model.ts`: 기본 설명·SEO 제목 접미사를 마디클리닉으로. 대표원장 판별은
+  `features/clinic/doctor-profile-link.ts`(`clinic.representative` = 이경무)를 쓰고
+  링크는 본 사이트 `http://gwangju2020.madiclinic.co.kr/doctor/doctor02.html`다.
+- `ReviewCard`: 대체 도판을 `/madi/img/hi_gwangju2020_20240826.png`(240×60)로,
+  `ds-inline-link` 대신 `.review-card__doctor`(밑줄 링크)로 바꿨다.
+- 상세 하단: 진료 안내 박스(`ClinicGuide`) + 치료 경험담 고지 + `ReviewFaq` 세 개다.
+  headnerve의 예약 CTA 섹션(`review-detail__cta`)은 진료 안내 박스의 버튼 3개와 겹쳐
+  뺐고, 의료진 카드(`review-detail__doctor`)는 쓸 원장 사진 자산이 없어 뺐다
+  (PLAN.md §8-5 로고·사진 자산 미결과 같은 이유). 카페 링크도 쓰지 않는다.
+- 목록·상세의 어두운 소개 띠(`.reviews-hero`)는 `MadiSubVisual`이 대신한다.
+  `.reviews-archive`·`.review-related`의 옅은 색 띠는 흰 바닥으로 바꿨다 — 본 사이트
+  본문(`#subContainer`)이 흰 바닥이다(DESIGN.md §1.3).
+- CMS 미설정·장애일 때 목록은 `준비 중`/`불러오지 못했습니다` 안내를 띄우고, 상세는
+  200 + 상태 안내다(headnerve와 같은 판정: 404로 끊으면 키가 생겼을 때 살아날 주소를
+  없다고 알리게 된다). RSS·사이트맵은 빈 피드를 캐시하지 않고 503 + `retry-after`다.
+- 의료광고 심의 문구는 PLAN.md §8-3 미결이라 확정하지 않았다. 현재 문구는
+  `reviewDisclosure`(치료 경험담 고지) 하나이고, 심의 표기가 정해지면 그 상수만 고친다.
+
+검증:
+
+- `pnpm typecheck` 통과
+- `pnpm test` 35파일 273케이스 통과(후기 8파일 43케이스)
+- `pnpm build` 통과
+- `pnpm test:e2e` 9케이스 통과(`tests/reviews.spec.ts` 3케이스 포함)
+
+## 실브라우저 확인 (2026-09-15, Aside)
+
+production build(`next start`, 49118)를 `/column`·`/reviews`에서 1440·390px로 확인했다.
+캡처: `~/workspace/output/gwangju2020blog-madiclinic/2026-09-15-phase-b1/`(커밋 제외).
+
+Aside REPL의 페이지 객체는 뷰포트를 바꿀 수 없어(창 1440×900 고정) 2단계 헤더 diff와
+같은 방법을 썼다 — 같은 출처 리버스 프록시 + 폭 고정 `scrolling=no` iframe 하니스.
+
+| 페이지 | 폭 | 헤더 | 서브 배너 | 브레드크럼 | main | 가로 스크롤 |
+|---|---|---|---|---|---|---|
+| `/column` | 1440 | 0~140 | 0~300 | 300~360 | 360~ (폭 1200) | 없음 |
+| `/column` | 390 | 0~120 | 0~200 | 200~260 | 260~ | 없음 |
+| `/reviews` | 1440 | 0~140 | 0~300 | 300~360 | 360~ (폭 1200) | 없음 |
+| `/reviews` | 390 | 0~120 | 0~200 | 200~260 | 260~ | 없음 |
+
+- 서브 배너 제목·h1·브레드크럼 라벨이 `블로그`/`후기`로 GNB 하위 항목과 같다.
+- CMS 키가 없어 `/column`은 안내 문구 + 빈 목록 카드, `/reviews`는 `준비 중` 안내 +
+  `다시 시도하기` 버튼(40px pill, `--madi-primary`)이 나온다.
+- body 글꼴은 `'Noto Sans KR', 'Nanum Gothic', 'Malgun Gothic', '맑은 고딕', sans-serif`,
+  제목 색 `#222`(=`--madi-text-strong`)으로 DESIGN.md 토큰과 같다.
+
+### 결정이 필요한 것
+
+한 페이지에 `h1`이 둘이다. 헤더 로고가 본 사이트 그대로 `h1.ci`(1px 재현 대상)이고,
+본문 제목도 지시대로 `h1`(블로그·후기)이다. 본 사이트는 서브 페이지 제목을 `h2`로
+쓰므로, 본문 제목을 `h2`로 낮추거나 로고를 `div`로 바꾸는 선택이 남아 있다. 헤더는
+픽셀 재현 계약이 있어 이 단계에서 바꾸지 않았다.
