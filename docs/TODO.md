@@ -12,7 +12,7 @@
 - [x] 5. **column** — 목록·카테고리·상세·검색 포트, 브랜드 교체, 테스트 재작성
 - [x] 6. **reviews** — 목록·상세 포트
 - [x] 7. **faq** — 4단계 화면 포트, `faq-registry`를 CMS 분류 기반으로 재작성
-- [ ] 8. **seo** — `sitemap.xml` 인덱스·`sitemap-static.xml`·robots·JSON-LD·`docs/metadata-table.md`
+- [x] 8. **seo** — `sitemap.xml` 인덱스·`sitemap-static.xml`·robots·JSON-LD·`docs/metadata-table.md`
 - [ ] 9. **provision**(사용자 참여) — ROOT-ADMIN 사이트 생성 → 모델 동기화 → API 키 Vercel 등록 → 웹훅 등록 → 글 1건씩 발행
 - [ ] 10. **release** — Playwright, production build, Aside 3폭 확인, `docs/TODO.md`·llm-wiki 기록. 승인 후 main push·배포
 
@@ -277,3 +277,34 @@ headnerve와 다르게 한 것:
 - `pnpm test:e2e` 13케이스 통과(`tests/faq.spec.ts` 4케이스 — 골격·390px·빈 상태·
   사이트맵 503·라우트 밖 404)
 - `docs/metadata-table.md`에 `/faq` 네 단계 제목·설명을 적었다.
+
+## 8단계 seo 결과 (2026-09-15)
+
+새로 넣은 라우트: `src/app/sitemap.xml/route.ts`(인덱스, 자식 4개),
+`src/app/sitemap-static.xml/route.ts`. `public/robots.txt`는 3단계에서 이미
+`Disallow: /preview/` + `Sitemap: https://gwangju2020blog.madiclinic.co.kr/sitemap.xml`
+였다.
+
+- 인덱스는 CMS 상태와 무관하게 자식 4개(`/sitemap-static.xml`·`/reviews-sitemap.xml`·
+  `/column-sitemap.xml`·`/faq-sitemap.xml`)를 언제나 나열한다. 지금 읽을 수 없는
+  컬렉션을 인덱스에서 빼면 크롤러가 그 주소들을 사라진 것으로 읽는다. 각 자식이
+  자기 응답(빈 XML 또는 503)을 책임진다.
+- `lastmod`는 각 컬렉션의 실제 최신 수정일이고, 읽을 수 없는 동안은 원장 기준일
+  (`*_ARCHIVE_LASTMOD`)이다. 24시간 ISR 재생성이 수정일을 바꾸지 않는다.
+- JSON-LD 확인: `layout.tsx`가 모든 페이지에 `WebSite`·`MedicalClinic`·`Physician`
+  (`siteEntityJsonLd`)을 넣고, 목록·분류는 `CollectionPage`, 상세는 `WebPage`,
+  칼럼 상세는 `Article`, FAQ 상세는 `FAQPage`, 후기 상세는 FAQ 블록이 있을 때
+  `FAQPage`를 더한다. `BreadcrumbList`는 `MadiBreadcrumb`이 화면 브레드크럼과 같은
+  배열에서 만든다(한 곳에서 나오므로 갈라질 수 없다).
+- headnerve 테스트 포트: `tests/sitemap.spec.ts`(자식 4개·새 호스트·robots),
+  `tests/seo-schema.spec.ts`. headnerve 원본은 실데이터 상세를 클릭해
+  `Article`·`FAQPage`를 봤는데 이 저장소는 아직 발행 글이 없어 목록 세 개의 전역
+  엔티티·`CollectionPage`·`BreadcrumbList`와 화면/스키마 브레드크럼 일치를 본다.
+  상세 스키마는 단위 테스트(`ColumnDetailRoute`·`FaqPages.test.tsx`)가 덮고 실데이터
+  확인은 9단계로 남긴다.
+- `src/features/seo/static-sitemap.test.ts` 신설: 정적 목록이 세 기능 목록 페이지뿐이고
+  301되는 `/`와 CMS 글이 들어가지 않는지, 수정일이 배포 시각이 아닌지 고정한다.
+- `docs/metadata-table.md`를 완성했다(FAQ 네 단계 + SEO 라우트 표 + 전역 구조화 데이터).
+
+검증: `pnpm typecheck` 통과, `pnpm test` 49파일 392케이스 통과, `pnpm build` 통과
+(`/sitemap.xml`·`/sitemap-static.xml` 등록 확인), `pnpm test:e2e` 19케이스 통과.
