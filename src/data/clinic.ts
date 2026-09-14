@@ -24,6 +24,19 @@ export const clinic = {
     line: '광주광역시 남구 독립로 14 1~3F',
   },
 
+  /**
+   * 진료시간. 본 사이트 `/clinic/clinic01.html`(2026-09-15 확인) 값이다.
+   * 상세 하단 진료 안내 박스가 읽는다.
+   */
+  hours: [
+    { label: '평일', value: '09:00 ~ 19:00 (금요일 18:00)' },
+    { label: '목요일 · 토요일', value: '09:00 ~ 13:00' },
+    { label: '점심시간', value: '13:00 ~ 14:00' },
+  ],
+  holidayNote: '일요일 및 공휴일은 휴진합니다.',
+  /** 예약제 운영 안내. 본 사이트 진료 안내 문구를 줄여 쓴다. */
+  bookingNote: '효과적인 치료를 위해 예약제로 운영합니다. 전화 또는 네이버로 예약 후 내원해 주세요.',
+
   /** 본 사이트 저작권 문구 그대로. */
   copyright: 'Copyright MADI Clinic. All rights reserved.',
 

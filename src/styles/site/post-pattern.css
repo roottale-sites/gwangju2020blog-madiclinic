@@ -1,0 +1,112 @@
+/*
+ * 상세 하단 진료 안내 박스의 안쪽 본문.
+ *
+ * headnerve `src/styles/site/post-pattern.css`를 옮긴 것이다. 그쪽은 CMS 공통
+ * 블록(Tiptap JSON)을 카드로 그렸고, 이 저장소는 본 사이트 안내 박스 문법
+ * (`.commonBox`, DESIGN.md §5)을 틀로 쓰고 이 시트가 안쪽만 스타일한다. 값은
+ * headnerve 간격 체계를 `--madi-*`로 바꾼 것이다(Pretendard·`--fs-*` 미사용).
+ *
+ * 틀(`.commonBox` 상단선·제목 칸·여백)은 `styles/madi/patterns.css`가 원본 값
+ * 그대로 갖고 있다. 여기서 다시 정의하지 않는다.
+ */
+.post-pattern {
+  font-size: var(--madi-fs-md);
+  line-height: var(--madi-lh-panel);
+  color: var(--madi-text);
+  overflow-wrap: anywhere;
+}
+
+.post-pattern > * {
+  max-width: 100%;
+}
+
+.post-pattern p,
+.post-pattern h2,
+.post-pattern dl {
+  margin: 0 0 var(--madi-space-2);
+}
+
+.post-pattern > :last-child {
+  margin-bottom: 0;
+}
+
+/* 첫 줄은 상호처럼 굵게, 아래와 간격. */
+.post-pattern h2 {
+  margin-bottom: var(--madi-space-2);
+  color: var(--madi-text-strong);
+  font-size: var(--madi-fs-body);
+  font-weight: 700;
+  line-height: var(--madi-lh-panel);
+}
+
+.post-pattern__hours {
+  display: grid;
+  gap: var(--madi-space-1) var(--madi-space-3);
+}
+
+.post-pattern__hours > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--madi-space-1) var(--madi-space-2);
+}
+
+.post-pattern__hours dt {
+  min-width: 7.5rem;
+  color: var(--madi-text-strong);
+  font-weight: 500;
+}
+
+.post-pattern__hours dd {
+  margin: 0;
+}
+
+.post-pattern__note {
+  color: var(--madi-text-muted);
+  font-size: var(--madi-fs-base);
+  line-height: var(--madi-lh-panel);
+}
+
+/* 링크 모양 = 버튼: 주 버튼은 헤더 버튼 문법(40px pill)이다(DESIGN.md §5). */
+.post-pattern__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--madi-space-2);
+  margin: var(--madi-space-3) 0 0;
+}
+
+.post-pattern__actions > a {
+  display: inline-flex;
+  min-height: 40px;
+  align-items: center;
+  padding-inline: var(--madi-space-3);
+  border-radius: var(--madi-radius-pill);
+  background-color: var(--madi-primary);
+  color: var(--madi-text-inverse);
+  font-size: var(--madi-fs-base);
+  font-weight: 700;
+  line-height: 20px;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background-color 0.3s ease;
+}
+
+.post-pattern__actions > a:nth-of-type(n + 2) {
+  background-color: var(--madi-primary-hover);
+}
+
+.post-pattern__actions > a:hover,
+.post-pattern__actions > a:focus-visible {
+  background-color: var(--madi-tab-active);
+  color: var(--madi-text-inverse);
+}
+
+@media screen and (max-width: 660px) {
+  .post-pattern {
+    font-size: var(--madi-fs-base-sm);
+  }
+
+  .post-pattern__actions > a {
+    flex: 1 1 auto;
+    justify-content: center;
+  }
+}

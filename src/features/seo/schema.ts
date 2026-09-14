@@ -116,3 +116,41 @@ export function webPageJsonLd({
     about: { '@id': clinicSchemaId },
   };
 }
+
+/**
+ * 글 한 편(칼럼·후기)의 `Article`.
+ *
+ * 저자는 대표원장(`Physician`), 발행자는 병원(`MedicalClinic`)이며 둘 다 사이트
+ * 주체 그래프의 노드를 참조한다. 같은 주체를 라우트마다 새로 선언하면 크롤러가
+ * 서로 다른 주체로 읽는다.
+ */
+export function articleJsonLd({
+  path,
+  headline,
+  description,
+  publishedAt,
+  updatedAt,
+  image,
+}: Readonly<{
+  path: string;
+  headline: string;
+  description: string;
+  publishedAt: string;
+  updatedAt?: string;
+  /** 절대 주소. 검색 미리보기·AI 인용용이며 없으면 필드를 생략한다. */
+  image?: string;
+}>): JsonLdNode {
+  const pageUrl = siteUrl(path);
+  return {
+    '@type': 'Article',
+    '@id': `${pageUrl}#article`,
+    headline: plainSchemaText(headline),
+    description: plainSchemaText(description),
+    ...(image ? { image: [image] } : {}),
+    datePublished: publishedAt,
+    ...(updatedAt ? { dateModified: updatedAt } : {}),
+    author: { '@id': physicianSchemaId },
+    publisher: { '@id': clinicSchemaId },
+    mainEntityOfPage: { '@id': pageSchemaId(path) },
+  };
+}

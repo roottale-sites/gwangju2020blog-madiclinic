@@ -9,7 +9,7 @@
 - [x] 2. **header** — `MadiHeader.tsx`·`MadiHeaderBehavior.tsx`·`styles/madi/header.css`·`public/madi/img/*`·Noto Sans KR `@font-face`. 본 사이트와 5폭 픽셀 diff
 - [x] 3. **shell** — `tokens.css`, `MadiSubVisual`, `MadiBreadcrumb`, `MadiFooter`, `data/{site,clinic,nav}.ts`, `seo/schema.ts`, `layout.tsx`, 파비콘·OG, `styles/madi/patterns.css`
 - [x] 4. **cms-infra** — `features/cms/*`, `features/seo/*`, `api/revalidate`, `preview`, `cms/content-models.json`(PLAN §4.2)
-- [ ] 5. **column** — 목록·카테고리·상세·검색 포트, 브랜드 교체, 테스트 재작성
+- [x] 5. **column** — 목록·카테고리·상세·검색 포트, 브랜드 교체, 테스트 재작성
 - [ ] 6. **reviews** — 목록·상세 포트
 - [ ] 7. **faq** — 4단계 화면 포트, `faq-registry`를 CMS 분류 기반으로 재작성
 - [ ] 8. **seo** — `sitemap.xml` 인덱스·`sitemap-static.xml`·robots·JSON-LD·`docs/metadata-table.md`
@@ -102,3 +102,47 @@ headnerve와 다르게 한 것:
 
 검증: `pnpm typecheck` 통과, `pnpm test` 13파일 116케이스 통과, `pnpm build` 통과
 (`ƒ Proxy (Middleware)` 등록 확인).
+
+## 5단계 column 결과 (2026-09-15)
+
+라우트: `/column`, `/column/{category}`, `/column/{category}/{slug}`,
+`/column/rss.xml`, `/column-sitemap.xml`, `/preview/post/{id}`(4단계에서 미뤘던 것).
+화면은 모두 `MadiPageFrame`(배너 01, 제목 "블로그") 안이다.
+
+headnerve와 다르게 한 것:
+
+- `column-content.ts`: 88건 JSON 원장·`DISEASE_LINK_RULES`(질환 페이지 내부 링크)를
+  지웠다. 이 저장소에는 이관 콘텐츠도 질환 라우트도 없다. 문구는 마디클리닉 기준이고
+  라벨은 GNB 하위 항목과 같은 "블로그"다.
+- `column-category.ts`: manifest(88건·카테고리 6개) 대신 `columnCategoryRefFromTerms`만
+  남겼다. 분류 목록·SEO 문구는 CMS 공개 분류 API(`/v1/cms/public/categories`)에서 읽고
+  코드에는 분류 slug가 없다(PLAN.md §4.2).
+- `column-model.ts`: 분류가 정확히 하나가 아닌 글은 표시 모델이 `null`이다. 정적 원장이
+  없어 주소를 보완할 수 없으므로 목록·사이트맵에서 빠지고 상세는 404다. 이관 HTML 전용
+  정화 경로(`imported-html`)와 옛 게시판 썸네일도 함께 빠졌다.
+- `column-source.ts`: 폴백(이관 JSON 88건) 대신 `status: 'ok' | 'unconfigured' | 'upstream'`.
+  실패는 빈 목록 + `ColumnSourceNotice` 안내 문구이고 상세는 404다. 글이 0건인 분류도
+  (구주소가 없으므로) 분류 화면으로 연다.
+- 화면: `SiteHeader`·`SitePageHero`·`FinalCta`·`DiseaseClosing`·`ContentCafeLink`·
+  `FloatingQuickMenu`·`SiteExposures` 대신 `MadiPageFrame`. 바이라인 "광주 남구
+  마디클리닉 이경무 원장"(본 사이트 `/doctor/doctor02.html` 링크), 대표 이미지 없는
+  글의 도판은 `/madi/img/hi_gwangju2020_20240826.png`.
+- 상세 하단: headnerve `ClinicGuide`(Tiptap JSON) 자리에 `.commonBox` 진료 안내 박스
+  (`features/clinic-guide/ClinicGuide.tsx`) + 의료 면책 문구. 전화 062-675-0750·네이버
+  예약·카카오 채널 버튼 3개이고 주소·진료시간은 `src/data/clinic.ts`에서 읽는다
+  (본 사이트 `/clinic/clinic01.html` 2026-09-15 확인값을 `clinic.hours`로 추가).
+- CSS: `styles/site/column.css`(headnerve 1266줄 → `--figma-*`·Pretendard를 `--madi-*`·
+  Noto Sans KR로 치환), `styles/site/post-pattern.css`(진료 안내 박스 안쪽). 상세 제목
+  카드의 어두운 판은 마디 표면 토큰에 없어 흰 바닥 + `--madi-primary` 밑줄로 바꿨고,
+  `ds/` 버튼은 헤더 버튼 문법(`.column-empty__link`)으로 대체했다. 모바일(≤767px) 목록
+  문법(2026-09-12 headnerve 기록)은 유지했다.
+- 메타데이터: `docs/metadata-table.md`에 `/column`·`/column/{category}`·상세 값을 적었다.
+  레이아웃 template을 거치지 않는 절대 `<title>`을 쓴다.
+
+검증:
+
+- `pnpm typecheck` 통과
+- `pnpm test` 28파일 233케이스 통과(칼럼 15파일 117케이스)
+- `pnpm build` 통과
+- `pnpm test:e2e` 6케이스 통과(`tests/column-list.spec.ts`·`column-detail.spec.ts`,
+  목 CMS 없이 도는 골격·빈 상태·404·RSS·사이트맵 범위)
