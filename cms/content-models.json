@@ -1,0 +1,118 @@
+{
+  "version": 1,
+  "models": [
+    {
+      "model": {
+        "key": "faq",
+        "label": "FAQ",
+        "cardinality": "collection",
+        "preset": "article",
+        "source": "site",
+        "state": "active",
+        "compatibilityCollectionKey": "faq",
+        "presentation": {
+          "kind": "category_tree",
+          "basePath": "/faq",
+          "categoryDepth": 2,
+          "templateKey": "faq"
+        },
+        "editor": {
+          "labels": {
+            "title": "질문",
+            "excerpt": "요약 답변",
+            "body": "상세 답변",
+            "categories": "영역 · 질환",
+            "tags": "검색 태그 (선택)"
+          },
+          "helpText": {
+            "excerpt": "질문에 대한 핵심 답변을 2~4문장으로 작성하세요. 목록과 상세 화면 상단에 표시되는 필수 내용입니다.",
+            "body": "요약 답변 아래에 표시하는 선택 내용입니다. 여러 줄로 작성하거나 HTML로 가져올 수 있으며, [[internal:faq.영역.질환.slug|표시 문구]] 예약 링크도 사용할 수 있습니다."
+          },
+          "categoryLevels": [
+            "영역",
+            "질환"
+          ]
+        },
+        "publication": {
+          "feed": false,
+          "archives": false,
+          "scheduling": true,
+          "author": true
+        }
+      },
+      "fieldGroups": [
+        {
+          "key": "group_faq_answer_sections",
+          "title": "답변 확장",
+          "description": "필요한 글에만 마디클리닉 관점을 덧붙입니다.",
+          "position": "normal",
+          "fields": [
+            {
+              "key": "field_faq_clinic_perspective",
+              "name": "clinic_perspective",
+              "label": "마디클리닉 관점",
+              "type": "wysiwyg",
+              "required": false,
+              "instructions": "필요할 때만 작성하세요. 일반 상세 답변과 구분해 마디클리닉 관점으로 표시됩니다."
+            }
+          ]
+        }
+      ],
+      "categories": []
+    },
+    {
+      "model": {
+        "key": "column",
+        "label": "칼럼",
+        "cardinality": "collection",
+        "preset": "article",
+        "source": "site",
+        "state": "active",
+        "compatibilityCollectionKey": "column",
+        "presentation": {
+          "kind": "category_tree",
+          "basePath": "/column",
+          "categoryDepth": 1,
+          "templateKey": "column",
+          "feed": true,
+          "og": true,
+          "layout": "grid",
+          "categoryCardinality": "exactly-one"
+        },
+        "publication": {
+          "feed": true,
+          "archives": false,
+          "scheduling": true,
+          "author": true
+        }
+      },
+      "fieldGroups": [],
+      "categories": []
+    },
+    {
+      "model": {
+        "key": "reviews",
+        "label": "치료후기",
+        "cardinality": "collection",
+        "preset": "article",
+        "source": "site",
+        "state": "active",
+        "compatibilityCollectionKey": "reviews",
+        "presentation": {
+          "kind": "detail",
+          "detailPath": "/reviews/:slug",
+          "templateKey": "reviews",
+          "layout": "grid"
+        },
+        "publication": {
+          "feed": true,
+          "archives": false,
+          "scheduling": true,
+          "author": true
+        }
+      },
+      "fieldGroups": [],
+      "categories": []
+    }
+  ]
+}

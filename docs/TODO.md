@@ -8,7 +8,7 @@
 - [x] 1. **scaffold** — `index.html` 제거, Next.js 16 앱 생성, tsconfig·vitest·playwright 설정, `.env.example`, `docs/TODO.md`, `/`→`/column` 301
 - [x] 2. **header** — `MadiHeader.tsx`·`MadiHeaderBehavior.tsx`·`styles/madi/header.css`·`public/madi/img/*`·Noto Sans KR `@font-face`. 본 사이트와 5폭 픽셀 diff
 - [x] 3. **shell** — `tokens.css`, `MadiSubVisual`, `MadiBreadcrumb`, `MadiFooter`, `data/{site,clinic,nav}.ts`, `seo/schema.ts`, `layout.tsx`, 파비콘·OG, `styles/madi/patterns.css`
-- [ ] 4. **cms-infra** — `features/cms/*`, `features/seo/*`, `api/revalidate`, `preview`, `cms/content-models.json`(PLAN §4.2)
+- [x] 4. **cms-infra** — `features/cms/*`, `features/seo/*`, `api/revalidate`, `preview`, `cms/content-models.json`(PLAN §4.2)
 - [ ] 5. **column** — 목록·카테고리·상세·검색 포트, 브랜드 교체, 테스트 재작성
 - [ ] 6. **reviews** — 목록·상세 포트
 - [ ] 7. **faq** — 4단계 화면 포트, `faq-registry`를 CMS 분류 기반으로 재작성
@@ -74,3 +74,31 @@ letter-spacing 0→-0.02em, 5번째 드롭다운 `left:50%`·`width:120px`·`tra
 푸터 차이는 본 사이트의 `.nabyArea`(제작사 크레딧 띠·관리자 로그인, 1440에서
 60px)를 옮기지 않아 `#bottom` 높이가 388→328px로 줄고 `background-size: cover`
 배경이 다르게 잘린 것이다. 메뉴 띠·로고·사업자 정보·저작권은 같다.
+
+## 4단계 cms-infra 결과 (2026-09-15)
+
+headnerve에서 가져온 것:
+
+- `src/features/cms/{tiptap-body,cf-image-url,body-image,content-text,internal-content-links,revalidation,raw-html}.ts`(+테스트 6개)
+- `src/features/seo/{sitemap-xml,rss-xml,preview-noindex,site-sitemap,static-sitemap}.ts`(+테스트 3개)
+- `src/components/site/{SiteBreadcrumb,BreadcrumbJsonLd}.tsx`(`JsonLd`는 3단계 것 유지)
+- `src/app/api/revalidate/route.ts`(+`route.test.ts`·`route-signature.test.ts`), `src/proxy.ts`, `public/sitemap.xsl`, `scripts/faq-cms-api.ts`
+- `src/features/{column/column-cache,reviews/review-cache,faq/faq-cache}.ts`(재검증이 세 컬렉션을 한 표로 다뤄 먼저 필요)
+- `cms/content-models.json`: 세 모델 `categories: []`, 라벨·안내 문구의 "맥락한의원 관점" → "마디클리닉 관점"
+
+headnerve와 다르게 한 것:
+
+- `raw-html.ts`: `LEGACY_CONTENT_ORIGIN`(이관 원본 사이트) 제거. 자기 배포 origin의 절대
+  링크만 상대 경로로 바꾼다. 이관 콘텐츠가 없어 `LEGACY_IMPORTED_IMAGE_ORIGINS`
+  (iCRM·Pexels)와 `trustedImportedImageUrl`도 함께 제거해 가져오기 경로가 일반 본문과
+  같은 이미지 origin 정책을 쓴다.
+- `features/faq/faq-cache.ts`에 `faqInternalLinkKeyFromPath`를 둔다. headnerve는 이 계산을
+  `faq-model.ts`에서 정적 진료 영역 목록(`FAQ_SECTION_SLUGS`)으로 걸렀는데, 코드에 분류를
+  두지 않는다는 PLAN.md §4.2 때문에 경로 형태만 본다.
+- `api/revalidate/route.ts`에서 FAQ 역참조 무효화(`affectedFaqDetailPaths` + `resolveFaqArchive`)
+  블록은 7단계로 미뤘다(FAQ 원장이 있어야 계산된다). 자리와 이유를 주석으로 남겼다.
+- `src/app/preview/post/[id]/page.tsx`는 `ColumnPreviewRoute`에 의존해 5단계에서 넣었다.
+- `static-sitemap.ts`의 정적 목록은 `/column`·`/reviews`·`/faq` 세 개다(PLAN.md §5.2).
+
+검증: `pnpm typecheck` 통과, `pnpm test` 13파일 116케이스 통과, `pnpm build` 통과
+(`ƒ Proxy (Middleware)` 등록 확인).
