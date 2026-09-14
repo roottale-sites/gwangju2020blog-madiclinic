@@ -9,7 +9,7 @@ export default function FaqPage() {
       pathname="/faq"
       title="자주 묻는 질문"
       banner="03"
-      crumbs={[{ name: '건강정보', href: '/column' }, { name: '자주 묻는 질문', href: '/faq' }]}
+      crumbs={[{ name: '커뮤니티', href: '/column' }, { name: '자주 묻는 질문', href: '/faq' }]}
     >
       <div className="cBox clearFix">
         <h4>자주 묻는 질문</h4>

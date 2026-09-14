@@ -14,9 +14,9 @@ describe('GNB 구성', () => {
       expect(item.href.startsWith(mainSiteOrigin)).toBe(true);
       for (const child of item.children) expect(child.href.startsWith(mainSiteOrigin)).toBe(true);
     }
-    expect(blog?.label).toBe('건강정보');
+    expect(blog?.label).toBe('커뮤니티');
     expect(blog?.href).toBe('/column');
-    expect(blog?.children.map((c) => c.href)).toEqual(['/column', '/reviews', '/faq']);
+    expect(blog?.children.map((c) => c.href)).toEqual(['/column', '/faq', '/reviews']);
   });
 
   it('상단 지점 탭은 4개이고 광주 Dr.이 마디만 현재 지점이다', () => {
@@ -31,7 +31,7 @@ describe('GNB 구성', () => {
 });
 
 describe('현재 경로 표시', () => {
-  it('블로그 라우트와 그 하위 경로에서만 건강정보를 켠다', () => {
+  it('블로그 라우트와 그 하위 경로에서만 커뮤니티를 켠다', () => {
     for (const path of ['/column', '/column/knee', '/reviews', '/reviews/abc', '/faq', '/faq/a/b/c']) {
       expect(isBlogPath(path)).toBe(true);
     }

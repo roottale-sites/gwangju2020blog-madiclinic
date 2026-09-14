@@ -9,7 +9,7 @@ import { mainSiteOrigin } from '../../data/nav';
  *
  * 본 사이트의 `.nabyArea`(제작사 크레딧 띠·관리자 로그인)와 `.BtGoTop`은 이
  * 사이트의 것이 아니라 옮기지 않았다. 메뉴 띠는 본 사이트 항목 5개를 절대주소로
- * 둔다 - 블로그 세 섹션은 헤더 GNB `건강정보`가 모든 페이지에서 링크한다.
+ * 둔다 - 블로그 세 섹션은 헤더 GNB `커뮤니티`가 모든 페이지에서 링크한다.
  */
 const footerMenu = [
   { label: '원장 소개', href: `${mainSiteOrigin}/doctor/doctor01.html` },

@@ -9,7 +9,7 @@ export default function ReviewsPage() {
       pathname="/reviews"
       title="치료후기"
       banner="02"
-      crumbs={[{ name: '건강정보', href: '/column' }, { name: '치료후기', href: '/reviews' }]}
+      crumbs={[{ name: '커뮤니티', href: '/column' }, { name: '후기', href: '/reviews' }]}
     >
       <div className="cBox clearFix">
         <h4>치료후기</h4>

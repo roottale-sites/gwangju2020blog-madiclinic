@@ -2,7 +2,7 @@
  * 헤더 내비게이션 데이터 (PLAN.md §3.4).
  *
  * 본 사이트(`http://gwangju2020.madiclinic.co.kr`)의 GNB 4개는 절대주소로
- * 그대로 연결하고, 블로그 항목은 1차 메뉴 1개(`건강정보`)에 하위 3개로 넣는다.
+ * 그대로 연결하고, 블로그 항목은 1차 메뉴 1개(`커뮤니티`)에 하위 3개로 넣는다.
  * 1차 항목을 2개 이상 늘리면 GNB 가용 폭 760px을 넘어 로고와 겹친다.
  */
 
@@ -50,17 +50,17 @@ export const gnb: readonly NavItem[] = [
     ],
   },
   {
-    label: '건강정보',
+    label: '커뮤니티',
     href: '/column',
     children: [
-      { label: '칼럼', href: '/column' },
-      { label: '치료후기', href: '/reviews' },
+      { label: '블로그', href: '/column' },
       { label: '자주 묻는 질문', href: '/faq' },
+      { label: '후기', href: '/reviews' },
     ],
   },
 ];
 
-/** 이 저장소가 담당하는 블로그 라우트. 현재 경로가 이 중 하나면 `건강정보`에 `on`. */
+/** 이 저장소가 담당하는 블로그 라우트. 현재 경로가 이 중 하나면 `커뮤니티`에 `on`. */
 const blogPrefixes = ['/column', '/reviews', '/faq'] as const;
 
 /** 블로그 라우트 여부. `/column/foo`처럼 하위 경로도 포함한다. */
@@ -74,7 +74,7 @@ export function isBlogPath(pathname: string): boolean {
  * 하위 항목 활성 여부.
  *
  * 본 사이트 서브 페이지는 현재 1차·2차 항목에 `on`을 준다. 블로그도 같게
- * 맞춘다. `/column`이 `건강정보`의 첫 항목이자 1차 링크이므로, `/reviews`를
+ * 맞춘다. `/column`이 `커뮤니티`의 첫 항목이자 1차 링크이므로, `/reviews`를
  * 볼 때 `/column`이 켜지지 않도록 프리픽스로 비교한다.
  */
 export function isNavChildActive(childHref: string, pathname: string): boolean {

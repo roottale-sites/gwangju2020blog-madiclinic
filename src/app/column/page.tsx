@@ -9,7 +9,7 @@ export default function ColumnPage() {
       pathname="/column"
       title="칼럼"
       banner="01"
-      crumbs={[{ name: '건강정보', href: '/column' }, { name: '칼럼', href: '/column' }]}
+      crumbs={[{ name: '커뮤니티', href: '/column' }, { name: '블로그', href: '/column' }]}
     >
       <div className="cBox clearFix">
         <h4>칼럼</h4>
