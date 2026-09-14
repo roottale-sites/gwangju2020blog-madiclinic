@@ -1,8 +1,8 @@
 /**
- * FAQ 캐시 태그·경로 판정. headnerve `features/faq/faq-cache.ts` 그대로다.
+ * FAQ 캐시 태그·경로 판정. headnerve `features/faq/faq-cache.ts`를 옮긴 것이다.
  *
- * FAQ 화면 자체는 7단계에서 들어온다. 웹훅 재검증(`features/cms/revalidation.ts`)이
- * 세 컬렉션을 한 표로 다루므로, 4단계에서 이 판정만 먼저 둔다.
+ * 웹훅 재검증(`features/cms/revalidation.ts`)이 세 컬렉션을 한 표로 다루므로 화면
+ * 보다 먼저(4단계) 들어왔고, `faq-model.ts`·`faq-source.ts`도 같은 판정을 쓴다.
  */
 export const FAQ_DATA_CACHE_TTL_SECONDS = 60 * 60 * 24;
 export const FAQ_ALL_CACHE_TAG = 'faq:all';

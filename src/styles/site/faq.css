@@ -1,0 +1,459 @@
+/*
+ * 자주 묻는 질문 — 홈·진료 영역·세부 질환 목록.
+ *
+ * headnerve `src/styles/site/faq.css`를 옮긴 것이다. 배치(1fr + 250px 목차
+ * 사이드바, 카드·질문 목록 구조)는 그대로 두고 `--figma-*` 토큰·Pretendard만
+ * `docs/DESIGN.md` §7의 `--madi-*`·Noto Sans KR로 바꿨다.
+ *
+ * headnerve와 다르게 한 곳
+ *   - 진료 영역 카드의 질환 도판(16:9 이미지 + 오버레이 캡션)과 의사 사진 원형
+ *     썸네일은 쓰지 않는다. 쓸 자산이 없어(PLAN.md §5.3·§8-5) 본 사이트 안내 박스
+ *     표면(`.commonBox`: `border-top: 1px --madi-primary` + `--madi-bg-panel`,
+ *     DESIGN.md §5)을 그대로 쓰는 글자 카드다.
+ *   - 본문 제목은 본 사이트 섹션 제목(`.cBox h4`) 값을 옮겼다. 그 규칙은 요소
+ *     선택자라 h2에 재사용할 수 없다.
+ *   - 강조 판(`--figma-surface-callout` + 왼쪽 굵은 선)도 `.commonBox` 문법으로
+ *     바꿨다 — 마디 토큰에는 왼쪽 강조선이 없다.
+ *   - 카드 라운드(`--figma-radius-raised`)는 없다. 본 사이트 본문 카드는 사각이고
+ *     둥근 모양은 버튼·배지(20px pill)에만 쓴다(DESIGN.md §4).
+ */
+
+.faq-page {
+  /* headnerve `--reading-wide`. 읽기 좋은 한 줄 길이라 폭 토큰과 별도로 둔다. */
+  --faq-measure: 58rem;
+  --faq-sidebar-w: 250px;
+}
+
+/*
+ * 본문 제목. 본 사이트 섹션 제목(`.cBox h4`, DESIGN.md §5)과 같은 값이다 —
+ * 그 규칙은 요소 선택자(`.cBox h4`)라 h2에 재사용할 수 없어 값을 옮겼다.
+ */
+.faq-intro__title {
+  position: relative;
+  display: block;
+  width: 100%;
+  margin: 0 auto var(--madi-space-2);
+  padding: 0 0 19px;
+  border-bottom: 1px solid var(--madi-primary);
+  color: var(--madi-text-strong);
+  font-size: var(--madi-fs-section);
+  font-weight: 700;
+  line-height: 40px;
+  letter-spacing: var(--madi-ls-title);
+}
+
+.faq-intro__lead {
+  margin: var(--madi-space-3) 0 0;
+  color: var(--madi-text-muted);
+  font-size: var(--madi-fs-md);
+  line-height: var(--madi-lh-body);
+}
+
+/* CMS를 읽을 수 없을 때의 안내. 빈 목록과 장애를 구별해 알린다. */
+.faq-notice {
+  margin: var(--madi-space-3) 0 0;
+  padding: var(--madi-space-3);
+  border-top: 1px solid var(--madi-primary);
+  background-color: var(--madi-bg-panel);
+  color: var(--madi-text);
+  font-size: var(--madi-fs-md);
+  font-weight: 300;
+  line-height: var(--madi-lh-panel);
+}
+
+.faq-empty {
+  margin: 0;
+  padding-block: var(--madi-space-6);
+  color: var(--madi-text-muted);
+  font-size: var(--madi-fs-md);
+  line-height: var(--madi-lh-body);
+}
+
+/* ==== 진료 영역 카드(질문 홈) ==== */
+
+.faq-section-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--madi-space-3);
+  margin-top: var(--madi-space-5);
+}
+
+.faq-section-card {
+  display: block;
+  min-height: 160px;
+  box-sizing: border-box;
+  padding: var(--madi-space-4);
+  border-top: 1px solid var(--madi-primary);
+  background-color: var(--madi-bg-panel);
+  transition: var(--madi-motion);
+}
+
+.faq-section-card:hover {
+  background-color: var(--madi-bg-panel-title);
+}
+
+.faq-section-card > h3 {
+  margin: 0 0 var(--madi-space-2);
+  color: var(--madi-text-strong);
+  font-size: var(--madi-fs-h4);
+  font-weight: 700;
+  line-height: 30px;
+  letter-spacing: var(--madi-ls-ui);
+}
+
+.faq-section-card > p {
+  margin: 0;
+  color: var(--madi-text);
+  font-size: var(--madi-fs-base);
+  font-weight: 300;
+  line-height: var(--madi-lh-panel);
+}
+
+.faq-section-card__meta {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--madi-space-2);
+  margin-top: var(--madi-space-4);
+  padding-top: var(--madi-space-2);
+  border-top: 1px solid var(--madi-border);
+  font-size: var(--madi-fs-base-sm);
+  line-height: 20px;
+}
+
+.faq-section-card__meta > b {
+  color: var(--madi-text-subtle);
+  font-weight: 400;
+}
+
+.faq-section-card__meta > em {
+  color: var(--madi-primary);
+  font-style: normal;
+  font-weight: 500;
+}
+
+/* ==== 목록 배치(본문 + 250px 목차) ==== */
+
+.faq-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) var(--faq-sidebar-w);
+  gap: var(--madi-space-5);
+  align-items: start;
+  margin-top: var(--madi-space-5);
+}
+
+.faq-layout > * {
+  min-width: 0;
+}
+
+.faq-sidebar {
+  position: sticky;
+  top: calc(var(--madi-header-h) + var(--madi-space-3));
+}
+
+.faq-sidebar-box {
+  box-sizing: border-box;
+  padding: var(--madi-space-3);
+  border: 1px solid var(--madi-border-strong);
+  background-color: var(--madi-bg);
+}
+
+.faq-sidebar-box + .faq-sidebar-box {
+  margin-top: var(--madi-space-2);
+}
+
+.faq-sidebar-box > h3 {
+  margin: 0 0 var(--madi-space-2);
+  padding: 0 0 var(--madi-space-2);
+  border-bottom: 1px solid var(--madi-border);
+  color: var(--madi-text-strong);
+  font-size: var(--madi-fs-body);
+  font-weight: 500;
+  line-height: 25px;
+}
+
+.faq-sidebar-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.faq-sidebar-list a {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--madi-space-2);
+  padding: 7px 0;
+  color: var(--madi-text-muted);
+  font-size: var(--madi-fs-base-sm);
+  line-height: 20px;
+  transition: var(--madi-motion);
+}
+
+.faq-sidebar-list a:hover {
+  color: var(--madi-text-strong);
+}
+
+.faq-sidebar-list b {
+  color: var(--madi-text-strong);
+  font-weight: 400;
+}
+
+/* 답변을 쓴 사람. 사진 없이 이름 링크 + 역할 한 줄이다. */
+.faq-reviewer__name,
+.faq-reviewer__detail {
+  display: block;
+}
+
+.faq-reviewer__name {
+  color: var(--madi-text-strong);
+  font-size: var(--madi-fs-base);
+  font-weight: 500;
+  line-height: 20px;
+  text-decoration: underline;
+}
+
+.faq-reviewer__detail {
+  margin-top: var(--madi-space-1);
+  color: var(--madi-text-muted);
+  font-size: var(--madi-fs-base-sm);
+  line-height: 20px;
+}
+
+/* ==== 세부 질환 목록(진료 영역 화면) ==== */
+
+.faq-topic-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--madi-text-strong);
+}
+
+.faq-topic-list a {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto var(--madi-space-3);
+  gap: var(--madi-space-2);
+  align-items: center;
+  padding: var(--madi-space-3) var(--madi-space-1);
+  border-bottom: 1px solid var(--madi-border);
+  transition: var(--madi-motion);
+}
+
+.faq-topic-list a:hover {
+  background-color: var(--madi-bg-soft);
+}
+
+.faq-topic-list strong,
+.faq-topic-list small {
+  display: block;
+}
+
+.faq-topic-list strong {
+  margin-bottom: var(--madi-space-1);
+  color: var(--madi-text-strong);
+  font-size: var(--madi-fs-body);
+  font-weight: 500;
+  line-height: 25px;
+}
+
+.faq-topic-list small {
+  overflow: hidden;
+  color: var(--madi-text-muted);
+  font-size: var(--madi-fs-base-sm);
+  line-height: 20px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.faq-count {
+  min-width: 34px;
+  padding: 2px var(--madi-space-2);
+  border-radius: var(--madi-radius-pill);
+  background-color: var(--madi-bg-soft);
+  color: var(--madi-text-strong);
+  font-size: var(--madi-fs-base-sm);
+  font-weight: 400;
+  line-height: 20px;
+  text-align: center;
+}
+
+.faq-row-arrow {
+  color: var(--madi-primary);
+  font-size: var(--madi-fs-h3);
+  font-weight: 400;
+  text-align: center;
+}
+
+/* ==== 질문 목록(세부 질환 화면) ==== */
+
+.faq-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--madi-space-1);
+  margin: 0 0 var(--madi-space-4);
+}
+
+.faq-filter a {
+  display: inline-block;
+  height: 40px;
+  box-sizing: border-box;
+  padding: 10px var(--madi-space-3);
+  border: 1px solid var(--madi-border-strong);
+  border-radius: var(--madi-radius-pill);
+  background-color: var(--madi-bg-tab);
+  color: var(--madi-text-subtle);
+  font-size: var(--madi-fs-base);
+  font-weight: 400;
+  line-height: 20px;
+  letter-spacing: var(--madi-ls-ui);
+  transition: var(--madi-motion);
+}
+
+.faq-filter a:hover {
+  background-color: var(--madi-bg-tab-hover);
+  color: var(--madi-text-strong);
+}
+
+.faq-filter a[aria-current='page'] {
+  border-color: var(--madi-tab-active);
+  background-color: var(--madi-tab-active);
+  color: var(--madi-text-inverse);
+}
+
+.faq-question-groups {
+  display: grid;
+  gap: var(--madi-space-6);
+}
+
+.faq-question-group > h3 {
+  margin: 0 0 var(--madi-space-2);
+  color: var(--madi-text-strong);
+  font-size: var(--madi-fs-h3);
+  font-weight: 700;
+  line-height: 30px;
+  letter-spacing: var(--madi-ls-ui);
+}
+
+.faq-question-group > h3 span {
+  color: var(--madi-text-muted);
+  font-size: var(--madi-fs-base);
+  font-weight: 400;
+}
+
+.faq-question-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--madi-text-strong);
+}
+
+.faq-question-list a {
+  display: grid;
+  grid-template-columns: var(--madi-space-4) minmax(0, 1fr);
+  gap: var(--madi-space-2);
+  align-items: start;
+  padding: var(--madi-space-3) var(--madi-space-1);
+  border-bottom: 1px solid var(--madi-border);
+  transition: var(--madi-motion);
+}
+
+.faq-question-list a:hover {
+  background-color: var(--madi-bg-soft);
+}
+
+.faq-question-list__mark,
+.faq-question-list__answer b {
+  color: var(--madi-primary);
+  font-size: var(--madi-fs-base);
+  font-weight: 700;
+  line-height: 25px;
+}
+
+.faq-question-list strong,
+.faq-question-list__answer,
+.faq-question-list__detail {
+  display: block;
+}
+
+.faq-question-list strong {
+  color: var(--madi-text-strong);
+  font-size: var(--madi-fs-body);
+  font-weight: 500;
+  line-height: 25px;
+}
+
+.faq-question-list__answer {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: var(--madi-space-4) minmax(0, 1fr);
+  gap: var(--madi-space-2);
+  align-items: start;
+  margin-top: var(--madi-space-1);
+  color: var(--madi-text-muted);
+  font-size: var(--madi-fs-md);
+  line-height: var(--madi-lh-body);
+}
+
+.faq-question-list__answer > span {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.faq-question-list__detail {
+  grid-column: 2;
+  margin-top: var(--madi-space-2);
+  color: var(--madi-primary);
+  font-size: var(--madi-fs-base-sm);
+  font-weight: 500;
+  line-height: 20px;
+}
+
+.faq-question-list__detail b {
+  margin-left: var(--madi-space-1);
+  font-weight: 500;
+}
+
+/* ==== CMS를 읽지 못하는 하위 단계(FaqStatePage) ==== */
+
+.faq-state {
+  max-width: var(--faq-measure);
+  margin: 0 auto;
+  padding-block: var(--madi-space-7);
+  text-align: center;
+}
+
+.faq-state h2 {
+  margin: 0 0 var(--madi-space-2);
+  color: var(--madi-text-strong);
+  font-size: var(--madi-fs-h3);
+  font-weight: 700;
+  line-height: 30px;
+}
+
+.faq-state p {
+  margin: 0;
+  color: var(--madi-text-muted);
+  font-size: var(--madi-fs-md);
+  line-height: var(--madi-lh-body);
+}
+
+/* DESIGN.md §5의 주 버튼(40px pill, --madi-primary, 14px/700). */
+.faq-state__link {
+  display: inline-block;
+  height: 40px;
+  box-sizing: border-box;
+  margin-top: var(--madi-space-4);
+  padding: 10px var(--madi-space-4);
+  border-radius: var(--madi-radius-pill);
+  background-color: var(--madi-primary);
+  color: var(--madi-text-inverse);
+  font-size: var(--madi-fs-base);
+  font-weight: 700;
+  line-height: 20px;
+  transition: var(--madi-motion);
+}
+
+.faq-state__link:hover {
+  background-color: var(--madi-primary-hover);
+  color: var(--madi-text-inverse);
+}

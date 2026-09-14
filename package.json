@@ -14,7 +14,9 @@
     "test": "vitest run",
     "typecheck": "tsc --noEmit",
     "preview": "pnpm build && next start",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "cms:faq:sheet": "tsx scripts/import-faq-sheet.ts",
+    "cms:faq:sync": "tsx scripts/sync-faq-content.ts"
   },
   "devDependencies": {
     "@playwright/test": "1.55.0",

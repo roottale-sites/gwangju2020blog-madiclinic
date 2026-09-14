@@ -14,6 +14,7 @@ import { beforeEach, describe, expect, test, vi } from 'vitest';
 const revalidatePath = vi.fn();
 const revalidateTag = vi.fn();
 const verifyRootTaleWebhook = vi.fn();
+const resolveFaqArchive = vi.fn();
 
 vi.mock('next/cache', () => ({
   revalidatePath: (...args: unknown[]) => revalidatePath(...args),
@@ -25,7 +26,17 @@ vi.mock('@roottale/cms-client/webhook', () => ({
   verifyRootTaleWebhook: (...args: unknown[]) => verifyRootTaleWebhook(...args),
 }));
 
+/**
+ * FAQ 역참조 무효화는 CMS를 직접 읽는다(`{ fresh: true }`). 그 경계도 모킹해
+ * 라우트의 배선만 본다 — 원장 계산은 `features/faq/faq-revalidation` 자체
+ * 테스트가 덮는다.
+ */
+vi.mock('../../../features/faq/faq-source', () => ({
+  resolveFaqArchive: (...args: unknown[]) => resolveFaqArchive(...args),
+}));
+
 const { GET, POST } = await import('./route');
+const { faqFixtureEntries } = await import('../../../features/faq/faq-fixture');
 
 function webhookRequest(body: unknown, headers: Record<string, string> = {}): Request {
   return new Request('https://gwangju2020blog.madiclinic.co.kr/api/revalidate', {
@@ -39,6 +50,8 @@ beforeEach(() => {
   revalidatePath.mockReset();
   revalidateTag.mockReset();
   verifyRootTaleWebhook.mockReset();
+  resolveFaqArchive.mockReset();
+  resolveFaqArchive.mockResolvedValue({ source: 'cms', entries: [] });
   vi.spyOn(console, 'log').mockImplementation(() => {});
   vi.spyOn(console, 'warn').mockImplementation(() => {});
   vi.stubEnv('ROOTTALE_API_KEY', 'test_key');
@@ -120,15 +133,10 @@ describe('칼럼 웹훅 무효화 배선', () => {
 });
 
 describe('FAQ 웹훅 무효화 배선', () => {
-  /**
-   * headnerve는 여기서 역참조(공개 FAQ 선택) 상세까지 함께 무효화하는 것을
-   * 단정한다. 그 계산은 FAQ 원장이 필요해 7단계에서 라우트와 함께 들어온다.
-   * 4단계에서는 FAQ 대상 자체의 배선만 덮는다.
-   */
   test('FAQ 태그와 목록·사이트맵·상세 경로를 무효화한다', async () => {
-    const detailPath = '/faq/headache/migraine/sample';
+    const detailPath = '/faq/spine/neck-pain/mri-normal';
 
-    const response = await POST(webhookRequest({ paths: [detailPath], postId: 'sample-id' }));
+    const response = await POST(webhookRequest({ paths: [detailPath], postId: 'post-neck-mri' }));
 
     expect(response.status).toBe(200);
     await expect(response.json()).resolves.toEqual({
@@ -138,7 +146,7 @@ describe('FAQ 웹훅 무효화 배선', () => {
     });
     expect(revalidateTag.mock.calls).toEqual([
       ['faq:archive', { expire: 0 }],
-      ['faq:detail:faq.headache.migraine.sample', { expire: 0 }],
+      ['faq:detail:faq.spine.neck-pain.mri-normal', { expire: 0 }],
     ]);
     expect(revalidatePath.mock.calls).toEqual([
       ['/faq'],
@@ -146,6 +154,54 @@ describe('FAQ 웹훅 무효화 배선', () => {
       ['/sitemap.xml'],
       [detailPath],
     ]);
+  });
+
+  /**
+   * 발행된 글을 "공개 FAQ 선택"·본문 예약 링크로 가리키는 상세도 함께 갱신해야
+   * 한다. 그 화면은 자기 캐시 태그가 무효화되지 않으면 옛 관련 목록·옛 문구를
+   * 하루 동안 그대로 보여 준다.
+   */
+  test('역참조한 FAQ 상세와 그 캐시 태그까지 함께 무효화한다', async () => {
+    resolveFaqArchive.mockResolvedValue({
+      source: 'cms',
+      entries: [
+        { ...faqFixtureEntries[1]!, relatedContentIds: ['post-neck-mri'] },
+        { ...faqFixtureEntries[3]!, referencedContentKeys: ['faq.spine.neck-pain.mri-normal'] },
+        faqFixtureEntries[2]!,
+      ],
+    });
+
+    const response = await POST(webhookRequest({
+      paths: ['/faq/spine/neck-pain/mri-normal'],
+      postId: 'post-neck-mri',
+    }));
+
+    expect(resolveFaqArchive).toHaveBeenCalledWith({ fresh: true });
+    await expect(response.json()).resolves.toEqual({
+      ok: true,
+      revalidated: true,
+      paths: [
+        '/faq',
+        '/faq-sitemap.xml',
+        '/sitemap.xml',
+        '/faq/spine/neck-pain/mri-normal',
+        '/faq/spine/neck-pain/desk-posture',
+        '/faq/joint/knee/how-long',
+      ],
+    });
+    expect(revalidateTag.mock.calls).toEqual([
+      ['faq:archive', { expire: 0 }],
+      ['faq:detail:faq.spine.neck-pain.mri-normal', { expire: 0 }],
+      ['faq:detail:faq.spine.neck-pain.desk-posture', { expire: 0 }],
+      ['faq:detail:faq.joint.knee.how-long', { expire: 0 }],
+    ]);
+  });
+
+  test('칼럼·후기 웹훅은 FAQ 원장을 읽지 않는다', async () => {
+    await POST(webhookRequest({ paths: ['/column/spine/새-글'] }));
+    await POST(webhookRequest({ paths: ['/reviews/sample'] }));
+
+    expect(resolveFaqArchive).not.toHaveBeenCalled();
   });
 });
 

@@ -27,4 +27,35 @@
 
 ## 자주 묻는 질문
 
-7단계에서 기록한다.
+네 단계 모두 `<title>`이 절대값이고, 분류 문구는 CMS 공개 분류 API(`seo_title`·
+`seo_description`·`description`)에서 읽는다. 코드에는 분류를 두지 않는다(PLAN.md §4.2).
+문구가 비어 있을 때 쓰는 조립 서식만 `faq-content.ts`가 소유한다.
+
+| URL | `<title>` | `description` | 비고 |
+|---|---|---|---|
+| `/faq` | 자주 묻는 질문 \| 광주 남구 마디클리닉 | 광주 남구 마디클리닉 이경무 대표원장이 진료실에서 자주 받는 질문에 답합니다. 통증의 원인과 검사, 비수술 중점치료와 경과를 확인하세요. | `faqIndexMetadata` |
+| `/faq/{section}` | {영역 `seo_title`, 없으면 `{영역 이름} 자주 묻는 질문`} \| 자주 묻는 질문 \| 광주 남구 마디클리닉 | 영역 `seo_description` → `description` → `{영역 이름}에 관해 진료실에서 자주 받는 질문과 답변입니다.` | 진료 영역(1단계 분류) |
+| `/faq/{section}/{topic}` | {질환 `seo_title`, 없으면 `{질환 이름} 자주 묻는 질문`} \| 자주 묻는 질문 \| 광주 남구 마디클리닉 | 질환 `seo_description` → `description` → `{질환 이름}의 증상·검사·치료와 경과에 관해 자주 묻는 질문입니다.` | 세부 질환(2단계 분류). `?intent=`는 `noindex, follow`이고 canonical은 이 주소 고정 |
+| `/faq/{section}/{topic}/{slug}` | {질문} \| 자주 묻는 질문 \| 광주 남구 마디클리닉 | 핵심 답변(160자 상한) | canonical은 플랫폼이 저장한 공개 경로(ADR-0105). `rt:content-id`로 조회수를 귀속한다 |
+| 없는 영역·질환·질문 | — | — | CMS 성공 응답에서만 404다(빈 메타데이터 + Next 404 화면) |
+| CMS 장애·키 미설정·모델 미선언 | 자주 묻는 질문 연결 오류 \| 자주 묻는 질문 \| 광주 남구 마디클리닉 | 상태별 안내 문구(`faqNotices`) | `noindex, follow`. 404가 아니라 200 + 상태 안내(나중에 살아날 주소다) |
+
+## SEO 라우트
+
+| URL | 내용 |
+|---|---|
+| `/sitemap.xml` | 사이트맵 인덱스. 자식 4개(`/sitemap-static.xml`·`/reviews-sitemap.xml`·`/column-sitemap.xml`·`/faq-sitemap.xml`) |
+| `/sitemap-static.xml` | 정적 목록 `/column`·`/reviews`·`/faq` |
+| `/column-sitemap.xml` | 칼럼 목록·분류·글 |
+| `/reviews-sitemap.xml` | 후기 목록·글 |
+| `/faq-sitemap.xml` | FAQ 홈 + 글이 있는 영역·질환 + 답변 |
+| `/column/rss.xml`, `/reviews/rss.xml` | 피드 |
+| `/robots.txt` | `Disallow: /preview/`, `Sitemap: https://gwangju2020blog.madiclinic.co.kr/sitemap.xml` |
+
+## 전역 구조화 데이터
+
+`src/app/layout.tsx`가 모든 페이지에 `WebSite`·`MedicalClinic`(마디클리닉)·
+`Physician`(이경무) 세 노드를 넣는다(`siteEntityJsonLd`). 페이지별로는 목록·분류가
+`CollectionPage`, 상세가 `WebPage`이고 칼럼 상세는 `Article`, FAQ 상세는 `FAQPage`,
+후기 상세는 후기 FAQ 블록이 있을 때 `FAQPage`를 더한다. `BreadcrumbList`는
+`MadiBreadcrumb`이 화면 브레드크럼과 같은 배열에서 만든다.

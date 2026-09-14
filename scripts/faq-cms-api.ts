@@ -2,22 +2,8 @@
  * ROOT-ADMIN 관리 API 공용 클라이언트 — FAQ 이관·시트 가져오기 스크립트가 함께 쓴다.
  * 서버 전용 API 키(ROOTTALE_API_KEY)와 site_id를 환경변수·인자로 받는다.
  */
-/**
- * 형태 타입은 headnerve `features/faq/{faq-import,faq-wire}.ts`와 같다. FAQ 기능
- * 자체는 7단계에서 들어오므로, 그때 이 선언을 해당 모듈 import로 되돌린다.
- */
-export type FaqWireConfig = { apiKey: string; baseUrl: string };
-
-export type ManagedFaqPost = {
-  id: string;
-  slug: string;
-  status: string;
-  title: string;
-  excerpt: string | null;
-  bodyJson: Record<string, unknown>;
-  fieldValues: Record<string, unknown>;
-  categoryIds: readonly string[];
-};
+import type { ManagedFaqPost } from '../src/features/faq/faq-import';
+import type { FaqWireConfig } from '../src/features/faq/faq-wire';
 
 export type JsonRecord = Record<string, unknown>;
 

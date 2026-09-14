@@ -9,6 +9,8 @@ import {
   revalidationTargetForModel,
   revalidationTargets,
 } from '../../../features/cms/revalidation';
+import { affectedFaqDetailPaths } from '../../../features/faq/faq-revalidation';
+import { resolveFaqArchive } from '../../../features/faq/faq-source';
 
 const MAX_WEBHOOK_BYTES = 64 * 1024;
 
@@ -69,12 +71,19 @@ export async function POST(request: Request): Promise<Response> {
   ) {
     return rejectInvalidation('model_path_mismatch', verification, payload);
   }
-  /**
-   * headnerve는 여기서 FAQ 발행 글을 "공개 FAQ 선택"으로 역참조한 상세까지 찾아
-   * 함께 무효화한다(`faq-revalidation.affectedFaqDetailPaths`). 그 계산은 FAQ
-   * 원장(`faq-source`)이 있어야 하므로 7단계에서 이 자리에 다시 넣는다.
-   */
-  const paths = payload.paths;
+  let paths = payload.paths;
+  if (initialTargets.includes('faq') && verification.event.startsWith('post.')) {
+    // 캐시본이 아니라 CMS를 직접 읽는다 — 방금 발행된 글을 "공개 FAQ 선택"으로 고른
+    // 상세 화면은 캐시본의 관계 필드에 그 글이 없어(발행 전 제외) 갱신 대상에서 빠진다.
+    const archive = await resolveFaqArchive({ fresh: true });
+    paths = [...new Set([
+      ...paths,
+      ...affectedFaqDetailPaths(archive.entries, {
+        paths,
+        ...(payload.postId ? { postId: payload.postId } : {}),
+      }),
+    ])];
+  }
 
   const targets = revalidationTargets(verification.event, paths);
   if (verification.event.startsWith('post.') && targets.length === 0) {

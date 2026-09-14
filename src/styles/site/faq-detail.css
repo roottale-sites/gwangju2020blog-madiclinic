@@ -1,0 +1,251 @@
+/*
+ * 자주 묻는 질문 — 답변 상세.
+ *
+ * headnerve `src/styles/site/faq-detail.css`를 옮긴 것이다. 구조(질문 카드 → 답변
+ * 카드 → 상세 답변 → 관점 → 관련 질문)는 그대로이고 `--figma-*`·Pretendard만
+ * `--madi-*`·Noto Sans KR로 바꿨다.
+ *
+ * headnerve와 다르게 한 곳
+ *   - 강조 판의 왼쪽 굵은 선(`border-left: 2px --figma-action`)은 `.commonBox`
+ *     문법(`border-top: 1px --madi-primary` + `--madi-bg-panel`)으로 바꿨다.
+ *     마디 토큰에는 왼쪽 강조선이 없다(DESIGN.md §5).
+ *   - 사이드바의 질환 안내 버튼(`.faq-disease-link`)은 질환 라우트가 없어 뺐다.
+ *   - 상세 제목은 본문 제목 계층상 h2이고, 본문 섹션 제목은 h3다.
+ */
+
+.faq-detail {
+  max-width: var(--faq-measure);
+}
+
+.faq-detail__header {
+  margin-bottom: var(--madi-space-4);
+  padding-bottom: 19px;
+  border-bottom: 1px solid var(--madi-primary);
+}
+
+.faq-detail__label {
+  display: inline-block;
+  margin: 0 0 var(--madi-space-2);
+  padding: 2px var(--madi-space-3);
+  border-radius: var(--madi-radius-pill);
+  background-color: var(--madi-bg-soft);
+  color: var(--madi-text-subtle);
+  font-size: var(--madi-fs-base-sm);
+  font-weight: 400;
+  line-height: 20px;
+}
+
+.faq-detail__title {
+  margin: 0;
+  color: var(--madi-text-strong);
+  font-size: var(--madi-fs-h2);
+  font-weight: 700;
+  line-height: 40px;
+  letter-spacing: var(--madi-ls-title);
+}
+
+.faq-question-card {
+  box-sizing: border-box;
+  margin-bottom: var(--madi-space-4);
+  padding: var(--madi-space-4);
+  border: 1px solid var(--madi-border-strong);
+  background-color: var(--madi-bg);
+}
+
+.faq-question-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--madi-space-2);
+  margin-bottom: var(--madi-space-2);
+}
+
+.faq-question-card__header h3 {
+  margin: 0;
+  color: var(--madi-text-strong);
+  font-size: var(--madi-fs-lg);
+  font-weight: 500;
+  line-height: 25px;
+}
+
+.faq-question-card__header span {
+  color: var(--madi-text-muted);
+  font-size: var(--madi-fs-base-sm);
+  line-height: 20px;
+}
+
+.faq-question-card > p {
+  margin: 0;
+  color: var(--madi-text);
+  font-size: var(--madi-fs-md);
+  line-height: var(--madi-lh-body);
+}
+
+.faq-answer-card {
+  padding-top: var(--madi-space-4);
+  border-top: 1px solid var(--madi-border);
+}
+
+.faq-answer-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--madi-space-3);
+  margin-bottom: var(--madi-space-3);
+}
+
+.faq-answer-card__header > span {
+  color: var(--madi-text-muted);
+  font-size: var(--madi-fs-base-sm);
+  line-height: 20px;
+  white-space: nowrap;
+}
+
+/* 핵심 답변 — 본 사이트 안내 박스 표면(DESIGN.md §5의 `.commonBox`). */
+.faq-core-answer {
+  box-sizing: border-box;
+  margin-bottom: var(--madi-space-4);
+  padding: var(--madi-space-4);
+  border-top: 1px solid var(--madi-primary);
+  background-color: var(--madi-bg-panel);
+}
+
+.faq-core-answer h3 {
+  margin: 0 0 var(--madi-space-2);
+  color: var(--madi-text-strong);
+  font-size: var(--madi-fs-body);
+  font-weight: 700;
+  line-height: 25px;
+}
+
+.faq-core-answer p {
+  margin: 0;
+  color: var(--madi-text-strong);
+  font-size: var(--madi-fs-body);
+  font-weight: 400;
+  line-height: var(--madi-lh-body);
+}
+
+.faq-richtext {
+  color: var(--madi-text);
+  font-size: var(--madi-fs-md);
+  line-height: var(--madi-lh-body);
+}
+
+.faq-richtext h2,
+.faq-richtext h3,
+.faq-richtext h4 {
+  margin: var(--madi-space-6) 0 var(--madi-space-2);
+  color: var(--madi-text-strong);
+  line-height: 30px;
+}
+
+.faq-richtext h2 {
+  font-size: var(--madi-fs-h3);
+}
+
+.faq-richtext h3 {
+  font-size: var(--madi-fs-lg);
+}
+
+.faq-richtext h4 {
+  font-size: var(--madi-fs-body);
+}
+
+.faq-richtext p,
+.faq-richtext ul,
+.faq-richtext ol {
+  margin: 0 0 var(--madi-space-3);
+}
+
+.faq-richtext ul,
+.faq-richtext ol {
+  padding-left: var(--madi-space-3);
+  list-style: disc;
+}
+
+.faq-richtext ol {
+  list-style: decimal;
+}
+
+.faq-richtext a {
+  color: var(--madi-link);
+  text-decoration: underline;
+}
+
+.faq-detailed-answer,
+.faq-clinic-perspective {
+  margin-top: var(--madi-space-6);
+  padding-top: var(--madi-space-3);
+  border-top: 1px solid var(--madi-border);
+}
+
+.faq-detailed-answer > h3,
+.faq-clinic-perspective > h3,
+.faq-related > h3 {
+  margin: 0 0 var(--madi-space-2);
+  color: var(--madi-text-strong);
+  font-size: var(--madi-fs-h3);
+  font-weight: 700;
+  line-height: 30px;
+  letter-spacing: var(--madi-ls-ui);
+}
+
+.faq-clinic-perspective .faq-richtext > :first-child {
+  margin-top: 0;
+}
+
+/* 의료 정보 고지. 칼럼·후기 고지와 같은 표면(`--madi-bg-tip`). */
+.faq-medical-note {
+  box-sizing: border-box;
+  margin-top: var(--madi-space-6);
+  padding: var(--madi-space-3);
+  background-color: var(--madi-bg-tip);
+}
+
+.faq-medical-note strong {
+  display: block;
+  margin-bottom: var(--madi-space-1);
+  color: var(--madi-text-strong);
+  font-size: var(--madi-fs-base);
+  font-weight: 700;
+  line-height: 20px;
+}
+
+.faq-medical-note p {
+  margin: 0;
+  color: var(--madi-text-muted);
+  font-size: var(--madi-fs-base);
+  font-weight: 300;
+  line-height: var(--madi-lh-panel);
+}
+
+.faq-related {
+  margin-top: var(--madi-space-6);
+  padding-top: var(--madi-space-3);
+  border-top: 1px solid var(--madi-border);
+}
+
+.faq-related ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--madi-text-strong);
+}
+
+.faq-related a {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--madi-space-3);
+  padding: var(--madi-space-2) var(--madi-space-1);
+  border-bottom: 1px solid var(--madi-border);
+  color: var(--madi-text);
+  font-size: var(--madi-fs-md);
+  line-height: var(--madi-lh-body);
+  transition: var(--madi-motion);
+}
+
+.faq-related a:hover {
+  background-color: var(--madi-bg-soft);
+  color: var(--madi-text-strong);
+}

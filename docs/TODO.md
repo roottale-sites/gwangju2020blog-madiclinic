@@ -11,7 +11,7 @@
 - [x] 4. **cms-infra** — `features/cms/*`, `features/seo/*`, `api/revalidate`, `preview`, `cms/content-models.json`(PLAN §4.2)
 - [x] 5. **column** — 목록·카테고리·상세·검색 포트, 브랜드 교체, 테스트 재작성
 - [x] 6. **reviews** — 목록·상세 포트
-- [ ] 7. **faq** — 4단계 화면 포트, `faq-registry`를 CMS 분류 기반으로 재작성
+- [x] 7. **faq** — 4단계 화면 포트, `faq-registry`를 CMS 분류 기반으로 재작성
 - [ ] 8. **seo** — `sitemap.xml` 인덱스·`sitemap-static.xml`·robots·JSON-LD·`docs/metadata-table.md`
 - [ ] 9. **provision**(사용자 참여) — ROOT-ADMIN 사이트 생성 → 모델 동기화 → API 키 Vercel 등록 → 웹훅 등록 → 글 1건씩 발행
 - [ ] 10. **release** — Playwright, production build, Aside 3폭 확인, `docs/TODO.md`·llm-wiki 기록. 승인 후 main push·배포
@@ -209,3 +209,71 @@ Aside REPL의 페이지 객체는 뷰포트를 바꿀 수 없어(창 1440×900 �
 본문 제목도 지시대로 `h1`(블로그·후기)이다. 본 사이트는 서브 페이지 제목을 `h2`로
 쓰므로, 본문 제목을 `h2`로 낮추거나 로고를 `div`로 바꾸는 선택이 남아 있다. 헤더는
 픽셀 재현 계약이 있어 이 단계에서 바꾸지 않았다.
+
+## 7단계 faq 결과 (2026-09-15)
+
+라우트: `/faq`, `/faq/{section}`, `/faq/{section}/{topic}`,
+`/faq/{section}/{topic}/{slug}`, `/faq-sitemap.xml`. 화면은 모두
+`MadiPageFrame`(배너 03, 제목 "자주 묻는 질문") 안이다. 구조(네 단계 URL·질문 성격
+필터·예약 내부 링크·관련 콘텐츠·250px 목차 사이드바)는 headnerve ADR-0006 그대로다.
+
+가져온 것: `src/features/faq/{faq-cache,faq-model,faq-wire,faq-registry,faq-api,
+faq-source,faq-sitemap,faq-revalidation,faq-detail-outline,faq-import,
+faq-sheet-import}.ts`, `{FaqPageFrame,FaqShared,FaqHomePage,FaqSectionPage,
+FaqTopicPage,FaqDetailPage}.tsx`, `styles/site/{faq,faq-detail,faq-responsive}.css`,
+`scripts/{import-faq-sheet,sync-faq-content}.ts`, package.json
+`cms:faq:sheet`·`cms:faq:sync`.
+
+headnerve와 다르게 한 것:
+
+- `faq-model.ts`: `FAQ_SECTION_SLUGS`(진료 영역 5개 상수)·`FaqSectionSlug`·
+  `isFaqSectionSlug`를 걷어냈다. `faq-registry.ts`의 headnerve 질환 콘텐츠
+  import(`features/disease/*`·`features/headache/*`)도 전부 없다. 진료 영역(1단계)·
+  세부 질환(2단계)은 CMS 모델(`fetchFaqModel`)과 공개 분류 API의 부모·자식 관계에서만
+  읽는다(PLAN.md §4.2). 코드에 분류 slug가 하나도 없다.
+- `faq-registry.ts`는 정적 표 대신 순수 변환(`faqTaxonomyFromCategories`)과 빈 폴백
+  원장(`fallbackFaqArchive = { source: 'fallback', entries: [] }`)만 갖는다.
+  `faqTopicsForEntries`(글에서 분류를 추론하던 경로)는 없앴다 — 분류의 권위가 CMS라
+  추론할 일이 없다.
+- `faq-api.ts`는 글 원장과 분류 트리를 한 응답·한 캐시로 함께 읽는다(`FaqCatalog`).
+  headnerve는 트리가 코드에 있어 글만 받았다.
+- `faq-wire.ts`의 분류 조회가 `description`·`seo_title`·`seo_description`도 읽는다.
+  영역·질환의 화면 문구와 SEO 문구가 모두 CMS에서 와야 한다.
+- 예약 키 역변환(`faqInternalLinkKeyFromPath`)은 4단계에서 둔 `faq-cache.ts` 한 곳이
+  소유하고 `faq-model`이 재수출한다. headnerve는 `faq-model`에서 정적 영역 목록으로
+  1단계를 걸렀다.
+- 빈 상태: `unconfigured`(키 없음)·`no-model`(모델 미선언)·`upstream`(CMS 장애)·분류
+  0건·발행 글 0건을 각각 다른 안내 문구로 구분한다(`faq-content.faqNotices`).
+  하위 단계(`/faq/...`)는 CMS를 읽을 수 없는 동안 404가 아니라 200 + 상태 안내
+  (`FaqStatePage`, `noindex, follow`)다 — 나중에 살아날 주소를 없다고 알리지 않는다.
+  없는 분류·없는 글은 CMS 성공 응답에서만 404다.
+- 화면: `SiteHeader`·`SiteClosing`(지도·푸터)·`ContentCafeLink`·본문 안 두 번째
+  브레드크럼은 쓰지 않는다. 영역 카드는 질환 도판 없이 `.commonBox` 표면
+  (`border-top: 1px --madi-primary` + `--madi-bg-panel`)과 `.cBox h4` 밑줄 문법이다.
+  의사 사진(`lee-jaesung`) 대신 이름 링크(`doctor-profile-link`)를 쓴다. 상세 하단은
+  칼럼·후기와 같은 `ClinicGuide` 진료 안내 박스다(headnerve의 `pattern_slots` 배치값
+  대신).
+- CSS: `--figma-*`·하드코딩 색·Pretendard를 전부 `--madi-*`·Noto Sans KR로 바꿨다.
+  왼쪽 강조선(`border-left: 2px`)은 마디 토큰에 없어 `.commonBox` 문법으로,
+  카드 라운드는 본 사이트처럼 사각으로 바꿨다. 반응형 경계는 760px → DESIGN.md §3의
+  980·660px이다.
+- 웹훅: 6단계에서 미뤄 둔 FAQ 역참조 무효화를 `api/revalidate/route.ts`에 연결했다
+  (`resolveFaqArchive({ fresh: true })` + `affectedFaqDetailPaths`). 칼럼·후기 웹훅은
+  FAQ 원장을 읽지 않는다(테스트로 고정).
+- `scripts/sync-faq-content.ts`는 정적 초기 원장이 비어 있어 즉시 안내 후 종료한다.
+  계획·충돌 판정(`faq-import.ts`)은 그대로 살려 뒀고 시트 가져오기
+  (`pnpm cms:faq:sheet`)를 안내한다. `scripts/faq-cms-api.ts`의 임시 타입 선언은
+  `features/faq/{faq-import,faq-wire}` import로 되돌렸다.
+- 테스트 픽스처: headnerve는 검수 FAQ 71건을 단정했다. 여기서는 CMS 분류 픽스처
+  (`faq-fixture.ts` — 영역 2개·세부 질환 3개·발행 글 4건)로 화면·사이트맵·목차·
+  웹훅을 덮는다.
+
+검증:
+
+- `pnpm typecheck` 통과
+- `pnpm test` 48파일 389케이스 통과(FAQ 13파일 104케이스)
+- `pnpm build` 통과(`/faq`·`/faq/[section]`·`/faq/[section]/[topic]`·
+  `/faq/[section]/[topic]/[slug]`·`/faq-sitemap.xml` 등록 확인)
+- `pnpm test:e2e` 13케이스 통과(`tests/faq.spec.ts` 4케이스 — 골격·390px·빈 상태·
+  사이트맵 503·라우트 밖 404)
+- `docs/metadata-table.md`에 `/faq` 네 단계 제목·설명을 적었다.
