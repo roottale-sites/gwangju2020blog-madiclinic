@@ -1,1 +1,11 @@
-.vercel
+node_modules/
+.next/
+.env*.local
+.vercel/
+tsconfig.tsbuildinfo
+*.tsbuildinfo
+test-results/
+playwright-report/
+_build/
+tmp/
+.DS_Store
