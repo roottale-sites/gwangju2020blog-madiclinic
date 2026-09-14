@@ -1,0 +1,347 @@
+/* 원본: http://gwangju2020.madiclinic.co.kr/css/baseStyle.css 2026-09-14 추출. 헤더 관련 규칙만, 값 무변경. 줄번호는 원본 기준 */
+
+/* ==== baseStyle.css L1-57: fonts ==== */
+﻿@charset "utf-8";
+
+@import url(http://fonts.googleapis.com/earlyaccess/notosanskr.css);
+/* font-family: 'Noto Sans KR', sans-serif; */
+/* Thin 250, Light 300, DemiLight 350, Regular 400, Medium 500, Bold 700, Black 900 */
+/* 100, 300,400, 500,700,900 */
+
+@font-face {
+	font-family: 'Noto Sans KR';
+	font-style: normal;
+	font-weight: 100;
+	src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.woff2) format('woff2'),	
+		url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.woff) format('woff'),
+		url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.otf) format('opentype');
+}
+@font-face {
+	font-family: 'Noto Sans KR';
+	font-style: normal;
+	font-weight: 300;
+	src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.woff2) format('woff2'),	
+		url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.woff) format('woff'),
+		url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.otf) format('opentype');
+}
+@font-face {
+	font-family: 'Noto Sans KR';
+	font-style: normal;
+	font-weight: 400;
+	src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Regular.woff2) format('woff2'),	
+		url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Regular.woff) format('woff'),
+		url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Regular.otf) format('opentype');
+}
+@font-face {
+	font-family: 'Noto Sans KR';
+	font-style: normal;
+	font-weight: 500;
+	src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.woff2) format('woff2'),	
+		url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.woff) format('woff'),
+		url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.otf) format('opentype');
+}
+@font-face {
+	font-family: 'Noto Sans KR';
+	font-style: normal;
+	font-weight: 700;
+	src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.woff2) format('woff2'),	
+		url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.woff) format('woff'),
+		url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.otf) format('opentype');
+}
+@font-face {
+	font-family: 'Noto Sans KR';
+	font-style: normal;
+	font-weight: 900;
+	src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.woff2) format('woff2'),	
+		url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.woff) format('woff'),
+		url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.otf) format('opentype');
+}
+
+/* @import url('https://fonts.googleapis.com/css?family=Nanum+Myeongjo&display=swap'); */
+
+/* ==== baseStyle.css L60-70: base body ==== */
+html, body {position: relative; width: 100%; height: 100%; margin: 0px auto; padding: 0;}
+body, div, ul, li, dl, dt, dd, ol, p, h1, h2, h3, h4, h5, h6, table, form {margin: 0; padding: 0; border: 0;}
+
+body {
+	position: relative;
+	font-family: 'Noto Sans KR', 'Nanum Gothic', 'Malgun Gothic', '맑은 고딕', sans-serif; word-break: keep-all; /* word-break: break-all; */ word-wrap: break-word;
+	font-size : 16px; font-weight: 400; color: #444;
+	background-color : #fff;
+
+	min-width: 320px;
+}
+
+/* ==== baseStyle.css L134-135: clearFix ==== */
+.clearFix:after {content:""; display: block; clear: both;} /* 부모창에 자식창의 높이를 알려주는 권장방법 */
+.clearFix {*zoom: 1;} /* IE5.5 ~ 7 브라우저 대응 핵 */
+
+/* ==== baseStyle.css L158-161: skipBind ==== */
+#skipBind {position: relative; top: 0; left: 0; width: 100%; height: 0px; z-index: 9999;}
+#skipBind > li {height: 0; line-height: 0; font-size: 0;}
+#skipBind > li > a {position: absolute; top: 0; left: 0; display: block; width: 100%; height: 0; margin: 0; line-height: 0px; font-size: 14px; color: #fff; text-align: center; overflow: hidden; background-color: #222;}
+#skipBind > li > a:focus {height: 40px; overflow: visible;}
+
+/* ==== baseStyle.css L165-378: header ==== */
+	#pageBlack {position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.8); z-index: -1; opacity: 0; transition: all 0.5s;}
+	#naviBlack {position: fixed; top: 0; right: -100%; width: 100%; height: 100%; background-color: rgba(0,0,0,0.8); z-index: -1; transition: all 0.5s;}
+
+	/* Top Header Start */
+	#header {position: fixed; top: 0; left: 0; width: 100%; height: 140px; z-index: 999;}
+	#header > .headerFix {
+		position: relative; top: 0px; width: 100%; height: 140px; margin: 0 auto; z-index: 100; box-sizing: border-box; border-bottom: 0px rgba(255,255,255,0.3) solid;
+		background-color: rgba(255,255,255,1.0);
+		box-shadow: 0 1px 3px 2px rgba(0,0,0,0.1);
+		transition: all 0.3s;
+	}
+
+	#header .headerFix .topLineArea {display: block; width: 100%; height: 40px; box-sizing: border-box; border-bottom: 1px #eee solid; background-color: #e5e5e5;}
+	#header .headerFix .topLineArea .topLineBox {position: relative; display: block; margin: 0 auto; width: 100%; max-width: 1200px; height: 100%;}
+
+	#header .headerFix .topLineArea .topLineBox > ul.contact {position: absolute; top: 0; left: 0; width: 360px; height: 40px; box-sizing: border-box; z-index: 1; background-color: #cecece;}
+	#header .headerFix .topLineArea .topLineBox > ul.contact > li {float: left; display: block; width: 80px; height: 100%; box-sizing: border-box; border-right: 1px rgba(255,255,255,0.2) solid;}
+	#header .headerFix .topLineArea .topLineBox > ul.contact > li:nth-child(n+3) {width: 100px;}
+	#header .headerFix .topLineArea .topLineBox > ul.contact > li:nth-child(4) {border-right: 0px;}
+	#header .headerFix .topLineArea .topLineBox > ul.contact > li > a {display: block; width: 100%; height: 100%; line-height: 40px; font-size: 13px; font-weight: 400; color: #fff; text-align: center; text-decoration: none; transition: all 0.3s;}
+	#header .headerFix .topLineArea .topLineBox > ul.contact > li > a.on,
+	#header .headerFix .topLineArea .topLineBox > ul.contact > li > a:hover {color: #fff; background-color: #2e60a1;}
+
+
+	#header .headerFix .topLineArea .topLineBox ul.topLink {position: absolute; top: 0; right: 0; width: 200px; height: 40px; box-sizing: border-box; padding: 0; line-height: 40px; text-align: center; overflow: hidden; background-color: #cecece; z-index: 1; transition: all 0.3s;}
+	#header .headerFix .topLineArea .topLineBox ul.topLink > li {float: left; display: block; margin-left: 0; width: 40px; height: 40px; box-sizing: border-box; padding: 5px;}
+	#header .headerFix .topLineArea .topLineBox ul.topLink > li > a {display: block; width: 100%; height: 100%; line-height: 30px; font-size: 9px; font-weight: 500; color: #fff; text-align: center; border-radius: 50%; transition: all 0.3s;}
+	#header .headerFix .topLineArea .topLineBox ul.topLink > li > a {background: url('../img/iconTopLineHome.png') center center no-repeat; background-color: rgba(255,255,255,0.0); background-size: 90%;}
+	#header .headerFix .topLineArea .topLineBox ul.topLink > li > a.home {background-image: url('../img/iconTopLineHome.png');}
+	#header .headerFix .topLineArea .topLineBox ul.topLink > li > a.inquiry {background-image: url('../img/iconTopLineInquiry.png');}
+	#header .headerFix .topLineArea .topLineBox ul.topLink > li > a.naver {background-image: url('../img/iconTopLineNaver.png');}
+	#header .headerFix .topLineArea .topLineBox ul.topLink > li > a.kakao {background-image: url('../img/iconTopLineKakao.png');}
+	#header .headerFix .topLineArea .topLineBox ul.topLink > li > a.instagram {background-image: url('../img/iconTopLineInstagram.png');}
+	#header .headerFix .topLineArea .topLineBox ul.topLink > li > a.youtube {background-image: url('../img/iconTopLineYouTube.png');}
+	#header .headerFix .topLineArea .topLineBox ul.topLink > li > a:hover {background-color: rgba(46,96,161,0.7);}
+
+	#header .headerFix > .naviArea {position: relative; width: 100%; max-width: 1200px; height: 100px; margin: 0px auto 0;}
+	#header .headerFix > .naviArea .ci {position: absolute; top: 0; left: 0; width: 240px; height: 100px; box-sizing: border-box; padding: 20px 0; line-height: 60px; text-align: center; overflow: hidden; z-index: 1; transition: all 0.3s;}
+	#header .headerFix > .naviArea .ci > a {display: block; width: 100%; height: 100%;}
+	#header .headerFix > .naviArea .ci > a img {float: left; width: 100%; height: auto;}
+
+	/* for Mobile Start */
+	/* #header .naviArea .naviToggle {position: absolute; top: 15px; right: 20px; display: none; width: 30px; height: 30px; z-index: 1; background-image: url('../img/naviToggle.png'); background-position: 0 0; background-color: rgba(0,0,0,0); transition: all 0.3s;} */
+	#naviToggle {position: absolute; top: 10px; right: 10px; display: none; width: 60px; height: 60px; border-radius: 50%; background: rgba(200,200,200,0.8); z-index: 2; transition: all  0.3s;}
+	#naviToggle.on {background-color: rgba(46,96,161,0.8);} /* rgba(226,26,37,0.7) */
+	@media (hover: hover) {
+		#naviToggle:hover {background-color: rgba(46,96,161,1.0);} /* rgba(226,26,37,1.0) */
+	}
+	#naviToggle #line-wrapper {position: relative; top: 20px; left: 0; right: 0; margin: 0 auto; width: 30px; height: 20px;}
+	#naviToggle #line-wrapper .init {animation: none !important;}
+	#naviToggle #line-wrapper .line {margin-bottom: 7px; width: 30px; height: 2px; background: #ffffff;}
+	#naviToggle #line-wrapper .line-top {animation: line-top .5s forwards ease-out, line-top-rotate .3s .5s forwards ease-out;}
+	#naviToggle #line-wrapper .top-reverse {animation: line-top-rotate-reverse .3s forwards ease-out, line-top-reverse .5s .3s forwards ease-out;}
+	#naviToggle #line-wrapper .line-mid {animation: line-mid .5s forwards ease-out;}
+	#naviToggle #line-wrapper .mid-reverse {animation: line-mid-invisible .3s forwards ease-out, line-mid-reverse .5s .3s forwards ease-out;}
+	#naviToggle #line-wrapper .line-bot {animation: line-bot .5s forwards ease-out, line-bot-rotate .3s .5s forwards ease-out;}
+	#naviToggle #line-wrapper .bot-reverse {animation: line-bot-rotate-reverse .3s forwards ease-out, line-bot-reverse .5s .3s forwards ease-out;}
+	@keyframes line-top {
+		0% {transform: translateY(0px)}
+		100% {transform: translateY(9px)}
+	}
+	@keyframes line-top-reverse {
+		0% {transform: translateY(9px)}
+		100% {transform: translateY(0px)}
+	}
+	@keyframes line-top-rotate {
+		0% {transform:translateY(9px) rotateZ(0deg)}
+		100% {transform:translateY(9px) rotateZ(45deg)}
+	}
+	@keyframes line-top-rotate-reverse {
+		0% {transform:translateY(9px) rotateZ(45deg)}
+		100% {transform:translateY(9px) rotateZ(0deg)}
+	}
+	@keyframes line-mid {
+		0% {transform:scale(1)}
+		100% {transform:scale(0)}
+	}
+	@keyframes line-mid-reverse {
+		0% {transform:scale(0)}
+		100% {transform:scale(1)}
+	}
+	@keyframes line-mid-invisible {
+		0% {transform:scale(0)}
+		100% {transform:scale(0)}
+	}
+	@keyframes line-bot {
+		0% {transform:translateY(0px)}
+		100% {transform:translateY(-9px)}
+	}
+	
+	@keyframes line-bot-reverse {
+		0% {transform:translateY(-9px)}
+		100% {transform:translateY(0px)}
+	}
+	@keyframes line-bot-rotate {
+		0% {transform:translateY(-9px) rotateZ(0deg)}
+		100% {transform:translateY(-9px) rotateZ(135deg)}
+	}
+	@keyframes line-bot-rotate-reverse {
+		0% {transform:translateY(-9px) rotateZ(135deg)}
+		100% {transform:translateY(-9px) rotateZ(0deg)}
+	}
+	#header .naviArea .mobileHome {position: fixed; top: 0; right: -320px; display: none; margin-top: 40px; width: 270px; height: 80px; box-sizing: border-box; padding: 20px 20px; border-bottom: 0px #eee solid; z-index: 11; background: url('../img/bgMobileNavi.png') center top no-repeat rgba(0,0,0,0.60);}
+	#header .naviArea .mobileHome > .logo {float: left; display: block; width: 160px; height: 40px; box-sizing: border-box; padding: 0 0;}
+	#header .naviArea .mobileHome > .logo > a {display: block; width: 100%; height: 100%; box-sizing: border-box; padding:  0;}
+	#header .naviArea .mobileHome > .logo > a > img {display: block; width: 100%; vertical-align: top;}
+	/* for Mobile End */
+
+	#gnb,
+	#header .headerFix .naviArea .menuNavi {position: absolute; top: 0; right: 220px; width: 520px; height: 100px; z-index: 1; transition: all 0.3s;}
+	#header .headerFix .naviArea .menuNavi > li {position: relative; float: left; width: 120px; height: 100px; transition: all 0.3s;}
+	#header .headerFix .naviArea .menuNavi > li:nth-child(4) {width: 160px;}
+	#header .headerFix .naviArea .menuNavi > li > a {position: absolute; top: 0; left: 0; display: block; width: 100%; height: 100%; box-sizing: border-box; padding: 30px 0; line-height: 40px; font-size: 18px; font-weight: 500; text-align: center; letter-spacing: 0; text-decoration: none; color: #555; z-index: 1; }
+	#header .headerFix .naviArea .menuNavi > li > a:hover,
+	#header .headerFix .naviArea .menuNavi > li.fix > a,
+	#header .headerFix .naviArea .menuNavi > li.on > a,
+	#header .headerFix .naviArea .menuNavi > li.on > a:hover {color: rgba(0,0,0,1.0);} 
+	#header .headerFix .naviArea .menuNavi > li > .menuLine {position: absolute; top: 30px; left: 0; right: 0; margin: 0 auto; display: block; width: 0; height: 1px; line-height: 0; font-size: 0; z-index: 1; background-color: rgba(19,181,177,0.0); transition: all 0.6s;}
+	#header .headerFix .naviArea .menuNavi > li.fix > .menuLine,
+	#header .headerFix .naviArea .menuNavi > li:hover > .menuLine {width: 60px; background-color: rgba(89,113,176,0.6);} /* rgba(46,96,161,1.0) */
+	/*
+	#header .headerFix .naviArea .menuNavi > li > a.subHave {background: url('../img/selectDown01.png') right center no-repeat;}
+	#header .headerFix .naviArea .menuNavi > li.on > a.subHave {background-image: url('../img/selectUp01.png')}
+	*/
+
+	#header .headerFix .naviArea .officialWeb {position: absolute; top: 30px; bottom: auto; right: 0; margin: 0 auto; width: 200px; height: 40px; z-index: 1; transition: all 0.3s;}
+	#header .headerFix .naviArea .officialWeb > a {display: block; width: 100%; max-width: 200px; height: 100%; border-radius: 20px; overflow: hidden; line-height: 40px; font-size: 14px; font-weight: 700; color: #fff; letter-spacing: -0.5px; text-align: left; text-decoration: none; background-color: #08539d; transition: all 0.3s;}
+	#header .headerFix .naviArea .officialWeb > a > span {float: left; display: inline-block; margin: 3px; width: 34px; height: 34px; border-radius: 50%; background: url('../img/iconLogoCenter.png') center center no-repeat; background-size: 90%; background-color: rgba(255,255,255,0.3); transition: all 0.3s;}
+
+	#header .naviArea .menuNavi li .subMenu {
+		position: absolute; display: none;
+		top: 80px; left: 0px; width: 100%; height: auto; padding: 20px 0; z-index: 10;;
+		border-radius: 0;
+		box-shadow: 1px 1px 4px 2px rgba(0,0,0,0.1);
+		background-color: rgba(145,37,195,0.8);
+		border-top: 0 #fff solid;
+	}
+
+	/* #header .headerFix .naviArea .menuNavi li:last-child > .subMenu {left: auto; right: 0;} */
+	#header .headerFix .naviArea .menuNavi li>.subMenu>li {float: left; display: block; width: 100%;}
+	#header .headerFix .naviArea .menuNavi li>.subMenu>li>a {float: left; display: block; box-sizing: border-box; padding: 10px; width: 100%; line-height: 20px; font-size: 14px; font-weight: 400; color: #fff; text-align: center; background-image: none; transition: all 0.3s;}
+	#header .headerFix .naviArea .menuNavi li>.subMenu>li>a:hover,
+	#header .headerFix .naviArea .menuNavi li>.subMenu>li:hover {color: #fff; text-decoration: none; background-color: rgba(0,0,0,0.3); transition: all 0.3s;}
+	/* #header .headerFix .naviArea .menuNavi li>.subMenu>li.topLine {position: absolute; top: 0; left: 20px; display: block; width: calc(100% - 40px); height: 1px; line-height: 0; font-size: 0; box-sizing: border-box; background-color: rgba(255,255,255,0.6); z-index: 1;} */
+	@media screen and (max-width: 1220px) {
+		/*
+		#header .headerFix .naviArea .menuNavi {width: 480px; transform: translateX(-40px)}
+		#header .headerFix .naviArea .menuNavi > li {width: 120px;}
+		*/
+		#header .headerFix .naviArea .officialWeb {right: 10px; width: 190px;}
+	}
+	@media screen and (max-width: 980px) {
+		#header {height: 120px; transition: all 0.3s;}
+		#header .headerFix {height: 120px !important; background-color: rgba(0,0,0,0.2); transition: all 0.3s;}
+
+		#naviToggle {display: block; border: 0; z-index: 11; transition: all 0.3s}
+
+		#header .headerFix > .naviArea {position: relative; width: 100%; height: 80px; margin: 0px auto 0;}
+		#header .headerFix > .naviArea > .mobileHome {display: block;}
+		#header .headerFix > .naviArea .ci {left: 10px; width: 160px; height: 80px; padding: 20px 0;}
+
+		#header .headerFix .topLineArea .topLineBox ul.topLink  {right: 100px; padding: 20px 0;}
+		#header .headerFix .topLineArea .topLineBox ul.topLink  {position: fixed; top: 0; left: auto; right: -270px; display: block; transform: translateX(0); width: 100%; max-width: 270px; min-width: 200px; margin-top: 0; height: 40px; box-sizing: border-box; padding: 0px 10px 0px;  z-index: 11; background-color: rgba(0,0,0,0.3);}
+
+		#header .headerFix .naviArea .menuNavi {display: none;}
+		#header .headerFix .naviArea .menuNavi {position: fixed; top: 60px; left: auto; right: -270px; display: none; transform: translateX(0); width: 100%; max-width: 270px; min-width: 200px; margin-top: 60px; height: calc(100% - 180px); box-sizing: border-box; padding: 20px 30px 20px;  z-index: 10; overflow-y: scroll; background-color: #fff;}
+		#header .headerFix .naviArea .menuNavi > li:nth-child(n) {position: relative; display: block; list-style: none; width: 100%; height: auto; min-height: 60px; transition: all 0.3s;}
+		#header .headerFix .naviArea .menuNavi > li:nth-child(n) > a {position: relative; display: block; width: 100%; height: 100%; min-height: 60px; line-height: 40px; text-align: left; font-size: 16px; font-weight: 400; color: #444; box-sizing: border-box; padding: 10px 0 9px; border-bottom: 1px #eee solid; transition: all 0.3s;}
+		#header .headerFix .naviArea .menuNavi > li:last-child > a {border: 0;}
+		#header .headerFix .naviArea .menuNavi > li:last-child > .subMenu > li > a {text-align: left;}
+		#header .headerFix .naviArea .menuNavi > li > span,
+		#header .headerFix .naviArea .menuNavi > li:last-child > span {height: 100%; background: none;}
+		#header .headerFix .naviArea .menuNavi > li.fix > a,
+		#header .headerFix .naviArea .menuNavi > li.fix,
+		#header .headerFix .naviArea .menuNavi > li.on,
+		#header .headerFix .naviArea .menuNavi > li:hover {color: #222; background-color: #fff;}
+		#header .headerFix .naviArea .menuNavi > li.on {color: #222;}
+
+		#header .headerFix .naviArea .menuNavi > li > a:hover,
+		#header .headerFix .naviArea .menuNavi > li.on > a,
+		#header .headerFix .naviArea .menuNavi > li.on > a:hover {font-weight: 500; color: #000; background-color: rgba(0,0,0,0.0);}
+
+		#header .headerFix .naviArea .menuNavi > li > .subMenu {position: relative; float: left; top: -2px; display: none; width: 100%; margin-top: 0; padding: 0; border-top: 2px #704443 solid; border-radius: 0;}
+		#header .headerFix .naviArea .menuNavi > li:nth-child(n) > .subMenu {left: 0px; width: 100%;}
+		#header .headerFix .naviArea .menuNavi > li > .subMenu > li {float: left; display: block; width: 100%; min-height: 40px; font-weight: 400; line-height: 40px; box-sizing: border-box; padding: 0; border-bottom: 1px rgba(255,255,255,0.2) solid;}
+
+		#header .headerFix .naviArea .menuNavi > li > .subMenu > li > a {width: 100%; font-size: 13px; font-weight: 300; text-align: left; line-height: 39px; color: #fff; padding: 0 0 0 20px; letter-spacing: 0.5px; background-image: none;}
+		#header .headerFix .naviArea .menuNavi > li > .subMenu > li > a:hover,
+		#header .headerFix .naviArea .menuNavi > li > .subMenu > li:hover {color: #fff; text-decoration: none;}
+
+		#header .headerFix .naviArea .menuNavi > li > .subMenu > li.topLine {display: none;}
+		#header .headerFix .naviArea .menuNavi > li > .subMenu {box-shadow: 0 0 0 0;}
+
+		#header .headerFix .naviArea .menuNavi > li > .menuLine {top: 29px; left: auto; right: 0;}
+
+		#header .headerFix .naviArea .officialWeb {display: none;}
+		#header .headerFix .naviArea .officialWeb {position: fixed; top: auto; bottom: 0; right: 0; width: 100%; max-width: 270px; height: 60px; box-sizing: border-box; padding: 10px 30px; background-color: #f0f0f0; z-index: 10;}
+	}
+	@media screen and (max-width: 660px) {
+	}
+	@media screen and (max-width: 420px) {
+		#header .headerFix .topLineArea .topLineBox > ul.contact {width: 320px;}
+		#header .headerFix .topLineArea .topLineBox > ul.contact > li {width: 70px;}
+		#header .headerFix .topLineArea .topLineBox > ul.contact > li:nth-child(n+3) {width: 90px;}
+		#header .headerFix .topLineArea .topLineBox > ul.contact > li > a {font-size: 12px;}
+	}
+	/* Top Header End */
+
+	/* Response Box Start */
+	.responseArea {position: relative; width: 100%; height: auto; margin: 0 auto; padding: 0;}
+
+	.r02Area {position: relative; width: 100%; height: auto; margin: 0 auto; padding: 0;}
+	.r02Area .r02Box {position: relative; float: left; display: block; width: 50%; height: auto; margin: 0; padding: 0; transition: all 0.3s;}
+	@media screen and (max-width: 980px) {
+
+/* ==== baseStyle.css L455-500: slideanim ==== */
+	.slideanim,
+	.slideanim2,
+	.slideanim3,
+	.slideanim4 {visibility: hidden;}
+
+	.slideUp {animation-name: slide; -webkit-animation-name: slide; animation-duration: 1.0s; -webkit-animation-duration: 1.0s; visibility: visible;}
+	@keyframes slide {
+		0% {opacity: 0; transform: translateY(70%);} 
+		100% {opacity: 1; transform: translateY(0%);}
+	}
+	@-webkit-keyframes slide {
+		0% {opacity: 0; -webkit-transform: translateY(70%);} 
+		100% {opacity: 1; -webkit-transform: translateY(0%);}
+	}
+
+	.slideLeft {animation-name: slide2; -webkit-animation-name: slide2; animation-duration: 1.0s; -webkit-animation-duration: 1.0s; visibility: visible;}
+	@keyframes slide2 {
+		0% {opacity: 0; transform: translateX(70%);} 
+		100% {opacity: 1; transform: translateX(0%);}
+	}
+	@-webkit-keyframes slide2 {
+		0% {opacity: 0; -webkit-transform: translateX(70%);} 
+		100% {opacity: 1; -webkit-transform: translateX(0%);}
+	}
+
+	.slideRight {animation-name: slide3; -webkit-animation-name: slide3; animation-duration: 1.0s; -webkit-animation-duration: 1.0s; visibility: visible;}
+	@keyframes slide3 {
+		0% {opacity: 0; transform: translateX(-600%);} 
+		100% {opacity: 1; transform: translateX(0%);}
+	}
+	@-webkit-keyframes slide3 {
+		0% {opacity: 0; -webkit-transform: translateX(-600%);} 
+		100% {opacity: 1; -webkit-transform: translateX(0%);}
+	}
+
+	.slideDown {animation-name: slide4; -webkit-animation-name: slide4; animation-duration: 1.0s; -webkit-animation-duration: 1.0s; visibility: visible;}
+	@keyframes slide4 {
+		0% {opacity: 0; transform: translateY(-60px);} 
+		100% {opacity: 1; transform: translateY(0%);}
+	}
+	@-webkit-keyframes slide3 {
+		0% {opacity: 0; -webkit-transform: translateY(-60px);} 
+		100% {opacity: 1; -webkit-transform: translateY(0%);}
+	}
+	/* Up Slideanimate */
+
