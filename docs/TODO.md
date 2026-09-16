@@ -13,7 +13,10 @@
 - [x] 6. **reviews** — 목록·상세 포트
 - [x] 7. **faq** — 4단계 화면 포트, `faq-registry`를 CMS 분류 기반으로 재작성
 - [x] 8. **seo** — `sitemap.xml` 인덱스·`sitemap-static.xml`·robots·JSON-LD·`docs/metadata-table.md`
-- [ ] 9. **provision**(사용자 참여) — ROOT-ADMIN 사이트 생성 → 모델 동기화 → API 키 Vercel 등록 → 웹훅 등록 → 글 1건씩 발행
+- [ ] 9. **provision**(진행 중, 2026-09-16) — 사용자가 테넌트 생성. Aside로 ROOT-ADMIN 사이트 `gwangju2020-blog-madiclinic`(site id `01a09f2d-1113-7bf4-ab3a-b18e2ef62839`, tenant id `01a09eeb-bd8d-7390-aac8-ddacc5b69b91`) 확인, 웹훅 `https://gwangju2020blog.madiclinic.co.kr/api/revalidate` 등록, 읽기 전용 사이트 키 `vercel-gwangju2020blog` 발급. `content-model:sync --apply` 완료(models faq·column·reviews, fieldGroups 1, categories 0). Vercel env: `ROOTTALE_API_BASE`·`ROOTTALE_MEDIA_ORIGIN`·`NEXT_PUBLIC_ROOTTALE_SITE_ID` 3환경 등록, `vercel.json` framework nextjs.
+  - [ ] `ROOTTALE_API_KEY`를 Vercel(Sensitive, 3환경)에 저장 — Aside 브라우저에 Vercel 로그인이 없어 보류. 로그인 후 Aside 세션 재개 또는 사용자가 ROOT-ADMIN 키 복사 → Vercel 붙여넣기.
+  - [ ] ROOT-ADMIN에서 칼럼 1단계 분류, FAQ 진료 영역(1단계)·세부 질환(2단계) 분류 생성(값은 고객·사용자 결정)
+  - [ ] 글 1건씩 발행 → 실데이터 화면·웹훅 60초 내 갱신 확인
 - [ ] 10. **release** — Playwright, production build, Aside 3폭 확인, `docs/TODO.md`·llm-wiki 기록. 승인 후 main push·배포
 
 ## 헤더 픽셀 diff 결과 (2026-09-15)
