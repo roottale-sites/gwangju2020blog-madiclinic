@@ -74,6 +74,19 @@ function cmsConfig(): FaqWireConfig | null {
 }
 
 /**
+ * 비밀값 게이트는 모든 캐시 바깥에 있어야 한다.
+ *
+ * `unstable_cache` 엔트리는 배포·환경변수와 무관하게 디스크(`.next/cache`)에 남는다.
+ * 게이트를 캐시 안에 두면 키가 있던 실행이 만든 엔트리가 키를 빼고 띄운 실행에서
+ * 그대로 되살아난다(로컬에서 목 CMS로 한 번 돌린 뒤 키 없이 띄웠을 때 실측).
+ * 상세 캐시(`faq-source.resolveFaqDetailCollection`)도 이 판정을 먼저 본다 —
+ * 칼럼(`column-api.ts`)과 같은 규칙이다.
+ */
+export function isFaqCmsConfigured(): boolean {
+  return cmsConfig() !== null;
+}
+
+/**
  * 캐시되는 fetcher는 비밀값을 인자로 받지 않는다 — `unstable_cache`가 인자에서
  * 캐시 키를 파생시키므로 API 키가 캐시 키 공간으로 들어간다. 공개 로더가 이미
  * 게이트를 통과시켰으므로 여기서는 설정이 반드시 존재한다(칼럼과 같은 규칙).

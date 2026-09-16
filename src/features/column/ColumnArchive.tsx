@@ -66,7 +66,7 @@ export default async function ColumnArchive({
         ]}
       />
       <div className="cBox column-page clearFix">
-        <h1 className="column-page__title">{columnIndexMetadata.label}</h1>
+        <h2 className="column-page__title">{columnIndexMetadata.label}</h2>
         <ColumnSourceNotice status={archive.status} />
         <div className="column-list">
           <div className="column-shell">

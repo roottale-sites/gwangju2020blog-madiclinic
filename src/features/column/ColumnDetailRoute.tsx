@@ -118,7 +118,7 @@ export function ColumnDetailView({
           <div className="column-shell">
             <div className="column-detail__surface">
               <header className="column-detail__header">
-                <h1>{entry.title}</h1>
+                <h2>{entry.title}</h2>
                 <div className="column-detail__header-foot">
                   <p className="column-detail__byline">
                     <span>

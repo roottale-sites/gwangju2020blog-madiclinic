@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 
 import '../../styles/site/faq.css';
-import '../../styles/site/faq-responsive.css';
 import FaqHomePage from '../../features/faq/FaqHomePage';
 import { faqIndexMetadata } from '../../features/faq/faq-content';
 import { resolveFaqCollection } from '../../features/faq/faq-source';

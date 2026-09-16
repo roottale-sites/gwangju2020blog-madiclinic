@@ -11,6 +11,8 @@
  *     마디 토큰에는 왼쪽 강조선이 없다(DESIGN.md §5).
  *   - 사이드바의 질환 안내 버튼(`.faq-disease-link`)은 질환 라우트가 없어 뺐다.
  *   - 상세 제목은 본문 제목 계층상 h2이고, 본문 섹션 제목은 h3다.
+ *   - 반응형 규칙을 별도 시트로 나누지 않고 이 파일 끝에 둔다(`faq.css` 머리말의
+ *     이유 — Next가 이 시트를 반응형 시트보다 뒤에 놓아 `@media` 덮어쓰기가 밀린다).
  */
 
 .faq-detail {
@@ -248,4 +250,39 @@
 .faq-related a:hover {
   background-color: var(--madi-bg-soft);
   color: var(--madi-text-strong);
+}
+
+/* ==== 반응형 ==== */
+
+@media screen and (max-width: 980px) {
+  .faq-detail {
+    max-width: none;
+  }
+
+  .faq-question-card__header,
+  .faq-answer-card__header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .faq-answer-card__header > span {
+    white-space: normal;
+  }
+}
+
+@media screen and (max-width: 660px) {
+  .faq-question-card {
+    padding: var(--madi-space-3);
+  }
+
+  .faq-detail__title {
+    font-size: var(--madi-fs-h3);
+    line-height: 34px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .faq-related a {
+    transition: none;
+  }
 }

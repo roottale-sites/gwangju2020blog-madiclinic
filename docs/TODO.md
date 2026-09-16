@@ -220,7 +220,7 @@ Aside REPL의 페이지 객체는 뷰포트를 바꿀 수 없어(창 1440×900 �
 가져온 것: `src/features/faq/{faq-cache,faq-model,faq-wire,faq-registry,faq-api,
 faq-source,faq-sitemap,faq-revalidation,faq-detail-outline,faq-import,
 faq-sheet-import}.ts`, `{FaqPageFrame,FaqShared,FaqHomePage,FaqSectionPage,
-FaqTopicPage,FaqDetailPage}.tsx`, `styles/site/{faq,faq-detail,faq-responsive}.css`,
+FaqTopicPage,FaqDetailPage}.tsx`, `styles/site/{faq,faq-detail}.css`,
 `scripts/{import-faq-sheet,sync-faq-content}.ts`, package.json
 `cms:faq:sheet`·`cms:faq:sync`.
 
@@ -308,3 +308,109 @@ headnerve와 다르게 한 것:
 
 검증: `pnpm typecheck` 통과, `pnpm test` 49파일 392케이스 통과, `pnpm build` 통과
 (`/sitemap.xml`·`/sitemap-static.xml` 등록 확인), `pnpm test:e2e` 19케이스 통과.
+
+## 정리 작업 (2026-09-15)
+
+### 1. h1 중복 해소
+
+헤더 로고가 본 사이트 그대로 `h1.ci`(데스크톱)·`h1.logo`(모바일 드로어)이고 그
+마크업은 2단계의 1px 재현 계약이라 바꾸지 않았다. 대신 본문 제목을 본 사이트 서브
+페이지와 같이 `h2`로 낮췄다.
+
+- 목록: `ColumnArchive`·`ColumnCategoryPage`·`/reviews`·FAQ(`FaqCollectionIntro`)
+- 상세: `ColumnDetailRoute`·`ColumnPreviewRoute`·`/reviews/{slug}`·FAQ(`.faq-detail__title`)
+- 상태 화면: `/reviews/{slug}` 오류·`not-found`·`FaqStatePage`
+- CSS 선택자(`.column-detail__header h1` → `h2`, `.review-detail__header h1` → `h2`,
+  `.reviews-state h1, h2` → `h2`)와 Playwright 단정(`level: 1` → `level: 2` +
+  `main#main h1` 0건)도 함께 고쳤다. 글자 크기는 옮겨 온 값 그대로다.
+
+배너 제목은 이미 `h2`(본 사이트 `#bnSubArea .sbn > h2`)이고 본문 제목과 같은 등급이
+둘이 되는 것은 허용 범위다(본 사이트도 배너 h2 + 본문 h2~h3). FAQ는 새로 쓰는
+코드라 본문 섹션 제목을 `h3`으로 한 단계 더 낮췄다.
+
+### 2. 미사용 컴포넌트 삭제
+
+`src/components/site/{SiteBreadcrumb,BreadcrumbJsonLd}.tsx`를 지웠다. 4단계에서
+headnerve에서 가져왔지만 이 저장소의 브레드크럼은 `MadiBreadcrumb`(본 사이트
+`.whereIsLine` 문법 + `BreadcrumbList` JSON-LD)이고 FAQ도 그것을 쓴다. 사용처가
+하나도 없었다(`grep` 확인).
+
+## 실브라우저 확인 (2026-09-15, Aside)
+
+production build를 `/faq`·`/column`·`/reviews`에서 1440·390px로 확인했다. FAQ 네
+단계는 로컬 목 CMS(QA 전용, 운영 키 미사용)를 붙여 실데이터 화면까지 봤다.
+캡처·하니스·목 서버: `~/workspace/output/gwangju2020blog-madiclinic/2026-09-15-phase-b2/`
+(커밋 제외, `README.md`에 방법과 측정값).
+
+| 페이지 | 폭 | 헤더 | 서브 배너 | 브레드크럼 | main | 가로 스크롤 |
+|---|---|---|---|---|---|---|
+| `/faq` | 1440 | 0~140 | 0~300 | 300~360 | 360~ | 없음 |
+| `/faq` | 390 | 0~120 | 0~200 | 200~260 | 260~ | 없음 |
+| `/column`·`/reviews` | 1440·390 | 같음 | 같음 | 같음 | 같음 | 없음 |
+| FAQ 영역·질환·상세 | 1440·390 | 같음 | 같음 | 같음 | 같음 | 없음 |
+
+- 모든 화면에서 `main` 안 `h1`은 0개다(헤더 로고 2개만 `h1`).
+- 브레드크럼 띠 좌표·폭이 1440/1220/980/768px에서 `main`과 같다. 390px FAQ 상세만
+  칸이 넘쳐 띠 안에서 가로로 흐른다.
+
+### 이 확인에서 찾아 고친 것
+
+1. **브레드크럼 float 넘침** — 칸은 140px 고정 float라 FAQ 상세(홈+5칸=740px)가
+   390px에서 줄을 넘었고, 60px 띠 밖으로 흘러 본문이 그 float를 피해 오른쪽으로
+   밀렸다(본문 폭 370 → 90px). `styles/madi/patterns.css`에서 띠를 가로 스크롤
+   컨테이너로 바꿨다(`min-width: min(100%, 1200px)` — 칸이 다 들어가는 폭에서는
+   원본과 같은 좌표다).
+2. **`.faq-layout`의 margin이 빠져나감** — `.cBox`의 `padding-top`이 ≤980px에서 0이라
+   (원본 값) 상세 화면에서 `margin-top: 40px`이 `main`까지 타고 나가 본문 전체를
+   밀었다. `padding-top`으로 바꿨다.
+3. **반응형 시트가 밀림** — headnerve의 `faq-responsive.css`를 따로 두니 Next가
+   `faq-detail.css`를 그 뒤에 놓아 `@media` 덮어쓰기가 기본값에 밀렸다(390px에서
+   `align-items: flex-start` 미적용). 반응형 규칙을 기본 규칙과 같은 파일로 합치고
+   그 시트를 지웠다. headnerve는 세 시트를 한 배럴에서 같은 순서로 불러 문제가
+   없었지만, 이 저장소는 라우트마다 필요한 시트만 부른다.
+4. **상세 캐시가 비밀값 게이트를 건너뜀** — 목 CMS로 한 번 띄운 뒤 키 없이 띄우니
+   `unstable_cache` 엔트리(`.next/cache`)가 되살아나 목 데이터가 그대로 나왔다.
+   `resolveFaqDetailCollection`이 캐시보다 먼저 `isFaqCmsConfigured()`를 보게 고쳤다
+   (칼럼 `column-api.ts`와 같은 규칙). 회귀 테스트를 넣었다.
+
+### 남은 것
+
+- 칼럼·후기 상세, FAQ 실데이터 화면은 ROOT-ADMIN 실데이터로 다시 봐야 한다(9단계).
+- `layout.tsx`의 `#5bbad5`(safari mask-icon)·`#ffffff`(themeColor)는 브랜드 파비콘
+  세트 값이자 Next `Viewport` 타입이 리터럴을 요구하는 자리라 토큰으로 바꾸지 않았다.
+
+## 9단계 provision 체크리스트 (사용자 참여)
+
+PLAN.md §4.1의 현행 ROOT-ADMIN 절차다. 운영 값(API 키·site id)은 어느 문서·코드에도
+적지 않는다.
+
+- [ ] **사이트 생성** — ROOT-ADMIN `/manage/{tenantSlug}/sites/new`.
+      제안 slug `madiclinic-gwangju2020`, 도메인 `gwangju2020blog.madiclinic.co.kr`.
+      작성자 프로필 1명(이경무 대표원장).
+- [ ] **콘텐츠 모델 동기화** — 플랫폼 저장소에서 dry-run 먼저, 확인 후 `--apply`.
+      ```bash
+      pnpm --filter @roottale/database content-model:sync -- \
+        --site-slug madiclinic-gwangju2020 \
+        --contract <이 저장소>/cms/content-models.json
+      ```
+      적용 뒤 확인: `faq`(category_tree, basePath `/faq`, categoryDepth 2, 필드
+      `clinic_perspective`), `column`(category_tree, depth 1, exactly-one),
+      `reviews`(detail, `patient_name`·`doctor_name`·`treatment_period`).
+- [ ] **분류 생성** — 계약의 `categories`는 비어 있다(PLAN.md §4.2·§8-1). ROOT-ADMIN에서
+      만든다. 칼럼 1단계 분류 최소 1개(없으면 `exactly-one` 때문에 발행 불가),
+      FAQ는 진료 영역(1단계) → 세부 질환(2단계) 최소 1세트. 영역·질환의
+      `설명`·`SEO 제목`·`SEO 설명`을 채우면 화면·메타데이터에 그대로 쓰인다
+      (비우면 이름을 끼운 기본 서식).
+- [ ] **API 키** — `/site/{slug}/settings/api-keys`에서 사이트 범위 공개 읽기 키 1개 →
+      Vercel 민감 환경변수 `ROOTTALE_API_KEY`. `ROOTTALE_API_BASE=https://api.roottale.com`,
+      `ROOTTALE_MEDIA_ORIGIN=https://root-cdn.com`, `NEXT_PUBLIC_ROOTTALE_SITE_ID`도 함께.
+      코드·문서·로그에 값을 남기지 않는다.
+- [ ] **웹훅 등록** — `/site/{slug}/settings/webhooks` →
+      `https://gwangju2020blog.madiclinic.co.kr/api/revalidate`(ES256 서명).
+      확인: 서명 없음 401, 관계없는 경로 422, 정상 발행 200 + 60초 이내 목록 갱신.
+- [ ] **글 1건씩 발행** — 칼럼·후기·FAQ 각 1건. 확인 항목:
+      네 단계 주소 200, 잘못된 영역/질환/slug 404, 상세 canonical이 플랫폼 저장 경로,
+      FAQ 상세 `FAQPage` JSON-LD, `/sitemap.xml` 자식 4개와 각 자식 XML,
+      `/column/rss.xml`·`/reviews/rss.xml`.
+- [ ] **실데이터 화면 확인** — 1440·390px에서 칼럼 상세·후기 상세·FAQ 네 단계를 다시
+      캡처한다(목 CMS로 본 범위를 실데이터로 덮는다).

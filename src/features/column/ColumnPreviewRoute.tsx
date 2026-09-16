@@ -66,7 +66,7 @@ function PreviewMessage({ title, body }: Readonly<{ title: string; body: string 
       <div className="cBox column-detail-page clearFix">
         <div className="column-shell">
           <section className="column-preview-message" aria-live="polite">
-            <h1>{title}</h1>
+            <h2>{title}</h2>
             <p>{body}</p>
           </section>
         </div>

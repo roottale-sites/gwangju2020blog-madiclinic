@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
 import '../../../../styles/site/faq.css';
-import '../../../../styles/site/faq-responsive.css';
 import FaqStatePage, { faqStateMetadata } from '../../../../features/faq/FaqStatePage';
 import FaqTopicPage from '../../../../features/faq/FaqTopicPage';
 import { faqTitleWithSuffix } from '../../../../features/faq/faq-content';

@@ -16,6 +16,13 @@
  *     바꿨다 — 마디 토큰에는 왼쪽 강조선이 없다.
  *   - 카드 라운드(`--figma-radius-raised`)는 없다. 본 사이트 본문 카드는 사각이고
  *     둥근 모양은 버튼·배지(20px pill)에만 쓴다(DESIGN.md §4).
+ *   - headnerve의 `faq-responsive.css`(별도 반응형 시트)는 쓰지 않는다. 반응형
+ *     규칙은 기본 규칙과 같은 파일에 둔다. headnerve는 세 시트를 한 배럴에서
+ *     같은 순서로 불러 덮어쓰기가 보장됐지만, 이 저장소는 라우트마다 필요한
+ *     시트만 불러서 Next가 `faq-detail.css`를 반응형 시트보다 뒤에 놓는다
+ *     (실측: `@media`의 `align-items: flex-start`가 기본값에 밀렸다). 미디어
+ *     쿼리는 우선순위를 올리지 않으므로 같은 파일에서만 안전하게 덮을 수 있다.
+ *   - 경계는 headnerve의 760px 대신 DESIGN.md §3의 980·660px이다.
  */
 
 .faq-page {
@@ -133,12 +140,20 @@
 
 /* ==== 목록 배치(본문 + 250px 목차) ==== */
 
+/*
+ * 본문 + 목차 사이드바.
+ *
+ * 위쪽 간격은 `margin`이 아니라 `padding`이다. 상세 화면은 이 그리드가 `.cBox`의
+ * 첫 자식인데, `.cBox`의 `padding-top`이 ≤980px에서 0이 되어(patterns.css, 원본
+ * 값) margin이 `.cBox`·`main`을 타고 빠져나가 본문 전체를 40px 밀어냈다
+ * (390px 실측: main이 브레드크럼 띠에서 40px 떨어졌다). padding은 빠져나가지 않는다.
+ */
 .faq-layout {
   display: grid;
   grid-template-columns: minmax(0, 1fr) var(--faq-sidebar-w);
   gap: var(--madi-space-5);
   align-items: start;
-  margin-top: var(--madi-space-5);
+  padding-top: var(--madi-space-5);
 }
 
 .faq-layout > * {
@@ -456,4 +471,70 @@
 .faq-state__link:hover {
   background-color: var(--madi-primary-hover);
   color: var(--madi-text-inverse);
+}
+
+/* ==== 반응형 (DESIGN.md §3: 980 데스크톱/모바일 경계, 660 보조) ==== */
+
+@media screen and (max-width: 1220px) {
+  .faq-section-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media screen and (max-width: 980px) {
+  .faq-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  /* 목차는 본문과 같은 링크를 되풀이한다. 한 열에서는 본문이 곧 목차다. */
+  .faq-sidebar {
+    display: none;
+  }
+
+  .faq-filter {
+    flex-wrap: nowrap;
+    margin-inline: calc(-1 * var(--madi-space-2));
+    padding-inline: var(--madi-space-2);
+    overflow-x: auto;
+  }
+
+  .faq-filter a {
+    flex: none;
+    white-space: nowrap;
+  }
+}
+
+@media screen and (max-width: 660px) {
+  .faq-section-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .faq-intro__lead {
+    font-size: var(--madi-fs-base);
+  }
+
+  .faq-section-card {
+    padding: var(--madi-space-3);
+  }
+
+  .faq-question-list a,
+  .faq-topic-list a {
+    padding-inline: 0;
+  }
+
+  .faq-question-list strong,
+  .faq-topic-list strong {
+    font-size: var(--madi-fs-md);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .faq-section-card,
+  .faq-topic-list a,
+  .faq-question-list a,
+  .faq-filter a,
+  .faq-sidebar-list a,
+  .faq-state__link {
+    transition: none;
+  }
 }

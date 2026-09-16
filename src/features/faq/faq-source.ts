@@ -1,6 +1,6 @@
 import { unstable_cache } from 'next/cache';
 
-import { loadFaqCatalog, type FaqLoadFailure } from './faq-api';
+import { isFaqCmsConfigured, loadFaqCatalog, type FaqLoadFailure } from './faq-api';
 import {
   FAQ_ALL_CACHE_TAG,
   FAQ_DATA_CACHE_TTL_SECONDS,
@@ -120,6 +120,16 @@ export async function resolveFaqDetailCollection(
   topicSlug: string,
   slug: string,
 ): Promise<FaqDetailCollection> {
+  // 비밀값 게이트가 상세 캐시보다 먼저다. 캐시 엔트리는 디스크에 남으므로 키가
+  // 있던 실행의 결과가 키 없는 실행에서 되살아나면 안 된다(faq-api 주석 참고).
+  if (!isFaqCmsConfigured()) {
+    return selectFaqDetail(
+      { archive: fallbackFaqArchive, taxonomy: EMPTY_FAQ_TAXONOMY, status: 'unconfigured' },
+      sectionSlug,
+      topicSlug,
+      slug,
+    );
+  }
   try {
     return await cachedFaqDetail(sectionSlug, topicSlug, slug);
   } catch {

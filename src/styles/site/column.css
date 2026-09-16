@@ -31,8 +31,11 @@
 }
 
 /*
- * 목록·분류 화면의 h1. 본 사이트 섹션 제목(`.cBox h4`, DESIGN.md §5)과 같은
- * 값이다 — 그 규칙은 요소 선택자(`.cBox h4`)라 h1에 재사용할 수 없어 값을 옮겼다.
+ * 목록·분류 화면의 본문 제목. 본 사이트 섹션 제목(`.cBox h4`, DESIGN.md §5)과
+ * 같은 값이다 — 그 규칙은 요소 선택자(`.cBox h4`)라 재사용할 수 없어 값을 옮겼다.
+ *
+ * 요소는 h2다. 헤더 로고가 본 사이트 그대로 `h1.ci`(1px 재현 계약)이고 본 사이트
+ * 서브 페이지도 본문 제목을 h2로 쓴다.
  */
 .column-page__title {
   position: relative;
@@ -574,7 +577,8 @@ a.column-card__author:hover {
   color: var(--madi-text-strong);
 }
 
-.column-detail__header h1 {
+/* 상세 제목. 크기는 옮겨 온 값 그대로 두고 요소만 h2다(위 주석 참고). */
+.column-detail__header h2 {
   max-width: var(--column-reading-width);
   margin: 0;
   color: inherit;

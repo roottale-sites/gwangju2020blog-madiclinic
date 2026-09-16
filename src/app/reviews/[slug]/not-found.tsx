@@ -14,7 +14,7 @@ export default function ReviewNotFound() {
     >
       <div className="cBox review-detail-page clearFix">
         <section className="reviews-state reviews-state--page" aria-labelledby="review-state-title">
-          <h1 id="review-state-title">후기를 찾을 수 없습니다</h1>
+          <h2 id="review-state-title">후기를 찾을 수 없습니다</h2>
           <p>주소가 바뀌었거나 공개가 종료된 후기입니다.</p>
           <a className="reviews-state__link" href="/reviews">
             후기 목록으로

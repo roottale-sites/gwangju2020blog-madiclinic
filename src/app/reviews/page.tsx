@@ -108,7 +108,7 @@ export default async function ReviewsPage({ searchParams }: ReviewsPageProps) {
         ]}
       />
       <div className="cBox reviews-page clearFix">
-        <h1 className="reviews-page__title">{reviewsIndexMetadata.label}</h1>
+        <h2 className="reviews-page__title">{reviewsIndexMetadata.label}</h2>
         <section className="reviews-archive" aria-labelledby="reviews-list-title">
           <div className="reviews-shell">
             <div className="reviews-archive__bar">

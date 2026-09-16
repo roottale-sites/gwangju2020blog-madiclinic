@@ -126,7 +126,7 @@ export default async function ReviewDetailPage({ params }: ReviewDetailPageProps
       >
         <div className="cBox review-detail-page clearFix">
           <section className="reviews-state reviews-state--page" aria-labelledby="review-state-title">
-            <h1 id="review-state-title">후기를 불러오지 못했습니다</h1>
+            <h2 id="review-state-title">후기를 불러오지 못했습니다</h2>
             <p>잠시 뒤 다시 확인해 주세요.</p>
             <a className="reviews-state__link" href="/reviews">
               후기 목록으로
@@ -199,7 +199,7 @@ export default async function ReviewDetailPage({ params }: ReviewDetailPageProps
                 </span>
                 <time dateTime={post.publishedAt}>{formatReviewDate(post.publishedAt)}</time>
               </div>
-              <h1>{title}</h1>
+              <h2>{title}</h2>
               <dl className="review-detail__facts">
                 {metadata.patient && (
                   <div>

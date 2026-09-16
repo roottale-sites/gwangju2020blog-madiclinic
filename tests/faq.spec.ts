@@ -16,7 +16,7 @@ test('자주 묻는 질문 홈은 마디 골격 안에서 준비 중 상태를 �
     await expect(page.locator(selector)).toHaveCount(1);
   }
   await expect(page.locator('#bnSubArea .sbn h2')).toHaveText('자주 묻는 질문');
-  await expect(page.getByRole('heading', { level: 2, name: '자주 묻는 질문' }).first()).toBeVisible();
+  await expect(page.locator('main#main').getByRole('heading', { level: 2, name: '자주 묻는 질문', exact: true })).toBeVisible();
   // 키가 없으면 빈 화면이 아니라 이유를 밝힌다.
   await expect(page.locator('.faq-notice')).toBeVisible();
   await expect(page.locator('.faq-section-card')).toHaveCount(0);

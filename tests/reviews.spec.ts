@@ -15,7 +15,9 @@ test('후기 목록은 마디 골격 안에서 준비 중 상태를 안내한다
     await expect(page.locator(selector)).toHaveCount(1);
   }
   await expect(page.locator('#bnSubArea .sbn h2')).toHaveText('후기');
-  await expect(page.getByRole('heading', { level: 1, name: '후기' })).toBeVisible();
+  // 헤더 로고만 h1이다(본 사이트 `h1.ci`, 1px 재현 계약). 본문 제목은 h2다.
+  await expect(page.locator('main#main').getByRole('heading', { level: 2, name: '후기', exact: true })).toBeVisible();
+  await expect(page.locator('main#main h1')).toHaveCount(0);
   await expect(page.locator('.reviews-state')).toBeVisible();
   await expect(page.locator('.review-card')).toHaveCount(0);
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
@@ -37,7 +39,7 @@ test('CMS를 읽지 못하는 상세·피드는 빈 화면이 아니라 상태�
   // 키가 생겼을 때 살아날 주소를 크롤러에 없다고 알리게 된다(headnerve와 같은 판정).
   const response = await page.goto('/reviews/없는-후기');
   expect(response?.status()).toBe(200);
-  await expect(page.locator('.reviews-state--page h1')).toHaveText('후기를 불러오지 못했습니다');
+  await expect(page.locator('.reviews-state--page h2')).toHaveText('후기를 불러오지 못했습니다');
 
   // CMS를 읽지 못하면 빈 피드를 캐시하지 않고 503 + retry-after로 답한다.
   for (const path of ['/reviews/rss.xml', '/reviews-sitemap.xml']) {

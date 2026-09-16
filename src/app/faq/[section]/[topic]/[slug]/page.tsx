@@ -3,7 +3,6 @@ import { notFound } from 'next/navigation';
 
 import '../../../../../styles/site/faq.css';
 import '../../../../../styles/site/faq-detail.css';
-import '../../../../../styles/site/faq-responsive.css';
 import '../../../../../styles/site/post-pattern.css';
 import FaqDetailPage from '../../../../../features/faq/FaqDetailPage';
 import FaqStatePage, { faqStateMetadata } from '../../../../../features/faq/FaqStatePage';

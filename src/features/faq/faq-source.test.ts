@@ -1,8 +1,12 @@
 import { beforeEach, describe, expect, test, vi } from 'vitest';
 
 const loadFaqCatalog = vi.fn();
+const isFaqCmsConfigured = vi.fn(() => true);
 
-vi.mock('./faq-api', () => ({ loadFaqCatalog: (...args: unknown[]) => loadFaqCatalog(...args) }));
+vi.mock('./faq-api', () => ({
+  loadFaqCatalog: (...args: unknown[]) => loadFaqCatalog(...args),
+  isFaqCmsConfigured: () => isFaqCmsConfigured(),
+}));
 vi.mock('next/cache', () => ({
   unstable_cache: (callback: () => Promise<unknown>) => callback,
 }));
@@ -17,7 +21,11 @@ const catalog = {
   taxonomy: faqTaxonomyFromCategories(faqFixtureCategories),
 };
 
-beforeEach(() => loadFaqCatalog.mockReset());
+beforeEach(() => {
+  loadFaqCatalog.mockReset();
+  isFaqCmsConfigured.mockReset();
+  isFaqCmsConfigured.mockReturnValue(true);
+});
 
 describe('FAQ 출처 경계', () => {
   test('CMS 성공 응답은 빈 목록도 권위 있게 유지한다', async () => {
@@ -85,6 +93,20 @@ describe('FAQ 상세 선택', () => {
 
   test('네 단계 형태가 아닌 요청은 CMS를 부르지 않는다', async () => {
     const detail = await resolveFaqDetailCollection('spine', '', 'mri-normal');
+    expect(detail.entry).toBeNull();
+    expect(loadFaqCatalog).not.toHaveBeenCalled();
+  });
+
+  /**
+   * 상세 캐시는 `unstable_cache` 엔트리라 키가 있던 실행의 결과가 디스크에 남는다.
+   * 비밀값 게이트가 캐시보다 먼저여야 그 결과가 키 없는 실행에서 되살아나지 않는다
+   * (로컬 목 CMS로 한 번 돌린 뒤 키 없이 띄웠을 때 실제로 되살아났다).
+   */
+  test('비밀값이 없으면 상세 캐시를 들여다보지 않는다', async () => {
+    isFaqCmsConfigured.mockReturnValue(false);
+
+    const detail = await resolveFaqDetailCollection('spine', 'neck-pain', 'mri-normal');
+    expect(detail.status).toBe('unconfigured');
     expect(detail.entry).toBeNull();
     expect(loadFaqCatalog).not.toHaveBeenCalled();
   });

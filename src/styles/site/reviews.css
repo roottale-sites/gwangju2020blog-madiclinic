@@ -19,8 +19,11 @@
 }
 
 /*
- * 목록 화면의 h1. 본 사이트 섹션 제목(`.cBox h4`, DESIGN.md §5)과 같은 값이다 —
- * 그 규칙은 요소 선택자라 h1에 재사용할 수 없어 값을 옮겼다.
+ * 목록 화면의 본문 제목. 본 사이트 섹션 제목(`.cBox h4`, DESIGN.md §5)과 같은
+ * 값이다 — 그 규칙은 요소 선택자라 재사용할 수 없어 값을 옮겼다.
+ *
+ * 요소는 h2다. 헤더 로고가 본 사이트 그대로 `h1.ci`(1px 재현 계약)이고 본 사이트
+ * 서브 페이지도 본문 제목을 h2로 쓴다.
  */
 .reviews-page__title {
   position: relative;
@@ -410,7 +413,6 @@
   padding-block: var(--madi-space-7);
 }
 
-.reviews-state h1,
 .reviews-state h2 {
   margin: 0;
   color: var(--madi-text-strong);
@@ -419,7 +421,6 @@
   letter-spacing: var(--madi-ls-title);
 }
 
-.reviews-state h1,
 .reviews-state h2 {
   font-size: var(--madi-fs-h4);
   line-height: var(--madi-lh-body);
