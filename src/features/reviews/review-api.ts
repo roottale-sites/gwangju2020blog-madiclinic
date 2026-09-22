@@ -40,59 +40,50 @@ function logCmsFailure(operation: string, error: unknown): void {
   );
 }
 
-async function fetchReviewArchive(): Promise<ReviewLoadResult<CmsPostContent[]>> {
+function requireCmsConfig() {
   const config = cmsConfig();
-  if (!config) return { ok: false, reason: 'unconfigured' };
-
-  try {
-    const reviews: CmsPostContent[] = [];
-    let cursor: string | undefined;
-    for (let page = 0; page < MAX_PAGES; page += 1) {
-      const result = await fetchPosts({
-        ...config,
-        type: 'post',
-        collectionKey: REVIEW_COLLECTION_KEY,
-        limit: PAGE_LIMIT,
-        ...(cursor ? { cursor } : {}),
-      });
-      reviews.push(...result.items.filter(isReviewPost));
-      if (!result.hasMore || !result.nextCursor) break;
-      cursor = result.nextCursor;
-    }
-    return { ok: true, data: reviews };
-  } catch (error) {
-    logCmsFailure('archive', error);
-    return { ok: false, reason: 'upstream' };
-  }
+  if (!config) throw new Error('ROOTTALE_API_KEY 미설정');
+  return config;
 }
 
-async function fetchReview(slug: string): Promise<ReviewLoadResult<CmsPostContent | null>> {
-  const config = cmsConfig();
-  if (!config) return { ok: false, reason: 'unconfigured' };
-
-  try {
-    const post = await fetchPost({ ...config, slugOrId: slug });
-    const review = post && isReviewPost(post) ? post : null;
-    return { ok: true, data: review };
-  } catch (error) {
-    logCmsFailure('detail', error);
-    return { ok: false, reason: 'upstream' };
+// 캐시에는 정상 응답만 저장한다. 설정·장애 판정은 공개 로더가 처리한다.
+async function fetchReviewArchive(): Promise<CmsPostContent[]> {
+  const config = requireCmsConfig();
+  const reviews: CmsPostContent[] = [];
+  let cursor: string | undefined;
+  for (let page = 0; page < MAX_PAGES; page += 1) {
+    const result = await fetchPosts({
+      ...config,
+      type: 'post',
+      collectionKey: REVIEW_COLLECTION_KEY,
+      limit: PAGE_LIMIT,
+      ...(cursor ? { cursor } : {}),
+    });
+    reviews.push(...result.items.filter(isReviewPost));
+    if (!result.hasMore || !result.nextCursor) break;
+    cursor = result.nextCursor;
   }
+  return reviews;
+}
+
+async function fetchReview(slug: string): Promise<CmsPostContent | null> {
+  const post = await fetchPost({ ...requireCmsConfig(), slugOrId: slug });
+  return post && isReviewPost(post) ? post : null;
 }
 
 const loadCachedReviewArchive = unstable_cache(
   fetchReviewArchive,
-  ['reviews-archive-v1'],
+  ['reviews-archive-v2'],
   {
     revalidate: REVIEW_DATA_CACHE_TTL_SECONDS,
     tags: [REVIEW_ALL_CACHE_TAG, REVIEW_ARCHIVE_CACHE_TAG],
   },
 );
 
-function loadCachedReview(slug: string): Promise<ReviewLoadResult<CmsPostContent | null>> {
+function loadCachedReview(slug: string): Promise<CmsPostContent | null> {
   return unstable_cache(
     () => fetchReview(slug),
-    ['review-detail-v1', slug],
+    ['review-detail-v2', slug],
     {
       revalidate: REVIEW_DATA_CACHE_TTL_SECONDS,
       tags: [REVIEW_ALL_CACHE_TAG, reviewDetailCacheTag(slug)],
@@ -101,9 +92,21 @@ function loadCachedReview(slug: string): Promise<ReviewLoadResult<CmsPostContent
 }
 
 export async function loadReviewArchive(): Promise<ReviewLoadResult<CmsPostContent[]>> {
-  return loadCachedReviewArchive();
+  if (!cmsConfig()) return { ok: false, reason: 'unconfigured' };
+  try {
+    return { ok: true, data: await loadCachedReviewArchive() };
+  } catch (error) {
+    logCmsFailure('archive', error);
+    return { ok: false, reason: 'upstream' };
+  }
 }
 
 export async function loadReview(slug: string): Promise<ReviewLoadResult<CmsPostContent | null>> {
-  return loadCachedReview(slug);
+  if (!cmsConfig()) return { ok: false, reason: 'unconfigured' };
+  try {
+    return { ok: true, data: await loadCachedReview(slug) };
+  } catch (error) {
+    logCmsFailure('detail', error);
+    return { ok: false, reason: 'upstream' };
+  }
 }
