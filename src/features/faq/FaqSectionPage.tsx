@@ -12,7 +12,6 @@ import { faqTopicsForSection } from './faq-registry';
 import type { FaqCollection } from './faq-source';
 import FaqPageFrame, { FAQ_BREADCRUMB_ROOT } from './FaqPageFrame';
 import {
-  FaqCollectionIntro,
   FaqEmpty,
   FaqReviewer,
   FaqSidebarBox,
@@ -54,7 +53,6 @@ export default function FaqSectionPage({ collection, section }: Readonly<{
         }),
       ]}
     >
-      <FaqCollectionIntro title={section.name} lead={section.description} />
       <FaqSourceNotice status={collection.status} />
       <div className="faq-layout">
         <div className="faq-layout__main">

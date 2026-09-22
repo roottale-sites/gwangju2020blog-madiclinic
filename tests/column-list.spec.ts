@@ -15,8 +15,8 @@ test('블로그 목록은 마디 골격 안에서 빈 상태를 안내한다', a
     await expect(page.locator(selector)).toHaveCount(1);
   }
   await expect(page.locator('#bnSubArea .sbn h2')).toHaveText('블로그');
-  // 헤더 로고만 h1이다(본 사이트 `h1.ci`, 1px 재현 계약). 본문 제목은 h2다.
-  await expect(page.locator('main#main').getByRole('heading', { level: 2, name: '블로그', exact: true })).toBeVisible();
+  // 배너의 메뉴 이름을 본문에서 반복하지 않는다.
+  await expect(page.locator('main#main').getByRole('heading', { level: 2, name: '블로그', exact: true })).toHaveCount(0);
   await expect(page.locator('main#main h1')).toHaveCount(0);
   // 키가 없으면 빈 목록이 아니라 이유를 밝힌다.
   await expect(page.locator('.column-notice')).toBeVisible();

@@ -14,7 +14,6 @@ import {
 import type { FaqCollection } from './faq-source';
 import FaqPageFrame, { FAQ_BREADCRUMB_ROOT } from './FaqPageFrame';
 import {
-  FaqCollectionIntro,
   FaqEmpty,
   FaqReviewer,
   FaqSidebarBox,
@@ -60,7 +59,6 @@ export default function FaqTopicPage({ collection, section, topic, selectedInten
         }),
       ]}
     >
-      <FaqCollectionIntro title={topic.name} lead={topic.description} />
       <FaqSourceNotice status={collection.status} />
       <div className="faq-layout">
         <div className="faq-layout__main">

@@ -65,8 +65,6 @@ export default async function ColumnArchive({
         ]}
       />
       <div className="cBox column-page clearFix">
-        <h2 className="column-page__title">{columnIndexMetadata.label}</h2>
-        <p className="column-page__lead">통증과 치료에 관한 이경무 대표원장의 글을 모았습니다.</p>
         <div className="column-list">
           <div className="column-shell">
             <ColumnArchiveSearch

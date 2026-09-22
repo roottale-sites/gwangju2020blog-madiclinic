@@ -31,31 +31,6 @@
   --faq-sidebar-w: 250px;
 }
 
-/*
- * 본문 제목. 본 사이트 섹션 제목(`.cBox h4`, DESIGN.md §5)과 같은 값이다 —
- * 그 규칙은 요소 선택자(`.cBox h4`)라 h2에 재사용할 수 없어 값을 옮겼다.
- */
-.faq-intro__title {
-  position: relative;
-  display: block;
-  width: 100%;
-  margin: 0 auto var(--madi-space-2);
-  padding: 0 0 19px;
-  border-bottom: 1px solid var(--madi-primary);
-  color: var(--madi-text-strong);
-  font-size: var(--madi-fs-section);
-  font-weight: 700;
-  line-height: 40px;
-  letter-spacing: var(--madi-ls-title);
-}
-
-.faq-intro__lead {
-  margin: var(--madi-space-3) 0 0;
-  color: var(--madi-text-muted);
-  font-size: var(--madi-fs-md);
-  line-height: var(--madi-lh-body);
-}
-
 /* CMS를 읽을 수 없을 때의 안내. 빈 목록과 장애를 구별해 알린다. */
 .faq-notice {
   margin: var(--madi-space-3) 0 0;
@@ -507,10 +482,6 @@
 @media screen and (max-width: 660px) {
   .faq-section-grid {
     grid-template-columns: minmax(0, 1fr);
-  }
-
-  .faq-intro__lead {
-    font-size: var(--madi-fs-base);
   }
 
   .faq-section-card {

@@ -17,16 +17,6 @@ import type { FaqSourceStatus } from './faq-source';
  *     없어(PLAN.md §8-5) 후기 카드와 같이 이름 링크만 둔다.
  */
 
-/** 본문 제목. 본 사이트 섹션 제목(`.cBox h4`, DESIGN.md §5)과 같은 값을 쓴다. */
-export function FaqCollectionIntro({ title, lead }: Readonly<{ title: string; lead: string }>) {
-  return (
-    <header className="faq-intro">
-      <h2 className="faq-intro__title">{title}</h2>
-      <p className="faq-intro__lead">{lead}</p>
-    </header>
-  );
-}
-
 /** 답변을 쓴 사람. 프로필은 본 사이트가 단일 출처다. */
 export function FaqReviewer({ detail }: Readonly<{ detail: string }>) {
   return (

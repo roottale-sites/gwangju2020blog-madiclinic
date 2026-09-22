@@ -118,7 +118,7 @@ describe('진료 영역 화면', () => {
   test('CMS 세부 질환을 순서대로, 질문 수와 첫 질문 미리보기와 함께 렌더한다', () => {
     const html = sectionPage();
 
-    expect(html).toContain('class="faq-intro__title">척추 통증</h2>');
+    expect(html).not.toContain('class="faq-intro__title"');
     expect(html.match(/class="faq-topic-list"/gu)).toHaveLength(1);
     expect(html.indexOf('href="/faq/spine/neck-pain"')).toBeLessThan(html.indexOf('href="/faq/spine/disc"'));
     expect(html).toContain('<strong>목 통증</strong>');

@@ -29,34 +29,6 @@
   margin-inline: auto;
 }
 
-/*
- * 목록·분류 화면의 본문 제목. 본 사이트 섹션 제목(`.cBox h4`, DESIGN.md §5)과
- * 같은 값이다 — 그 규칙은 요소 선택자(`.cBox h4`)라 재사용할 수 없어 값을 옮겼다.
- *
- * 요소는 h2다. 헤더 로고가 본 사이트 그대로 `h1.ci`(1px 재현 계약)이고 본 사이트
- * 서브 페이지도 본문 제목을 h2로 쓴다.
- */
-.column-page__title {
-  position: relative;
-  display: block;
-  width: 100%;
-  margin: 0 auto var(--madi-space-2);
-  padding: 0 0 19px;
-  border-bottom: 1px solid var(--madi-primary);
-  color: var(--madi-text-strong);
-  font-size: var(--madi-fs-section);
-  font-weight: 700;
-  line-height: 40px;
-  letter-spacing: var(--madi-ls-title);
-}
-
-.column-page__lead {
-  margin: var(--madi-space-3) 0 0;
-  color: var(--madi-text-muted);
-  font-size: var(--madi-fs-md);
-  line-height: var(--madi-lh-body);
-}
-
 /* CMS를 읽을 수 없을 때의 안내. 빈 목록과 장애를 구별해 알린다. */
 .column-notice {
   margin: var(--madi-space-3) 0 0;
@@ -71,7 +43,7 @@
 /* 목록 */
 
 .column-list {
-  padding-block: var(--madi-space-5) var(--madi-section-py);
+  padding-block: 0 var(--madi-section-py);
   background: var(--madi-bg);
 }
 
@@ -958,17 +930,12 @@ a.column-card__author:hover {
 }
 
 @media (max-width: 767px) {
-  .column-page__title {
-    line-height: 30px;
-    font-size: 22px;
-  }
-
   .column-shell {
     width: min(var(--madi-container-narrow), calc(100% - (var(--madi-space-2) * 2)));
   }
 
   .column-list {
-    padding-block: var(--madi-space-5) var(--madi-section-py);
+    padding-block: 0 var(--madi-section-py);
   }
 
   .column-category-nav {

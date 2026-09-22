@@ -25,13 +25,6 @@
   border: 0;
 }
 
-.reviews-page__lead {
-  margin: var(--madi-space-3) 0 0;
-  color: var(--madi-text-muted);
-  font-size: var(--madi-fs-md);
-  line-height: var(--madi-lh-body);
-}
-
 .community-content .column-notice {
   margin-top: var(--madi-space-4);
 }
@@ -79,21 +72,11 @@
   .community-content > .cBox {
     padding-top: var(--madi-space-5);
   }
-
-  .community-content :is(.column-page__title, .reviews-page__title, .faq-intro__title) {
-    font-size: 28px;
-    line-height: 40px;
-  }
 }
 
 @media (max-width: 660px) {
   .community-content.cBoxArea {
     padding-inline: var(--madi-space-3);
-  }
-
-  .community-content :is(.column-page__title, .reviews-page__title, .faq-intro__title) {
-    font-size: 22px;
-    line-height: 30px;
   }
 
   .community-content :is(.column-detail__header h2, .review-detail__header h2, .faq-detail__title) {
@@ -104,4 +87,14 @@
   .community-content .column-toc--mobile {
     width: 100%;
   }
+}
+
+/* 목록은 배너 아래에서 검색·분류·글로 바로 시작한다. */
+.community-content .faq-section-grid:first-child,
+.community-content .faq-notice:first-child {
+  margin-top: 0;
+}
+
+.community-content .reviews-archive {
+  scroll-margin-top: calc(var(--madi-header-h) + var(--madi-space-4));
 }

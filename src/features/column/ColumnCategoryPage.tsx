@@ -68,10 +68,6 @@ export default function ColumnCategoryPage({
         ]}
       />
       <div className="cBox column-page clearFix">
-        <h2 className="column-page__title">{archive.category.name}</h2>
-        {archive.category.description ? (
-          <p className="column-page__lead">{archive.category.description}</p>
-        ) : null}
         <div className="column-list">
           <div className="column-shell">
             <ColumnArchiveSearch

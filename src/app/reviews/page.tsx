@@ -109,9 +109,7 @@ export default async function ReviewsPage({ searchParams }: ReviewsPageProps) {
         ]}
       />
       <div className="cBox reviews-page clearFix">
-        <h2 id="reviews-list-title" className="reviews-page__title">{reviewsIndexMetadata.label}</h2>
-        <p className="reviews-page__lead">마디클리닉에서 진료받으신 분들의 경험을 전합니다.</p>
-        <section className="reviews-archive" aria-labelledby="reviews-list-title">
+        <section id="reviews-list-title" className="reviews-archive" aria-label="후기 목록">
           <div className="reviews-shell">
             {result.ok && <div className="reviews-archive__bar"><p>총 {filteredReviews.length}건</p></div>}
             {categories.length > 0 && (

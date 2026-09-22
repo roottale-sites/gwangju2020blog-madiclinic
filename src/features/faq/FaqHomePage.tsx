@@ -4,7 +4,7 @@ import { faqIndexMetadata, faqNotices } from './faq-content';
 import { entriesForSection, faqSectionPath } from './faq-model';
 import type { FaqCollection } from './faq-source';
 import FaqPageFrame, { FAQ_BREADCRUMB_ROOT } from './FaqPageFrame';
-import { FaqCollectionIntro, FaqEmpty, FaqSourceNotice } from './FaqShared';
+import { FaqEmpty, FaqSourceNotice } from './FaqShared';
 
 /**
  * `/faq` 질문 홈 — 진료 영역 카드.
@@ -30,7 +30,6 @@ export default function FaqHomePage({ collection }: Readonly<{ collection: FaqCo
         }),
       ]}
     >
-      <FaqCollectionIntro title={faqIndexMetadata.label} lead={faqIndexMetadata.description} />
       <FaqSourceNotice status={status} />
       {taxonomy.sections.length === 0 ? (
         status === 'ok' ? <FaqEmpty message={faqNotices.emptySections} /> : null
