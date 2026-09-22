@@ -98,3 +98,60 @@
 .community-content .reviews-archive {
   scroll-margin-top: calc(var(--madi-header-h) + var(--madi-space-4));
 }
+
+/* overflow:hidden은 별도 스크롤 컨테이너를 만들어 목차 sticky를 막는다. */
+#subContainer:has(.column-detail) {
+  overflow: clip;
+}
+
+.column-detail .column-toc--desktop {
+  align-self: start;
+  max-height: calc(100dvh - var(--madi-header-h) - 40px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.column-detail .column-toc__list {
+  max-height: none;
+  overflow: visible;
+}
+
+@media (max-width: 1263px) {
+  .column-detail .column-toc--mobile {
+    position: sticky;
+    top: var(--madi-header-h);
+    z-index: 10;
+    background: #fff;
+    border: 1px solid var(--madi-border);
+  }
+
+  .column-detail .column-toc--mobile nav {
+    max-height: min(45dvh, 24rem);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+}
+
+.column-detail .column-toc__item a {
+  font-family: "Pretendard Variable", sans-serif;
+  text-align: left;
+  word-break: keep-all;
+}
+
+/* GNB 바깥의 콘텐츠 링크: 기본 밑줄은 숨기고 상호작용 때 잉크만 부드럽게 드러낸다. */
+main.community-content a[href] {
+  text-decoration-line: underline;
+  text-decoration-color: transparent;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.22em;
+  text-decoration-skip-ink: auto;
+  transition: color 180ms ease, text-decoration-color 220ms ease;
+}
+
+main.community-content a[href]:is(:hover, :active, :focus-visible) {
+  text-decoration-color: currentColor;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  main.community-content a[href] { transition: none; }
+}

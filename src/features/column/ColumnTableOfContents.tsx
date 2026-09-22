@@ -38,7 +38,7 @@ function useActiveColumnHeading(items: readonly ColumnTableOfContentsItem[]): st
     if (!firstHeading) return undefined;
 
     const updateActiveHeading = () => {
-      const readingLine = 128;
+      const readingLine = Number.parseFloat(getComputedStyle(firstHeading).scrollMarginTop) || 128;
       const passedHeadings = headings.filter((heading) => heading.getBoundingClientRect().top <= readingLine);
       setActiveId((passedHeadings.at(-1) ?? firstHeading).id);
     };
@@ -92,7 +92,11 @@ export default function ColumnTableOfContents({ items }: Readonly<ColumnTableOfC
             <span>목차</span>
             <span className="column-toc__chevron" aria-hidden="true" />
           </summary>
-          <nav aria-label="칼럼 목차">
+          <nav aria-label="칼럼 목차" onClick={(event) => {
+            if (event.target instanceof Element && event.target.closest('a[href^="#"]')) {
+              event.currentTarget.closest('details')?.removeAttribute('open');
+            }
+          }}>
             <TableOfContentsLinks activeId={activeId} items={items} />
           </nav>
         </details>

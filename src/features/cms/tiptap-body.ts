@@ -61,6 +61,7 @@ function wrapTextMarks(
   text: string,
   marks: readonly unknown[],
   publishedInternalPaths?: PublishedInternalContentPaths,
+  headingText = false,
 ): string {
   const cleanedText = removeEmDashes(text);
   const renderedInternalLinks = publishedInternalPaths
@@ -89,7 +90,7 @@ function wrapTextMarks(
       case 'textStyle': {
         const fontSize = cmsFontSize(attrs.fontSize);
         const color = typeof attrs.color === 'string' && /^#[0-9a-f]{3}(?:[0-9a-f]{3})?$/i.test(attrs.color) ? attrs.color : null;
-        const style = [fontSize ? `font-size:${fontSize}` : '', color ? `color:${color}` : ''].filter(Boolean).join(';');
+        const style = [fontSize ? `font-size:${headingText ? `var(--rt-cms-heading-size, ${fontSize})` : fontSize}` : '', color ? `color:${color}` : ''].filter(Boolean).join(';');
         if (style) html = `<span style="${style}">${html}</span>`;
         break;
       }
@@ -124,7 +125,7 @@ function renderChildren(
   publishedInternalPaths?: PublishedInternalContentPaths,
 ): string {
   return (node.content ?? [])
-    .map((child) => renderNode(child, prefix, publishedInternalPaths))
+    .map((child) => renderNode(child, prefix, publishedInternalPaths, node.type === 'heading'))
     .join('');
 }
 
@@ -148,11 +149,12 @@ function renderNode(
   value: unknown,
   prefix: string,
   publishedInternalPaths?: PublishedInternalContentPaths,
+  headingText = false,
 ): string {
   const node = nodeFrom(value);
   if (!node) return '';
   if (node.type === 'text') {
-    return wrapTextMarks(node.text ?? '', node.marks ?? [], publishedInternalPaths);
+    return wrapTextMarks(node.text ?? '', node.marks ?? [], publishedInternalPaths, headingText);
   }
 
   const children = renderChildren(node, prefix, publishedInternalPaths);
@@ -169,8 +171,10 @@ function renderNode(
     }
     case 'bulletList':
       return `<ul>${children}</ul>`;
-    case 'orderedList':
-      return `<ol>${children}</ol>`;
+    case 'orderedList': {
+      const start = positiveInteger(node.attrs?.start);
+      return `<ol${start && start !== 1 ? ` start="${start}"` : ''}>${children}</ol>`;
+    }
     case 'listItem':
       return `<li>${children}</li>`;
     case 'blockquote':

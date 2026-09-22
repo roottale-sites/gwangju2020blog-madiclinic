@@ -1,116 +1,354 @@
-/* AVCD 본문 기준: 720px, 18px/1.7, 문단 24px.
-   메뉴별 CSS의 로딩 순서와 무관하게 상세 본문에만 공통 조판을 적용한다. */
-:is(.column-detail, .review-detail, .faq-detail) :is(.column-richtext, .review-richtext, .faq-richtext) {
-  max-width: 45rem;
+/* AVCD article 기준. 원본 사이트의 전역 reset보다 상세 본문 서식이 우선한다. */
+@font-face {
+  font-family: "Pretendard Variable";
+  src: url('/fonts/pretendard/PretendardVariable.woff2') format('woff2');
+  font-weight: 45 920;
+  font-style: normal;
+  font-display: swap;
+}
+
+:is(.column-detail, .review-detail, .faq-detail) :is(.column-richtext, .column-imported-html, .review-richtext, .faq-richtext) {
+  min-width: 0;
+  max-width: 720px;
   margin-inline: auto;
-  color: var(--madi-text-strong);
+  font-family: "Pretendard Variable", Pretendard, "Apple SD Gothic Neo", sans-serif;
+  color: #2b323c;
   font-size: 18px;
   font-weight: 400;
   line-height: 1.7;
-  letter-spacing: -0.025em;
-  word-break: keep-all;
+  letter-spacing: -0.03rem;
+  word-break: normal;
   overflow-wrap: anywhere;
+  text-wrap: wrap;
 }
 
-:is(.column-richtext, .review-richtext, .faq-richtext) :is(h2, h3, h4) {
+:is(.column-detail, .review-detail, .faq-detail) :is(.column-richtext, .column-imported-html, .review-richtext, .faq-richtext) :is(p, li, ul, ol) {
+  line-height: inherit;
+  letter-spacing: inherit;
+}
+
+:is(.column-detail, .review-detail, .faq-detail) :is(.column-richtext, .column-imported-html, .review-richtext, .faq-richtext) p {
+  margin-block: 0 24px;
+}
+
+:is(.column-detail, .review-detail, .faq-detail) :is(.column-richtext, .column-imported-html, .review-richtext, .faq-richtext) :is(h2, h3, h4) {
   padding: 0;
   border: 0;
   font-family: inherit;
-  letter-spacing: 0;
-  word-break: keep-all;
+  color: var(--madi-text-strong);
+  letter-spacing: normal;
+  text-wrap: wrap;
+  word-break: normal;
   overflow-wrap: anywhere;
   scroll-margin-top: calc(var(--madi-header-h) + 24px);
 }
 
-:is(.column-detail, .review-detail, .faq-detail) :is(.column-richtext, .review-richtext, .faq-richtext) h2 {
-  margin: 110px 0 20px;
-  padding: 0;
-  border: 0;
+:is(.column-detail, .review-detail, .faq-detail) :is(.column-richtext, .column-imported-html, .review-richtext, .faq-richtext) h2 {
+  margin-block: 110px 20px;
   font-size: 32px;
+  --rt-cms-heading-size: 32px;
   font-weight: 700;
   line-height: 1.3;
 }
 
-:is(.column-detail, .review-detail, .faq-detail) :is(.column-richtext, .review-richtext, .faq-richtext) h3 {
-  margin: 32px 0 12px;
-  padding: 0;
-  border: 0;
+:is(.column-detail, .review-detail, .faq-detail) :is(.column-richtext, .column-imported-html, .review-richtext, .faq-richtext) h3 {
+  margin-block: 32px 12px;
   font-size: 24px;
+  --rt-cms-heading-size: 24px;
   font-weight: 600;
   line-height: 1.4;
 }
 
-:is(.column-detail, .review-detail, .faq-detail) :is(.column-richtext, .review-richtext, .faq-richtext) h4 {
-  margin: 28px 0 12px;
+:is(.column-detail, .review-detail, .faq-detail) :is(.column-richtext, .column-imported-html, .review-richtext, .faq-richtext) h4 {
+  margin-block: 24px 8px;
   font-size: 20px;
+  --rt-cms-heading-size: 20px;
+  font-weight: 600;
   line-height: 1.4;
 }
 
-:is(.column-detail, .review-detail, .faq-detail) :is(.column-richtext, .review-richtext, .faq-richtext) :is(p, ul, ol) {
+:is(.column-detail, .review-detail, .faq-detail) :is(.column-richtext, .column-imported-html, .review-richtext, .faq-richtext) :is(strong, b) {
+  font-weight: 700;
+}
+
+:is(.column-detail, .review-detail, .faq-detail) :is(.column-richtext, .column-imported-html, .review-richtext, .faq-richtext) :is(em, i) {
+  font-style: italic;
+}
+
+:is(.column-detail, .review-detail, .faq-detail) :is(.column-richtext, .column-imported-html, .review-richtext, .faq-richtext) a {
+  color: var(--madi-text-strong);
+  font-weight: inherit;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+:is(.column-detail, .review-detail, .faq-detail) :is(.column-richtext, .column-imported-html, .review-richtext, .faq-richtext) a:focus-visible {
+  outline: 2px solid var(--madi-text-strong);
+  outline-offset: 3px;
+}
+
+:is(.column-detail, .review-detail, .faq-detail) :is(.column-richtext, .column-imported-html, .review-richtext, .faq-richtext) :is(ul, ol) {
   margin-block: 0 24px;
+  padding-inline-start: 24px;
+  list-style-position: outside;
 }
 
-:is(.column-detail, .review-detail, .faq-detail) :is(.column-richtext, .review-richtext, .faq-richtext) :is(ul, ol) {
-  padding-left: 24px;
+:is(.column-detail, .review-detail, .faq-detail) :is(.column-richtext, .column-imported-html, .review-richtext, .faq-richtext) ul {
+  list-style-type: disc;
 }
 
-:is(.column-detail, .review-detail, .faq-detail) :is(.column-richtext, .review-richtext, .faq-richtext) li + li {
-  margin-top: 20px;
+:is(.column-detail, .review-detail, .faq-detail) :is(.column-richtext, .column-imported-html, .review-richtext, .faq-richtext) ol {
+  list-style-type: decimal;
 }
 
-:is(.column-detail, .review-detail, .faq-detail) :is(.column-richtext, .review-richtext, .faq-richtext) li > p {
-  margin-bottom: 0;
+:is(.column-detail, .review-detail, .faq-detail) :is(.column-richtext, .column-imported-html, .review-richtext, .faq-richtext) ul ul {
+  list-style-type: circle;
 }
 
-:is(.column-detail, .review-detail, .faq-detail) :is(.column-richtext, .review-richtext, .faq-richtext) blockquote {
-  margin: 32px 0;
-  padding: 16px 24px;
-  border: 0;
-  border-left: 3px solid var(--madi-primary);
-  border-radius: 0;
-  background: var(--madi-bg-panel);
-  font-size: inherit;
-  font-weight: 400;
-  line-height: inherit;
+:is(.column-detail, .review-detail, .faq-detail) :is(.column-richtext, .column-imported-html, .review-richtext, .faq-richtext) ul ul ul {
+  list-style-type: square;
 }
 
-:is(.column-richtext, .review-richtext, .faq-richtext) :is(img, video, iframe) {
-  max-width: 100%;
+:is(.column-detail, .review-detail, .faq-detail) :is(.column-richtext, .column-imported-html, .review-richtext, .faq-richtext) li {
+  display: list-item;
+  list-style: inherit;
+  margin: 0 0 20px;
+  padding: 0;
 }
 
-:is(.column-detail, .review-detail, .faq-detail) :is(.column-richtext, .review-richtext, .faq-richtext) > :first-child,
-:is(.column-richtext__imported, .review-richtext__imported, .faq-richtext__imported) > :first-child {
+:is(.column-detail, .review-detail, .faq-detail) :is(.column-richtext, .column-imported-html, .review-richtext, .faq-richtext) li + li {
   margin-top: 0;
 }
 
-:is(.column-detail, .review-detail, .faq-detail) :is(.column-richtext, .review-richtext, .faq-richtext) :is(blockquote, li) > :last-child {
+:is(.column-detail, .review-detail, .faq-detail) :is(.column-richtext, .column-imported-html, .review-richtext, .faq-richtext) li > :is(ul, ol) {
+  margin-block: 20px 0;
+}
+
+:is(.column-detail, .review-detail, .faq-detail) :is(.column-richtext, .column-imported-html, .review-richtext, .faq-richtext) li > p {
+  margin-block: 0;
+}
+
+:is(.column-detail, .review-detail, .faq-detail) :is(.column-richtext, .column-imported-html, .review-richtext, .faq-richtext) ul > li::marker {
+  color: var(--madi-text-strong);
+  font-size: 0.85em;
+}
+
+:is(.column-detail, .review-detail, .faq-detail) :is(.column-richtext, .column-imported-html, .review-richtext, .faq-richtext) ol > li::marker {
+  color: var(--madi-text-strong);
+  font-weight: 700;
+}
+
+:is(.column-detail, .review-detail, .faq-detail) :is(.column-richtext, .column-imported-html, .review-richtext, .faq-richtext) blockquote {
+  margin-block: 32px;
+  padding: 24px;
+  border: 0.5px solid rgb(154 164 177 / 50%);
+  border-radius: 8px;
+  background: transparent;
+  color: #2b323c;
+  font-size: inherit;
+  font-weight: 400;
+  line-height: inherit;
+  font-style: normal;
+}
+
+:is(.column-detail, .review-detail, .faq-detail) :is(.column-richtext, .column-imported-html, .review-richtext, .faq-richtext) blockquote p {
+  margin-bottom: 0;
+}
+
+:is(.column-detail, .review-detail, .faq-detail) :is(.column-richtext, .column-imported-html, .review-richtext, .faq-richtext) blockquote p + p {
+  margin-top: 24px;
+}
+
+:is(.column-detail, .review-detail, .faq-detail) :is(.column-richtext, .column-imported-html, .review-richtext, .faq-richtext) hr {
+  margin-block: 40px;
+  border: 0;
+  border-top: 1px solid #e5e9ee;
+}
+
+:is(.column-detail, .review-detail, .faq-detail) :is(.column-richtext, .column-imported-html, .review-richtext, .faq-richtext) :is(img, video, iframe) {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  border: 0;
+  border-radius: 8px;
+  margin: 32px auto;
+}
+
+:is(.column-detail, .review-detail, .faq-detail) :is(.column-richtext, .column-imported-html, .review-richtext, .faq-richtext) :is(video, iframe) {
+  width: 100%;
+}
+
+:is(.column-detail, .review-detail, .faq-detail) :is(.column-richtext, .column-imported-html, .review-richtext, .faq-richtext) iframe {
+  aspect-ratio: 16 / 9;
+}
+
+:is(.column-detail, .review-detail, .faq-detail) :is(.column-richtext, .column-imported-html, .review-richtext, .faq-richtext) figure {
+  max-width: 100%;
+  margin: 32px auto;
+}
+
+:is(.column-detail, .review-detail, .faq-detail) :is(.column-richtext, .column-imported-html, .review-richtext, .faq-richtext) figure :is(img, video, iframe) {
+  margin-block: 0;
+}
+
+:is(.column-detail, .review-detail, .faq-detail) :is(.column-richtext, .column-imported-html, .review-richtext, .faq-richtext) figcaption {
+  margin-block: 8px 0;
+  color: #9aa4b1;
+  font-size: 15px;
+  font-style: italic;
+  line-height: 1.7;
+  text-align: center;
+}
+
+:is(.column-detail, .review-detail, .faq-detail) :is(.column-richtext, .column-imported-html, .review-richtext, .faq-richtext) pre {
+  max-width: 100%;
+  overflow-x: auto;
+  margin-block: 24px;
+  padding: 16px 20px;
+  border: 0;
+  border-radius: 8px;
+  background: #f0f2f5;
+  color: #2b323c;
+  white-space: pre;
+  word-break: normal;
+  overflow-wrap: normal;
+}
+
+:is(.column-detail, .review-detail, .faq-detail) :is(.column-richtext, .column-imported-html, .review-richtext, .faq-richtext) code {
+  font-family: Consolas, Monaco, monospace;
+}
+
+:is(.column-detail, .review-detail, .faq-detail) :is(.column-richtext, .column-imported-html, .review-richtext, .faq-richtext) :not(pre) > code {
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: #f0f2f5;
+  color: #2b323c;
+  font-size: 0.875em;
+}
+
+:is(.column-detail, .review-detail, .faq-detail) :is(.column-richtext, .column-imported-html, .review-richtext, .faq-richtext) pre code {
+  display: block;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+:is(.column-detail, .review-detail, .faq-detail) :is(.column-richtext, .column-imported-html, .review-richtext, .faq-richtext) table {
+  display: table;
+  width: 100%;
+  max-width: 100%;
+  margin-block: 24px;
+  border: 1px solid #d6dbe2;
+  border-radius: 8px;
+  border-collapse: separate;
+  border-spacing: 0;
+  overflow: hidden;
+  font-size: 17px;
+  line-height: 1.7;
+}
+
+:is(.column-detail, .review-detail, .faq-detail) :is(.column-richtext, .column-imported-html, .review-richtext, .faq-richtext) :is(th, td) {
+  min-width: 0;
+  padding: 20px 14px;
+  border: 0;
+  border-right: 1px solid #d6dbe2;
+  border-bottom: 1px solid #d6dbe2;
+  color: #2b323c;
+  text-align: left;
+  vertical-align: top;
+  word-break: break-all;
+}
+
+:is(.column-detail, .review-detail, .faq-detail) :is(.column-richtext, .column-imported-html, .review-richtext, .faq-richtext) :is(th, td):last-child {
+  border-right: 0;
+}
+
+:is(.column-detail, .review-detail, .faq-detail) :is(.column-richtext, .column-imported-html, .review-richtext, .faq-richtext) tr:last-child > :is(th, td) {
+  border-bottom: 0;
+}
+
+:is(.column-detail, .review-detail, .faq-detail) :is(.column-richtext, .column-imported-html, .review-richtext, .faq-richtext) th {
+  background: #e5e9ee;
+  font-weight: 700;
+}
+
+:is(.column-detail, .review-detail, .faq-detail) :is(.column-richtext, .column-imported-html, .review-richtext, .faq-richtext) td {
+  background: #fff;
+  font-weight: 500;
+}
+
+:is(.column-detail, .review-detail, .faq-detail) :is(.column-richtext, .column-imported-html, .review-richtext, .faq-richtext) td:first-child {
+  background: #e5e9ee;
+  font-weight: 700;
+}
+
+:is(.column-detail, .review-detail, .faq-detail) :is(.column-richtext, .column-imported-html, .review-richtext, .faq-richtext) :is(th, td) p {
+  margin-bottom: 0;
+}
+
+:is(.column-detail, .review-detail, .faq-detail) :is(.column-richtext, .column-imported-html, .review-richtext, .faq-richtext) u {
+  text-underline-offset: 3px;
+}
+
+:is(.column-detail, .review-detail, .faq-detail) :is(.column-richtext, .column-imported-html, .review-richtext, .faq-richtext) s {
+  text-decoration: line-through;
+}
+
+:is(.column-detail, .review-detail, .faq-detail) :is(.column-richtext, .column-imported-html, .review-richtext, .faq-richtext) mark {
+  background: #fef3c7;
+  color: inherit;
+}
+
+:is(.column-detail, .review-detail, .faq-detail) :is(.column-richtext, .column-imported-html, .review-richtext, .faq-richtext) > :first-child {
+  margin-top: 0;
+}
+
+:is(.column-detail, .review-detail, .faq-detail) :is(.column-richtext, .column-imported-html, .review-richtext, .faq-richtext) > :last-child {
   margin-bottom: 0;
 }
 
 @media (max-width: 767px) {
-  :is(.column-detail, .review-detail, .faq-detail) :is(.column-richtext, .review-richtext, .faq-richtext) {
+  :is(.column-detail, .review-detail, .faq-detail) :is(.column-richtext, .column-imported-html, .review-richtext, .faq-richtext) {
     font-size: 17px;
   }
-
-  :is(.column-detail, .review-detail, .faq-detail) :is(.column-richtext, .review-richtext, .faq-richtext) h2 {
-    margin-top: 64px;
-    font-size: 26px;
-  }
-
-  :is(.column-detail, .review-detail, .faq-detail) :is(.column-richtext, .review-richtext, .faq-richtext) h3 {
+  :is(.column-detail, .review-detail, .faq-detail) :is(.column-richtext, .column-imported-html, .review-richtext, .faq-richtext) h2 {
     font-size: 22px;
+    --rt-cms-heading-size: 22px;
+    margin-bottom: 16px;
   }
-
-  :is(.column-detail, .review-detail, .faq-detail) :is(.column-richtext, .review-richtext, .faq-richtext) > :first-child {
-    margin-top: 0;
+  :is(.column-detail, .review-detail, .faq-detail) :is(.column-richtext, .column-imported-html, .review-richtext, .faq-richtext) h3 {
+    font-size: 20px;
+    --rt-cms-heading-size: 20px;
+  }
+  :is(.column-detail, .review-detail, .faq-detail) :is(.column-richtext, .column-imported-html, .review-richtext, .faq-richtext) h4 {
+    font-size: 18px;
+    --rt-cms-heading-size: 18px;
+  }
+  :is(.column-detail, .review-detail, .faq-detail) :is(.column-richtext, .column-imported-html, .review-richtext, .faq-richtext) table {
+    font-size: 15px;
+  }
+  :is(.column-detail, .review-detail, .faq-detail) :is(.column-richtext, .column-imported-html, .review-richtext, .faq-richtext) :is(th, td) {
+    padding: 16px 14px;
   }
 }
 
-/* 빈 편집 문단은 본문 간격과 중복된다. 실제 문장 안의 줄바꿈은 유지한다. */
-:is(.column-richtext, .review-richtext, .faq-richtext) [data-cms-spacer="true"] {
-  display: none;
+:is(.column-richtext, .review-richtext, .faq-richtext) [data-cms-spacer="true"] { display: none; }
+:is(.column-richtext__table, .review-richtext__table, .faq-richtext__table) { max-width: 100%; overflow-x: auto; }
+/* 고정 목차 너비 때문에 700px로 줄어들던 본문을 720px로 확보한다. */
+@media (min-width: 1264px) {
+  .community-content .column-detail .column-shell {
+    padding-inline: 0;
+    grid-template-columns: minmax(0, 1fr) 720px minmax(0, 1fr);
+    column-gap: 24px;
+  }
 }
 
-:is(.column-detail, .review-detail, .faq-detail) :is(.column-richtext, .review-richtext, .faq-richtext) p {
-  line-height: inherit;
+@media (max-width: 1263px) {
+  .column-detail :is(.column-richtext, .column-imported-html) :is(h2, h3, h4) {
+    scroll-margin-top: calc(var(--madi-header-h) + 96px);
+  }
 }

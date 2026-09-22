@@ -197,3 +197,25 @@ test('빈 편집 문단만 간격용으로 표시하고 문장 안 줄바꿈은 
   expect(html.match(/data-cms-spacer="true"/g)).toHaveLength(2);
   expect(html).toContain('<p>본문<br></p>');
 });
+
+test('번호 목록의 시작 번호와 중첩 목록을 유지한다', () => {
+  const html = renderTiptapBody({ type: 'doc', content: [
+    { type: 'orderedList', attrs: { start: 3 }, content: [
+      { type: 'listItem', content: [
+        { type: 'paragraph', content: [{ type: 'text', text: '세 번째 항목' }] },
+        { type: 'bulletList', content: [{ type: 'listItem', content: [{ type: 'paragraph', content: [{ type: 'text', text: '하위 항목' }] }] }] },
+      ] },
+    ] },
+  ] }, 'column-richtext');
+  expect(html).toContain('<ol start="3"><li><p>세 번째 항목</p><ul>');
+});
+
+test('제목의 고정 크기 마크는 반응형 위계를 따르고 일반 문단 크기는 유지한다', () => {
+  const text = { type: 'text', text: '텍스트', marks: [{ type: 'textStyle', attrs: { fontSize: '32px' } }] };
+  const html = renderTiptapBody({ type: 'doc', content: [
+    { type: 'heading', attrs: { level: 2 }, content: [text] },
+    { type: 'paragraph', content: [text] },
+  ] }, 'column-richtext');
+  expect(html).toContain('font-size:var(--rt-cms-heading-size, 32px)');
+  expect(html).toContain('<p><span style="font-size:32px">');
+});

@@ -1,8 +1,8 @@
-import Form from 'next/form';
 import Link from 'next/link';
 import type { ReactNode } from 'react';
 
 import ColumnArchiveRow from './ColumnArchiveRow';
+import ColumnSearchField from './ColumnSearchField';
 import ColumnSourceNotice from './ColumnSourceNotice';
 import type { ColumnSourceStatus } from './column-source';
 import type { ColumnArchiveEntry } from './column-model';
@@ -41,27 +41,7 @@ export default function ColumnArchiveSearch({
       <div className="column-list__bar">
         <h2 id="column-list-title" className="community-sr-only">블로그 목록</h2>
         <div className="column-list__tools">
-          <details className="column-search" open={Boolean(searchQuery)}>
-            <summary aria-label="블로그 검색 열기">
-              <svg aria-hidden="true" viewBox="0 0 24 24">
-                <circle cx="10.8" cy="10.8" r="6.3" />
-                <path d="m16 16 4.2 4.2" />
-              </svg>
-            </summary>
-            <Form className="column-search__panel" action={basePath} role="search" aria-label="블로그 검색">
-              <label htmlFor="column-search-query">블로그 검색</label>
-              <div className="column-search__control">
-                <input
-                  id="column-search-query"
-                  name="q"
-                  type="search"
-                  defaultValue={searchQuery}
-                  placeholder="제목 또는 요약 검색"
-                />
-                <button type="submit">검색</button>
-              </div>
-            </Form>
-          </details>
+          <ColumnSearchField key={`${basePath}:${searchQuery}`} basePath={basePath} searchQuery={searchQuery} />
           {sourceStatus === 'ok' && (
             <p aria-label={searchQuery ? `검색 결과 ${columnPage.total}건` : `총 ${columnPage.total}건`}>
               {searchQuery ? `검색 결과 ${columnPage.total}건` : `총 ${columnPage.total}건`}
