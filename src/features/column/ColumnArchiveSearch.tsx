@@ -3,6 +3,8 @@ import Link from 'next/link';
 import type { ReactNode } from 'react';
 
 import ColumnArchiveRow from './ColumnArchiveRow';
+import ColumnSourceNotice from './ColumnSourceNotice';
+import type { ColumnSourceStatus } from './column-source';
 import type { ColumnArchiveEntry } from './column-model';
 import { columnArchiveUrl, paginateColumnEntries } from './column-pagination';
 import { searchColumnArchiveEntries } from './column-search';
@@ -12,6 +14,7 @@ type ColumnArchiveSearchProps = {
   searchQuery: string;
   requestedPage: number;
   basePath?: string;
+  sourceStatus?: ColumnSourceStatus;
   categoryNavigation: ReactNode;
 };
 
@@ -19,14 +22,15 @@ type ColumnArchiveSearchProps = {
  * URL의 검색어·페이지를 기준으로 렌더하는 블로그 목록.
  * 검색 결과와 페이지를 공유하거나 다시 열어도 같은 목록 상태를 복원한다.
  *
- * headnerve `ColumnArchiveSearch` 그대로다. 라벨만 이 사이트의 "블로그"로 바꿨고
- * 빈 목록 버튼은 `ds/` 대신 `.column-empty__link`(헤더 버튼 문법)를 쓴다.
+ * 페이지 제목과 목록 도구를 분리하고, CMS 상태에 따라 안내를 한 번만 표시한다.
+ * 빈 목록 버튼은 `.column-empty__link`(헤더 버튼 문법)를 쓴다.
  */
 export default function ColumnArchiveSearch({
   entries,
   searchQuery,
   requestedPage,
   basePath = '/column',
+  sourceStatus = 'ok',
   categoryNavigation,
 }: ColumnArchiveSearchProps) {
   const filteredEntries = searchColumnArchiveEntries(entries, searchQuery);
@@ -35,7 +39,7 @@ export default function ColumnArchiveSearch({
   return (
     <>
       <div className="column-list__bar">
-        <h2 id="column-list-title">블로그 목록</h2>
+        <h2 id="column-list-title" className="community-sr-only">블로그 목록</h2>
         <div className="column-list__tools">
           <details className="column-search" open={Boolean(searchQuery)}>
             <summary aria-label="블로그 검색 열기">
@@ -58,22 +62,24 @@ export default function ColumnArchiveSearch({
               </div>
             </Form>
           </details>
-          <p aria-label={searchQuery ? `검색 결과 ${columnPage.total}건` : `총 ${columnPage.total}건`}>
-            {searchQuery ? `검색 결과 ${columnPage.total}건` : `총 ${columnPage.total}건`}
-          </p>
+          {sourceStatus === 'ok' && (
+            <p aria-label={searchQuery ? `검색 결과 ${columnPage.total}건` : `총 ${columnPage.total}건`}>
+              {searchQuery ? `검색 결과 ${columnPage.total}건` : `총 ${columnPage.total}건`}
+            </p>
+          )}
         </div>
       </div>
-      {categoryNavigation}
-      {columnPage.items.length === 0 && searchQuery ? (
+      {sourceStatus === 'ok' && categoryNavigation}
+      {sourceStatus !== 'ok' ? (
+        <ColumnSourceNotice status={sourceStatus} />
+      ) : columnPage.items.length === 0 && searchQuery ? (
         <div className="column-empty">
-          <span className="column-empty__mark" aria-hidden="true" />
           <h3>검색 결과가 없습니다</h3>
           <p>다른 검색어로 제목과 요약을 다시 찾아보세요.</p>
           <Link className="column-empty__link" href={basePath}>전체 글 보기</Link>
         </div>
       ) : columnPage.items.length === 0 ? (
         <div className="column-empty">
-          <span className="column-empty__mark" aria-hidden="true" />
           <h3>새로운 글을 준비하고 있습니다</h3>
           <p>통증의 원인과 치료를 다룬 원장의 글로 곧 찾아뵙겠습니다.</p>
         </div>

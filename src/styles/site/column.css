@@ -19,8 +19,7 @@
   --column-space-base: var(--madi-space-4);
   --column-space-within: var(--column-space-base);
   --column-space-action: calc(var(--column-space-base) * 2);
-  --column-space-component: calc(var(--column-space-base) * 4);
-  --column-space-section: calc(var(--column-space-base) * 8);
+  --column-space-component: var(--madi-space-6);
   /* headnerve `--reading-wide`. 읽기 좋은 한 줄 길이라 폭 토큰과 별도로 둔다. */
   --column-measure: 58rem;
 }
@@ -72,7 +71,7 @@
 /* 목록 */
 
 .column-list {
-  padding-block: var(--madi-section-py);
+  padding-block: var(--madi-space-5) var(--madi-section-py);
   background: var(--madi-bg);
 }
 
@@ -500,31 +499,6 @@ a.column-card__author:hover {
   text-align: center;
 }
 
-.column-empty__mark {
-  position: relative;
-  width: var(--madi-space-6);
-  aspect-ratio: 1;
-  margin-bottom: var(--madi-space-4);
-}
-
-.column-empty__mark::before,
-.column-empty__mark::after {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: var(--madi-space-4);
-  border-top: 1px solid var(--madi-text-strong);
-  content: '';
-}
-
-.column-empty__mark::before {
-  transform: translate(-50%, -50%);
-}
-
-.column-empty__mark::after {
-  transform: translate(-50%, -50%) rotate(90deg);
-}
-
 .column-empty h3 {
   margin: 0;
   color: var(--madi-text-strong);
@@ -566,8 +540,8 @@ a.column-card__author:hover {
 
 .column-detail__header {
   display: flex;
-  margin-top: var(--madi-space-5);
-  padding: var(--madi-space-6);
+  margin-top: 0;
+  padding: 0 0 var(--madi-space-4);
   flex-direction: column;
   align-items: flex-start;
   gap: 0;
@@ -594,7 +568,7 @@ a.column-card__author:hover {
   flex-wrap: wrap;
   gap: var(--madi-space-2) var(--madi-space-3);
   margin: 0;
-  color: var(--madi-text-subtle);
+  color: var(--madi-text-muted);
   font-size: var(--madi-fs-base);
   line-height: 20px;
 }
@@ -770,7 +744,7 @@ a.column-card__author:hover {
 
 .column-richtext h2 {
   margin: var(--column-space-component) 0 var(--column-space-within);
-  padding-top: var(--column-space-within);
+  padding-top: var(--madi-space-3);
   border-top: 1px solid var(--madi-border-strong);
   font-size: var(--madi-fs-h3);
   font-weight: 700;
@@ -994,7 +968,7 @@ a.column-card__author:hover {
   }
 
   .column-list {
-    padding-block: var(--madi-section-py);
+    padding-block: var(--madi-space-5) var(--madi-section-py);
   }
 
   .column-category-nav {
@@ -1038,8 +1012,18 @@ a.column-card__author:hover {
   }
 
   .column-list__bar {
+    position: relative;
     align-items: center;
     padding-bottom: var(--madi-space-3);
+  }
+
+  .column-search {
+    position: static;
+  }
+
+  .column-search__panel {
+    box-sizing: border-box;
+    width: min(22rem, 100%);
   }
 
   .column-list__items {
@@ -1147,7 +1131,7 @@ a.column-card__author:hover {
   }
 
   .column-detail__header {
-    margin-top: var(--madi-space-4);
+    margin-top: 0;
     padding: 0 0 var(--madi-space-3);
     gap: 0;
   }

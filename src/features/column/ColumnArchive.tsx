@@ -5,7 +5,6 @@ import JsonLd from '../../components/site/JsonLd';
 import { webPageJsonLd } from '../seo/schema';
 import ColumnArchiveSearch from './ColumnArchiveSearch';
 import ColumnCategoryNav from './ColumnCategoryNav';
-import ColumnSourceNotice from './ColumnSourceNotice';
 import { columnIndexMetadata, columnMedicalDisclaimer } from './column-content';
 import { resolveColumnArchive, resolveColumnCategories } from './column-source';
 
@@ -67,11 +66,12 @@ export default async function ColumnArchive({
       />
       <div className="cBox column-page clearFix">
         <h2 className="column-page__title">{columnIndexMetadata.label}</h2>
-        <ColumnSourceNotice status={archive.status} />
+        <p className="column-page__lead">통증과 치료에 관한 이경무 대표원장의 글을 모았습니다.</p>
         <div className="column-list">
           <div className="column-shell">
             <ColumnArchiveSearch
               entries={archive.entries}
+              sourceStatus={archive.status}
               requestedPage={requestedPage}
               searchQuery={searchQuery}
               categoryNavigation={<ColumnCategoryNav categories={categoryList.categories} />}

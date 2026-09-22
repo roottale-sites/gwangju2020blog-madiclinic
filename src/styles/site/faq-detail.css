@@ -25,18 +25,6 @@
   border-bottom: 1px solid var(--madi-primary);
 }
 
-.faq-detail__label {
-  display: inline-block;
-  margin: 0 0 var(--madi-space-2);
-  padding: 2px var(--madi-space-3);
-  border-radius: var(--madi-radius-pill);
-  background-color: var(--madi-bg-soft);
-  color: var(--madi-text-subtle);
-  font-size: var(--madi-fs-base-sm);
-  font-weight: 400;
-  line-height: 20px;
-}
-
 .faq-detail__title {
   margin: 0;
   color: var(--madi-text-strong);

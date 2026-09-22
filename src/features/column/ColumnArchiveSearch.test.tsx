@@ -36,3 +36,19 @@ describe('블로그 목록 정보 위계', () => {
     expect(listIndex).toBeGreaterThan(navigationIndex);
   });
 });
+
+
+describe('블로그 데이터 안내', () => {
+  test.each([
+    ['unconfigured', '블로그 준비 중입니다'],
+    ['upstream', '지금은 글 목록을 불러올 수 없습니다'],
+  ] as const)('%s 상태는 빈 목록과 중복하지 않는다', (sourceStatus, message) => {
+    const html = renderToStaticMarkup(createElement(ColumnArchiveSearch, {
+      entries: [], searchQuery: '', requestedPage: 1, categoryNavigation: null, sourceStatus,
+    }));
+    expect(html).toContain(message);
+    expect(html).not.toContain('새로운 글을 준비하고 있습니다');
+    expect(html).not.toContain('총 0건');
+    expect(html).toContain('블로그 검색 열기');
+  });
+});

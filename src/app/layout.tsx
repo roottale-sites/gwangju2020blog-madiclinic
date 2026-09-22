@@ -5,6 +5,7 @@ import '../styles/tokens.css';
 import '../styles/madi/header.css';
 import '../styles/madi/patterns.css';
 import '../styles/madi/navigation.css';
+import '../styles/site/community.css';
 import JsonLd from '../components/site/JsonLd';
 import SiteLayout from '../components/site/SiteLayout';
 import { clinic } from '../data/clinic';

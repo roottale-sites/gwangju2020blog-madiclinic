@@ -1,0 +1,107 @@
+/* 커뮤니티 본문의 공통 정렬. 원본 헤더·배너의 CSS와 분리한다. */
+.community-content > .cBox {
+  padding: var(--madi-space-6) 0 0;
+}
+
+.community-content .column-shell,
+.community-content .reviews-shell {
+  width: 100%;
+}
+
+.community-content .column-list__bar,
+.community-content .reviews-archive__bar {
+  justify-content: flex-end;
+}
+
+.community-content .community-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+.reviews-page__lead {
+  margin: var(--madi-space-3) 0 0;
+  color: var(--madi-text-muted);
+  font-size: var(--madi-fs-md);
+  line-height: var(--madi-lh-body);
+}
+
+.community-content .column-notice {
+  margin-top: var(--madi-space-4);
+}
+
+.community-content .column-empty {
+  max-width: none;
+  margin-top: var(--madi-space-4);
+  border-radius: 0;
+  border-top: 1px solid var(--madi-primary);
+  background: var(--madi-bg-panel);
+}
+
+/* 상세 페이지는 바깥 cBox 한 곳에서만 상단 여백을 갖는다. */
+.community-content .column-detail,
+.community-content .review-detail {
+  padding-top: 0;
+}
+
+.community-content .faq-page > .faq-layout:first-child {
+  padding-top: 0;
+}
+
+.community-content .review-detail__header {
+  padding-top: 0;
+  border-top: 0;
+  border-bottom-color: var(--madi-primary);
+}
+
+.community-content .column-detail__surface,
+.community-content .column-detail__reading {
+  width: min(45rem, 100%);
+}
+
+.community-content .faq-topic-list .faq-row-arrow {
+  line-height: 25px;
+}
+
+@media (max-width: 1220px) {
+  .community-content.cBoxArea {
+    padding-inline: var(--madi-space-4);
+  }
+}
+
+@media (max-width: 980px) {
+  .community-content > .cBox {
+    padding-top: var(--madi-space-5);
+  }
+
+  .community-content :is(.column-page__title, .reviews-page__title, .faq-intro__title) {
+    font-size: 28px;
+    line-height: 40px;
+  }
+}
+
+@media (max-width: 660px) {
+  .community-content.cBoxArea {
+    padding-inline: var(--madi-space-3);
+  }
+
+  .community-content :is(.column-page__title, .reviews-page__title, .faq-intro__title) {
+    font-size: 22px;
+    line-height: 30px;
+  }
+
+  .community-content :is(.column-detail__header h2, .review-detail__header h2, .faq-detail__title) {
+    font-size: var(--madi-fs-h3);
+    line-height: 1.5;
+  }
+
+  .community-content .column-toc--mobile {
+    width: 100%;
+  }
+}

@@ -55,9 +55,6 @@ export default function FaqDetailPage({ collection, entry, section, topic }: Rea
       <div className="faq-layout">
         <article className="faq-detail faq-layout__main" data-content-article>
           <header className="faq-detail__header">
-            <p className="faq-detail__label">
-              {topic.name} · {entry.intent}
-            </p>
             <h2 className="faq-detail__title">{entry.question}</h2>
           </header>
           <section id={S.question.id} className="faq-question-card" aria-labelledby={faqDetailHeadingId(S.question)}>

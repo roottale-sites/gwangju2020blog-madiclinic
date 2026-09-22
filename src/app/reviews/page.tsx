@@ -109,13 +109,11 @@ export default async function ReviewsPage({ searchParams }: ReviewsPageProps) {
         ]}
       />
       <div className="cBox reviews-page clearFix">
-        <h2 className="reviews-page__title">{reviewsIndexMetadata.label}</h2>
+        <h2 id="reviews-list-title" className="reviews-page__title">{reviewsIndexMetadata.label}</h2>
+        <p className="reviews-page__lead">마디클리닉에서 진료받으신 분들의 경험을 전합니다.</p>
         <section className="reviews-archive" aria-labelledby="reviews-list-title">
           <div className="reviews-shell">
-            <div className="reviews-archive__bar">
-              <h2 id="reviews-list-title">{reviewsIndexMetadata.label} 목록</h2>
-              {result.ok && <p>총 {filteredReviews.length}건</p>}
-            </div>
+            {result.ok && <div className="reviews-archive__bar"><p>총 {filteredReviews.length}건</p></div>}
             {categories.length > 0 && (
               <nav className="reviews-filter" aria-label="후기 분류">
                 <Link href="/reviews" aria-current={!activeCategory ? 'page' : undefined}>
@@ -144,9 +142,9 @@ export default async function ReviewsPage({ searchParams }: ReviewsPageProps) {
                     ? '치료 경험담을 곧 올릴 예정입니다. 진료 문의는 대표전화로 도와드립니다.'
                     : '잠시 뒤 다시 확인해 주세요. 진료 문의는 대표전화로 도와드립니다.'}
                 </p>
-                <Link className="reviews-state__link" href="/reviews">
-                  다시 시도하기
-                </Link>
+                {result.reason !== 'unconfigured' && (
+                  <Link className="reviews-state__link" href="/reviews">다시 시도하기</Link>
+                )}
               </section>
             ) : noResults ? (
               <section className="reviews-state" aria-labelledby="reviews-no-results-title">

@@ -20,7 +20,8 @@ test('블로그 목록은 마디 골격 안에서 빈 상태를 안내한다', a
   await expect(page.locator('main#main h1')).toHaveCount(0);
   // 키가 없으면 빈 목록이 아니라 이유를 밝힌다.
   await expect(page.locator('.column-notice')).toBeVisible();
-  await expect(page.locator('.column-empty h3')).toBeVisible();
+  await expect(page.locator('.column-empty')).toHaveCount(0);
+  await expect(page.locator('.column-notice')).toHaveCount(1);
   await expect(page.locator('.column-card')).toHaveCount(0);
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
     'href',
@@ -36,6 +37,12 @@ test('블로그 목록은 390px에서도 가로 스크롤 없이 한 열로 읽�
   await expect(page.locator('#bnSubArea .sbn h2')).toHaveText('블로그');
   await expect(page.locator('.column-notice')).toBeVisible();
   expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(390);
+  await page.locator('.column-search summary').click();
+  const panel = await page.locator('.column-search__panel').boundingBox();
+  expect(panel).not.toBeNull();
+  expect(panel!.x).toBeGreaterThanOrEqual(20);
+  expect(panel!.x + panel!.width).toBeLessThanOrEqual(370);
+  await expect(page.locator('#column-search-query')).toBeVisible();
 });
 
 test('검색 폼은 GET 주소로 목록 상태를 고정한다', async ({ page }) => {

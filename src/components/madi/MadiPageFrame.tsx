@@ -36,7 +36,7 @@ export default function MadiPageFrame({
       {isBlogPath(pathname) ? <MadiCommunityNav pathname={pathname} /> : null}
       <div id="subContainer" className="clearFix">
         <MadiBreadcrumb crumbs={crumbs} selfPath={pathname} />
-        <main id="main" className="cBoxArea clearFix">
+        <main id="main" className="cBoxArea community-content clearFix">
           {children}
         </main>
       </div>

@@ -128,7 +128,7 @@
 }
 
 .faq-section-card__meta > b {
-  color: var(--madi-text-subtle);
+  color: var(--madi-text-muted);
   font-weight: 400;
 }
 
@@ -246,7 +246,7 @@
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto var(--madi-space-3);
   gap: var(--madi-space-2);
-  align-items: center;
+  align-items: start;
   padding: var(--madi-space-3) var(--madi-space-1);
   border-bottom: 1px solid var(--madi-border);
   transition: var(--madi-motion);
@@ -314,7 +314,7 @@
   border: 1px solid var(--madi-border-strong);
   border-radius: var(--madi-radius-pill);
   background-color: var(--madi-bg-tab);
-  color: var(--madi-text-subtle);
+  color: var(--madi-text-muted);
   font-size: var(--madi-fs-base);
   font-weight: 400;
   line-height: 20px;
