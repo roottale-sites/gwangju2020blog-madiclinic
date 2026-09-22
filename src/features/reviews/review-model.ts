@@ -1,3 +1,4 @@
+import { contentSource, type ContentSource } from '../cms/content-source';
 import { selectRelatedPosts, type CmsPostContent } from '@roottale/cms-client/server';
 
 import { firstBodyImageUrl } from '../cms/body-image';
@@ -21,6 +22,7 @@ export function reviewEntryPath(post: ReviewPathInput): string {
 }
 
 export type ReviewMetadata = {
+  copiedFrom?: ContentSource;
   patient: string | null;
   doctor: string | null;
   treatmentPeriod: string | null;
@@ -65,6 +67,7 @@ export function reviewExcerpt(post: CmsPostContent): string | null {
 
 export function reviewMetadata(post: CmsPostContent): ReviewMetadata {
   return {
+    copiedFrom: contentSource(post.metaJson),
     patient: readStringField(post.fields, PATIENT_FIELD_NAMES),
     doctor:
       readStringField(post.fields, DOCTOR_FIELD_NAMES) ??

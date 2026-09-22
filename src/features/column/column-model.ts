@@ -1,3 +1,4 @@
+import { contentSource } from '../cms/content-source';
 import { siteUrl } from '../../data/site';
 import { firstBodyImageUrl } from '../cms/body-image';
 import { cfImageVariantUrl, isCfImageUrl } from '../cms/cf-image-url';
@@ -109,21 +110,6 @@ export function columnPostDescription(post: ColumnPostInput): string {
  *
  * 분류가 정확히 하나가 아니면 주소를 만들 수 없어 null이다(호출부가 제외한다).
  */
-function copiedFrom(post: ColumnPostInput): ColumnEntry['copiedFrom'] {
-  const source = post.metaJson.copiedFrom;
-  if (!source || typeof source !== 'object') return undefined;
-  const name = Reflect.get(source, 'name');
-  const url = Reflect.get(source, 'url');
-  if (typeof name !== 'string' || !name.trim() || typeof url !== 'string') return undefined;
-  try {
-    const parsed = new URL(url);
-    if (!['http:', 'https:'].includes(parsed.protocol)) return undefined;
-    return { name: name.trim(), url: parsed.href };
-  } catch {
-    return undefined;
-  }
-}
-
 export function columnEntryFromPost(post: ColumnPost): ColumnEntry | null {
   const category = columnCategoryRefFromTerms(post.terms);
   if (!category) return null;
@@ -136,7 +122,7 @@ export function columnEntryFromPost(post: ColumnPost): ColumnEntry | null {
     path: post.path,
     title: removeEmDashes(post.title),
     description: columnPostDescription(post),
-    copiedFrom: copiedFrom(post),
+    copiedFrom: contentSource(post.metaJson),
     publishedAt: post.publishedAt,
     updatedAt: post.updatedAt ?? post.publishedAt,
     bodyHtml: bodyHtml ?? '',
@@ -155,7 +141,7 @@ export function columnArchiveEntryFromPost(post: ColumnArchivePost): ColumnArchi
     path: post.path,
     title: removeEmDashes(post.title),
     description: columnPostDescription(post),
-    copiedFrom: copiedFrom(post),
+    copiedFrom: contentSource(post.metaJson),
     publishedAt: post.publishedAt,
     updatedAt: post.updatedAt ?? post.publishedAt,
     ...(post.featuredImageUrl ? { featuredImageUrl: post.featuredImageUrl } : {}),

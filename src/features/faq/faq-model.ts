@@ -1,3 +1,4 @@
+import type { ContentSource } from '../cms/content-source';
 import { faqInternalLinkKeyFromPath } from './faq-cache';
 
 /**
@@ -48,6 +49,7 @@ export type FaqTopic = {
 };
 
 export type FaqEntry = {
+  copiedFrom?: ContentSource;
   contentId?: string;
   sectionSlug: string;
   topicSlug: string;

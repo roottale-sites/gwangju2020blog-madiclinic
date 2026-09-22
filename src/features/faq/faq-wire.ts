@@ -1,3 +1,4 @@
+import { contentSource, type ContentSource } from '../cms/content-source';
 /**
  * FAQ 전용 공개 API 와이어 클라이언트. headnerve `features/faq/faq-wire.ts`다.
  *
@@ -37,6 +38,7 @@ export type FaqWireModel = {
 };
 
 export type FaqWirePost = {
+  copiedFrom?: ContentSource;
   id: string;
   modelKey: string;
   collectionKey: string;
@@ -186,6 +188,7 @@ function postFromWire(value: Record<string, unknown>): FaqWirePost {
     excerpt: nullableString(value.excerpt),
     updatedAt: stringValue(value.updated_at) || publishedAt || new Date(0).toISOString(),
     bodyJson: recordValue(value.body_json),
+    copiedFrom: contentSource(recordValue(value.meta_json)),
     bodyHtml: nullableString(value.body_html),
     fields: recordValue(value.fields),
     relatedPostIds: Array.isArray(value.related_posts)

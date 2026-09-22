@@ -92,7 +92,11 @@ export default function FaqSectionPage({ collection, section }: Readonly<{
             </ol>
           </FaqSidebarBox>
           <FaqSidebarBox title="답변 작성">
-            <FaqReviewer detail="질문 검토 및 답변 작성" />
+            {entries.some((entry) => entry.copiedFrom) ? (
+              <p>각 답변에서 작성자와 원문 출처를 확인할 수 있습니다.</p>
+            ) : (
+              <FaqReviewer detail="질문 검토 및 답변 작성" />
+            )}
           </FaqSidebarBox>
         </aside>
       </div>

@@ -128,7 +128,11 @@ export default function FaqTopicPage({ collection, section, topic, selectedInten
             </ol>
           </FaqSidebarBox>
           <FaqSidebarBox title="답변 작성">
-            <FaqReviewer detail="답변 작성 및 진료 안내" />
+            {entries.some((entry) => entry.copiedFrom) ? (
+              <p>각 답변에서 작성자와 원문 출처를 확인할 수 있습니다.</p>
+            ) : (
+              <FaqReviewer detail="답변 작성 및 진료 안내" />
+            )}
           </FaqSidebarBox>
         </aside>
       </div>

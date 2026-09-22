@@ -179,6 +179,7 @@ function entryFromPreparedPost(
 
   return {
     contentId: post.id || undefined,
+    copiedFrom: post.copiedFrom,
     sectionSlug,
     topicSlug,
     topicName,

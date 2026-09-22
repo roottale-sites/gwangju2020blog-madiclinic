@@ -37,7 +37,7 @@ export function faqDetailHeadingId(section: FaqDetailSection): string {
  * 상세 답변·마디클리닉 관점은 내용이 있을 때만, 관련 질문은 1건 이상일 때만 나타난다.
  */
 export function faqDetailOutline(
-  entry: Pick<FaqEntry, 'bodyHtml' | 'clinicPerspectiveHtml'>,
+  entry: Pick<FaqEntry, 'bodyHtml' | 'clinicPerspectiveHtml' | 'copiedFrom'>,
   relatedCount: number,
 ): readonly FaqDetailSection[] {
   const s = faqDetailSections;
@@ -45,7 +45,7 @@ export function faqDetailOutline(
     s.question,
     s.coreAnswer,
     ...(entry.bodyHtml ? [s.detailedAnswer] : []),
-    ...(entry.clinicPerspectiveHtml ? [s.clinicPerspective] : []),
+    ...(entry.clinicPerspectiveHtml ? [{ ...s.clinicPerspective, title: entry.copiedFrom ? '원문 병원 관점' : s.clinicPerspective.title }] : []),
     ...(relatedCount > 0 ? [s.relatedQuestions] : []),
   ];
 }

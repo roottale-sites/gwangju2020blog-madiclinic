@@ -252,3 +252,12 @@ describe('CMS를 읽지 못하는 하위 단계', () => {
     },
   );
 });
+
+test('복사 FAQ는 원문 작성자와 원문 병원 관점을 표시한다', () => {
+  const html = detail({ copiedFrom: { name: 'headnerve', url: 'https://headnerve.com/faq/example' }, clinicPerspectiveHtml: '<p>원문 관점</p>' });
+  expect(html).toContain('headnerve');
+  expect(html).toContain('href="https://headnerve.com/faq/example"');
+  expect(html).toContain('원문 병원 관점');
+  expect(html).not.toContain('질문 검토 및 답변 작성');
+  expect(html).not.toContain('마디클리닉 관점');
+});

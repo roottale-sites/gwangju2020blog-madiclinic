@@ -287,3 +287,11 @@ describe('FAQ 예약 내부 링크 발행 전환', () => {
       .toEqual(['faq.spine.neck-pain.mri-normal']);
   });
 });
+
+test('공개 API의 원문 출처가 FAQ 표시 모델까지 전달된다', async () => {
+  const copiedFrom = { name: 'headnerve', url: 'https://headnerve.com/faq/example' };
+  installCmsResponses([{ ...post('copied', '복사 질문'), meta_json: { copiedFrom } }]);
+  const result = await loadFaqCatalog();
+  expect(result.ok).toBe(true);
+  if (result.ok) expect(result.data.archive.entries[0]?.copiedFrom).toEqual(copiedFrom);
+});

@@ -61,3 +61,10 @@ describe('후기 카드', () => {
     expect(markup).toContain('무릎 통증 치료 경험담입니다.');
   });
 });
+
+test('복사 후기는 원문을 담당 의료진으로 표시하지 않는다', () => {
+  const markup = renderToStaticMarkup(createElement(ReviewCard, { post: review({ metaJson: { copiedFrom: { name: 'headnerve', url: 'https://headnerve.com/reviews/example' } } }) }));
+  expect(markup).toContain('<dt>원문</dt>');
+  expect(markup).toContain('href="https://headnerve.com/reviews/example"');
+  expect(markup).not.toContain('<dt>담당</dt>');
+});
