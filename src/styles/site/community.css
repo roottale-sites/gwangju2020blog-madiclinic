@@ -152,7 +152,7 @@ main.community-content a[href]:is(:hover, :active, :focus-visible) {
   text-decoration-color: currentColor;
 }
 
-/* 글을 여는 주 링크만 밑줄을 생략한다. 분류·글쓴이 링크는 공통 hover 밑줄을 따른다. */
+/* 글을 여는 카드의 주 링크는 면·글자색으로 반응한다. */
 main.community-content a.column-card__title-link[href],
 main.community-content a.review-card__title-link[href],
 main.community-content :is(.faq-topic-list, .faq-question-list) > li > a[href],
@@ -160,8 +160,14 @@ main.community-content a.faq-section-card[href] {
   text-decoration-line: none;
 }
 
-/* 버튼·탭은 면과 테두리로 반응한다. 분류·글쓴이 등 텍스트 링크는 밑줄을 유지한다. */
-main.community-content :is(button, a[role='button'], a.preferred-source__link, a.column-empty__link, a.reviews-state__link, a.faq-state__link, .post-pattern__actions > a, .archive-pagination__pages a, .archive-tabs a) {
+/* 버튼·배지·탭은 면과 테두리로 반응한다. 텍스트만 있는 링크는 밑줄을 유지한다. */
+main.community-content :is(
+  button, a[role='button'], a.preferred-source__link,
+  a.column-empty__link, a.reviews-state__link, a.faq-state__link,
+  a.column-card__category, a.review-card__category, a.community-category-badge,
+  .post-pattern__actions > a, .archive-pagination__pages a,
+  .archive-tabs a, .faq-filter a, .column-toc__item a
+) {
   text-decoration: none;
   transition: color 180ms ease, background-color 220ms ease, border-color 220ms ease, box-shadow 220ms ease;
 }
@@ -182,9 +188,11 @@ main.community-content :is(button, a[role='button'], a.preferred-source__link, a
   font-size: 12px;
   line-height: 20px;
 }
-.column-card a.column-card__category:hover,
-.review-card a.review-card__category:hover,
-.community-content a.community-category-badge:hover { color: var(--madi-primary-hover); }
+.community-content :is(a.column-card__category, a.review-card__category, a.community-category-badge):is(:hover, :active, :focus-visible) {
+  color: var(--madi-primary-hover);
+  border-color: var(--madi-border-strong);
+  background-color: var(--madi-bg-panel-title);
+}
 
 .community-category-links { display: flex; flex-wrap: wrap; gap: 6px; }
 
