@@ -1,9 +1,9 @@
 /**
  * 헤더 내비게이션 데이터 (PLAN.md §3.4).
  *
- * 본 사이트(`http://gwangju2020.madiclinic.co.kr`)의 GNB 4개는 절대주소로
- * 그대로 연결하고, 블로그 항목은 1차 메뉴 1개(`커뮤니티`)에 하위 3개로 넣는다.
- * 1차 항목을 2개 이상 늘리면 GNB 가용 폭 760px을 넘어 로고와 겹친다.
+ * 본 사이트의 GNB 5개와 하위 메뉴 명칭·순서를 그대로 유지한다.
+ * 기존 진료 메뉴 4개는 본 사이트 절대주소로 연결하고, 원본의 `커뮤니티`
+ * 하위 블로그·자주 묻는 질문·후기만 이 저장소 화면으로 연결한다.
  */
 
 /** 본 사이트 원본. GNB 기존 4개 항목의 절대주소 기준. */
@@ -12,7 +12,7 @@ export const mainSiteOrigin = 'http://gwangju2020.madiclinic.co.kr';
 export type NavChild = Readonly<{ label: string; href: string }>;
 export type NavItem = Readonly<{ label: string; href: string; children: readonly NavChild[] }>;
 
-/** 1차 메뉴. 폭은 header.css가 정한다(120/120/120/160/120 = 640px). */
+/** 1차 메뉴. 폭은 원본과 같은 header.css 값이다(95/95/95/140/95 = 520px). */
 export const gnb: readonly NavItem[] = [
   {
     label: '원장 소개',
