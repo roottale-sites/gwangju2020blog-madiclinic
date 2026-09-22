@@ -151,23 +151,6 @@ table tr th:last-child {border-right: 0;}
 	@media screen and (max-width: 360px) {
 		ul.whereIs > li > .depthMenu {left: auto; right: 0;}
 	}
-	/*
-	 * 블로그는 원본보다 깊은 계층을 쓴다 — 원본 서브 페이지는 최대 3칸이지만
-	 * FAQ 상세는 홈 + 5칸(커뮤니티 › 자주 묻는 질문 › 영역 › 질환 › 질문)이다.
-	 * 칸은 140px 고정 float라 좁은 폭에서 740px가 되고, 줄을 넘으면 60px 띠 밖으로
-	 * 흘러 뒤따르는 본문이 그 float를 피해 오른쪽으로 밀린다(390px 실측: 본문 폭
-	 * 370 → 90px). 칸 치수는 원본 그대로 두고 띠 안에서만 가로로 흐르게 한다.
-	 *
-	 * `min-width`가 `min(100%, 1200px)`인 이유: 칸이 다 들어가는 폭에서는 원본과
-	 * 같이 1200px(≤1220px는 960px) 안에 가운데로 놓이고, 넘칠 때만 내용 폭까지
-	 * 늘어난다. `min-width: 100%`로 두면 min-width가 max-width를 이겨 1440px에서
-	 * 띠가 왼쪽 끝부터 시작해 원본과 어긋난다(실측).
-	 */
-	.whereIsLine {overflow-x: auto; overflow-y: hidden;}
-	.whereIsLine ul.whereIs {width: max-content; min-width: min(100%, 1200px);}
-	@media screen and (max-width: 1220px) {
-		.whereIsLine ul.whereIs {min-width: min(100%, 960px);}
-	}
 
 	/* 깊은 CMS 분류의 상위 링크도 원본 위치 표시줄의 글자 속성을 따른다. */
 	.whereIsLine ul.whereIs > li > a {color: inherit; font-size: inherit; font-weight: inherit; letter-spacing: inherit;}

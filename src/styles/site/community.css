@@ -186,7 +186,6 @@ main.community-content a.faq-section-card[href] {
 .community-content a.community-category-badge:hover { color: var(--madi-primary-hover); }
 
 .community-category-links { display: flex; flex-wrap: wrap; gap: 6px; }
-.column-detail__category { margin-bottom: 16px; }
 
 @media (prefers-reduced-motion: reduce) {
   main.community-content a[href] { transition: none; }

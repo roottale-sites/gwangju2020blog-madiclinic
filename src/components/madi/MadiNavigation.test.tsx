@@ -37,6 +37,6 @@ describe('본 사이트와 이어지는 커뮤니티 탐색', () => {
     expect(html).toContain(`href="${mainSiteOrigin}/doctor/doctor01.html"`);
     expect(html).toContain('href="/reviews"');
     expect(html.match(/class="breadcrumbToggle"/g)).toHaveLength(2);
-    expect(html).toContain('<span aria-current="page">척추</span>');
+    expect(html).toContain('<span aria-current="page" title="척추">척추</span>');
   });
 });

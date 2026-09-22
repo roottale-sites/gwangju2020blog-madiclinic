@@ -81,7 +81,7 @@ export default function MadiBreadcrumbNav({
                 </>
               ) : crumb.href && !last ? (
                 <Link href={crumb.href}>{crumb.name}</Link>
-              ) : <span aria-current={last ? 'page' : undefined}>{crumb.name}</span>}
+              ) : <span aria-current={last ? 'page' : undefined} title={last ? crumb.name : undefined}>{crumb.name}</span>}
             </li>
           );
         })}

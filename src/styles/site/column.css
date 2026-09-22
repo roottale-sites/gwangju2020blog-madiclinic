@@ -302,7 +302,8 @@ a.column-card__author:hover {
   display: flex;
   flex-wrap: wrap;
   gap: var(--madi-space-2) var(--madi-space-3);
-  margin: 0;
+  justify-content: flex-end;
+  margin: 0 0 0 auto;
   color: var(--madi-text-muted);
   font-size: var(--madi-fs-base);
   line-height: 20px;
@@ -311,7 +312,8 @@ a.column-card__author:hover {
 .column-detail__header-foot {
   display: flex;
   width: 100%;
-  align-items: flex-end;
+  align-items: center;
+  flex-wrap: wrap;
   justify-content: space-between;
   gap: var(--madi-space-4);
   margin-top: var(--column-space-within);
@@ -319,8 +321,6 @@ a.column-card__author:hover {
 
 @media (max-width: 47.9375rem) {
   .column-detail__header-foot {
-    align-items: stretch;
-    flex-direction: column;
     gap: var(--madi-space-3);
   }
 }
@@ -668,30 +668,6 @@ a.column-card__author:hover {
   border-top: 1px solid var(--madi-border-strong);
 }
 
-.column-detail__footer {
-  max-width: none;
-  margin: var(--column-space-action) auto 0;
-  padding-top: var(--column-space-within);
-  border-top: 1px solid var(--madi-border-strong);
-}
-
-.column-detail__footer a {
-  display: inline-flex;
-  min-height: 44px;
-  align-items: center;
-  gap: var(--madi-space-2);
-  color: var(--madi-text-strong);
-  font-size: var(--madi-fs-base);
-  font-weight: 500;
-  text-decoration: none;
-  transition: color 0.3s ease, transform 0.3s ease;
-}
-
-.column-detail__footer a:hover {
-  color: var(--madi-tab-active);
-  transform: translateX(var(--madi-space-1));
-}
-
 @media (max-width: 767px) {
   .column-shell {
     width: min(var(--madi-container-narrow), calc(100% - (var(--madi-space-2) * 2)));
@@ -881,14 +857,12 @@ a.column-card__author:hover {
   .column-card__link,
   .column-card__image,
   .column-toc__chevron,
-  .column-toc__item a,
-  .column-detail__footer a {
+  .column-toc__item a {
     transition: none;
   }
 
   .column-card__link:has(.column-card__title-link:hover) .column-card__image,
-  .column-card__link:has(.column-card__title-link:focus-visible) .column-card__image,
-  .column-detail__footer a:hover {
+  .column-card__link:has(.column-card__title-link:focus-visible) .column-card__image {
     transform: none;
   }
 }

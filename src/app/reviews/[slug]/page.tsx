@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import ArticleNavigation from '../../../components/site/ArticleNavigation';
 import type { Metadata } from 'next';
 import { notFound, permanentRedirect } from 'next/navigation';
 
@@ -288,27 +289,9 @@ export default async function ReviewDetailPage({ params }: ReviewDetailPageProps
               </aside>
               <ReviewFaq items={faqItems} />
             </div>
-            <nav className="review-detail__navigation" aria-label="이전글 다음글">
-              {newerRecord ? (
-                <Link href={reviewEntryPath(newerRecord)}>
-                  <span className="review-detail__navigation-label">이전글</span>
-                  <span className="review-detail__navigation-title">{reviewTitle(newerRecord)}</span>
-                </Link>
-              ) : (
-                <span />
-              )}
-              <Link className="review-detail__list-link" href="/reviews">
-                후기 목록
-              </Link>
-              {olderRecord ? (
-                <Link href={reviewEntryPath(olderRecord)}>
-                  <span className="review-detail__navigation-label">다음글</span>
-                  <span className="review-detail__navigation-title">{reviewTitle(olderRecord)}</span>
-                </Link>
-              ) : (
-                <span />
-              )}
-            </nav>
+            <ArticleNavigation listHref="/reviews" listLabel="후기 목록"
+              previous={newerRecord ? { href: reviewEntryPath(newerRecord), title: reviewTitle(newerRecord) } : undefined}
+              next={olderRecord ? { href: reviewEntryPath(olderRecord), title: reviewTitle(olderRecord) } : undefined} />
           </div>
         </article>
         {related.length > 0 && (

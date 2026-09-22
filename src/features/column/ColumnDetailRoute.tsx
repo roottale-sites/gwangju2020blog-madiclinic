@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 import type { ReactNode } from 'react';
 
 import MadiPageFrame from '../../components/madi/MadiPageFrame';
+import ArticleNavigation, { type ArticleNavigationLink } from '../../components/site/ArticleNavigation';
 import JsonLd from '../../components/site/JsonLd';
 import { siteUrl } from '../../data/site';
 import ClinicGuide from '../clinic-guide/ClinicGuide';
@@ -18,7 +19,7 @@ import {
 } from './column-content';
 import { buildColumnDocument } from './column-document';
 import { columnEntryPath, columnEntrySeoTitle, type ColumnEntry } from './column-model';
-import { resolveColumnEntry } from './column-source';
+import { resolveColumnArchive, resolveColumnEntry } from './column-source';
 
 export async function columnDetailMetadata(slug: string): Promise<Metadata> {
   const entry = await resolveColumnEntry(slug);
@@ -65,7 +66,14 @@ export default async function ColumnDetailRoute({
 }: Readonly<{ slug: string; expectedCategorySlug?: string }>) {
   const entry = await resolveColumnEntry(slug);
   if (!entry || (expectedCategorySlug && entry.category.slug !== expectedCategorySlug)) notFound();
-  return <ColumnDetailView entry={entry} />;
+  const archive = await resolveColumnArchive();
+  const entries = archive.entries.filter((item) => item.category.slug === entry.category.slug);
+  const currentIndex = entries.findIndex((item) => item.slug === entry.slug);
+  const previous = currentIndex > 0 ? entries[currentIndex - 1] : undefined;
+  const next = currentIndex >= 0 ? entries[currentIndex + 1] : undefined;
+  return <ColumnDetailView entry={entry}
+    previous={previous ? { href: columnEntryPath(previous), title: previous.title } : undefined}
+    next={next ? { href: columnEntryPath(next), title: next.title } : undefined} />;
 }
 
 /**
@@ -80,7 +88,14 @@ export default async function ColumnDetailRoute({
 export function ColumnDetailView({
   entry,
   notice,
-}: Readonly<{ entry: ColumnEntry; notice?: ReactNode }>) {
+  previous,
+  next,
+}: Readonly<{
+  entry: ColumnEntry;
+  notice?: ReactNode;
+  previous?: ArticleNavigationLink;
+  next?: ArticleNavigationLink;
+}>) {
   const canonical = columnEntryPath(entry);
   const isImportedHtml = entry.bodyFormat === 'imported-html';
   const columnDocument = buildColumnDocument(
@@ -118,11 +133,11 @@ export function ColumnDetailView({
           <div className="column-shell">
             <div className="column-detail__surface">
               <header className="column-detail__header">
-                <Link className="community-category-badge column-detail__category" href={entry.category.path}>
-                  {entry.category.name}
-                </Link>
                 <h2>{entry.title}</h2>
                 <div className="column-detail__header-foot">
+                  <Link className="community-category-badge" href={entry.category.path}>
+                    {entry.category.name}
+                  </Link>
                   <p className="column-detail__byline">
                     <span>
                       <a href={DOCTOR_PROFILE_HREF}>{POST_AUTHOR_NAME}</a>
@@ -144,11 +159,8 @@ export function ColumnDetailView({
                   <strong>의료 콘텐츠 안내</strong>
                   <p>{columnMedicalDisclaimer}</p>
                 </aside>
-                <footer className="column-detail__footer">
-                  <Link href={entry.category.path}>
-                    <span aria-hidden="true">←</span> {entry.category.name} 글 목록
-                  </Link>
-                </footer>
+                <ArticleNavigation previous={previous} next={next}
+                  listHref={entry.category.path} listLabel="블로그 목록" />
               </div>
               <div className="column-detail__balance" aria-hidden="true" />
             </div>

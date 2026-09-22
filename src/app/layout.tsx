@@ -9,6 +9,7 @@ import '../styles/site/community.css';
 import '../styles/site/archive-pagination.css';
 import '../styles/site/archive-toolbar.css';
 import '../styles/site/article-reading.css';
+import '../styles/site/article-navigation.css';
 import '../styles/site/image-lightbox.css';
 import JsonLd from '../components/site/JsonLd';
 import SiteLayout from '../components/site/SiteLayout';
