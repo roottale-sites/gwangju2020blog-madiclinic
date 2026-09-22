@@ -9,7 +9,7 @@ import { faqIndexMetadata } from './faq-content';
  * FAQ 네 단계가 같이 쓰는 틀.
  *
  * headnerve `FaqPageFrame`은 `SiteLayout` + `SiteHeader` + `SiteClosing`(지도·푸터)
- * 였다. 이 저장소의 골격은 `MadiPageFrame`(헤더 → 서브 배너 03 → 브레드크럼 →
+ * 였다. 이 저장소의 골격은 `MadiPageFrame`(헤더 → 커뮤니티 메뉴 → 브레드크럼 →
  * main → 푸터, PLAN.md §2.2)이다.
  *
  * 브레드크럼 JSON-LD(`BreadcrumbList`)는 `MadiBreadcrumb`이 같은 `crumbs` 배열에서
@@ -36,7 +36,6 @@ export default function FaqPageFrame({
     <MadiPageFrame
       pathname={pathname}
       title={faqIndexMetadata.label}
-      banner="03"
       crumbs={crumbs}
     >
       <JsonLd nodes={jsonLd} />

@@ -78,6 +78,7 @@ describe('칼럼 웹훅 무효화 배선', () => {
 
     expect(revalidateTag.mock.calls).toEqual([
       ['column:archive', { expire: 0 }],
+      ['column:categories', { expire: 0 }],
       ['column:detail:새-글', { expire: 0 }],
     ]);
     // 사이트맵 라우트가 빠지면 새 글이 하루 동안 사이트맵에 안 잡힌다.

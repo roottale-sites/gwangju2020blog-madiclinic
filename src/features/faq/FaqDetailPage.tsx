@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import type { ReactNode } from 'react';
 import PreferredSourceLink from '../../components/site/PreferredSourceLink';
 import ClinicGuide from '../clinic-guide/ClinicGuide';
 import { faqPageJsonLd, webPageJsonLd } from '../seo/schema';
@@ -27,11 +28,12 @@ import { FaqMedicalNote, FaqReviewer, FaqSidebarBox } from './FaqShared';
  *   - 사이드바의 "진료가 필요한 경우" 질환 페이지 링크는 없다(질환 라우트가 없다).
  *   - 답변에만 `FAQPage`를 준다(ADR-0006 §5). 목록에는 만들지 않는다.
  */
-export default function FaqDetailPage({ collection, entry, section, topic }: Readonly<{
+export default function FaqDetailPage({ collection, entry, section, topic, notice }: Readonly<{
   collection: FaqCollection;
   entry: FaqEntry;
   section: FaqSection;
   topic: FaqTopic;
+  notice?: ReactNode;
 }>) {
   const path = faqEntryPath(entry);
   const related = relatedFaqEntries(collection.archive.entries, entry);
@@ -53,6 +55,7 @@ export default function FaqDetailPage({ collection, entry, section, topic }: Rea
         ...(faqJsonLd ? [faqJsonLd] : []),
       ]}
     >
+      {notice}
       <div className="faq-layout">
         <article className="faq-detail faq-layout__main" data-content-article data-track-read={entry.contentId}>
           <header className="faq-detail__header">

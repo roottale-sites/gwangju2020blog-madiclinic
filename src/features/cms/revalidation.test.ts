@@ -128,6 +128,10 @@ describe('무효화 경로 구성', () => {
 });
 
 describe('선택적 캐시 태그 구성', () => {
+  test.each(['post.published', 'post.updated', 'post.deleted'])('%s 뒤에는 분류별 공개 글 수도 갱신한다', (event) => {
+    expect(revalidationTagsFor('column', event, ['/column/headache/changed']))
+      .toContain('column:categories');
+  });
   test('글 이벤트는 목록과 정확한 상세 글 태그만 고른다', () => {
     expect(revalidationTagsFor('column', 'post.updated', [
       '/column',
@@ -135,6 +139,7 @@ describe('선택적 캐시 태그 구성', () => {
       '/column/headache/changed',
     ])).toEqual([
       'column:archive',
+      'column:categories',
       'column:detail:changed',
     ]);
     expect(revalidationTagsFor('reviews', 'post.deleted', ['/reviews/changed']))

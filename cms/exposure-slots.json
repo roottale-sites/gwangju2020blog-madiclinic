@@ -1,0 +1,25 @@
+[
+  {
+    "key": "site-popup",
+    "kind": "popup",
+    "runtimeVersion": 2,
+    "variants": ["card", "image-card", "image"],
+    "assetKinds": ["image"],
+    "pathPrefixes": ["/column", "/faq", "/reviews"],
+    "pathRules": [
+      {"path": "/column", "match": "exact"},
+      {"path": "/faq", "match": "exact"},
+      {"path": "/reviews", "match": "exact"}
+    ],
+    "homePaths": ["/column", "/faq", "/reviews"],
+    "repeatOptions": ["always", "session", "day", "never"],
+    "label": "커뮤니티 팝업",
+    "description": "블로그·자주 묻는 질문·후기 첫 화면의 PC·모바일 팝업. 상세 글에서는 표시하지 않습니다.",
+    "placement": "popup",
+    "imageDimensions": {
+      "desktop": {"width": 600, "height": 600},
+      "mobile": {"width": 750, "height": 750}
+    },
+    "sizes": ["small", "medium", "large"]
+  }
+]

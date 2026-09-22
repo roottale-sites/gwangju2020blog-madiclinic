@@ -5,7 +5,7 @@ import { expect, test } from '@playwright/test';
  * 피드·사이트맵 응답이다. 카드 배치·상세 레일은 ROOT-ADMIN 프로비저닝(9단계)
  * 뒤 실데이터로 덮는다.
  */
-const frameSelectors = ['#header', '#bnSubArea .subVisualArea', '.whereIsLine', 'main#main', '#bottom'] as const;
+const frameSelectors = ['#header', '.madi-page-frame', '.whereIsLine', 'main#main', '#bottom'] as const;
 
 test('후기 목록은 마디 골격 안에서 준비 중 상태를 안내한다', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 1000 });
@@ -14,8 +14,8 @@ test('후기 목록은 마디 골격 안에서 준비 중 상태를 안내한다
   for (const selector of frameSelectors) {
     await expect(page.locator(selector)).toHaveCount(1);
   }
-  await expect(page.locator('#bnSubArea .sbn h2')).toHaveText('후기');
-  // 배너의 메뉴 이름을 본문에서 반복하지 않는다.
+  await expect(page.locator('main#main')).toHaveAttribute('aria-label', '후기');
+  // 본문의 접근성 이름을 유지한다.
   await expect(page.locator('main#main').getByRole('heading', { level: 2, name: '후기', exact: true })).toHaveCount(0);
   await expect(page.locator('main#main h1')).toHaveCount(0);
   await expect(page.locator('.reviews-state')).toBeVisible();
@@ -30,7 +30,7 @@ test('후기 목록은 390px에서도 가로 스크롤 없이 읽힌다', async 
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/reviews');
 
-  await expect(page.locator('#bnSubArea .sbn h2')).toHaveText('후기');
+  await expect(page.locator('main#main')).toHaveAttribute('aria-label', '후기');
   expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(390);
 });
 

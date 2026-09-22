@@ -10,11 +10,9 @@ import {
 import { COLUMN_COLLECTION_KEY, isColumnPost } from './column-model';
 import {
   fetchColumnPostBySlug,
-  fetchColumnPostPreview,
   fetchColumnPostsPage,
   fetchColumnCategories,
   columnArchivePost,
-  type ColumnPreviewPost,
   type ColumnCategoryWire,
   type ColumnArchivePost,
   type ColumnPost,
@@ -167,16 +165,4 @@ export async function loadColumnCategories(): Promise<ColumnLoadResult<ColumnCat
     logCmsFailure('categories', error);
     return { ok: false, reason: 'upstream' };
   }
-}
-
-/**
- * 미리보기는 캐시하지 않는다 — 편집 중인 내용을 그대로 보여 주는 것이 목적이라
- * 비설정·장애 모두 "볼 수 없음"으로 끝낸다.
- * 만료(410)는 `ColumnPreviewExpiredError`를 그대로 올려 라우트가 안내한다.
- */
-export async function loadColumnPostPreview(token: string): Promise<ColumnPreviewPost | null> {
-  const config = cmsConfig();
-  if (!config) return null;
-  const post = await fetchColumnPostPreview(config, token);
-  return post && isColumnPost(post) ? post : null;
 }

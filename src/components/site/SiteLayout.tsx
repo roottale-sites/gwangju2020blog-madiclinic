@@ -4,6 +4,9 @@ import SkipLink from './SkipLink';
 import MadiSiteHeader from '../madi/MadiSiteHeader';
 import MadiFooter from '../madi/MadiFooter';
 import { RootTaleImageLightbox } from '../../features/cms/ImageLightbox';
+import SitePopups from '../../features/exposures/SitePopups';
+import '@roottale/cms-renderer-next/styles';
+import '../../styles/site/popups.css';
 
 export default function SiteLayout({ children }: Readonly<{ children: ReactNode }>) {
   return (
@@ -14,6 +17,7 @@ export default function SiteLayout({ children }: Readonly<{ children: ReactNode 
         {children}
       </RootTaleImageLightbox>
       <MadiFooter />
+      <SitePopups />
     </>
   );
 }

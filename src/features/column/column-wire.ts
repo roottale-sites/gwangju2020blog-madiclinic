@@ -265,60 +265,6 @@ export async function fetchColumnPostBySlug(
   return isRecord(json) ? columnPostFromWire(json) : null;
 }
 
-/** 만료된 미리보기 링크(410 `preview_expired`). 호출부가 "다시 열어 달라"고 안내한다. */
-export class ColumnPreviewExpiredError extends Error {
-  constructor() {
-    super('미리보기 링크가 만료됐다');
-    this.name = 'ColumnPreviewExpiredError';
-  }
-}
-
-export type ColumnPreviewPost = ColumnPost & {
-  preview: { expiresAt: string; sourceStatus: string };
-};
-
-/**
- * ROOT-ADMIN 편집기가 발급한 미리보기 토큰으로 편집 중인 글을 받는다
- * (`GET /v1/cms/public/posts/preview?token=`, ADR-0104). 응답은 발행 글과 같은
- * 형식 + `preview` 블록이라 `columnPostFromWire`를 그대로 쓴다.
- *
- * - 400(토큰 형식 불일치)·404(없는·다른 사이트 토큰) → null, 410(만료) →
- *   ColumnPreviewExpiredError, 그 외 비정상 → throw.
- *   토큰은 주소 질의값이라 아무 문자열이나 들어온다. 형식 검증 실패는 "쓸 수 없는
- *   토큰"이지 장애가 아니므로, 없는 토큰과 같이 404 화면으로 보낸다.
- *   캐시는 절대 하지 않는다(`cache: 'no-store'`).
- */
-export async function fetchColumnPostPreview(
-  config: ColumnWireConfig,
-  token: string,
-): Promise<ColumnPreviewPost | null> {
-  assertServerOnly();
-  const trimmed = token.trim();
-  if (!trimmed) return null;
-
-  const params = new URLSearchParams({ token: trimmed });
-  const url = postsUrl(config, params, '/preview');
-  const response = await fetch(url, {
-    method: 'GET',
-    headers: authHeaders(config.apiKey),
-    cache: 'no-store',
-  });
-  if (response.status === 400 || response.status === 404) return null;
-  if (response.status === 410) throw new ColumnPreviewExpiredError();
-  if (!response.ok) throw await upstreamError(response);
-
-  const json: unknown = await response.json();
-  if (!isRecord(json)) return null;
-  const preview = record(json.preview);
-  return {
-    ...columnPostFromWire(json),
-    preview: {
-      expiresAt: stringOr(preview.expires_at, ''),
-      sourceStatus: stringOr(preview.source_status, 'draft'),
-    },
-  };
-}
-
 export async function fetchColumnCategories(
   config: ColumnWireConfig,
   collectionKey: string,

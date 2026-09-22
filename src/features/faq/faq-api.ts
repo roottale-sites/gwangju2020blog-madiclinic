@@ -201,6 +201,16 @@ function entryFromPreparedPost(
   };
 }
 
+/** 관리자 초안도 발행 글과 같은 분류·본문·내부 링크 변환을 사용한다. */
+export function faqEntryFromPost(
+  post: FaqWirePost,
+  categories: readonly FaqWireCategory[],
+  publishedEntries: readonly FaqEntry[] = [],
+): FaqEntry | null {
+  const prepared = prepareFaqPost(post, categories, 2);
+  return prepared ? entryFromPreparedPost(prepared, faqPublishedInternalLinkPaths(publishedEntries)) : null;
+}
+
 /**
  * 모델 계약이 맞지 않으면 null이다.
  *

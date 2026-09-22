@@ -27,6 +27,10 @@ const nextConfig: NextConfig = {
   },
   reactStrictMode: true,
   redirects: async () => [
+    // ROOT-ADMIN 팝업 미리보기는 /#rt-exposure-preview=…를 iframe으로 연다.
+    // 같은 origin의 /column으로 옮겨 fragment와 postMessage 연결을 유지한다.
+    { source: '/', destination: '/column', permanent: false,
+      has: [{ type: 'header', key: 'sec-fetch-dest', value: 'iframe' }] },
     { source: '/', destination: `${mainSiteOrigin}/`, statusCode: PERMANENT_301 },
   ],
   ...(devAllowedOrigins?.length ? { allowedDevOrigins: devAllowedOrigins } : {}),

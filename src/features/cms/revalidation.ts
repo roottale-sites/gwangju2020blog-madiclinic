@@ -1,6 +1,7 @@
 import {
   COLUMN_ALL_CACHE_TAG,
   COLUMN_ARCHIVE_CACHE_TAG,
+  COLUMN_CATEGORIES_CACHE_TAG,
   columnDetailCacheTag,
   isColumnPagePath,
 } from '../column/column-cache';
@@ -112,7 +113,7 @@ export function revalidationTagsFor(
 ): string[] {
   const tags = TARGET_TAGS[target];
   if (isSiteWideEvent(event)) return [tags.all];
-  return [tags.archive, ...detailCacheTagsFor(target, paths)];
+  return [tags.archive, ...(target === 'column' ? [COLUMN_CATEGORIES_CACHE_TAG] : []), ...detailCacheTagsFor(target, paths)];
 }
 
 export type RevalidationTarget = 'reviews' | 'column' | 'faq';

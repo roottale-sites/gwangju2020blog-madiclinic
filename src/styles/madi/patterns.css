@@ -17,36 +17,7 @@
  */
 
 
-/* ==== subStyle.css L4-42: 서브 배너 ====
-   .subPageing(이전/다음 글 화살표)과 주석 처리된 sbnText.png 규칙은
-   블로그에 없어서 옮기지 않았다. 나머지 값은 원본 그대로다. */
-#bnSubArea {position: relative; width: 100%; height: auto;}
-
-#bnSubArea > .subVisualArea {position: relative; width: 100%; height: 300px; box-sizing: border-box; padding-top: 140px; background: url('/madi/img/sbn01.jpg') center center no-repeat; background-size: cover; overflow: hidden; transition: all 0.3s;}
-#bnSubArea > .subVisualArea.sbnNo01 {background: url('/madi/img/sbn01.jpg') center bottom no-repeat; background-size: cover;}
-#bnSubArea > .subVisualArea.sbnNo02 {background: url('/madi/img/sbn02.jpg') center bottom no-repeat; background-size: cover;}
-#bnSubArea > .subVisualArea.sbnNo03 {background: url('/madi/img/sbn03.jpg') center bottom no-repeat; background-size: cover;}
-#bnSubArea > .subVisualArea.sbnNo04 {background: url('/madi/img/sbn04.jpg') center bottom no-repeat; background-size: cover;}
-#bnSubArea > .subVisualArea.sbnNo05 {background: url('/madi/img/sbn05.jpg') center bottom no-repeat; background-size: cover;}
-#bnSubArea > .subVisualArea > .sbn {width: 100%; max-width: 1200px; height: 100%; box-sizing: border-box; padding: 40px 0 0; margin: 0 auto; transition: all 0.3s}
-#bnSubArea > .subVisualArea > .sbn > h2 {line-height: 40px; font-size: 36px; font-weight: 700; color: rgba(68,78,88,1.0); text-align: center; text-transform: lowercase; letter-spacing: -2px; transition: all 0.3s}
-#bnSubArea > .subVisualArea > .sbn > h2::first-letter {text-transform: uppercase;}
-
-
-@media screen and (max-width: 980px) {
-	#bnSubArea > .subVisualArea {height: 260px !important; padding-top: 120px !important;}
-	#bnSubArea > .subVisualArea > .sbn {padding: 30px 0 0;}
-}
-@media screen and (max-width: 660px) {
-	#bnSubArea > .subVisualArea {height: 220px !important;}
-	#bnSubArea > .subVisualArea > .sbn {padding: 30px 0 0;}
-	#bnSubArea > .subVisualArea > .sbn > h2 {line-height: 40px; font-size: 32px;}
-}
-@media screen and (max-width: 500px) {
-	#bnSubArea > .subVisualArea {height: 200px !important;}
-	#bnSubArea > .subVisualArea > .sbn {padding: 20px 0 0;}
-	#bnSubArea > .subVisualArea > .sbn > h2 {line-height: 40px; font-size: 28px;}
-}
+.madi-page-frame {padding-top: var(--madi-header-h);}
 
 /* ==== subStyle.css L125: 본문 컨테이너 ==== */
 #subContainer {width: 100%; min-height: 600px; padding-bottom: 60px; background-color: #fff; overflow: hidden;}

@@ -1,0 +1,29 @@
+/* 포털은 고정 헤더(z-index 999)보다 앞에 둔다. 동작·기본 배치는 공용 런타임이 담당한다. */
+.rt-exposure-backdrop:has(.madi-popup) {
+  z-index: 1200;
+  align-items: center;
+  padding: max(20px, env(safe-area-inset-top)) 20px max(20px, env(safe-area-inset-bottom));
+  background: var(--madi-dim);
+}
+.madi-popup {
+  --rt-color-primary: var(--madi-primary);
+  --rt-color-foreground: var(--madi-text-strong);
+  --rt-color-background: var(--madi-bg);
+  --rt-color-border: var(--madi-border-strong);
+  font-family: var(--madi-font);
+}
+.rt-exposure-backdrop .madi-popup.rt-exposure--popup {
+  inline-size: min(100%, var(--rt-exposure-popup-width, 34rem));
+  max-block-size: calc(100dvh - 40px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+  border-radius: var(--madi-radius-md);
+  padding-block-end: 0;
+}
+.madi-popup .rt-exposure__title { font-weight: 600; word-break: keep-all; }
+.madi-popup .rt-exposure__asset { object-fit: contain; }
+.madi-popup .rt-exposure__description { color: var(--madi-text-muted); }
+.madi-popup :is(button, .rt-exposure__link) { min-block-size: 44px; }
+.madi-popup :is(button, a):focus-visible {
+  outline: 2px solid var(--madi-primary);
+  outline-offset: -3px;
+}
+.madi-popup[role='dialog']:focus { outline: none; }
