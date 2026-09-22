@@ -1,7 +1,8 @@
 import type { NextConfig } from 'next';
+import { mainSiteOrigin } from './src/data/nav';
 
 /**
- * 블로그 전용 서브도메인이라 자체 홈이 없다. 루트는 칼럼 목록으로 보낸다.
+ * 커뮤니티 전용 서브도메인이라 자체 홈이 없다. 루트만 병원 홈페이지로 보낸다.
  *
  * 상태 코드는 `permanent: true`(=308)가 아니라 `statusCode: 301`이다.
  * PLAN.md §2.1이 문자 그대로 301을 요구한다. 두 키는 Next 타입상 상호
@@ -26,7 +27,7 @@ const nextConfig: NextConfig = {
   },
   reactStrictMode: true,
   redirects: async () => [
-    { source: '/', destination: '/column', statusCode: PERMANENT_301 },
+    { source: '/', destination: `${mainSiteOrigin}/`, statusCode: PERMANENT_301 },
   ],
   ...(devAllowedOrigins?.length ? { allowedDevOrigins: devAllowedOrigins } : {}),
 };

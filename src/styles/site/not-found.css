@@ -1,0 +1,256 @@
+/* headnerve 404의 오류 안내·정보 탐색·병원 바로가기를 마디 토큰으로 구성한다. */
+.not-found-page {
+  box-sizing: border-box;
+  min-height: 100svh;
+  padding: calc(var(--madi-header-h) + var(--madi-space-6)) var(--madi-space-4) var(--madi-space-7);
+  background: var(--madi-bg);
+  color: var(--madi-text);
+  font-family: var(--madi-font);
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+
+.not-found-page__inner {
+  max-width: var(--madi-container);
+  margin-inline: auto;
+}
+
+.not-found-page__hero {
+  text-align: center;
+}
+
+.not-found-page__eyebrow {
+  color: var(--madi-primary);
+  font-size: var(--madi-fs-base-sm);
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: 0.15em;
+}
+
+.not-found-page__code {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--madi-space-2);
+  margin-top: var(--madi-space-3);
+  color: var(--madi-primary);
+  font-size: clamp(100px, 12vw, 160px);
+  font-weight: 700;
+  line-height: 1;
+}
+
+.not-found-page__code svg {
+  width: 0.75em;
+  height: 0.75em;
+}
+
+.not-found-page__hero h2 {
+  margin-top: var(--madi-space-4);
+  color: var(--madi-title-navy);
+  font-size: var(--madi-fs-h1);
+  line-height: 1.5;
+  letter-spacing: var(--madi-ls-title);
+}
+
+.not-found-page__message {
+  margin-top: var(--madi-space-3);
+  color: var(--madi-text-muted);
+  font-size: var(--madi-fs-body);
+  line-height: 1.8;
+}
+
+.not-found-page__home {
+  display: inline-flex;
+  min-height: 50px;
+  align-items: center;
+  justify-content: center;
+  gap: var(--madi-space-4);
+  margin-top: var(--madi-space-4);
+  padding-inline: var(--madi-space-4);
+  border-radius: var(--madi-radius-pill);
+  background: var(--madi-primary);
+  color: var(--madi-text-inverse);
+  font-size: var(--madi-fs-body);
+  font-weight: 500;
+}
+
+.not-found-page__home:hover {
+  background: var(--madi-primary-hover);
+  color: var(--madi-text-inverse);
+  text-decoration: none;
+}
+
+.not-found-page__directory {
+  margin-top: var(--madi-space-7);
+}
+
+.not-found-page__section-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--madi-space-2) var(--madi-space-3);
+}
+
+.not-found-page__section-heading h3,
+.not-found-page__quick-links h3 {
+  font-size: var(--madi-fs-h3);
+  line-height: 1.5;
+  letter-spacing: var(--madi-ls-title);
+}
+
+.not-found-page__section-heading p {
+  color: var(--madi-text-muted);
+  font-size: var(--madi-fs-md);
+  line-height: var(--madi-lh-body);
+}
+
+.not-found-page__cards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--madi-space-3);
+  margin-top: var(--madi-space-3);
+  list-style: none;
+}
+
+.not-found-page__cards a {
+  display: flex;
+  box-sizing: border-box;
+  height: 100%;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: var(--madi-space-4);
+  border: 1px solid var(--madi-border-strong);
+  border-top: 2px solid var(--madi-primary);
+  background: var(--madi-bg-panel);
+  text-align: left;
+}
+
+.not-found-page__card-number {
+  color: var(--madi-primary);
+  font-size: var(--madi-fs-base);
+  font-weight: 500;
+}
+
+.not-found-page__cards h4 {
+  margin-top: var(--madi-space-3);
+  font-size: var(--madi-fs-h3);
+  line-height: 1.5;
+  letter-spacing: var(--madi-ls-title);
+}
+
+.not-found-page__cards p {
+  margin-top: var(--madi-space-2);
+  color: var(--madi-text-muted);
+  font-size: var(--madi-fs-md);
+  line-height: 1.8;
+}
+
+.not-found-page__card-link {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  align-self: stretch;
+  gap: var(--madi-space-2);
+  margin-top: auto;
+  padding-top: var(--madi-space-4);
+  color: var(--madi-primary);
+  font-size: var(--madi-fs-base);
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.not-found-page__cards a:hover {
+  border-color: var(--madi-primary);
+  background: var(--madi-bg);
+  text-decoration: none;
+}
+
+.not-found-page__quick-links {
+  margin-top: var(--madi-space-6);
+  padding-top: var(--madi-space-5);
+  border-top: 1px solid var(--madi-border-strong);
+}
+
+.not-found-page__quick-links ul {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--madi-space-3);
+  margin-top: var(--madi-space-3);
+  list-style: none;
+}
+
+.not-found-page__quick-links a {
+  display: flex;
+  min-height: 60px;
+  align-items: center;
+  gap: var(--madi-space-2);
+  padding-inline: var(--madi-space-3);
+  border: 1px solid var(--madi-border-strong);
+  font-size: var(--madi-fs-md);
+  font-weight: 500;
+  text-align: left;
+}
+
+.not-found-page__quick-links svg {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  color: var(--madi-primary);
+}
+
+.not-found-page__quick-arrow {
+  margin-left: auto;
+  color: var(--madi-text-muted);
+}
+
+.not-found-page__quick-links a:hover {
+  border-color: var(--madi-primary);
+  background: var(--madi-bg-panel);
+  color: var(--madi-primary);
+  text-decoration: none;
+}
+
+.not-found-page a:focus-visible {
+  outline: 2px solid var(--madi-primary);
+  outline-offset: 4px;
+}
+
+@media (max-width: 980px) {
+  .not-found-page__quick-links ul {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 660px) {
+  .not-found-page {
+    padding: calc(var(--madi-header-h) + var(--madi-space-5)) var(--madi-space-3) var(--madi-space-6);
+  }
+
+  .not-found-page__hero h2 {
+    font-size: var(--madi-fs-h3);
+  }
+
+  .not-found-page__message {
+    font-size: var(--madi-fs-md);
+  }
+
+  .not-found-page__directory {
+    margin-top: var(--madi-space-6);
+  }
+
+  .not-found-page__cards,
+  .not-found-page__quick-links ul {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .not-found-page__cards a {
+    padding: var(--madi-space-3);
+  }
+
+  .not-found-page__cards h4,
+  .not-found-page__section-heading h3,
+  .not-found-page__quick-links h3 {
+    font-size: var(--madi-fs-h4);
+  }
+}

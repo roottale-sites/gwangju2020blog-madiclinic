@@ -11,7 +11,7 @@ import { branchTabs, gnb, isBlogPath, isNavChildActive, officialWebUrl, topLinks
  * 기대고 있어서, 래퍼 하나만 끼워도 치수가 어긋난다.
  *
  * 링크만 본 사이트 절대주소로 바꿨다(PLAN.md §3.4). 원본의 `href="/"`는
- * 이 서브도메인에서 `/column`으로 301되므로 "처음으로"가 성립하지 않는다.
+ * 이 서브도메인에서 본 사이트로 301되므로 절대주소로 한 번에 이동한다.
  *
  * 동작은 `MadiHeaderBehavior`(client)가 이 DOM에 붙는다.
  *

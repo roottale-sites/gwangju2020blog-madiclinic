@@ -32,7 +32,7 @@
 
 | URL | 화면 | 출처 |
 |---|---|---|
-| `/` | `/column`으로 301 | 신규. 블로그 전용 서브도메인이라 별도 홈을 만들지 않는다 |
+| `/` | `http://gwangju2020.madiclinic.co.kr/`로 301 | 사용자 결정(2026-09-22). 커뮤니티 전용 서브도메인의 루트는 병원 홈페이지로 연결한다 |
 | `/column` | 칼럼 목록(검색·페이지네이션) | headnerve `ColumnArchive` |
 | `/column/{category}` | 카테고리 목록 | headnerve `ColumnCategoryPage` |
 | `/column/{category}/{slug}` | 칼럼 상세(TOC·병원 안내·면책) | headnerve `ColumnDetailRoute` |
@@ -46,12 +46,15 @@
 | `/faq-sitemap.xml`, `/sitemap.xml`, `/sitemap-static.xml`, `/robots.txt` | SEO | headnerve, 정적 목록만 교체 |
 | `/api/revalidate` | ROOT-ADMIN 서명 웹훅 | headnerve |
 | `/preview/post/{id}` | ROOT-ADMIN 초안 미리보기(noindex) | headnerve |
+| 존재하지 않는 경로 | 공통 404 안내·커뮤니티·병원 바로가기 | headnerve 404 구성을 마디클리닉 토큰으로 적용. 없는 후기도 같은 디자인 사용 |
 
 세 기능에 속하지 않아 가져오지 않는 headnerve 라우트: `/qa`·`/blog`·`/bbs` 등 옛 게시판 410 스텁, `/about`과 질환 페이지(`/headache` 등), 팝업·배너 노출 API, 디자인 시스템 카탈로그, 다국어 라우트. 세 기능의 라우트·구성 요소는 전부 가져온다.
 
 ### 2.2 페이지 골격
 
-모든 페이지는 같은 골격을 쓴다. 헤더·푸터는 루트 `SiteLayout`에서 유지하고, `MadiPageFrame`은 배너·하위 메뉴·위치 표시줄·본문만 교체한다. 커뮤니티 내부 메뉴·목록·상세·페이지 이동은 `next/link`, 블로그 검색은 `next/form`을 사용해 문서를 다시 불러오지 않는다. 원본 사이트 주소로 이동할 때는 정상적인 문서 전환을 유지한다.
+커뮤니티 페이지는 같은 골격을 쓴다. 헤더·푸터는 루트 `SiteLayout`에서 유지하고, `MadiPageFrame`은 배너·하위 메뉴·위치 표시줄·본문만 교체한다. 커뮤니티 내부 메뉴·목록·상세·페이지 이동은 `next/link`, 블로그 검색은 `next/form`을 사용해 문서를 다시 불러오지 않는다. 원본 사이트 주소로 이동할 때는 정상적인 문서 전환을 유지한다.
+
+404는 `MadiNotFound`가 오류 안내와 바로가기를 한 화면으로 제공한다. 공통 헤더·푸터는 유지하고, 서브 배너 대신 본문 위에 `--madi-header-h`만큼 여백을 더해 고정 헤더에 가리지 않게 한다. CMS 조회 없이 렌더하며 `noindex, follow`를 적용한다.
 
 ```
 <MadiHeader />                 본 사이트 헤더 재현(§3), position fixed 140px
