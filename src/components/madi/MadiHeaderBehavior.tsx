@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
+import { createSubmenuMotion } from './submenu-motion';
 
 /**
  * 본 사이트 헤더 동작을 jQuery 없이 재현한다.
@@ -15,61 +16,10 @@ import { useEffect } from 'react';
  * 값이다. 두 곳이 어긋나면 드로어가 열린 채 PC 레이아웃이 나온다.
  */
 
-/** jQuery `slideDown('fast')`/`slideUp('fast')`의 200ms. */
-const SLIDE_MS = 200;
-
 /** 원본 스크립트가 쓰는 드로어 닫힘 위치. header.css의 -270px보다 크다(원본 그대로). */
 const DRAWER_CLOSED = '-320px';
 
 const MOBILE_QUERY = '(max-width: 980px)';
-
-function slideDown(ul: HTMLElement) {
-  if (ul.dataset.slide === 'down') return;
-  ul.dataset.slide = 'down';
-  ul.style.display = 'block';
-  ul.style.overflow = 'hidden';
-  ul.style.transition = 'none';
-  ul.style.height = '0px';
-  // 다음 프레임에 목표 높이로 전환한다. 같은 프레임에 두 값을 쓰면 전환이 생략된다.
-  requestAnimationFrame(() => {
-    if (ul.dataset.slide !== 'down') return;
-    const target = ul.scrollHeight;
-    ul.style.transition = `height ${SLIDE_MS}ms ease`;
-    ul.style.height = `${target}px`;
-    window.setTimeout(() => {
-      if (ul.dataset.slide !== 'down') return;
-      ul.style.transition = '';
-      ul.style.height = '';
-      ul.style.overflow = '';
-    }, SLIDE_MS);
-  });
-}
-
-function slideUp(ul: HTMLElement, { instant = false } = {}) {
-  if (ul.dataset.slide === 'up' && ul.style.display === 'none') return;
-  ul.dataset.slide = 'up';
-  if (instant) {
-    ul.style.transition = '';
-    ul.style.height = '';
-    ul.style.overflow = '';
-    ul.style.display = 'none';
-    return;
-  }
-  ul.style.overflow = 'hidden';
-  ul.style.height = `${ul.scrollHeight}px`;
-  requestAnimationFrame(() => {
-    if (ul.dataset.slide !== 'up') return;
-    ul.style.transition = `height ${SLIDE_MS}ms ease`;
-    ul.style.height = '0px';
-    window.setTimeout(() => {
-      if (ul.dataset.slide !== 'up') return;
-      ul.style.display = 'none';
-      ul.style.transition = '';
-      ul.style.height = '';
-      ul.style.overflow = '';
-    }, SLIDE_MS);
-  });
-}
 
 export default function MadiHeaderBehavior() {
   useEffect(() => {
@@ -81,6 +31,8 @@ export default function MadiHeaderBehavior() {
     const topLink = document.querySelector<HTMLElement>('#header ul.topLink');
     const officialWeb = document.querySelector<HTMLElement>('#header .officialWeb');
     if (!header || !menuNavi || !naviToggle || !naviBlack) return;
+
+    const { slideDown, slideUp, dispose } = createSubmenuMotion();
 
     // 원본 L64-83: 헤더 첫 등장. 스크롤 감시 없이 클래스만 준다.
     document.querySelectorAll('.slideanim4').forEach((el) => el.classList.add('slideDown'));
@@ -285,6 +237,7 @@ export default function MadiHeaderBehavior() {
     return () => {
       media.removeEventListener('change', onChange);
       detach();
+      dispose();
       document.body.style.overflow = '';
     };
   }, []);
