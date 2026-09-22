@@ -165,7 +165,7 @@ main.community-content :is(
   button, a[role='button'], a.preferred-source__link,
   a.column-empty__link, a.reviews-state__link, a.faq-state__link,
   a.column-card__category, a.review-card__category, a.community-category-badge,
-  .post-pattern__actions > a, .archive-pagination__pages a,
+  .clinic-guide__actions > a, .archive-pagination__pages a,
   .archive-tabs a, .faq-filter a, .column-toc__item a
 ) {
   text-decoration: none;

@@ -15,7 +15,6 @@ import {
 import type { FaqCollection } from './faq-source';
 import { faqPaginationUrl, paginateFaqEntries } from './faq-pagination';
 import FaqPageFrame, { FAQ_BREADCRUMB_ROOT } from './FaqPageFrame';
-import FaqCategoryNav from './FaqCategoryNav';
 import {
   FaqEmpty,
   FaqReviewer,
@@ -67,7 +66,6 @@ export default function FaqTopicPage({ collection, section, topic, selectedInten
       <FaqSourceNotice status={collection.status} />
       <div className="faq-layout">
         <div id="faq-question-list" className="faq-layout__main">
-          <FaqCategoryNav collection={collection} sectionSlug={section.slug} topicSlug={topic.slug} />
           <nav className="faq-filter" aria-label="질문 분류">
             <Link href={path} aria-current={!selectedIntent ? 'page' : undefined}>
               전체 {allEntries.length}

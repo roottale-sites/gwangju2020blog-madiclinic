@@ -6,9 +6,7 @@
  * `--madi-*`·Noto Sans KR로 바꿨다.
  *
  * headnerve와 다르게 한 곳
- *   - 강조 판의 왼쪽 굵은 선(`border-left: 2px --figma-action`)은 `.commonBox`
- *     문법(`border-top: 1px --madi-primary` + `--madi-bg-panel`)으로 바꿨다.
- *     마디 토큰에는 왼쪽 강조선이 없다(DESIGN.md §5).
+ *   - 질문·핵심 답변은 선 대신 여백과 옅은 면으로 구분한다.
  *   - 사이드바의 질환 안내 버튼(`.faq-disease-link`)은 질환 라우트가 없어 뺐다.
  *   - 상세 제목은 본문 제목 계층상 h2이고, 본문 섹션 제목은 h3다.
  *   - 반응형 규칙을 별도 시트로 나누지 않고 이 파일 끝에 둔다(`faq.css` 머리말의
@@ -37,7 +35,6 @@
 .faq-detail__header {
   margin-bottom: var(--madi-space-4);
   padding-bottom: 19px;
-  border-bottom: 1px solid var(--madi-primary);
 }
 
 .faq-detail__title {
@@ -87,8 +84,7 @@
 }
 
 .faq-answer-card {
-  padding-top: var(--madi-space-4);
-  border-top: 1px solid var(--madi-border);
+  padding-top: 0;
 }
 
 .faq-answer-card__header {
@@ -106,12 +102,12 @@
   white-space: nowrap;
 }
 
-/* 핵심 답변 — 본 사이트 안내 박스 표면(DESIGN.md §5의 `.commonBox`). */
+/* 핵심 답변은 배경의 명도 차이로 구분한다. */
 .faq-core-answer {
   box-sizing: border-box;
   margin-bottom: var(--madi-space-4);
   padding: var(--madi-space-4);
-  border-top: 1px solid var(--madi-primary);
+  border-radius: 8px;
   background-color: var(--madi-bg-panel);
 }
 

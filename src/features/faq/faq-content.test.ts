@@ -51,7 +51,7 @@ describe('자주 묻는 질문 문구', () => {
     expect(faqDescription('가'.repeat(200))).toHaveLength(FAQ_DESCRIPTION_MAX_LENGTH);
   });
 
-  test('답변일은 본 사이트 날짜 표기(YYYY. M. D.)를 쓴다', () => {
-    expect(formatFaqAnswerDate('2026-09-15T00:00:00.000Z')).toBe('답변일 2026. 09. 15.');
+  test('날짜 앞에 설명 없이 본 사이트 날짜 표기를 쓴다', () => {
+    expect(formatFaqAnswerDate('2026-09-15T00:00:00.000Z')).toBe('2026. 09. 15.');
   });
 });

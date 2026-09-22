@@ -362,34 +362,6 @@
 }
 html { scroll-behavior: smooth; }
 
-/* 본문의 내부 글 링크는 문장 흐름 안에서 색·밑줄·작은 방향 표시로 구분한다. */
-main.community-content :is(.column-richtext, .column-imported-html, .review-richtext, .faq-richtext)
-  a:is([href^="/"]:not([href^="//"]), [href^="https://gwangju2020blog.madiclinic.co.kr/"]):not(:has(img)) {
-  color: var(--madi-primary);
-  text-decoration-color: rgb(8 83 157 / 32%);
-  text-decoration-thickness: 1px;
-  text-underline-offset: 0.22em;
-  border-radius: 2px;
-  box-decoration-break: clone;
-  -webkit-box-decoration-break: clone;
-  transition: color 180ms ease, text-decoration-color 180ms ease, background-color 180ms ease;
-}
-
-main.community-content :is(.column-richtext, .column-imported-html, .review-richtext, .faq-richtext)
-  a:is([href^="/"]:not([href^="//"]), [href^="https://gwangju2020blog.madiclinic.co.kr/"]):not(:has(img))::after {
-  content: "\202f\2192" / "";
-  font-size: 0.85em;
-  opacity: 0.65;
-  white-space: nowrap;
-}
-
-main.community-content :is(.column-richtext, .column-imported-html, .review-richtext, .faq-richtext)
-  a:is([href^="/"]:not([href^="//"]), [href^="https://gwangju2020blog.madiclinic.co.kr/"]):not(:has(img)):is(:hover, :focus-visible) {
-  color: var(--madi-primary-hover);
-  text-decoration-color: currentColor;
-  background-color: rgb(8 83 157 / 5%);
-}
-
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
 }

@@ -75,5 +75,5 @@ export const faqMedicalNote = {
 } as const;
 
 export function formatFaqAnswerDate(value: string): string {
-  return `답변일 ${value.slice(0, 10).replaceAll('-', '. ')}.`;
+  return `${value.slice(0, 10).replaceAll('-', '. ')}.`;
 }

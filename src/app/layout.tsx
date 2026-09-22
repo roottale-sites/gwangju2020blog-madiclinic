@@ -9,6 +9,7 @@ import '../styles/site/community.css';
 import '../styles/site/archive-pagination.css';
 import '../styles/site/archive-toolbar.css';
 import '../styles/site/article-reading.css';
+import '../styles/site/internal-links.css';
 import '../styles/site/article-header.css';
 import '../styles/site/article-navigation.css';
 import '../styles/site/preferred-source.css';

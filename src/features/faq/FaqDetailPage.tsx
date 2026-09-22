@@ -2,6 +2,7 @@ import Link from 'next/link';
 import type { ReactNode } from 'react';
 import PreferredSourceLink from '../../components/site/PreferredSourceLink';
 import ClinicGuide from '../clinic-guide/ClinicGuide';
+import { DOCTOR_PROFILE_HREF, POST_AUTHOR_NAME } from '../clinic/doctor-profile-link';
 import { faqPageJsonLd, webPageJsonLd } from '../seo/schema';
 import { formatFaqAnswerDate } from './faq-content';
 import { faqDetailHeadingId, faqDetailOutline, faqDetailSections as S } from './faq-detail-outline';
@@ -24,7 +25,7 @@ import { FaqMedicalNote, FaqReviewer, FaqSidebarBox } from './FaqShared';
  * headnerve 구조(질문 카드 → 핵심 답변 → 상세 답변 → 관점 → 관련 질문 + 250px
  * 목차 사이드바) 그대로다. 다르게 한 곳
  *   - 하단 병원 안내는 headnerve의 배치값(`pattern_slots`) 대신 칼럼·후기와 같은
- *     `ClinicGuide`(`.commonBox` 진료 안내 박스)다. 세 기능이 같은 박스를 쓴다.
+ *     `ClinicGuide`다. 세 기능이 같은 진료 안내를 쓴다.
  *   - 사이드바의 "진료가 필요한 경우" 질환 페이지 링크는 없다(질환 라우트가 없다).
  *   - 답변에만 `FAQPage`를 준다(ADR-0006 §5). 목록에는 만들지 않는다.
  */
@@ -59,14 +60,10 @@ export default function FaqDetailPage({ collection, entry, section, topic, notic
       <div className="faq-layout">
         <article className="faq-detail faq-layout__main" data-content-article data-track-read={entry.contentId}>
           <header className="faq-detail__header">
-            <div className="article-header-category">
-              <Link className="community-category-badge" href={faqTopicPath(section.slug, topic.slug)}>{topic.name}</Link>
-              <Link className="community-category-badge" href={`${faqTopicPath(section.slug, topic.slug)}?intent=${encodeURIComponent(entry.intent)}`}>{entry.intent}</Link>
-            </div>
             <h2 className="faq-detail__title">{entry.question}</h2>
             <div className="article-header-foot">
               <div className="article-header-byline">
-                <FaqReviewer detail="질문 검토 및 답변 작성" />
+                <a href={DOCTOR_PROFILE_HREF}>{POST_AUTHOR_NAME}</a>
                 <time dateTime={entry.reviewedAt ?? entry.updatedAt}>{formatFaqAnswerDate(entry.reviewedAt ?? entry.updatedAt)}</time>
               </div>
               <PreferredSourceLink />

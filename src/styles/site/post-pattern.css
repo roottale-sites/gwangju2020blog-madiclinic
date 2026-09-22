@@ -1,150 +1,129 @@
-/* 공통 안내 박스의 원본 그림·배경을 유지하고, 진료 안내에만 여백을 더한다. */
-.commonBox.clinic-guide {
-  display: grid;
-  grid-template-columns: 220px minmax(0, 1fr);
+/* 병원 정보와 예약 동작을 같은 여백·배경 안에 묶는 공통 진료 안내. */
+.clinic-guide {
+  box-sizing: border-box;
+  width: 100%;
   margin-top: 60px;
-}
-
-.clinic-guide > .commonTitle,
-.clinic-guide > .commonText {
-  display: block;
-  width: auto;
-}
-
-.post-pattern {
-  font-size: var(--madi-fs-md);
-  line-height: var(--madi-lh-panel);
+  padding: 32px;
+  border: 1px solid #e8ebee;
+  border-radius: 16px;
+  background: #f8f9fa;
   color: var(--madi-text);
-  overflow-wrap: anywhere;
+  font-size: 14px;
+  line-height: 1.7;
 }
 
-.post-pattern > * {
-  max-width: 100%;
-}
-
-.post-pattern p,
-.post-pattern h2,
-.post-pattern dl {
-  margin: 0 0 var(--madi-space-2);
-}
-
-.post-pattern > :last-child {
-  margin-bottom: 0;
-}
-
-/* 첫 줄은 상호처럼 굵게, 아래와 간격. */
-.post-pattern h2 {
-  margin-bottom: var(--madi-space-2);
-  color: var(--madi-text-strong);
-  font-size: var(--madi-fs-body);
-  font-weight: 700;
-  line-height: var(--madi-lh-panel);
-}
-
-.post-pattern__hours {
+.clinic-guide__details {
   display: grid;
-  gap: var(--madi-space-1) var(--madi-space-3);
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.2fr);
+  align-items: start;
+  gap: 24px;
 }
 
-.post-pattern__hours > div {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--madi-space-1) var(--madi-space-2);
+.clinic-guide__label {
+  color: var(--madi-text-muted);
+  font-size: 13px;
 }
 
-.post-pattern__hours dt {
-  min-width: 7.5rem;
+.clinic-guide__intro h2 {
+  margin: 6px 0 8px;
+  color: var(--madi-text-strong);
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.4;
+  letter-spacing: -0.03em;
+  word-break: keep-all;
+}
+
+.clinic-guide__intro p { margin: 0; }
+
+.clinic-guide__holiday {
+  margin: 10px 0 0;
+  color: var(--madi-text-muted);
+  font-size: 12px;
+}
+
+.clinic-guide__hours {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+}
+
+.clinic-guide__hours > div {
+  display: grid;
+  grid-template-columns: 100px minmax(0, 1fr);
+  gap: 12px;
+}
+
+.clinic-guide__hours dt {
   color: var(--madi-text-strong);
   font-weight: 500;
+  white-space: nowrap;
 }
 
-.post-pattern__hours dd {
-  margin: 0;
-}
+.clinic-guide__hours dd { margin: 0; }
 
-.post-pattern__note {
+.clinic-guide .clinic-guide__note {
+  margin: 22px 0 0;
   color: var(--madi-text-muted);
-  font-size: var(--madi-fs-base);
-  line-height: var(--madi-lh-panel);
+  font-size: 13px;
+  line-height: 1.7;
 }
 
-/* clinic01.html의 활성 색상·아이콘·60px 높이를 사용한다. */
-.clinic-guide > .post-pattern__actions {
+.clinic-guide__actions {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  grid-column: 1 / -1;
-  gap: 20px;
-  padding: 0 30px 30px;
-  margin: 0;
+  gap: 24px;
+  margin: 28px 0 0;
+  padding: 0;
 }
 
-.post-pattern__actions > a {
+.clinic-guide__actions > a {
   display: flex;
-  min-height: 60px;
+  min-height: 56px;
   align-items: center;
   justify-content: center;
+  gap: 10px;
   box-sizing: border-box;
-  padding: 16px 14px 16px 44px;
-  border-radius: 30px;
-  background-position: 10px center;
-  background-repeat: no-repeat;
+  padding: 14px 18px;
+  border-radius: 28px;
+  background: none;
   color: var(--madi-text-inverse);
   font-size: 15px;
   font-weight: 500;
-  line-height: 20px;
+  line-height: 22px;
   letter-spacing: -0.5px;
   text-decoration: none;
   text-align: center;
-  transition: background-color 0.3s ease;
+  transition: background-color 180ms ease;
 }
 
-.post-pattern__actions > .post-pattern__booking {
-  background-color: #46b85c;
-  background-image: url('/madi/img/iconReservationNaver.png');
+.clinic-guide__actions img {
+  flex: 0 0 28px;
+  width: 28px;
+  height: 28px;
+  object-fit: none;
 }
 
-.post-pattern__actions > .post-pattern__phone {
-  background-color: #5971b0;
-  background-image: url('/madi/img/mIconLinkPhone.png');
+/* 병원 원본의 네이버·전화 색상과 아이콘을 유지한다. */
+.clinic-guide__actions > .clinic-guide__booking { background-color: #46b85c; }
+.clinic-guide__actions > .clinic-guide__phone { background-color: #5971b0; }
+.clinic-guide__actions > .clinic-guide__booking:is(:hover, :focus-visible) { background-color: #249139; }
+.clinic-guide__actions > .clinic-guide__phone:is(:hover, :focus-visible) { background-color: #475883; }
+.clinic-guide__actions > a:focus-visible { outline: 2px solid var(--madi-primary); outline-offset: 3px; }
+
+@media (max-width: 980px) {
+  .clinic-guide { margin-top: 40px; }
 }
 
-.post-pattern__actions > .post-pattern__booking:is(:hover, :focus-visible) {
-  background-color: #249139;
+@media (max-width: 660px) {
+  .clinic-guide { padding: 24px 20px; }
+  .clinic-guide__details { grid-template-columns: minmax(0, 1fr); gap: 20px; }
 }
 
-.post-pattern__actions > .post-pattern__phone:is(:hover, :focus-visible) {
-  background-color: #475883;
+@media (max-width: 520px) {
+  .clinic-guide__actions { grid-template-columns: minmax(0, 1fr); gap: 16px; }
 }
 
-.post-pattern__actions > a:focus-visible {
-  outline: 2px solid var(--madi-primary);
-  outline-offset: 3px;
-}
-
-@media screen and (max-width: 980px) {
-  .commonBox.clinic-guide {
-    grid-template-columns: 180px minmax(0, 1fr);
-    margin-top: 40px;
-  }
-
-  .clinic-guide > .post-pattern__actions {
-    padding: 0 20px 20px;
-  }
-}
-
-@media screen and (max-width: 660px) {
-  .post-pattern {
-    font-size: var(--madi-fs-base-sm);
-  }
-
-  .clinic-guide > .post-pattern__actions {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 12px;
-  }
-}
-
-@media screen and (max-width: 500px) {
-  .commonBox.clinic-guide {
-    grid-template-columns: minmax(0, 1fr);
-  }
+@media (prefers-reduced-motion: reduce) {
+  .clinic-guide__actions > a { transition: none; }
 }

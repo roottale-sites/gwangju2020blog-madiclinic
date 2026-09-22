@@ -12,7 +12,10 @@
 }
 
 .community-content .column-detail__header-foot { margin-top: 12px; }
-.community-content :is(.column-detail__header, .review-detail__header, .faq-detail__header) { padding-bottom: 42px; }
+.community-content :is(.column-detail__header, .review-detail__header, .faq-detail__header) {
+  padding-bottom: 42px;
+  border-bottom: 0;
+}
 
 .article-header-category {
   display: flex;
@@ -52,6 +55,26 @@
 
 .article-header-foot time { white-space: nowrap; }
 
+.community-content .review-detail__metadata {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 20px;
+  color: var(--madi-text-muted);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.review-detail__metadata > .preferred-source-action { margin-inline-start: auto; }
+
+.review-detail__field {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.review-detail__field > span { color: var(--madi-text-muted); }
+.review-detail__field > a { color: var(--madi-text); }
+
 .community-content :is(.review-detail__summary, .faq-question-card > p, .faq-core-answer > p) {
   font-family: "Pretendard Variable", Pretendard, "Apple SD Gothic Neo", sans-serif;
   font-size: 18px;
@@ -90,6 +113,7 @@
   .community-content .article-header-foot { gap: 12px; }
   .article-header-foot .preferred-source__link { padding-inline: 10px; font-size: 12px; gap: 6px; }
   .community-content .article-header-foot :is(.column-detail__byline, .article-header-byline) { font-size: 12px; }
+  .community-content .review-detail__metadata { font-size: 12px; gap: 10px 14px; }
   .community-content :is(.column-detail__header h2, .review-detail__header h2, .faq-detail__title) {
     font-size: 28px;
     font-weight: 600;

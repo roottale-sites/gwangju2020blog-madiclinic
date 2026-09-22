@@ -93,38 +93,24 @@ export default function ReviewDetailView({ post, archivePosts = [], notice }: Re
                 ) : <span>치료 경험담</span>}
               </div>
               <h2>{title}</h2>
-              <div className="article-header-foot">
-                <p className="article-header-byline">
-                  {metadata.doctor && (isRepresentativeDoctor(metadata.doctor)
-                    ? <a href={DOCTOR_PROFILE_HREF}>{metadata.doctor}</a>
-                    : <span>{metadata.doctor}</span>)}
-                  <time dateTime={post.publishedAt}>{formatReviewDate(post.publishedAt)}</time>
-                </p>
+              <div className="article-header-foot review-detail__metadata">
+                {metadata.category && (
+                  <span className="review-detail__field">
+                    <span>진료 분야</span>
+                    <Link href={`/reviews?category=${encodeURIComponent(metadata.category)}`}>{metadata.category}</Link>
+                  </span>
+                )}
+                {metadata.doctor && (isRepresentativeDoctor(metadata.doctor)
+                  ? <a href={DOCTOR_PROFILE_HREF}>{metadata.doctor}</a>
+                  : <span>{metadata.doctor}</span>)}
+                <time dateTime={post.publishedAt}>{formatReviewDate(post.publishedAt)}</time>
+                {metadata.patient && (
+                  <span className="review-detail__field"><span>환자</span>{metadata.patient}</span>
+                )}
+                {metadata.treatmentPeriod && (
+                  <span className="review-detail__field"><span>치료 기간</span>{metadata.treatmentPeriod}</span>
+                )}
                 <PreferredSourceLink />
-              </div>
-              <div className="review-detail__info-row">
-                <dl className="review-detail__facts">
-                  {metadata.patient && (
-                    <div>
-                      <dt>환자</dt>
-                      <dd>{metadata.patient}</dd>
-                    </div>
-                  )}
-                  {metadata.treatmentPeriod && (
-                    <div>
-                      <dt>치료 기간</dt>
-                      <dd>{metadata.treatmentPeriod}</dd>
-                    </div>
-                  )}
-                  {metadata.category && (
-                    <div>
-                      <dt>진료 분야</dt>
-                      <dd>
-                        <Link href={`/reviews?category=${encodeURIComponent(metadata.category)}`}>{metadata.category}</Link>
-                      </dd>
-                    </div>
-                  )}
-                </dl>
               </div>
               {excerpt && <p className="review-detail__summary">{excerpt}</p>}
             </header>
