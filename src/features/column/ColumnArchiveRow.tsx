@@ -57,8 +57,8 @@ export default function ColumnArchiveRow({ entry }: ColumnArchiveRowProps) {
           </h3>
           <span className="column-card__excerpt">{entry.description}</span>
           <span className="column-card__meta">
-            <a className="column-card__author" href={DOCTOR_PROFILE_HREF}>
-              {clinic.name} {clinic.representative} 원장
+            <a className="column-card__author" href={entry.copiedFrom?.url ?? DOCTOR_PROFILE_HREF}>
+              {entry.copiedFrom ? `원문: ${entry.copiedFrom.name}` : `${clinic.name} ${clinic.representative} 원장`}
             </a>
           </span>
         </div>

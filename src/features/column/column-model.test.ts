@@ -146,3 +146,16 @@ describe('정렬', () => {
     expect(sorted[0]?.publishedAt).toBe('2026-09-15T00:00:00+09:00');
   });
 });
+
+describe('복사 글 출처', () => {
+  test('목록과 상세에 원문 출처를 유지한다', () => {
+    const copiedFrom = { name: 'headnerve', url: 'https://headnerve.com/example' };
+    const item = post({ metaJson: { copiedFrom } });
+    expect(columnEntryFromPost(item)?.copiedFrom).toEqual(copiedFrom);
+    expect(columnArchiveEntryFromPost(item)?.copiedFrom).toEqual(copiedFrom);
+  });
+  test('실행 가능한 주소를 출처 링크로 허용하지 않는다', () => {
+    const item = post({ metaJson: { copiedFrom: { name: '출처', url: 'javascript:alert(1)' } } });
+    expect(columnEntryFromPost(item)?.copiedFrom).toBeUndefined();
+  });
+});

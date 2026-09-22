@@ -109,6 +109,7 @@ export function ColumnDetailView({
             headline: entry.title,
             description: entry.description,
             publishedAt: entry.publishedAt,
+            source: entry.copiedFrom,
             ...(entry.shareImageUrl ? { image: entry.shareImageUrl } : {}),
           }),
         ]}
@@ -123,10 +124,11 @@ export function ColumnDetailView({
                 <div className="column-detail__header-foot">
                   <p className="column-detail__byline">
                     <span>
-                      {clinic.name}{' '}
-                      <a href={DOCTOR_PROFILE_HREF}>
-                        {clinic.representative} 원장
-                      </a>
+                      {entry.copiedFrom ? (
+                        <>원문: <a href={entry.copiedFrom.url}>{entry.copiedFrom.name}</a></>
+                      ) : (
+                        <>{clinic.name}{' '}<a href={DOCTOR_PROFILE_HREF}>{clinic.representative} 원장</a></>
+                      )}
                     </span>
                     <time dateTime={entry.publishedAt}>{formatColumnDate(entry.publishedAt)}</time>
                   </p>

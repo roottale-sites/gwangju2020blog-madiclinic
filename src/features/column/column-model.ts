@@ -27,6 +27,7 @@ export type ColumnPostInput = Pick<ColumnPost, 'metaJson' | 'excerpt'>;
 export type ColumnEntry = {
   /** ROOT-ADMIN 글 ID. 조회수 귀속(`rt:content-id`)에 쓴다. */
   contentId: string;
+  copiedFrom?: { name: string; url: string };
   slug: string;
   /**
    * 플랫폼이 저장한 정규 공개 경로(ADR-0105). 링크·canonical·사이트맵·RSS가 이
@@ -50,7 +51,7 @@ export type ColumnEntry = {
 /** 목록과 XML 사이트맵에 필요한 본문 없는 칼럼 요약 모델. */
 export type ColumnArchiveEntry = Pick<
   ColumnEntry,
-  'slug' | 'path' | 'title' | 'description' | 'publishedAt' | 'updatedAt' | 'category'
+  'slug' | 'path' | 'title' | 'description' | 'publishedAt' | 'updatedAt' | 'category' | 'copiedFrom'
 > & {
   /** CMS 대표 이미지. 목록 도판과 RSS enclosure가 쓴다. */
   featuredImageUrl?: string;
@@ -108,6 +109,21 @@ export function columnPostDescription(post: ColumnPostInput): string {
  *
  * 분류가 정확히 하나가 아니면 주소를 만들 수 없어 null이다(호출부가 제외한다).
  */
+function copiedFrom(post: ColumnPostInput): ColumnEntry['copiedFrom'] {
+  const source = post.metaJson.copiedFrom;
+  if (!source || typeof source !== 'object') return undefined;
+  const name = Reflect.get(source, 'name');
+  const url = Reflect.get(source, 'url');
+  if (typeof name !== 'string' || !name.trim() || typeof url !== 'string') return undefined;
+  try {
+    const parsed = new URL(url);
+    if (!['http:', 'https:'].includes(parsed.protocol)) return undefined;
+    return { name: name.trim(), url: parsed.href };
+  } catch {
+    return undefined;
+  }
+}
+
 export function columnEntryFromPost(post: ColumnPost): ColumnEntry | null {
   const category = columnCategoryRefFromTerms(post.terms);
   if (!category) return null;
@@ -120,6 +136,7 @@ export function columnEntryFromPost(post: ColumnPost): ColumnEntry | null {
     path: post.path,
     title: removeEmDashes(post.title),
     description: columnPostDescription(post),
+    copiedFrom: copiedFrom(post),
     publishedAt: post.publishedAt,
     updatedAt: post.updatedAt ?? post.publishedAt,
     bodyHtml: bodyHtml ?? '',
@@ -138,6 +155,7 @@ export function columnArchiveEntryFromPost(post: ColumnArchivePost): ColumnArchi
     path: post.path,
     title: removeEmDashes(post.title),
     description: columnPostDescription(post),
+    copiedFrom: copiedFrom(post),
     publishedAt: post.publishedAt,
     updatedAt: post.updatedAt ?? post.publishedAt,
     ...(post.featuredImageUrl ? { featuredImageUrl: post.featuredImageUrl } : {}),

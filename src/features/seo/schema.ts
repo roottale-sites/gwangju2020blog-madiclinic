@@ -132,6 +132,7 @@ export function articleJsonLd({
   publishedAt,
   updatedAt,
   image,
+  source,
 }: Readonly<{
   path: string;
   headline: string;
@@ -140,6 +141,7 @@ export function articleJsonLd({
   updatedAt?: string;
   /** 절대 주소. 검색 미리보기·AI 인용용이며 없으면 필드를 생략한다. */
   image?: string;
+  source?: { name: string; url: string };
 }>): JsonLdNode {
   const pageUrl = siteUrl(path);
   return {
@@ -150,7 +152,9 @@ export function articleJsonLd({
     ...(image ? { image: [image] } : {}),
     datePublished: publishedAt,
     ...(updatedAt ? { dateModified: updatedAt } : {}),
-    author: { '@id': physicianSchemaId },
+    ...(source
+      ? { isBasedOn: { '@type': 'CreativeWork', name: source.name, url: source.url } }
+      : { author: { '@id': physicianSchemaId } }),
     publisher: { '@id': clinicSchemaId },
     mainEntityOfPage: { '@id': pageSchemaId(path) },
   };

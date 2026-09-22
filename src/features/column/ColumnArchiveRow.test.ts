@@ -74,3 +74,10 @@ describe('블로그 목록 행', () => {
     expect(html).not.toContain('class="column-card__link" href=');
   });
 });
+
+ test('복사한 글은 마디클리닉 원장 대신 원문을 표시한다', () => {
+  const html = renderRow(entry({ copiedFrom: { name: 'headnerve', url: 'https://headnerve.com/column/headache/example' } }));
+  expect(html).toContain('원문: headnerve');
+  expect(html).toContain('href="https://headnerve.com/column/headache/example"');
+  expect(html).not.toContain('이경무 원장');
+});
