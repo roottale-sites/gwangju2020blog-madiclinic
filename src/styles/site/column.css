@@ -82,6 +82,10 @@
   border-bottom: 1px solid var(--madi-border-strong);
 }
 
+.column-card:last-child {
+  border-bottom: 0;
+}
+
 .column-card__link {
   display: grid;
   min-width: 0;

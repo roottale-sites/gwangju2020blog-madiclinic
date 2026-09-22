@@ -8,14 +8,13 @@ import { clinic } from '../../data/clinic';
  * 내용은 `src/data/clinic.ts`에서 읽는다 — 전화·주소·진료시간이 두 곳에 적히면
  * 한쪽만 고쳐질 수 있다.
  *
- * 틀(`.commonBox`)은 `styles/madi/patterns.css`의 원본 값이고, 안쪽 본문·버튼은
- * `styles/site/post-pattern.css`(headnerve `post-pattern.css`를 마디 토큰으로 옮긴
- * 것)가 스타일한다.
+ * `post-pattern.css`가 본문과의 간격, 안내 내용, 병원 원본 예약·전화 버튼을
+ * 함께 관리한다.
  */
 export default function ClinicGuide() {
   return (
-    <aside className="commonBox" aria-label="진료 안내">
-      <div className="commonTitle" />
+    <aside className="commonBox clinic-guide" aria-label="진료 안내" data-analytics-placement="clinic-guide">
+      <div className="commonTitle" aria-hidden="true" />
       <div className="commonText">
         <div className="post-pattern">
           <h2>{clinic.name}</h2>
@@ -31,16 +30,17 @@ export default function ClinicGuide() {
           <p className="post-pattern__note">
             ※ {clinic.holidayNote} {clinic.bookingNote}
           </p>
-          <p className="post-pattern__actions">
-            <a href={`tel:${clinic.phoneTel}`}>전화 {clinic.phoneDisplay}</a>
-            <a href={clinic.social.naverBooking} target="_blank" rel="noopener noreferrer">
-              네이버 예약하기
-            </a>
-            <a href={clinic.social.kakao} target="_blank" rel="noopener noreferrer">
-              카카오 채널 문의
-            </a>
-          </p>
         </div>
+      </div>
+      <div className="post-pattern__actions">
+        <a className="post-pattern__booking" href={clinic.social.naverBooking}
+          target="_blank" rel="noopener noreferrer" data-analytics-id="naver-booking">
+          네이버 예약 바로가기
+        </a>
+        <a className="post-pattern__phone" href={`tel:${clinic.phoneTel}`}
+          data-analytics-id="phone-call">
+          지금 바로 전화걸기
+        </a>
       </div>
     </aside>
   );

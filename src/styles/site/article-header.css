@@ -14,6 +14,44 @@
 .community-content .column-detail__header-foot { margin-top: 12px; }
 .community-content :is(.column-detail__header, .review-detail__header, .faq-detail__header) { padding-bottom: 42px; }
 
+.article-header-category {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.community-content .article-header-foot {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  margin-top: 16px;
+}
+
+.article-header-foot > .preferred-source-action {
+  width: auto;
+  margin: 0;
+}
+
+.community-content .article-header-foot :is(.column-detail__byline, .article-header-byline) {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 4px 16px;
+  margin: 0;
+  color: var(--madi-text-muted);
+  font-size: 14px;
+  line-height: 1.6;
+  text-align: left;
+}
+
+.article-header-foot time { white-space: nowrap; }
+
 .community-content :is(.review-detail__summary, .faq-question-card > p, .faq-core-answer > p) {
   font-family: "Pretendard Variable", Pretendard, "Apple SD Gothic Neo", sans-serif;
   font-size: 18px;
@@ -49,6 +87,9 @@
 .community-content .faq-detail .faq-question-card__header > h3 { margin: 0; }
 
 @media (max-width: 767px) {
+  .community-content .article-header-foot { gap: 12px; }
+  .article-header-foot .preferred-source__link { padding-inline: 10px; font-size: 12px; gap: 6px; }
+  .community-content .article-header-foot :is(.column-detail__byline, .article-header-byline) { font-size: 12px; }
   .community-content :is(.column-detail__header h2, .review-detail__header h2, .faq-detail__title) {
     font-size: 28px;
     font-weight: 600;

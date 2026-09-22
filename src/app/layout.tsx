@@ -18,6 +18,7 @@ import SiteLayout from '../components/site/SiteLayout';
 import { clinic } from '../data/clinic';
 import { siteOrigin } from '../data/site';
 import { siteEntityJsonLd } from '../features/seo/schema';
+import { RootAnalytics } from '../features/analytics/RootAnalytics';
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteOrigin),
@@ -60,11 +61,11 @@ export const viewport: Viewport = {
  * `@import` + `@font-face` + body font-family를 그대로 옮긴 것). 여기서는
  * 연결만 미리 열어 첫 렌더의 글꼴 교체를 줄인다.
  *
- * GTM·서치콘솔·네이버 인증 토큰은 아직 발급 전이라 넣지 않는다(PLAN.md §8-2).
+ * 자체 클릭·유입 수집은 RootAnalytics가 연결한다. 외부 태그는 ROOT-ADMIN 설정을 따른다.
  */
 export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
   return (
-    <html lang="ko">
+    <html lang="ko" data-scroll-behavior="smooth">
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
@@ -72,6 +73,7 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
       <body>
         <JsonLd nodes={siteEntityJsonLd} />
         <SiteLayout>{children}</SiteLayout>
+        <RootAnalytics />
       </body>
     </html>
   );

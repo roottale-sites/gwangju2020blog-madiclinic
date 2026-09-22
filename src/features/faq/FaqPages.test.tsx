@@ -193,9 +193,8 @@ describe('답변 상세', () => {
     expect(html).toContain('상세 답변');
     expect(html).toContain('같이 많이 묻는 질문');
     expect(html).toContain('사무직인데 어떤 자세로 일해야 하나요?');
-    // 칼럼·후기와 같은 진료 안내 박스(.commonBox)를 쓴다.
-    expect(html.match(/class="commonBox"/gu)).toHaveLength(1);
-    expect(html).toContain('062-675-0750');
+    expect(html.match(/aria-label="진료 안내"/gu)).toHaveLength(1);
+    expect(html).toContain('href="tel:0626750750"');
   });
 
   test('답변에만 FAQPage 구조화 데이터를 준다', () => {

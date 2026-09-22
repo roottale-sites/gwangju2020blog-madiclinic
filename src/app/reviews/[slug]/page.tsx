@@ -196,35 +196,29 @@ export default async function ReviewDetailPage({ params }: ReviewDetailPageProps
         <article className="review-detail" data-track-read={post.id}>
           <div className="reviews-shell review-detail__surface">
             <header className="review-detail__header">
-              <div className="review-detail__meta-row">
+              <div className="article-header-category">
                 {metadata.category ? (
                   <Link className="community-category-badge" href={`/reviews?category=${encodeURIComponent(metadata.category)}`}>
                     치료 경험담 · {metadata.category}
                   </Link>
                 ) : <span>치료 경험담</span>}
-                <time dateTime={post.publishedAt}>{formatReviewDate(post.publishedAt)}</time>
               </div>
               <h2>{title}</h2>
+              <div className="article-header-foot">
+                <p className="article-header-byline">
+                  {metadata.doctor && (isRepresentativeDoctor(metadata.doctor)
+                    ? <a href={DOCTOR_PROFILE_HREF}>{metadata.doctor}</a>
+                    : <span>{metadata.doctor}</span>)}
+                  <time dateTime={post.publishedAt}>{formatReviewDate(post.publishedAt)}</time>
+                </p>
+                <PreferredSourceLink />
+              </div>
               <div className="review-detail__info-row">
                 <dl className="review-detail__facts">
                   {metadata.patient && (
                     <div>
                       <dt>환자</dt>
                       <dd>{metadata.patient}</dd>
-                    </div>
-                  )}
-                  {metadata.doctor && (
-                    <div>
-                      <dt>글쓴이</dt>
-                      <dd>
-                        {isRepresentativeDoctor(metadata.doctor) ? (
-                          <a className="review-card__doctor" href={DOCTOR_PROFILE_HREF}>
-                            {metadata.doctor}
-                          </a>
-                        ) : (
-                          metadata.doctor
-                        )}
-                      </dd>
                     </div>
                   )}
                   {metadata.treatmentPeriod && (
@@ -242,7 +236,6 @@ export default async function ReviewDetailPage({ params }: ReviewDetailPageProps
                     </div>
                   )}
                 </dl>
-                <PreferredSourceLink />
               </div>
               {excerpt && <p className="review-detail__summary">{excerpt}</p>}
             </header>

@@ -1,14 +1,16 @@
-/*
- * 상세 하단 진료 안내 박스의 안쪽 본문.
- *
- * headnerve `src/styles/site/post-pattern.css`를 옮긴 것이다. 그쪽은 CMS 공통
- * 블록(Tiptap JSON)을 카드로 그렸고, 이 저장소는 본 사이트 안내 박스 문법
- * (`.commonBox`, DESIGN.md §5)을 틀로 쓰고 이 시트가 안쪽만 스타일한다. 값은
- * headnerve 간격 체계를 `--madi-*`로 바꾼 것이다(Pretendard·`--fs-*` 미사용).
- *
- * 틀(`.commonBox` 상단선·제목 칸·여백)은 `styles/madi/patterns.css`가 원본 값
- * 그대로 갖고 있다. 여기서 다시 정의하지 않는다.
- */
+/* 공통 안내 박스의 원본 그림·배경을 유지하고, 진료 안내에만 여백을 더한다. */
+.commonBox.clinic-guide {
+  display: grid;
+  grid-template-columns: 220px minmax(0, 1fr);
+  margin-top: 60px;
+}
+
+.clinic-guide > .commonTitle,
+.clinic-guide > .commonText {
+  display: block;
+  width: auto;
+}
+
 .post-pattern {
   font-size: var(--madi-fs-md);
   line-height: var(--madi-lh-panel);
@@ -66,38 +68,68 @@
   line-height: var(--madi-lh-panel);
 }
 
-/* 링크 모양 = 버튼: 주 버튼은 헤더 버튼 문법(40px pill)이다(DESIGN.md §5). */
-.post-pattern__actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--madi-space-2);
-  margin: var(--madi-space-3) 0 0;
+/* clinic01.html의 활성 색상·아이콘·60px 높이를 사용한다. */
+.clinic-guide > .post-pattern__actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-column: 1 / -1;
+  gap: 20px;
+  padding: 0 30px 30px;
+  margin: 0;
 }
 
 .post-pattern__actions > a {
-  display: inline-flex;
-  min-height: 40px;
+  display: flex;
+  min-height: 60px;
   align-items: center;
-  padding-inline: var(--madi-space-3);
-  border-radius: var(--madi-radius-pill);
-  background-color: var(--madi-primary);
+  justify-content: center;
+  box-sizing: border-box;
+  padding: 16px 14px 16px 44px;
+  border-radius: 30px;
+  background-position: 10px center;
+  background-repeat: no-repeat;
   color: var(--madi-text-inverse);
-  font-size: var(--madi-fs-base);
-  font-weight: 700;
+  font-size: 15px;
+  font-weight: 500;
   line-height: 20px;
+  letter-spacing: -0.5px;
   text-decoration: none;
-  white-space: nowrap;
+  text-align: center;
   transition: background-color 0.3s ease;
 }
 
-.post-pattern__actions > a:nth-of-type(n + 2) {
-  background-color: var(--madi-primary-hover);
+.post-pattern__actions > .post-pattern__booking {
+  background-color: #46b85c;
+  background-image: url('/madi/img/iconReservationNaver.png');
 }
 
-.post-pattern__actions > a:hover,
+.post-pattern__actions > .post-pattern__phone {
+  background-color: #5971b0;
+  background-image: url('/madi/img/mIconLinkPhone.png');
+}
+
+.post-pattern__actions > .post-pattern__booking:is(:hover, :focus-visible) {
+  background-color: #249139;
+}
+
+.post-pattern__actions > .post-pattern__phone:is(:hover, :focus-visible) {
+  background-color: #475883;
+}
+
 .post-pattern__actions > a:focus-visible {
-  background-color: var(--madi-tab-active);
-  color: var(--madi-text-inverse);
+  outline: 2px solid var(--madi-primary);
+  outline-offset: 3px;
+}
+
+@media screen and (max-width: 980px) {
+  .commonBox.clinic-guide {
+    grid-template-columns: 180px minmax(0, 1fr);
+    margin-top: 40px;
+  }
+
+  .clinic-guide > .post-pattern__actions {
+    padding: 0 20px 20px;
+  }
 }
 
 @media screen and (max-width: 660px) {
@@ -105,8 +137,14 @@
     font-size: var(--madi-fs-base-sm);
   }
 
-  .post-pattern__actions > a {
-    flex: 1 1 auto;
-    justify-content: center;
+  .clinic-guide > .post-pattern__actions {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .commonBox.clinic-guide {
+    grid-template-columns: minmax(0, 1fr);
   }
 }

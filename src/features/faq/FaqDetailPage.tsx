@@ -54,26 +54,28 @@ export default function FaqDetailPage({ collection, entry, section, topic }: Rea
       ]}
     >
       <div className="faq-layout">
-        <article className="faq-detail faq-layout__main" data-content-article>
+        <article className="faq-detail faq-layout__main" data-content-article data-track-read={entry.contentId}>
           <header className="faq-detail__header">
+            <div className="article-header-category">
+              <Link className="community-category-badge" href={faqTopicPath(section.slug, topic.slug)}>{topic.name}</Link>
+              <Link className="community-category-badge" href={`${faqTopicPath(section.slug, topic.slug)}?intent=${encodeURIComponent(entry.intent)}`}>{entry.intent}</Link>
+            </div>
             <h2 className="faq-detail__title">{entry.question}</h2>
-            <PreferredSourceLink />
+            <div className="article-header-foot">
+              <div className="article-header-byline">
+                <FaqReviewer detail="질문 검토 및 답변 작성" />
+                <time dateTime={entry.reviewedAt ?? entry.updatedAt}>{formatFaqAnswerDate(entry.reviewedAt ?? entry.updatedAt)}</time>
+              </div>
+              <PreferredSourceLink />
+            </div>
           </header>
           <section id={S.question.id} className="faq-question-card" aria-labelledby={faqDetailHeadingId(S.question)}>
             <div className="faq-question-card__header">
               <h3 id={faqDetailHeadingId(S.question)}>Q. {S.question.title}</h3>
-              <div className="community-category-links">
-                <Link className="community-category-badge" href={faqTopicPath(section.slug, topic.slug)}>{topic.name}</Link>
-                <Link className="community-category-badge" href={`${faqTopicPath(section.slug, topic.slug)}?intent=${encodeURIComponent(entry.intent)}`}>{entry.intent}</Link>
-              </div>
             </div>
             <p>{entry.questionContext ?? entry.question}</p>
           </section>
           <section className="faq-answer-card">
-            <div className="faq-answer-card__header">
-              <FaqReviewer detail="질문 검토 및 답변 작성" />
-              <span>{formatFaqAnswerDate(entry.reviewedAt ?? entry.updatedAt)}</span>
-            </div>
             <div id={S.coreAnswer.id} className="faq-core-answer">
               <h3 id={faqDetailHeadingId(S.coreAnswer)}>{S.coreAnswer.title}</h3>
               <p>{entry.answer}</p>
