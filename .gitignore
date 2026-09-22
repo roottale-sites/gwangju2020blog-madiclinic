@@ -9,3 +9,4 @@ playwright-report/
 _build/
 tmp/
 .DS_Store
+.env*

@@ -13,8 +13,10 @@
 - [x] 6. **reviews** — 목록·상세 포트
 - [x] 7. **faq** — 4단계 화면 포트, `faq-registry`를 CMS 분류 기반으로 재작성
 - [x] 8. **seo** — `sitemap.xml` 인덱스·`sitemap-static.xml`·robots·JSON-LD·`docs/metadata-table.md`
-- [ ] 9. **provision**(진행 중, 2026-09-16) — 사용자가 테넌트 생성. Aside로 ROOT-ADMIN 사이트 `gwangju2020-blog-madiclinic`(site id `01a09f2d-1113-7bf4-ab3a-b18e2ef62839`, tenant id `01a09eeb-bd8d-7390-aac8-ddacc5b69b91`) 확인, 웹훅 `https://gwangju2020blog.madiclinic.co.kr/api/revalidate` 등록, 읽기 전용 사이트 키 `vercel-gwangju2020blog` 발급. `content-model:sync --apply` 완료(models faq·column·reviews, fieldGroups 1, categories 0). Vercel env: `ROOTTALE_API_BASE`·`ROOTTALE_MEDIA_ORIGIN`·`NEXT_PUBLIC_ROOTTALE_SITE_ID` 3환경 등록, `vercel.json` framework nextjs.
-  - [ ] `ROOTTALE_API_KEY`를 Vercel(Sensitive, 3환경)에 저장 — Aside 브라우저에 Vercel 로그인이 없어 보류. 로그인 후 Aside 세션 재개 또는 사용자가 ROOT-ADMIN 키 복사 → Vercel 붙여넣기.
+- [ ] 9. **provision**(진행 중, 2026-09-22) — 사용자가 테넌트 생성. Aside로 ROOT-ADMIN 사이트 `gwangju2020-blog-madiclinic`(site id `01a09f2d-1113-7bf4-ab3a-b18e2ef62839`, tenant id `01a09eeb-bd8d-7390-aac8-ddacc5b69b91`) 확인, 웹훅 `https://gwangju2020blog.madiclinic.co.kr/api/revalidate` 등록, 읽기 전용 사이트 키 `vercel-gwangju2020blog` 발급. `content-model:sync --apply` 완료(models faq·column·reviews, fieldGroups 1, categories 0). Vercel env: `ROOTTALE_API_BASE`·`ROOTTALE_MEDIA_ORIGIN`·`NEXT_PUBLIC_ROOTTALE_SITE_ID` 3환경 등록, `vercel.json` framework nextjs.
+  - [x] `ROOTTALE_API_KEY` 연결 — 기존 사이트 전용 읽기 키를 재사용해 로컬 `.env.local`과 Vercel Production·Preview·Development에 Secret으로 저장(2026-09-22). 키 원문은 코드·문서·로그에 기록하지 않음.
+  - [x] 실제 CMS 조회 — column·faq·reviews 공개 API와 콘텐츠 모델 조회 200. 로컬 목록 3종·RSS 2종·FAQ 사이트맵 200 확인. 등록된 분류·발행 글은 아직 없으므로 상세 검증은 아래 단계에서 진행.
+  - [ ] 운영 재배포 — 기존 배포에는 새 환경변수가 적용되지 않음. 승인 후 반영. 기존 웹훅 목적지 등록은 확인했으며 실제 발행 전달은 미검증.
   - [ ] ROOT-ADMIN에서 칼럼 1단계 분류, FAQ 진료 영역(1단계)·세부 질환(2단계) 분류 생성(값은 고객·사용자 결정)
   - [ ] 글 1건씩 발행 → 실데이터 화면·웹훅 60초 내 갱신 확인
 - [ ] 10. **release** — Playwright, production build, Aside 3폭 확인, `docs/TODO.md`·llm-wiki 기록. 승인 후 main push·배포
@@ -404,7 +406,7 @@ PLAN.md §4.1의 현행 ROOT-ADMIN 절차다. 운영 값(API 키·site id)은 �
       FAQ는 진료 영역(1단계) → 세부 질환(2단계) 최소 1세트. 영역·질환의
       `설명`·`SEO 제목`·`SEO 설명`을 채우면 화면·메타데이터에 그대로 쓰인다
       (비우면 이름을 끼운 기본 서식).
-- [ ] **API 키** — `/site/{slug}/settings/api-keys`에서 사이트 범위 공개 읽기 키 1개 →
+- [x] **API 키** — 기존 사이트 범위 공개 읽기 키를 재사용(2026-09-22) →
       Vercel 민감 환경변수 `ROOTTALE_API_KEY`. `ROOTTALE_API_BASE=https://api.roottale.com`,
       `ROOTTALE_MEDIA_ORIGIN=https://root-cdn.com`, `NEXT_PUBLIC_ROOTTALE_SITE_ID`도 함께.
       코드·문서·로그에 값을 남기지 않는다.

@@ -18,6 +18,8 @@ export default defineConfig({
   ],
   webServer: {
     command: 'pnpm build && pnpm exec next start --hostname localhost --port 49117',
+    // 로컬 CMS 키가 있어도 상태 안내 테스트는 운영 데이터를 조회하지 않는다.
+    env: { ROOTTALE_API_KEY: 'local_unconfigured' },
     url: baseURL,
     reuseExistingServer: false,
   },
