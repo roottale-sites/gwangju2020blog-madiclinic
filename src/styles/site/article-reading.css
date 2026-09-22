@@ -1,0 +1,116 @@
+/* AVCD 본문 기준: 720px, 18px/1.7, 문단 24px.
+   메뉴별 CSS의 로딩 순서와 무관하게 상세 본문에만 공통 조판을 적용한다. */
+:is(.column-detail, .review-detail, .faq-detail) :is(.column-richtext, .review-richtext, .faq-richtext) {
+  max-width: 45rem;
+  margin-inline: auto;
+  color: var(--madi-text-strong);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.7;
+  letter-spacing: -0.025em;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+
+:is(.column-richtext, .review-richtext, .faq-richtext) :is(h2, h3, h4) {
+  padding: 0;
+  border: 0;
+  font-family: inherit;
+  letter-spacing: 0;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+  scroll-margin-top: calc(var(--madi-header-h) + 24px);
+}
+
+:is(.column-detail, .review-detail, .faq-detail) :is(.column-richtext, .review-richtext, .faq-richtext) h2 {
+  margin: 110px 0 20px;
+  padding: 0;
+  border: 0;
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+:is(.column-detail, .review-detail, .faq-detail) :is(.column-richtext, .review-richtext, .faq-richtext) h3 {
+  margin: 32px 0 12px;
+  padding: 0;
+  border: 0;
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+:is(.column-detail, .review-detail, .faq-detail) :is(.column-richtext, .review-richtext, .faq-richtext) h4 {
+  margin: 28px 0 12px;
+  font-size: 20px;
+  line-height: 1.4;
+}
+
+:is(.column-detail, .review-detail, .faq-detail) :is(.column-richtext, .review-richtext, .faq-richtext) :is(p, ul, ol) {
+  margin-block: 0 24px;
+}
+
+:is(.column-detail, .review-detail, .faq-detail) :is(.column-richtext, .review-richtext, .faq-richtext) :is(ul, ol) {
+  padding-left: 24px;
+}
+
+:is(.column-detail, .review-detail, .faq-detail) :is(.column-richtext, .review-richtext, .faq-richtext) li + li {
+  margin-top: 20px;
+}
+
+:is(.column-detail, .review-detail, .faq-detail) :is(.column-richtext, .review-richtext, .faq-richtext) li > p {
+  margin-bottom: 0;
+}
+
+:is(.column-detail, .review-detail, .faq-detail) :is(.column-richtext, .review-richtext, .faq-richtext) blockquote {
+  margin: 32px 0;
+  padding: 16px 24px;
+  border: 0;
+  border-left: 3px solid var(--madi-primary);
+  border-radius: 0;
+  background: var(--madi-bg-panel);
+  font-size: inherit;
+  font-weight: 400;
+  line-height: inherit;
+}
+
+:is(.column-richtext, .review-richtext, .faq-richtext) :is(img, video, iframe) {
+  max-width: 100%;
+}
+
+:is(.column-detail, .review-detail, .faq-detail) :is(.column-richtext, .review-richtext, .faq-richtext) > :first-child,
+:is(.column-richtext__imported, .review-richtext__imported, .faq-richtext__imported) > :first-child {
+  margin-top: 0;
+}
+
+:is(.column-detail, .review-detail, .faq-detail) :is(.column-richtext, .review-richtext, .faq-richtext) :is(blockquote, li) > :last-child {
+  margin-bottom: 0;
+}
+
+@media (max-width: 767px) {
+  :is(.column-detail, .review-detail, .faq-detail) :is(.column-richtext, .review-richtext, .faq-richtext) {
+    font-size: 17px;
+  }
+
+  :is(.column-detail, .review-detail, .faq-detail) :is(.column-richtext, .review-richtext, .faq-richtext) h2 {
+    margin-top: 64px;
+    font-size: 26px;
+  }
+
+  :is(.column-detail, .review-detail, .faq-detail) :is(.column-richtext, .review-richtext, .faq-richtext) h3 {
+    font-size: 22px;
+  }
+
+  :is(.column-detail, .review-detail, .faq-detail) :is(.column-richtext, .review-richtext, .faq-richtext) > :first-child {
+    margin-top: 0;
+  }
+}
+
+/* 빈 편집 문단은 본문 간격과 중복된다. 실제 문장 안의 줄바꿈은 유지한다. */
+:is(.column-richtext, .review-richtext, .faq-richtext) [data-cms-spacer="true"] {
+  display: none;
+}
+
+:is(.column-detail, .review-detail, .faq-detail) :is(.column-richtext, .review-richtext, .faq-richtext) p {
+  line-height: inherit;
+}

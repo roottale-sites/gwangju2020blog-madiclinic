@@ -187,3 +187,13 @@ test('공통 서식 규칙으로 글씨 크기·문단 간격·사진 설명을 
   expect(html).toContain('margin-left:auto');
   expect(html).toContain('<figcaption>&lt;script&gt;사진&lt;/script&gt;</figcaption>');
 });
+
+test('빈 편집 문단만 간격용으로 표시하고 문장 안 줄바꿈은 보존한다', () => {
+  const html = renderTiptapBody({ type: 'doc', content: [
+    { type: 'paragraph' },
+    { type: 'paragraph', content: [{ type: 'hardBreak' }] },
+    { type: 'paragraph', content: [{ type: 'text', text: '본문' }, { type: 'hardBreak' }] },
+  ] }, 'column-richtext');
+  expect(html.match(/data-cms-spacer="true"/g)).toHaveLength(2);
+  expect(html).toContain('<p>본문<br></p>');
+});

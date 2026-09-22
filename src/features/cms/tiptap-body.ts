@@ -159,8 +159,10 @@ function renderNode(
   switch (node.type) {
     case 'doc':
       return children;
-    case 'paragraph':
-      return `<p${paragraphStyle(node.attrs)}>${children || '<br>'}</p>`;
+    case 'paragraph': {
+      const spacer = /^(?:\s|<br>)*$/.test(children);
+      return `<p${spacer ? ' data-cms-spacer="true"' : ''}${paragraphStyle(node.attrs)}>${children || '<br>'}</p>`;
+    }
     case 'heading': {
       const level = Math.min(Math.max(positiveInteger(node.attrs?.level) ?? 2, 2), 4);
       return `<h${level}${paragraphStyle(node.attrs)}>${children}</h${level}>`;
