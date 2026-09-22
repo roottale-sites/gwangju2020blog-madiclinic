@@ -5,11 +5,9 @@
     "runtimeVersion": 2,
     "variants": ["card", "image-card", "image"],
     "assetKinds": ["image"],
-    "pathPrefixes": ["/column", "/faq", "/reviews"],
+    "pathPrefixes": ["/"],
     "pathRules": [
-      {"path": "/column", "match": "exact"},
-      {"path": "/faq", "match": "exact"},
-      {"path": "/reviews", "match": "exact"}
+      {"path": "/", "match": "exact"}
     ],
     "homePaths": ["/column", "/faq", "/reviews"],
     "repeatOptions": ["always", "session", "day", "never"],
