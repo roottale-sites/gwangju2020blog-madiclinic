@@ -12,7 +12,7 @@
 | 팝업 | `cms/exposure-slots.json`의 `site-popup` 하나. `@roottale/cms-renderer-next`의 공용 Provider·Slot·노출 API를 사용한다. 서버 API 키는 브라우저에 전달하지 않는다. |
 | 노출 위치 | `/column`·`/faq`·`/reviews` 첫 화면. 분류·상세·글 미리보기에는 표시하지 않는다. 자체 홈이 없으므로 세 경로를 공용 런타임의 `homePaths`로 전달한다. |
 | 노출 조건 | ROOT-ADMIN에서 PC·모바일 이미지, 예약·종료 시각, 반복, 크기 등을 설정한다. 지원 표현은 `card`·`image-card`·`image`, 크기는 `small`·`medium`·`large`다. |
-| 배너 | 사진 배너 컴포넌트를 제거했다. 홍보 배너 슬롯도 등록하지 않는다. 메뉴·현재 위치와 접근성용 본문 제목은 유지한다. |
+| 배너 | 페이지 상단의 사진 배너는 유지한다. CMS 홍보 배너 슬롯을 등록하지 않고 ROOT-ADMIN의 `banners` 메뉴만 숨긴다. `popups` 메뉴는 표시한다. |
 | 루트 이동 | 일반 `/` 방문은 병원 홈페이지로 301. 관리자 팝업 미리보기는 루트 URL을 iframe으로 열기 때문에 해당 요청만 `/column`으로 307 이동해 같은 origin과 fragment를 유지한다. |
 
 닫기·오늘 숨기기·여러 팝업의 순환·모바일 이미지 대체·미리보기 메시지 검증은 headnerve와 같은 공용 런타임이 담당한다. 팝업 조회는 서버가 정한 슬롯과 경로만 허용하고, 상류 오류는 비밀값 없이 503으로 응답한다.
@@ -29,6 +29,7 @@
 | 팝업 조회 API·화면·슬롯 계약이 없음 | 공용 런타임과 팝업 슬롯 연결 |
 | 팝업 관리자 미리보기의 `/`가 외부 병원 사이트로 이동함 | iframe 루트 요청의 내부 307 예외 추가 |
 | 관리자 Production URL이 비어 있음 | 운영 설정 반영 대기 |
+| 운영 관리자의 팝업·배너 숨김 설정이 통합되어 있음 | 개별 메뉴 기능이 로컬 플랫폼 커밋 `7c6acf20`에 준비됨. 배포 후 `banners`만 숨김 저장 필요 |
 | 사이트에서 처리하지 않는 기본 `blog` 모델이 활성 상태 | 관리자에서 글이 없는 것을 확인. 대행사 작성 혼동을 막도록 비활성화 권고 |
 
 관리자 웹훅 화면에는 이전 24시간의 503·시간 초과·모델/경로 불일치 이력이 있었다. 확인 시점의 최근 전송은 성공했고 미전달 변경은 없었다. 과거 실패 수를 현재 진행 중인 장애로 보지 않는다. 기존 FAQ 웹훅 지연 수정은 [headnerve-copy.md](headnerve-copy.md)에 기록되어 있다.
@@ -41,13 +42,13 @@
 | 운영 공개 화면 | 발행 상세 주소 모두 HTTP 200, 제목·canonical 확인. 운영 글과 설정을 변경하지 않았다. |
 | 로컬 서버 통합 | 운영 공개 콘텐츠의 사본과 가짜 사이트 키·서명 키로 production 서버를 실행. 세 모델의 목록·분류·상세·검색·페이지네이션·미리보기·XML, 발행/수정/삭제 웹훅과 실제 갱신을 확인했다. 모든 시나리오 통과. |
 | 팝업 API | 세 첫 화면의 PC·모바일, 중지, 상세 제외, 슬롯·사이트 입력 변조 거부를 확인했다. |
-| Aside 브라우저 | 같은 실행 호스트에서 PC 화면과 390·768·1280px iframe을 확인했다. 이미지 로드·모바일 이미지 선택·닫기·오늘 숨기기와 새로고침·스크롤 복구, 팝업 순환·CTA 이동, 가로 넘침과 헤더 겹침 여부를 확인했다. 루트 iframe의 내부 이동·fragment 보존과 미리보기에서 발행 팝업 조회가 중단되는 것도 확인했다. |
+| Aside 브라우저 | 같은 실행 호스트에서 PC 화면과 390·768·1280px iframe을 확인했다. 이미지 로드·모바일 이미지 선택·닫기·오늘 숨기기와 새로고침·스크롤 복구, 팝업 순환·CTA 이동, 가로 넘침과 헤더 겹침 여부를 확인했다. 사진 배너를 유지한 최종 화면에서도 팝업과 이미지가 정상 표시되고 가로 넘침이 없는지 확인했다. 루트 iframe의 내부 이동·fragment 보존과 미리보기에서 발행 팝업 조회가 중단되는 것도 확인했다. |
 | 코드 검사 | `pnpm test`, `pnpm typecheck`, `pnpm build --webpack` 통과. 빌드는 별도 QA 사본에서 실행했다. |
 | 슬롯 형식 | 플랫폼의 `mergeExposureSlotContract`로 JSON을 읽어 검증했다. 운영 DB 동기화는 하지 않았다. |
 
-검사별 결과와 집계의 원본은 `~/workspace/output/gwangju2020blog-madiclinic/2026-09-22-root-admin/`의 `http-results.json`, `production-read.json`, `candidate-vitest.log`, `candidate-build.log`, `candidate-typecheck.log`다. 커밋할 코드만 분리한 사본에서도 단위 검사·타입 검사·빌드를 확인했다. 가짜 CMS·HTTP 검사 스크립트와 QA 빌드 사본도 같은 폴더에 있다. 실제 시크릿은 복사하지 않았다. 브라우저 캡처는 같은 폴더의 `browser/`에 보관한다.
+검사별 결과와 집계의 원본은 `~/workspace/output/gwangju2020blog-madiclinic/2026-09-22-root-admin/`의 `http-results.json`, `production-read.json`, `candidate-vitest.log`, `candidate-build.log`, `candidate-typecheck.log`다. 커밋할 코드만 분리한 사본에서도 단위 검사·타입 검사·빌드를 확인했다. 가짜 CMS·HTTP 검사 스크립트와 QA 빌드 사본도 같은 폴더에 있다. 실제 시크릿은 복사하지 않았다. 브라우저 캡처는 같은 폴더의 `browser/`에 보관한다. 최종 사진 배너 유지 검증은 `final-related-tests.log`, `final-build.log`, `final-typecheck.log`, `final-photo-banner-http.json`과 `browser/final-*`를 따른다. ROOT-ADMIN 메뉴 분리 기능의 사이드바·저장·화면 검증은 `admin-menu-tests.log`에 있다.
 
-이번에는 프로젝트 Playwright 테스트를 실행하지 않았다. 기존 스위트는 유지하고 배너 제거로 달라진 선택자만 수정했으며, 실브라우저 동작은 Aside로 확인했다. ROOT-ADMIN에서 로컬 서버를 여는 미리보기 iframe은 빈 화면으로 남아 실제 관리자 origin과의 메시지 연결까지 검증하지 못했다. 이 항목과 실제 관리자 저장·발행은 운영 반영 후 최종 확인한다.
+이번에는 프로젝트 Playwright 테스트를 실행하지 않았다. 기존 스위트는 유지했으며, 실브라우저 동작은 Aside로 확인했다. ROOT-ADMIN에서 로컬 서버를 여는 미리보기 iframe은 빈 화면으로 남아 실제 관리자 origin과의 메시지 연결까지 검증하지 못했다. 이 항목과 실제 관리자 저장·발행은 운영 반영 후 최종 확인한다.
 
 ## 운영 반영 순서
 
@@ -55,9 +56,10 @@
 
 1. 이번 수정과 기존 미배포 변경의 배포 범위를 확인하고 검증된 버전을 배포한다.
 2. 사이트 프로필의 Production URL을 `gwangju2020blog.madiclinic.co.kr`로 설정한다. Staging URL은 실제 검수 도메인이 있을 때만 등록한다.
-3. 플랫폼의 `packages/database/scripts/sync-site-content-contract.ts`로 이 저장소의 `cms/exposure-slots.json`을 동기화한다. tenant/site ID는 [TODO.md](TODO.md)의 provision 항목을 사용한다. 기존 테마·콘텐츠 모델 설정을 보존하는 슬롯 병합 경로를 쓴다.
-4. 글 미리보기를 홈페이지에서 여는 설정을 확인·활성화한다. 글이 없는 기본 `blog` 모델은 비활성화하고 작성 메뉴는 `column`·`reviews`·`faq`로 안내한다.
-5. Production URL 등록 후 자동 웹훅과 기존 수동 `/api/revalidate`가 중복되지 않는지 확인한다.
-6. 관리자 팝업 미리보기에서 PC·모바일을 확인한 뒤 검수용 팝업을 저장·발행·중지한다. 운영 콘텐츠 편집 권한 범위 안에서 세 모델의 임시 초안·발행·수정·삭제까지 실제 화면 반영을 확인하고 검수 데이터를 정리한다.
+3. ROOT-ADMIN 메뉴 분리 기능(`roottale-platform`의 `7c6acf20`)을 배포한 뒤 사이트 기능 관리 → 광주 남구 마디 클리닉 → 기본 메뉴에서 배너만 숨긴다. 현재 운영에는 통합 `팝업 / 배너` 스위치만 있으므로 이를 끄지 않는다. 메뉴 숨김은 접근 권한 차단과 별개이며, 공개 사이트는 팝업 슬롯만 허용한다.
+4. 플랫폼의 `packages/database/scripts/sync-site-content-contract.ts`로 이 저장소의 `cms/exposure-slots.json`을 동기화한다. tenant/site ID는 [TODO.md](TODO.md)의 provision 항목을 사용한다. 기존 테마·콘텐츠 모델 설정을 보존하는 슬롯 병합 경로를 쓴다.
+5. 글 미리보기를 홈페이지에서 여는 설정을 확인·활성화한다. 글이 없는 기본 `blog` 모델은 비활성화하고 작성 메뉴는 `column`·`reviews`·`faq`로 안내한다.
+6. Production URL 등록 후 자동 웹훅과 기존 수동 `/api/revalidate`가 중복되지 않는지 확인한다.
+7. 관리자 팝업 미리보기에서 PC·모바일을 확인한 뒤 검수용 팝업을 저장·발행·중지한다. 운영 콘텐츠 편집 권한 범위 안에서 세 모델의 임시 초안·발행·수정·삭제까지 실제 화면 반영을 확인하고 검수 데이터를 정리한다.
 
 완료 조건은 관리자에서 저장한 글·팝업의 실제 운영 반영과 중지·삭제까지 확인하는 것이다. 로컬 테스트 통과만으로 운영 연결 완료로 표시하지 않는다.

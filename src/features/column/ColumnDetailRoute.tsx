@@ -113,6 +113,7 @@ export function ColumnDetailView({
     <MadiPageFrame
       pathname={canonical}
       title={columnIndexMetadata.label}
+      banner="01"
       crumbs={crumbs}
     >
       <JsonLd

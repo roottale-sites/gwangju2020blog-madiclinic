@@ -66,6 +66,7 @@ export default function ReviewDetailView({ post, archivePosts = [], notice }: Re
     <MadiPageFrame
       pathname={canonical}
       title={reviewsIndexMetadata.label}
+      banner="02"
       crumbs={crumbs}
     >
       {notice}

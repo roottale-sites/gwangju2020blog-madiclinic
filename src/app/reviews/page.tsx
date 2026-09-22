@@ -82,7 +82,7 @@ export async function generateMetadata({ searchParams }: ReviewsPageProps): Prom
  * `/reviews` 목록.
  *
  * headnerve `app/reviews/page.tsx`의 본문·상태 분기를 그대로 옮기고 틀만
- * `MadiPageFrame`으로 바꿨다. `SitePageHero`·`FinalCta`·`DiseaseClosing`은
+ * `MadiPageFrame`(배너 02)으로 바꿨다. `SitePageHero`·`FinalCta`·`DiseaseClosing`은
  * 쓰지 않는다(PLAN.md §2.2).
  */
 export default async function ReviewsPage({ searchParams }: ReviewsPageProps) {
@@ -102,6 +102,7 @@ export default async function ReviewsPage({ searchParams }: ReviewsPageProps) {
     <MadiPageFrame
       pathname="/reviews"
       title={reviewsIndexMetadata.label}
+      banner="02"
       crumbs={reviewsBreadcrumb}
     >
       <JsonLd

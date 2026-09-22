@@ -11,7 +11,7 @@ test('커뮤니티 메뉴는 문서와 헤더를 유지하며 이동하고 뒤�
 
   await page.locator('#subHeader a[href="/faq"]').click();
   await expect(page).toHaveURL(/\/faq$/);
-  await expect(page.locator('main#main')).toHaveAttribute('aria-label', '자주 묻는 질문');
+  await expect(page.locator('#bnSubArea h2')).toHaveText('자주 묻는 질문');
   expect(documents).toEqual([]);
   expect(await page.evaluate((node) => node === document.querySelector('#header'), header)).toBe(true);
 

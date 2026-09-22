@@ -49,30 +49,28 @@
 | `/preview/post/{id}` | ROOT-ADMIN 초안 미리보기(noindex) | headnerve |
 | 존재하지 않는 경로 | 공통 404 안내·커뮤니티·병원 바로가기 | headnerve 404 구성을 마디클리닉 토큰으로 적용. 없는 후기도 같은 디자인 사용 |
 
-세 기능에 속하지 않아 가져오지 않는 headnerve 라우트: `/qa`·`/blog`·`/bbs` 등 옛 게시판 410 스텁, `/about`과 질환 페이지(`/headache` 등), 디자인 시스템 카탈로그, 다국어 라우트. 세 기능의 라우트·구성 요소는 전부 가져온다. 사용자 요청(2026-09-23)으로 팝업을 추가하며 홍보 배너 슬롯은 두지 않는다. 연결 계약과 운영 반영 항목은 [ROOT-ADMIN 연동 문서](root-admin-integration.md)를 따른다.
+세 기능에 속하지 않아 가져오지 않는 headnerve 라우트: `/qa`·`/blog`·`/bbs` 등 옛 게시판 410 스텁, `/about`과 질환 페이지(`/headache` 등), 디자인 시스템 카탈로그, 다국어 라우트. 세 기능의 라우트·구성 요소는 전부 가져온다. 사용자 요청(2026-09-23)으로 팝업을 추가하며 CMS 홍보 배너 슬롯은 두지 않는다. ROOT-ADMIN에서도 CMS 배너 메뉴만 숨기고, 페이지 상단 사진 배너는 유지한다. 연결 계약과 운영 반영 항목은 [ROOT-ADMIN 연동 문서](root-admin-integration.md)를 따른다.
 
 ROOT-ADMIN 팝업 미리보기의 루트 iframe 요청만 `/column`으로 307 이동한다. 일반 방문자의 `/`는 기존 병원 홈페이지 301을 유지한다.
 
 ### 2.2 페이지 골격
 
-커뮤니티 페이지는 같은 골격을 쓴다. 헤더·푸터와 팝업은 루트 `SiteLayout`에서 유지하고, `MadiPageFrame`은 하위 메뉴·위치 표시줄·본문을 배치한다. 상단 사진 배너는 제거하고 헤더 높이만큼 여백을 둔다. 커뮤니티 내부 메뉴·목록·상세·페이지 이동은 `next/link`, 블로그 검색은 `next/form`을 사용해 문서를 다시 불러오지 않는다. 원본 사이트 주소로 이동할 때는 정상적인 문서 전환을 유지한다.
+커뮤니티 페이지는 같은 골격을 쓴다. 헤더·푸터와 ROOT-ADMIN 팝업은 루트 `SiteLayout`에서 유지하고, `MadiPageFrame`은 배너·하위 메뉴·위치 표시줄·본문만 교체한다. 커뮤니티 내부 메뉴·목록·상세·페이지 이동은 `next/link`, 블로그 검색은 `next/form`을 사용해 문서를 다시 불러오지 않는다. 원본 사이트 주소로 이동할 때는 정상적인 문서 전환을 유지한다.
 
 404는 `MadiNotFound`가 오류 안내와 바로가기를 한 화면으로 제공한다. 공통 헤더·푸터는 유지하고, 서브 배너 대신 본문 위에 `--madi-header-h`만큼 여백을 더해 고정 헤더에 가리지 않게 한다. CMS 조회 없이 렌더하며 `noindex, follow`를 적용한다.
 
 ```
 <MadiHeader />                 본 사이트 헤더 재현(§3), position fixed 140px
-<MadiPageFrame>                고정 헤더 높이만큼 상단 여백
-<MadiCommunityNav />           블로그·자주 묻는 질문·후기 이동
+<MadiSubVisual title="칼럼" />  본 사이트 서브 배너 문법(subStyle.css #bnSubArea) 재현. 높이 300px, padding-top 140px으로 고정 헤더 아래 본문이 시작
+<MadiCommunityNav />           본 사이트 배너 하단 메뉴 문법으로 블로그·자주 묻는 질문·후기 이동
 <MadiBreadcrumb />             본 사이트 .whereIsLine 문법(60px 띠)·메뉴 펼침 + BreadcrumbJsonLd
 <main>…headnerve 목록/상세 본문(DESIGN.md §5 문법으로 스타일)…</main>
-</MadiPageFrame>
 <MadiFooter />                 본 사이트 #bottom 구조·문구 재현(사업자 정보·저작권)
-<SitePopups />                 /column·/faq·/reviews 첫 화면에서 ROOT-ADMIN 팝업 표시
 ```
 
 - headnerve의 `SiteHeader`·`SitePageHero`·`FinalCta`·`DiseaseClosing`(브레드크럼+푸터)·`SiteClosing`(지도)·`FloatingQuickMenu`·`SiteExposures`는 쓰지 않는다. 그 자리에 위 세 컴포넌트를 둔다.
 - 커뮤니티는 별도 사이트가 아닌 본 사이트의 한 메뉴처럼 이어진다. GNB의 현재 메뉴는 원본 `fix` 표시를 유지하고, 위치 표시줄의 첫 두 칸에서 전체 메뉴·커뮤니티 하위 메뉴를 연다. CMS 상세 경로는 상위 링크로 유지한다. 기존 진료 메뉴·홈·로고는 본 사이트로, 커뮤니티 세 화면은 이 저장소로 같은 탭에서 이동한다.
-- 서브 배너 사진은 원본 자산으로만 보관한다. 페이지에는 사진 배너를 표시하지 않는다.
+- 서브 배너 배경은 `docs/assets/madiclinic-brand/sub-banner/sbn01~05.jpg`(2000×360)에서 칼럼 01, 후기 02, FAQ 03을 쓴다.
 - 색·글꼴·간격·모양은 `docs/DESIGN.md`의 토큰만 쓴다. headnerve CSS를 옮길 때 `--figma-*`와 하드코딩 색은 전부 `--madi-*`로 바꾼다.
 
 ## 3. 헤더 재현 계약

@@ -13,7 +13,7 @@ export function PreviewNotice({ expiresAt }: Readonly<{ expiresAt: string }>) {
 }
 
 export function PreviewMessage({ title, children }: Readonly<{ title: string; children: ReactNode }>) {
-  return <MadiPageFrame pathname="/column" title="미리보기"
+  return <MadiPageFrame pathname="/column" title="미리보기" banner="01"
     crumbs={[{ name: '커뮤니티', href: '/column' }]}>
     <div className="cBox column-detail-page clearFix"><div className="column-shell">
       <section className="column-preview-message" aria-live="polite"><h2>{title}</h2><p>{children}</p></section>

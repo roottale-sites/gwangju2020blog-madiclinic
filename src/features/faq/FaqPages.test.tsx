@@ -35,11 +35,11 @@ const detail = (overrides: Partial<typeof entry> = {}) =>
   );
 
 describe('FAQ 네 단계 화면 골격', () => {
-  test('모든 단계가 페이지 골격(메뉴·브레드크럼·본문)을 렌더하고 공통 헤더·푸터를 중복하지 않는다', () => {
+  test('모든 단계가 페이지 골격(배너 03·브레드크럼·본문)을 렌더하고 공통 헤더·푸터를 중복하지 않는다', () => {
     for (const html of [home(), sectionPage(), topicPage(), detail()]) {
       expect(html).not.toContain('id="header"');
-      expect(html).toContain('class="madi-page-frame"');
-      expect(html).toContain('<h2 class="rt-sr-only">자주 묻는 질문</h2>');
+      expect(html).toContain('subVisualArea sbnNo03');
+      expect(html).toContain('<h2>자주 묻는 질문</h2>');
       expect(html).toContain('class="whereIsLine clearFix"');
       expect(html).toContain('id="main"');
       expect(html).not.toContain('id="bottom"');
@@ -55,7 +55,7 @@ describe('FAQ 네 단계 화면 골격', () => {
     for (const html of [home(), sectionPage(), topicPage(), detail()]) {
       const headings = html.match(/<h1[^>]*>/gu) ?? [];
       expect(headings).toHaveLength(0);
-      expect(html).toMatch(/<h2[^>]*>자주 묻는 질문<\/h2>/u);
+      expect(html).toMatch(/<h2[^>]*class="faq-(intro__title|detail__title)"|<h2>자주 묻는 질문<\/h2>/u);
     }
   });
 
@@ -262,7 +262,7 @@ describe('CMS를 읽지 못하는 하위 단계', () => {
         <FaqStatePage pathname="/faq/spine/neck-pain" status={status} />,
       );
 
-      expect(html).toContain('class="madi-page-frame"');
+      expect(html).toContain('subVisualArea sbnNo03');
       expect(html).toContain('자주 묻는 질문을 불러오지 못했습니다');
       expect(html).toContain(faqNotices[status]);
       expect(html).toContain('href="/faq"');

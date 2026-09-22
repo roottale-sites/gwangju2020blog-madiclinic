@@ -55,6 +55,7 @@ export default function ColumnCategoryPage({
     <MadiPageFrame
       pathname={archive.category.path}
       title={columnIndexMetadata.label}
+      banner="01"
       crumbs={crumbs}
     >
       <JsonLd

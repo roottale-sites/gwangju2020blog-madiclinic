@@ -36,7 +36,7 @@ export function columnIndexMetadataFor(
  * `/column` 목록 화면.
  *
  * headnerve `app/column/page.tsx`의 본문을 그대로 옮기고 틀만 `MadiPageFrame`
- * (헤더 → 커뮤니티 메뉴 → 브레드크럼 → main → 푸터)으로 바꿨다. headnerve의
+ * (헤더 → 서브 배너 → 브레드크럼 → main → 푸터)으로 바꿨다. headnerve의
  * `SiteHeader`·`SitePageHero`·`FinalCta`·`DiseaseClosing`은 쓰지 않는다(PLAN.md §2.2).
  */
 export default async function ColumnArchive({
@@ -52,6 +52,7 @@ export default async function ColumnArchive({
     <MadiPageFrame
       pathname="/column"
       title={columnIndexMetadata.label}
+      banner="01"
       crumbs={columnBreadcrumb}
     >
       <JsonLd

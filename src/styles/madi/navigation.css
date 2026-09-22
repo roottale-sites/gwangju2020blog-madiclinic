@@ -1,5 +1,5 @@
-/* 사진 배너를 제거한 뒤에도 세 커뮤니티 메뉴를 고정 헤더 아래에 유지한다. */
-#subHeader {position: relative; margin: 0 auto; width: 100%; max-width: 480px; height: 40px; z-index: 1;}
+/* 원본 subStyle.css의 #subHeader. 세 메뉴를 컨테이너 안에 같은 폭으로 둔다. */
+#subHeader {position: absolute; top: 260px; left: 0; right: 0; margin: 0 auto; width: 100%; max-width: 480px; height: 40px; z-index: 1;}
 #subHeader .subHeaderFix, #subHeader .subMenuArea {width: 100%; height: 100%;}
 #subHeader .subMenuNavi {display: flex; margin: 0 auto; width: 100%; height: 100%; background-color: rgba(255,255,255,0.4);}
 #subHeader .subMenuNavi > li {width: calc(100% / 3);}
@@ -10,6 +10,7 @@
 #subHeader .subMenuNavi > li.on > a {color: #fff; border-color: rgba(255,255,255,0.3); background-color: #777e86;}
 #subHeader .subMenuNavi > li.on > a:hover {background-color: #58606a;}
 @media (max-width: 980px) {
+  #subHeader {top: 220px;}
   #subHeader .subMenuNavi > li > a {font-size: 13px;}
 }
 /* 원본처럼 작은 화면은 위치 표시줄의 메뉴로 이동한다. 숨은 탭은 포커스도 받지 않는다. */

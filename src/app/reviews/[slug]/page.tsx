@@ -82,6 +82,7 @@ export default async function ReviewDetailPage({ params }: ReviewDetailPageProps
       <MadiPageFrame
         pathname="/reviews"
         title={reviewsIndexMetadata.label}
+        banner="02"
         crumbs={reviewsBreadcrumb}
       >
         <div className="cBox review-detail-page clearFix">
