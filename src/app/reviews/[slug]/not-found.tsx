@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import '../../../styles/site/reviews.css';
 import MadiPageFrame from '../../../components/madi/MadiPageFrame';
 import { reviewsIndexMetadata } from '../../../features/reviews/review-content';
@@ -16,9 +17,9 @@ export default function ReviewNotFound() {
         <section className="reviews-state reviews-state--page" aria-labelledby="review-state-title">
           <h2 id="review-state-title">후기를 찾을 수 없습니다</h2>
           <p>주소가 바뀌었거나 공개가 종료된 후기입니다.</p>
-          <a className="reviews-state__link" href="/reviews">
+          <Link className="reviews-state__link" href="/reviews">
             후기 목록으로
-          </a>
+          </Link>
         </section>
       </div>
     </MadiPageFrame>

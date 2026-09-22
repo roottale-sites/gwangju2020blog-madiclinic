@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { DOCTOR_PROFILE_HREF } from '../clinic/doctor-profile-link';
 import { clinic } from '../../data/clinic';
 import { formatColumnDate } from './column-content';
@@ -50,9 +51,9 @@ export default function ColumnArchiveRow({ entry }: ColumnArchiveRowProps) {
         </span>
         <div className="column-card__content">
           <h3>
-            <a className="column-card__title-link" href={columnEntryPath(entry)}>
+            <Link className="column-card__title-link" href={columnEntryPath(entry)}>
               {entry.title}
-            </a>
+            </Link>
           </h3>
           <span className="column-card__excerpt">{entry.description}</span>
           <span className="column-card__meta">

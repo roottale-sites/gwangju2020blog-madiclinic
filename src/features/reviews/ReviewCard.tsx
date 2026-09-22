@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import type { CmsPostContent } from '@roottale/cms-client/server';
 
 import { DOCTOR_PROFILE_HREF, isRepresentativeDoctor } from '../clinic/doctor-profile-link';
@@ -62,9 +63,9 @@ export default function ReviewCard({ post }: ReviewCardProps) {
             {date && <time dateTime={post.publishedAt}>{date}</time>}
           </div>
           <h3>
-            <a className="review-card__title-link" href={href}>
+            <Link className="review-card__title-link" href={href}>
               {title}
-            </a>
+            </Link>
           </h3>
           {excerpt && <p className="review-card__excerpt">{excerpt}</p>}
           {(metadata.patient || metadata.doctor) && (

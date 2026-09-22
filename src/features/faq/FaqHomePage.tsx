@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { webPageJsonLd } from '../seo/schema';
 import { faqIndexMetadata, faqNotices } from './faq-content';
 import { entriesForSection, faqSectionPath } from './faq-model';
@@ -38,7 +39,7 @@ export default function FaqHomePage({ collection }: Readonly<{ collection: FaqCo
           {taxonomy.sections.map((section) => {
             const count = entriesForSection(archive.entries, section.slug).length;
             return (
-              <a className="faq-section-card" href={faqSectionPath(section.slug)} key={section.slug}>
+              <Link className="faq-section-card" href={faqSectionPath(section.slug)} key={section.slug}>
                 <h3>{section.name}</h3>
                 <p>{section.description}</p>
                 <span className="faq-section-card__meta">
@@ -47,7 +48,7 @@ export default function FaqHomePage({ collection }: Readonly<{ collection: FaqCo
                     질문 보기 <span aria-hidden="true">›</span>
                   </em>
                 </span>
-              </a>
+              </Link>
             );
           })}
         </div>

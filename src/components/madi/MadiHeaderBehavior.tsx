@@ -21,7 +21,7 @@ const DRAWER_CLOSED = '-320px';
 
 const MOBILE_QUERY = '(max-width: 980px)';
 
-export default function MadiHeaderBehavior() {
+export default function MadiHeaderBehavior({ pathname }: Readonly<{ pathname: string }>) {
   useEffect(() => {
     const header = document.getElementById('header');
     const menuNavi = document.querySelector<HTMLElement>('#header .menuNavi');
@@ -160,14 +160,8 @@ export default function MadiHeaderBehavior() {
 
     /** 원본 `getMobileScript`. 드로어를 닫힌 상태로 초기화한 뒤 토글을 붙인다. */
     function enterMobileMode(): () => void {
-      menuNavi!.style.display = 'none';
-      document.body.style.overflow = 'visible';
-      naviBlack!.style.zIndex = '-1';
-      naviBlack!.style.right = '-100%';
-      if (mobileHome) mobileHome.style.right = DRAWER_CLOSED;
-      menuNavi!.style.right = DRAWER_CLOSED;
-      collapseAll({ instant: true });
-      if (officialWeb) officialWeb.style.display = 'none';
+      // 헤더가 경로 이동 후에도 유지되므로 SNS·하단 버튼을 포함해 모두 닫는다.
+      closeDrawer();
       if (naviToggle!.classList.contains('on')) toggleAni();
 
       const onToggle = () => {
@@ -240,7 +234,7 @@ export default function MadiHeaderBehavior() {
       dispose();
       document.body.style.overflow = '';
     };
-  }, []);
+  }, [pathname]);
 
   return null;
 }

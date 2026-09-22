@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import type { Metadata } from 'next';
 
 import type { FaqLoadFailure } from './faq-api';
@@ -28,9 +29,9 @@ export default function FaqStatePage({ pathname, status }: Readonly<{
       <section className="faq-state" aria-labelledby="faq-state-title">
         <h2 id="faq-state-title">자주 묻는 질문을 불러오지 못했습니다</h2>
         <p>{faqNotices[status]}</p>
-        <a className="faq-state__link" href="/faq">
+        <Link className="faq-state__link" href="/faq">
           {faqIndexMetadata.label} 처음으로
-        </a>
+        </Link>
       </section>
     </FaqPageFrame>
   );

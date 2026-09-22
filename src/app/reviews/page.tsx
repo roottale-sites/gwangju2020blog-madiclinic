@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import type { Metadata } from 'next';
 
 import '../../styles/site/reviews.css';
@@ -117,17 +118,17 @@ export default async function ReviewsPage({ searchParams }: ReviewsPageProps) {
             </div>
             {categories.length > 0 && (
               <nav className="reviews-filter" aria-label="후기 분류">
-                <a href="/reviews" aria-current={!activeCategory ? 'page' : undefined}>
+                <Link href="/reviews" aria-current={!activeCategory ? 'page' : undefined}>
                   전체
-                </a>
+                </Link>
                 {categories.map((category) => (
-                  <a
+                  <Link
                     href={reviewsUrl(1, category)}
                     aria-current={activeCategory === category ? 'page' : undefined}
                     key={category}
                   >
                     {category}
-                  </a>
+                  </Link>
                 ))}
               </nav>
             )}
@@ -143,17 +144,17 @@ export default async function ReviewsPage({ searchParams }: ReviewsPageProps) {
                     ? '치료 경험담을 곧 올릴 예정입니다. 진료 문의는 대표전화로 도와드립니다.'
                     : '잠시 뒤 다시 확인해 주세요. 진료 문의는 대표전화로 도와드립니다.'}
                 </p>
-                <a className="reviews-state__link" href="/reviews">
+                <Link className="reviews-state__link" href="/reviews">
                   다시 시도하기
-                </a>
+                </Link>
               </section>
             ) : noResults ? (
               <section className="reviews-state" aria-labelledby="reviews-no-results-title">
                 <h2 id="reviews-no-results-title">해당 분류를 찾을 수 없습니다</h2>
                 <p>전체 후기에서 다른 치료 경험을 확인해 보세요.</p>
-                <a className="reviews-state__link" href="/reviews">
+                <Link className="reviews-state__link" href="/reviews">
                   전체 후기 보기
-                </a>
+                </Link>
               </section>
             ) : reviewPage.items.length === 0 ? (
               <section className="reviews-state" aria-labelledby="reviews-empty-title">
@@ -171,37 +172,37 @@ export default async function ReviewsPage({ searchParams }: ReviewsPageProps) {
               <nav className="reviews-pagination" aria-label="후기 페이지">
                 <div className="reviews-pagination__direction">
                   {reviewPage.page > 1 && (
-                    <a
+                    <Link
                       href={reviewsPaginationUrl(reviewPage.page - 1, activeCategory)}
                       rel="prev"
                     >
                       ← 이전
-                    </a>
+                    </Link>
                   )}
                 </div>
                 <ol className="reviews-pagination__pages">
                   {Array.from({ length: reviewPage.pageCount }, (_, index) => index + 1).map(
                     (page) => (
                       <li key={page}>
-                        <a
+                        <Link
                           href={reviewsPaginationUrl(page, activeCategory)}
                           aria-current={page === reviewPage.page ? 'page' : undefined}
                           aria-label={`${page}페이지`}
                         >
                           {page}
-                        </a>
+                        </Link>
                       </li>
                     ),
                   )}
                 </ol>
                 <div className="reviews-pagination__direction reviews-pagination__direction--next">
                   {reviewPage.page < reviewPage.pageCount && (
-                    <a
+                    <Link
                       href={reviewsPaginationUrl(reviewPage.page + 1, activeCategory)}
                       rel="next"
                     >
                       다음 →
-                    </a>
+                    </Link>
                   )}
                 </div>
               </nav>

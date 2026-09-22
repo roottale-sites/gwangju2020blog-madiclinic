@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useEffect, useId, useRef, useState, type MouseEvent } from 'react';
 import { communityNav, gnb, isBlogPath, isNavChildActive, mainSiteOrigin } from '../../data/nav';
 import type { SchemaBreadcrumb } from '../../features/seo/schema';
@@ -72,14 +73,14 @@ export default function MadiBreadcrumbNav({
                       const active = index === 0 ? item === communityNav : isNavChildActive(item.href, selfPath);
                       return (
                         <li key={item.href} className={active ? 'on clearFix' : 'clearFix'}>
-                          <a href={item.href} aria-current={active ? 'true' : undefined}>{item.label}</a>
+                          <Link href={item.href} aria-current={active ? 'true' : undefined} onClick={() => setOpen(null)}>{item.label}</Link>
                         </li>
                       );
                     })}
                   </ul>
                 </>
               ) : crumb.href && !last ? (
-                <a href={crumb.href}>{crumb.name}</a>
+                <Link href={crumb.href}>{crumb.name}</Link>
               ) : <span aria-current={last ? 'page' : undefined}>{crumb.name}</span>}
             </li>
           );

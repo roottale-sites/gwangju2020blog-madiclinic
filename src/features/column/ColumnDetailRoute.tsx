@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import type { ReactNode } from 'react';
@@ -145,9 +146,9 @@ export function ColumnDetailView({
                   <p>{columnMedicalDisclaimer}</p>
                 </aside>
                 <footer className="column-detail__footer">
-                  <a href={entry.category.path}>
+                  <Link href={entry.category.path}>
                     <span aria-hidden="true">←</span> {entry.category.name} 글 목록
-                  </a>
+                  </Link>
                 </footer>
               </div>
               <div className="column-detail__balance" aria-hidden="true" />

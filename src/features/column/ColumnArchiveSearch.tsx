@@ -1,3 +1,5 @@
+import Form from 'next/form';
+import Link from 'next/link';
 import type { ReactNode } from 'react';
 
 import ColumnArchiveRow from './ColumnArchiveRow';
@@ -42,7 +44,7 @@ export default function ColumnArchiveSearch({
                 <path d="m16 16 4.2 4.2" />
               </svg>
             </summary>
-            <form className="column-search__panel" action={basePath} role="search" aria-label="블로그 검색">
+            <Form className="column-search__panel" action={basePath} role="search" aria-label="블로그 검색">
               <label htmlFor="column-search-query">블로그 검색</label>
               <div className="column-search__control">
                 <input
@@ -54,7 +56,7 @@ export default function ColumnArchiveSearch({
                 />
                 <button type="submit">검색</button>
               </div>
-            </form>
+            </Form>
           </details>
           <p aria-label={searchQuery ? `검색 결과 ${columnPage.total}건` : `총 ${columnPage.total}건`}>
             {searchQuery ? `검색 결과 ${columnPage.total}건` : `총 ${columnPage.total}건`}
@@ -67,7 +69,7 @@ export default function ColumnArchiveSearch({
           <span className="column-empty__mark" aria-hidden="true" />
           <h3>검색 결과가 없습니다</h3>
           <p>다른 검색어로 제목과 요약을 다시 찾아보세요.</p>
-          <a className="column-empty__link" href={basePath}>전체 글 보기</a>
+          <Link className="column-empty__link" href={basePath}>전체 글 보기</Link>
         </div>
       ) : columnPage.items.length === 0 ? (
         <div className="column-empty">
@@ -84,25 +86,25 @@ export default function ColumnArchiveSearch({
         <nav className="column-pagination" aria-label="블로그 페이지">
           <div className="column-pagination__direction">
             {columnPage.page > 1 && (
-              <a href={columnArchiveUrl(columnPage.page - 1, searchQuery, basePath)} rel="prev">← 이전</a>
+              <Link href={columnArchiveUrl(columnPage.page - 1, searchQuery, basePath)} rel="prev">← 이전</Link>
             )}
           </div>
           <ol className="column-pagination__pages">
             {Array.from({ length: columnPage.pageCount }, (_, index) => index + 1).map((page) => (
               <li key={page}>
-                <a
+                <Link
                   href={columnArchiveUrl(page, searchQuery, basePath)}
                   aria-current={page === columnPage.page ? 'page' : undefined}
                   aria-label={`${page}페이지`}
                 >
                   {page}
-                </a>
+                </Link>
               </li>
             ))}
           </ol>
           <div className="column-pagination__direction column-pagination__direction--next">
             {columnPage.page < columnPage.pageCount && (
-              <a href={columnArchiveUrl(columnPage.page + 1, searchQuery, basePath)} rel="next">다음 →</a>
+              <Link href={columnArchiveUrl(columnPage.page + 1, searchQuery, basePath)} rel="next">다음 →</Link>
             )}
           </div>
         </nav>

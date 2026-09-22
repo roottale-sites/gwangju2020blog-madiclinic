@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { webPageJsonLd } from '../seo/schema';
 import { faqNotices } from './faq-content';
 import {
@@ -64,19 +65,19 @@ export default function FaqTopicPage({ collection, section, topic, selectedInten
       <div className="faq-layout">
         <div className="faq-layout__main">
           <nav className="faq-filter" aria-label="질문 분류">
-            <a href={path} aria-current={!selectedIntent ? 'page' : undefined}>
+            <Link href={path} aria-current={!selectedIntent ? 'page' : undefined}>
               전체 {allEntries.length}
-            </a>
+            </Link>
             {FAQ_INTENTS.map((intent) => {
               const count = allEntries.filter((entry) => entry.intent === intent).length;
               return count > 0 ? (
-                <a
+                <Link
                   href={`${path}?intent=${encodeURIComponent(intent)}`}
                   aria-current={selectedIntent === intent ? 'page' : undefined}
                   key={intent}
                 >
                   {intent} {count}
-                </a>
+                </Link>
               ) : null;
             })}
           </nav>
@@ -89,7 +90,7 @@ export default function FaqTopicPage({ collection, section, topic, selectedInten
                 <ol className="faq-question-list">
                   {group.entries.map((entry) => (
                     <li key={entry.slug}>
-                      <a href={faqEntryPath(entry)}>
+                      <Link href={faqEntryPath(entry)}>
                         <span className="faq-question-list__mark">Q.</span>
                         <strong>{entry.question}</strong>
                         <span className="faq-question-list__answer">
@@ -99,7 +100,7 @@ export default function FaqTopicPage({ collection, section, topic, selectedInten
                         <span className="faq-question-list__detail">
                           상세 보기 <b aria-hidden="true">→</b>
                         </span>
-                      </a>
+                      </Link>
                     </li>
                   ))}
                 </ol>
@@ -118,10 +119,10 @@ export default function FaqTopicPage({ collection, section, topic, selectedInten
                 return count > 0
                   ? [
                       <li key={intent}>
-                        <a href={`${path}?intent=${encodeURIComponent(intent)}`}>
+                        <Link href={`${path}?intent=${encodeURIComponent(intent)}`}>
                           <span>{intent}</span>
                           <b>{count}</b>
-                        </a>
+                        </Link>
                       </li>,
                     ]
                   : [];

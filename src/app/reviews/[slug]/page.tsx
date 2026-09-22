@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import type { Metadata } from 'next';
 import { notFound, permanentRedirect } from 'next/navigation';
 
@@ -128,9 +129,9 @@ export default async function ReviewDetailPage({ params }: ReviewDetailPageProps
           <section className="reviews-state reviews-state--page" aria-labelledby="review-state-title">
             <h2 id="review-state-title">후기를 불러오지 못했습니다</h2>
             <p>잠시 뒤 다시 확인해 주세요.</p>
-            <a className="reviews-state__link" href="/reviews">
+            <Link className="reviews-state__link" href="/reviews">
               후기 목록으로
-            </a>
+            </Link>
           </section>
         </div>
       </MadiPageFrame>
@@ -267,7 +268,7 @@ export default async function ReviewDetailPage({ params }: ReviewDetailPageProps
               {relatedCopy && relatedRecord && (
                 <aside className="review-detail__record" aria-label="연관 진료 기록">
                   <span>{relatedCopy.eyebrow}</span>
-                  <a href={reviewEntryPath(relatedRecord)}>{relatedCopy.label}</a>
+                  <Link href={reviewEntryPath(relatedRecord)}>{relatedCopy.label}</Link>
                 </aside>
               )}
               {bodySections.afterRelatedHtml && (
@@ -285,21 +286,21 @@ export default async function ReviewDetailPage({ params }: ReviewDetailPageProps
             </div>
             <nav className="review-detail__navigation" aria-label="이전글 다음글">
               {newerRecord ? (
-                <a href={reviewEntryPath(newerRecord)}>
+                <Link href={reviewEntryPath(newerRecord)}>
                   <span>이전글</span>
                   {reviewTitle(newerRecord)}
-                </a>
+                </Link>
               ) : (
                 <span />
               )}
-              <a className="review-detail__list-link" href="/reviews">
+              <Link className="review-detail__list-link" href="/reviews">
                 후기 목록
-              </a>
+              </Link>
               {olderRecord ? (
-                <a href={reviewEntryPath(olderRecord)}>
+                <Link href={reviewEntryPath(olderRecord)}>
                   <span>다음글</span>
                   {reviewTitle(olderRecord)}
-                </a>
+                </Link>
               ) : (
                 <span />
               )}
@@ -311,9 +312,9 @@ export default async function ReviewDetailPage({ params }: ReviewDetailPageProps
             <div className="reviews-shell">
               <div className="review-related__head">
                 <h2 id="review-related-title">다른 치료 경험</h2>
-                <a href="/reviews">
+                <Link href="/reviews">
                   전체 후기 보기 <span aria-hidden="true">→</span>
-                </a>
+                </Link>
               </div>
               <div className="review-related__grid">
                 {related.map((item) => (

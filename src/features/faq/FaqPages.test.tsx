@@ -35,14 +35,14 @@ const detail = (overrides: Partial<typeof entry> = {}) =>
   );
 
 describe('FAQ 네 단계 화면 골격', () => {
-  test('모든 단계가 마디 골격(헤더·배너 03·브레드크럼·본문·푸터) 안에 있다', () => {
+  test('모든 단계가 페이지 골격(배너 03·브레드크럼·본문)을 렌더하고 공통 헤더·푸터를 중복하지 않는다', () => {
     for (const html of [home(), sectionPage(), topicPage(), detail()]) {
-      expect(html).toContain('id="header"');
+      expect(html).not.toContain('id="header"');
       expect(html).toContain('subVisualArea sbnNo03');
       expect(html).toContain('<h2>자주 묻는 질문</h2>');
       expect(html).toContain('class="whereIsLine clearFix"');
       expect(html).toContain('id="main"');
-      expect(html).toContain('id="bottom"');
+      expect(html).not.toContain('id="bottom"');
     }
   });
 
@@ -51,11 +51,10 @@ describe('FAQ 네 단계 화면 골격', () => {
    * (모바일 드로어)이고 그 마크업은 1px 재현 계약이라 바꾸지 않는다. 본 사이트
    * 서브 페이지도 본문 제목을 h2로 쓴다.
    */
-  test('h1은 헤더 로고뿐이고 본문 제목은 h2다', () => {
+  test('페이지 본문은 헤더 로고 h1을 중복하지 않고 h2로 시작한다', () => {
     for (const html of [home(), sectionPage(), topicPage(), detail()]) {
       const headings = html.match(/<h1[^>]*>/gu) ?? [];
-      expect(headings).toHaveLength(2);
-      expect(headings.every((tag) => /class="(ci|logo)"/u.test(tag))).toBe(true);
+      expect(headings).toHaveLength(0);
       expect(html).toMatch(/<h2[^>]*class="faq-(intro__title|detail__title)"|<h2>자주 묻는 질문<\/h2>/u);
     }
   });
@@ -81,7 +80,7 @@ describe('질문 홈', () => {
     expect(html).toContain('질문 3개');
     expect(html).toContain('질문 1개');
     // 카드 안에는 도판이 없다. headnerve는 여기에 질환 이미지 5장을 썼다.
-    const grid = html.slice(html.indexOf('class="faq-section-grid"'), html.indexOf('id="bottom"'));
+    const grid = html.slice(html.indexOf('class="faq-section-grid"'), html.indexOf('</main>'));
     expect(grid).not.toContain('<img');
     expect(grid).not.toContain('figure');
   });

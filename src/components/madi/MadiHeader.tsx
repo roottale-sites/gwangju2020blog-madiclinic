@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import MadiHeaderBehavior from './MadiHeaderBehavior';
 import { branchTabs, gnb, isBlogPath, isNavChildActive, officialWebUrl, topLinks } from '../../data/nav';
 
@@ -85,16 +86,16 @@ export default function MadiHeader({ pathname }: Readonly<{ pathname: string }>)
                 return (
                   <li key={item.label} className={itemActive ? 'clearFix fix' : 'clearFix'}>
                     <div className="menuLine" />
-                    <a href={item.href} className="subHave" aria-current={itemActive ? 'true' : undefined}>
+                    <Link href={item.href} className="subHave" aria-current={itemActive ? 'true' : undefined}>
                       {item.label}
-                    </a>
+                    </Link>
                     <ul className={`subMenu sm0${index + 1} clearFix`}>
                       <li className="topLine" />
                       {item.children.map((child) => {
                         const childActive = blogActive && isNavChildActive(child.href, pathname);
                         return (
                           <li key={child.label} className={childActive ? 'on clearFix' : undefined}>
-                            <a href={child.href} aria-current={childActive ? 'page' : undefined}>{child.label}</a>
+                            <Link href={child.href} aria-current={childActive ? 'page' : undefined}>{child.label}</Link>
                           </li>
                         );
                       })}
@@ -113,7 +114,7 @@ export default function MadiHeader({ pathname }: Readonly<{ pathname: string }>)
           </div>
         </div>
       </div>
-      <MadiHeaderBehavior />
+      <MadiHeaderBehavior pathname={pathname} />
     </>
   );
 }

@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import ClinicGuide from '../clinic-guide/ClinicGuide';
 import { faqPageJsonLd, webPageJsonLd } from '../seo/schema';
 import { formatFaqAnswerDate } from './faq-content';
@@ -98,10 +99,10 @@ export default function FaqDetailPage({ collection, entry, section, topic }: Rea
               <ul>
                 {related.map((item) => (
                   <li key={item.slug}>
-                    <a href={faqEntryPath(item)}>
+                    <Link href={faqEntryPath(item)}>
                       <span>{item.question}</span>
                       <span aria-hidden="true">›</span>
-                    </a>
+                    </Link>
                   </li>
                 ))}
               </ul>

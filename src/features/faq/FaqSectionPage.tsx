@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { webPageJsonLd } from '../seo/schema';
 import { faqNotices } from './faq-content';
 import {
@@ -65,14 +66,14 @@ export default function FaqSectionPage({ collection, section }: Readonly<{
                 const topicEntries = entriesForTopic(entries, section.slug, topic.slug);
                 return (
                   <li key={topic.slug}>
-                    <a href={faqTopicPath(section.slug, topic.slug)}>
+                    <Link href={faqTopicPath(section.slug, topic.slug)}>
                       <span className="faq-topic-list__text">
                         <strong>{topic.name}</strong>
                         <small>{topicPreview(topicEntries[0]?.question)}</small>
                       </span>
                       <b className="faq-count">{topicEntries.length}</b>
                       <b className="faq-row-arrow" aria-hidden="true">›</b>
-                    </a>
+                    </Link>
                   </li>
                 );
               })}
@@ -84,10 +85,10 @@ export default function FaqSectionPage({ collection, section }: Readonly<{
             <ol className="faq-sidebar-list">
               {topics.map((topic) => (
                 <li key={topic.slug}>
-                  <a href={faqTopicPath(section.slug, topic.slug)}>
+                  <Link href={faqTopicPath(section.slug, topic.slug)}>
                     <span>{topic.name}</span>
                     <b>{entriesForTopic(entries, section.slug, topic.slug).length}</b>
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ol>
