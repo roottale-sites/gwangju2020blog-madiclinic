@@ -15,10 +15,10 @@
 - [x] 8. **seo** — `sitemap.xml` 인덱스·`sitemap-static.xml`·robots·JSON-LD·`docs/metadata-table.md`
 - [ ] 9. **provision**(진행 중, 2026-09-22) — 사용자가 테넌트 생성. Aside로 ROOT-ADMIN 사이트 `gwangju2020-blog-madiclinic`(site id `01a09f2d-1113-7bf4-ab3a-b18e2ef62839`, tenant id `01a09eeb-bd8d-7390-aac8-ddacc5b69b91`) 확인, 웹훅 `https://gwangju2020blog.madiclinic.co.kr/api/revalidate` 등록, 읽기 전용 사이트 키 `vercel-gwangju2020blog` 발급. `content-model:sync --apply` 완료(models faq·column·reviews, fieldGroups 1, categories 0). Vercel env: `ROOTTALE_API_BASE`·`ROOTTALE_MEDIA_ORIGIN`·`NEXT_PUBLIC_ROOTTALE_SITE_ID` 3환경 등록, `vercel.json` framework nextjs.
   - [x] `ROOTTALE_API_KEY` 연결 — 기존 사이트 전용 읽기 키를 재사용해 로컬 `.env.local`과 Vercel Production·Preview·Development에 Secret으로 저장(2026-09-22). 키 원문은 코드·문서·로그에 기록하지 않음.
-  - [x] 실제 CMS 조회 — column·faq·reviews 공개 API와 콘텐츠 모델 조회 200. 로컬 목록 3종·RSS 2종·FAQ 사이트맵 200 확인. 등록된 분류·발행 글은 아직 없으므로 상세 검증은 아래 단계에서 진행.
-  - [ ] 운영 재배포 — 기존 배포에는 새 환경변수가 적용되지 않음. 승인 후 반영. 기존 웹훅 목적지 등록은 확인했으며 실제 발행 전달은 미검증.
-  - [ ] ROOT-ADMIN에서 칼럼 1단계 분류, FAQ 진료 영역(1단계)·세부 질환(2단계) 분류 생성(값은 고객·사용자 결정)
-  - [ ] 글 1건씩 발행 → 실데이터 화면·웹훅 60초 내 갱신 확인
+  - [x] 실제 CMS 조회 — column·faq·reviews 공개 API와 콘텐츠 모델 조회 200. 로컬 목록 3종·RSS 2종·FAQ 사이트맵 200 확인. 칼럼·후기·FAQ 각각 최근 3개 사본을 공개했으며 상세·분류·XML 검증은 [복사 기록](headnerve-copy.md)에 남겼다.
+  - [x] 운영 재배포 — 사용자 공개 승인에 따라 반영. 발행·수정 웹훅과 공개 화면 자동 갱신 확인.
+  - [x] ROOT-ADMIN 분류 생성 — 복사 원문의 칼럼·후기 분류와 FAQ 영역·질환 구조를 별도로 생성.
+  - [x] 글 발행과 관리자 수정 → 실데이터 화면 자동 갱신 확인. FAQ 응답 지연 수정 후 웹훅 2.5초 성공.
 - [ ] 10. **release** — Playwright, production build, Aside 3폭 확인, `docs/TODO.md`·llm-wiki 기록. 승인 후 main push·배포
 
 ## 헤더 픽셀 diff 결과 (2026-09-15)
@@ -384,38 +384,13 @@ production build를 `/faq`·`/column`·`/reviews`에서 1440·390px로 확인했
 - `layout.tsx`의 `#5bbad5`(safari mask-icon)·`#ffffff`(themeColor)는 브랜드 파비콘
   세트 값이자 Next `Viewport` 타입이 리터럴을 요구하는 자리라 토큰으로 바꾸지 않았다.
 
-## 9단계 provision 체크리스트 (사용자 참여)
+## 운영 연동 확인 (2026-09-22)
 
-PLAN.md §4.1의 현행 ROOT-ADMIN 절차다. 운영 값(API 키·site id)은 어느 문서·코드에도
-적지 않는다.
+- [x] 기존 사이트 `gwangju2020-blog-madiclinic`와 콘텐츠 모델 `column`·`faq`·`reviews` 연결.
+- [x] Vercel Production·Preview·Development 읽기 키 연결 및 운영 배포.
+- [x] 원문 분류를 마디클리닉에 독립 생성하고 세 유형의 사본 발행.
+- [x] ROOT-ADMIN 빠른 편집에서 후기·FAQ 제목 변경 및 복구 → 공개 화면 자동 갱신.
+- [x] 후기 RSS, 후기·FAQ 사이트맵과 상세 주소 HTTP 200.
+- [ ] 실데이터 기준 1440·390px 전체 화면 캡처(이번 작업은 목록·상세 동작 검증).
 
-- [ ] **사이트 생성** — ROOT-ADMIN `/manage/{tenantSlug}/sites/new`.
-      제안 slug `madiclinic-gwangju2020`, 도메인 `gwangju2020blog.madiclinic.co.kr`.
-      작성자 프로필 1명(이경무 대표원장).
-- [ ] **콘텐츠 모델 동기화** — 플랫폼 저장소에서 dry-run 먼저, 확인 후 `--apply`.
-      ```bash
-      pnpm --filter @roottale/database content-model:sync -- \
-        --site-slug madiclinic-gwangju2020 \
-        --contract <이 저장소>/cms/content-models.json
-      ```
-      적용 뒤 확인: `faq`(category_tree, basePath `/faq`, categoryDepth 2, 필드
-      `clinic_perspective`), `column`(category_tree, depth 1, exactly-one),
-      `reviews`(detail, `patient_name`·`doctor_name`·`treatment_period`).
-- [ ] **분류 생성** — 계약의 `categories`는 비어 있다(PLAN.md §4.2·§8-1). ROOT-ADMIN에서
-      만든다. 칼럼 1단계 분류 최소 1개(없으면 `exactly-one` 때문에 발행 불가),
-      FAQ는 진료 영역(1단계) → 세부 질환(2단계) 최소 1세트. 영역·질환의
-      `설명`·`SEO 제목`·`SEO 설명`을 채우면 화면·메타데이터에 그대로 쓰인다
-      (비우면 이름을 끼운 기본 서식).
-- [x] **API 키** — 기존 사이트 범위 공개 읽기 키를 재사용(2026-09-22) →
-      Vercel 민감 환경변수 `ROOTTALE_API_KEY`. `ROOTTALE_API_BASE=https://api.roottale.com`,
-      `ROOTTALE_MEDIA_ORIGIN=https://root-cdn.com`, `NEXT_PUBLIC_ROOTTALE_SITE_ID`도 함께.
-      코드·문서·로그에 값을 남기지 않는다.
-- [ ] **웹훅 등록** — `/site/{slug}/settings/webhooks` →
-      `https://gwangju2020blog.madiclinic.co.kr/api/revalidate`(ES256 서명).
-      확인: 서명 없음 401, 관계없는 경로 422, 정상 발행 200 + 60초 이내 목록 갱신.
-- [ ] **글 1건씩 발행** — 칼럼·후기·FAQ 각 1건. 확인 항목:
-      네 단계 주소 200, 잘못된 영역/질환/slug 404, 상세 canonical이 플랫폼 저장 경로,
-      FAQ 상세 `FAQPage` JSON-LD, `/sitemap.xml` 자식 4개와 각 자식 XML,
-      `/column/rss.xml`·`/reviews/rss.xml`.
-- [ ] **실데이터 화면 확인** — 1440·390px에서 칼럼 상세·후기 상세·FAQ 네 단계를 다시
-      캡처한다(목 CMS로 본 범위를 실데이터로 덮는다).
+복사 범위·원본 보호·웹훅 수정 근거·남은 제약: [headnerve-copy.md](headnerve-copy.md).
