@@ -1,0 +1,32 @@
+.preferred-source-action {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  margin-top: 12px;
+}
+
+.community-content a.preferred-source__link {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 8px 12px;
+  border: 1px solid var(--madi-border-strong);
+  border-radius: 6px;
+  background: #fff;
+  color: var(--madi-text);
+  font: 500 14px/20px "Pretendard Variable", Pretendard, sans-serif;
+  white-space: nowrap;
+  transition: color 180ms ease, background-color 220ms ease, border-color 220ms ease, box-shadow 220ms ease;
+}
+
+.preferred-source__link img { width: 20px; height: 20px; flex: 0 0 auto; }
+.community-content a.preferred-source__link:hover {
+  background: var(--madi-bg-panel);
+  border-color: var(--madi-text-muted);
+  box-shadow: 0 2px 6px rgb(34 34 34 / 7%);
+}
+.preferred-source__link:focus-visible { outline: 2px solid var(--madi-primary); outline-offset: 3px; }
+@media (prefers-reduced-motion: reduce) { .community-content a.preferred-source__link { transition: none; } }

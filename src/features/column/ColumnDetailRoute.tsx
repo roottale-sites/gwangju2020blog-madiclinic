@@ -5,6 +5,7 @@ import type { ReactNode } from 'react';
 
 import MadiPageFrame from '../../components/madi/MadiPageFrame';
 import ArticleNavigation, { type ArticleNavigationLink } from '../../components/site/ArticleNavigation';
+import PreferredSourceLink from '../../components/site/PreferredSourceLink';
 import JsonLd from '../../components/site/JsonLd';
 import { siteUrl } from '../../data/site';
 import ClinicGuide from '../clinic-guide/ClinicGuide';
@@ -145,6 +146,7 @@ export function ColumnDetailView({
                     <time dateTime={entry.publishedAt}>{formatColumnDate(entry.publishedAt)}</time>
                   </p>
                 </div>
+                <PreferredSourceLink />
               </header>
             </div>
             <div className="column-detail__layout">

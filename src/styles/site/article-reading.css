@@ -315,6 +315,14 @@
   :is(.column-detail, .review-detail, .faq-detail) :is(.column-richtext, .column-imported-html, .review-richtext, .faq-richtext) {
     font-size: 17px;
   }
+
+  /* CMS에 남은 고정 px 서식도 모바일의 본문·제목 크기를 따른다. */
+  :is(.column-detail, .review-detail, .faq-detail) :is(.column-richtext, .column-imported-html, .review-richtext, .faq-richtext) :is(p, li, div, span, strong, b, em, i)[style*='font-size'] {
+    font-size: inherit !important;
+  }
+  :is(.column-detail, .review-detail, .faq-detail) :is(.column-richtext, .column-imported-html, .review-richtext, .faq-richtext) :is(p, li, div, span, strong, b, em, i)[style*='line-height'] {
+    line-height: inherit !important;
+  }
   :is(.column-detail, .review-detail, .faq-detail) :is(.column-richtext, .column-imported-html, .review-richtext, .faq-richtext) h2 {
     font-size: 22px;
     --rt-cms-heading-size: 22px;
@@ -349,6 +357,6 @@
 
 @media (max-width: 1263px) {
   .column-detail :is(.column-richtext, .column-imported-html) :is(h2, h3, h4) {
-    scroll-margin-top: calc(var(--madi-header-h) + 96px);
+    scroll-margin-top: calc(var(--madi-header-h) + 76px);
   }
 }

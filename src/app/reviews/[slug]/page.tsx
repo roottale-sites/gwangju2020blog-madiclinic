@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import ArticleNavigation from '../../../components/site/ArticleNavigation';
+import PreferredSourceLink from '../../../components/site/PreferredSourceLink';
 import type { Metadata } from 'next';
 import { notFound, permanentRedirect } from 'next/navigation';
 
@@ -204,42 +205,45 @@ export default async function ReviewDetailPage({ params }: ReviewDetailPageProps
                 <time dateTime={post.publishedAt}>{formatReviewDate(post.publishedAt)}</time>
               </div>
               <h2>{title}</h2>
-              <dl className="review-detail__facts">
-                {metadata.patient && (
-                  <div>
-                    <dt>환자</dt>
-                    <dd>{metadata.patient}</dd>
-                  </div>
-                )}
-                {metadata.doctor && (
-                  <div>
-                    <dt>글쓴이</dt>
-                    <dd>
-                      {isRepresentativeDoctor(metadata.doctor) ? (
-                        <a className="review-card__doctor" href={DOCTOR_PROFILE_HREF}>
-                          {metadata.doctor}
-                        </a>
-                      ) : (
-                        metadata.doctor
-                      )}
-                    </dd>
-                  </div>
-                )}
-                {metadata.treatmentPeriod && (
-                  <div>
-                    <dt>치료 기간</dt>
-                    <dd>{metadata.treatmentPeriod}</dd>
-                  </div>
-                )}
-                {metadata.category && (
-                  <div>
-                    <dt>진료 분야</dt>
-                    <dd>
-                      <Link href={`/reviews?category=${encodeURIComponent(metadata.category)}`}>{metadata.category}</Link>
-                    </dd>
-                  </div>
-                )}
-              </dl>
+              <div className="review-detail__info-row">
+                <dl className="review-detail__facts">
+                  {metadata.patient && (
+                    <div>
+                      <dt>환자</dt>
+                      <dd>{metadata.patient}</dd>
+                    </div>
+                  )}
+                  {metadata.doctor && (
+                    <div>
+                      <dt>글쓴이</dt>
+                      <dd>
+                        {isRepresentativeDoctor(metadata.doctor) ? (
+                          <a className="review-card__doctor" href={DOCTOR_PROFILE_HREF}>
+                            {metadata.doctor}
+                          </a>
+                        ) : (
+                          metadata.doctor
+                        )}
+                      </dd>
+                    </div>
+                  )}
+                  {metadata.treatmentPeriod && (
+                    <div>
+                      <dt>치료 기간</dt>
+                      <dd>{metadata.treatmentPeriod}</dd>
+                    </div>
+                  )}
+                  {metadata.category && (
+                    <div>
+                      <dt>진료 분야</dt>
+                      <dd>
+                        <Link href={`/reviews?category=${encodeURIComponent(metadata.category)}`}>{metadata.category}</Link>
+                      </dd>
+                    </div>
+                  )}
+                </dl>
+                <PreferredSourceLink />
+              </div>
               {excerpt && <p className="review-detail__summary">{excerpt}</p>}
             </header>
             {originalImageUrl && (

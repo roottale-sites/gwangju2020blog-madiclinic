@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import PreferredSourceLink from '../../components/site/PreferredSourceLink';
 import ClinicGuide from '../clinic-guide/ClinicGuide';
 import { faqPageJsonLd, webPageJsonLd } from '../seo/schema';
 import { formatFaqAnswerDate } from './faq-content';
@@ -56,6 +57,7 @@ export default function FaqDetailPage({ collection, entry, section, topic }: Rea
         <article className="faq-detail faq-layout__main" data-content-article>
           <header className="faq-detail__header">
             <h2 className="faq-detail__title">{entry.question}</h2>
+            <PreferredSourceLink />
           </header>
           <section id={S.question.id} className="faq-question-card" aria-labelledby={faqDetailHeadingId(S.question)}>
             <div className="faq-question-card__header">

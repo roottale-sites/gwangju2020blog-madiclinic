@@ -1,0 +1,62 @@
+/* AVCD 상세 제목: 데스크톱 44px, 모바일 28px. */
+.community-content :is(.column-detail__header h2, .review-detail__header h2, .faq-detail__title) {
+  margin: 0;
+  font-family: "Pretendard Variable", Pretendard, "Apple SD Gothic Neo", sans-serif;
+  font-size: 44px;
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: -0.03em;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+  text-wrap: wrap;
+}
+
+.community-content .column-detail__header-foot { margin-top: 12px; }
+.community-content :is(.column-detail__header, .review-detail__header, .faq-detail__header) { padding-bottom: 42px; }
+
+.community-content :is(.review-detail__summary, .faq-question-card > p, .faq-core-answer > p) {
+  font-family: "Pretendard Variable", Pretendard, "Apple SD Gothic Neo", sans-serif;
+  font-size: 18px;
+  line-height: 1.7;
+}
+
+/* FAQ의 바깥 섹션 제목은 본문 H2, 카드 안 제목은 H3와 같은 위계다. */
+.community-content .faq-detail :is(.faq-detailed-answer, .faq-clinic-perspective, .faq-related) {
+  margin-top: 110px;
+  padding-top: 0;
+  border-top: 0;
+}
+
+.community-content .faq-detail :is(.faq-detailed-answer, .faq-clinic-perspective, .faq-related) > h3 {
+  margin: 0 0 20px;
+  font-family: "Pretendard Variable", Pretendard, "Apple SD Gothic Neo", sans-serif;
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: normal;
+}
+
+.community-content .faq-detail :is(.faq-question-card__header, .faq-core-answer) > h3 {
+  margin: 0 0 12px;
+  font-family: "Pretendard Variable", Pretendard, "Apple SD Gothic Neo", sans-serif;
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: normal;
+}
+
+.community-content .faq-detail .faq-question-card__header { margin-bottom: 12px; }
+.community-content .faq-detail .faq-question-card__header > h3 { margin: 0; }
+
+@media (max-width: 767px) {
+  .community-content :is(.column-detail__header h2, .review-detail__header h2, .faq-detail__title) {
+    font-size: 28px;
+    font-weight: 600;
+  }
+  .community-content :is(.review-detail__summary, .faq-question-card > p, .faq-core-answer > p) { font-size: 17px; }
+  .community-content .faq-detail :is(.faq-detailed-answer, .faq-clinic-perspective, .faq-related) > h3 {
+    font-size: 22px;
+    margin-bottom: 16px;
+  }
+  .community-content .faq-detail :is(.faq-question-card__header, .faq-core-answer) > h3 { font-size: 20px; }
+}

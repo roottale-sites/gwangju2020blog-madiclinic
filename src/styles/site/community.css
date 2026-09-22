@@ -84,11 +84,6 @@
     padding-inline: var(--madi-space-3);
   }
 
-  .community-content :is(.column-detail__header h2, .review-detail__header h2, .faq-detail__title) {
-    font-size: var(--madi-fs-h3);
-    line-height: 1.5;
-  }
-
   .community-content .column-toc--mobile {
     width: 100%;
   }
@@ -165,6 +160,12 @@ main.community-content a.faq-section-card[href] {
   text-decoration-line: none;
 }
 
+/* 버튼·탭은 면과 테두리로 반응한다. 분류·글쓴이 등 텍스트 링크는 밑줄을 유지한다. */
+main.community-content :is(button, a[role='button'], a.preferred-source__link, a.column-empty__link, a.reviews-state__link, a.faq-state__link, .post-pattern__actions > a, .archive-pagination__pages a, .archive-tabs a) {
+  text-decoration: none;
+  transition: color 180ms ease, background-color 220ms ease, border-color 220ms ease, box-shadow 220ms ease;
+}
+
 .column-card .column-card__meta { gap: 12px; }
 .column-card a.column-card__category,
 .review-card a.review-card__category,
@@ -188,5 +189,5 @@ main.community-content a.faq-section-card[href] {
 .community-category-links { display: flex; flex-wrap: wrap; gap: 6px; }
 
 @media (prefers-reduced-motion: reduce) {
-  main.community-content a[href] { transition: none; }
+  main.community-content :is(a[href], button, summary) { transition: none; }
 }
