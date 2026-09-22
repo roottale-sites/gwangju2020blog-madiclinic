@@ -3,17 +3,21 @@ import type { Metadata } from 'next';
 
 import '../../styles/site/reviews.css';
 import ArchivePagination from '../../components/site/ArchivePagination';
+import ArchiveToolbar from '../../components/site/ArchiveToolbar';
+import ArchiveTabs from '../../components/site/ArchiveTabs';
+import ArchiveNotice from '../../components/site/ArchiveNotice';
 import MadiPageFrame from '../../components/madi/MadiPageFrame';
 import JsonLd from '../../components/site/JsonLd';
 import { webPageJsonLd } from '../../features/seo/schema';
 import ReviewCard from '../../features/reviews/ReviewCard';
 import { loadReviewArchive } from '../../features/reviews/review-api';
-import { reviewsIndexMetadata } from '../../features/reviews/review-content';
+import { reviewDisclosure, reviewsIndexMetadata } from '../../features/reviews/review-content';
 import {
   filterReviews,
   paginateReviews,
   parsePageNumber,
   reviewCategories,
+  searchReviews,
 } from '../../features/reviews/review-model';
 
 type ReviewsPageProps = {
@@ -36,16 +40,17 @@ function firstValue(value: string | string[] | undefined): string | null {
   return Array.isArray(value) ? value[0]?.trim() || null : value?.trim() || null;
 }
 
-function reviewsUrl(page: number, category: string | null): string {
+function reviewsUrl(page: number, category: string | null, searchQuery = ''): string {
   const params = new URLSearchParams();
   if (category) params.set('category', category);
+  if (searchQuery) params.set('q', searchQuery);
   if (page > 1) params.set('page', String(page));
   const query = params.toString();
   return `/reviews${query ? `?${query}` : ''}`;
 }
 
-function reviewsPaginationUrl(page: number, category: string | null): string {
-  return `${reviewsUrl(page, category)}#reviews-list-title`;
+function reviewsPaginationUrl(page: number, category: string | null, searchQuery = ''): string {
+  return `${reviewsUrl(page, category, searchQuery)}#reviews-list-title`;
 }
 
 /** 분류·페이지 상태는 정규 주소가 아니므로 상위 목록을 canonical로 유지한다. */
@@ -69,7 +74,7 @@ export async function generateMetadata({ searchParams }: ReviewsPageProps): Prom
       canonical: '/reviews',
       types: { 'application/rss+xml': '/reviews/rss.xml' },
     },
-    robots: category || page > 1 ? { index: false, follow: true } : { index: true, follow: true },
+    robots: category || firstValue(params.q) || page > 1 ? { index: false, follow: true } : { index: true, follow: true },
   };
 }
 
@@ -88,7 +93,8 @@ export default async function ReviewsPage({ searchParams }: ReviewsPageProps) {
   const requestedCategory = firstValue(params.category);
   const activeCategory =
     requestedCategory && categories.includes(requestedCategory) ? requestedCategory : null;
-  const filteredReviews = filterReviews(allReviews, activeCategory);
+  const searchQuery = firstValue(params.q) ?? '';
+  const filteredReviews = searchReviews(filterReviews(allReviews, activeCategory), searchQuery);
   const reviewPage = paginateReviews(filteredReviews, parsePageNumber(firstValue(params.page)));
   const noResults = Boolean(requestedCategory) && !activeCategory;
 
@@ -110,25 +116,20 @@ export default async function ReviewsPage({ searchParams }: ReviewsPageProps) {
         ]}
       />
       <div className="cBox reviews-page clearFix">
-        <section id="reviews-list-title" className="reviews-archive" aria-label="후기 목록">
+        <section className="reviews-archive" aria-label="후기 목록">
           <div className="reviews-shell">
-            {result.ok && <div className="reviews-archive__bar"><p>총 {filteredReviews.length}건</p></div>}
-            {categories.length > 0 && (
-              <nav className="reviews-filter" aria-label="후기 분류">
-                <Link href="/reviews" aria-current={!activeCategory ? 'page' : undefined}>
-                  전체
-                </Link>
-                {categories.map((category) => (
-                  <Link
-                    href={reviewsUrl(1, category)}
-                    aria-current={activeCategory === category ? 'page' : undefined}
-                    key={category}
-                  >
-                    {category}
-                  </Link>
-                ))}
-              </nav>
-            )}
+            <ArchiveToolbar
+              label="후기" headingId="reviews-list-title" basePath="/reviews" searchQuery={searchQuery}
+              total={result.ok ? (noResults ? 0 : filteredReviews.length) : undefined}
+              resetHref={reviewsPaginationUrl(1, activeCategory)}
+              hiddenFields={activeCategory ? { category: activeCategory } : undefined}
+              categoryNavigation={result.ok && categories.length > 0 ? (
+                <ArchiveTabs label="후기 분류" activeHref={reviewsUrl(1, activeCategory)} items={[
+                  { name: '전체', href: '/reviews', count: allReviews.length },
+                  ...categories.map((category) => ({ name: category, href: reviewsUrl(1, category), count: filterReviews(allReviews, category).length })),
+                ]} />
+              ) : null}
+            />
             {!result.ok ? (
               <section className="reviews-state" aria-labelledby="reviews-error-title">
                 <h2 id="reviews-error-title">
@@ -155,8 +156,8 @@ export default async function ReviewsPage({ searchParams }: ReviewsPageProps) {
               </section>
             ) : reviewPage.items.length === 0 ? (
               <section className="reviews-state" aria-labelledby="reviews-empty-title">
-                <h2 id="reviews-empty-title">등록된 후기를 준비하고 있습니다</h2>
-                <p>진료에 관해 궁금한 점은 예약 전 상담으로 확인할 수 있습니다.</p>
+                <h2 id="reviews-empty-title">{searchQuery ? '검색 결과가 없습니다' : '등록된 후기를 준비하고 있습니다'}</h2>
+                <p>{searchQuery ? '다른 검색어로 제목과 요약을 다시 찾아보세요.' : '진료에 관해 궁금한 점은 예약 전 상담으로 확인할 수 있습니다.'}</p>
               </section>
             ) : (
               <div className="reviews-grid">
@@ -170,9 +171,10 @@ export default async function ReviewsPage({ searchParams }: ReviewsPageProps) {
                 label="후기 페이지"
                 page={reviewPage.page}
                 pageCount={reviewPage.pageCount}
-                hrefForPage={(page) => reviewsPaginationUrl(page, activeCategory)}
+                hrefForPage={(page) => reviewsPaginationUrl(page, activeCategory, searchQuery)}
               />
             )}
+            <ArchiveNotice title="치료 경험담 안내">{reviewDisclosure}</ArchiveNotice>
           </div>
         </section>
       </div>

@@ -1,0 +1,56 @@
+[data-rt-image-zoom] { cursor: zoom-in; }
+[data-rt-image-zoom]:focus-visible { outline: 2px solid #3161b1; outline-offset: 4px; }
+
+dialog.rt-cms-image-dialog {
+  box-sizing: border-box;
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  max-width: none;
+  height: 100dvh;
+  max-height: none;
+  margin: 0;
+  padding: 20px;
+  border: 0;
+  color: #fff;
+  background: transparent;
+  overflow: hidden;
+}
+
+.rt-cms-image-dialog[open] { display: flex; flex-direction: column; gap: 16px; animation: rt-image-reveal 180ms ease-out; }
+.rt-cms-image-dialog::backdrop { background: rgb(10 15 22 / 92%); }
+.rt-cms-image-dialog__toolbar { display: flex; justify-content: flex-end; gap: 12px; flex: 0 0 auto; }
+.rt-cms-image-dialog__toolbar button {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 44px;
+  padding: 8px 16px;
+  border: 1px solid rgb(255 255 255 / 35%);
+  border-radius: 6px;
+  color: #fff;
+  background: rgb(255 255 255 / 8%);
+  font: 500 14px/1.5 "Pretendard Variable", sans-serif;
+  cursor: pointer;
+  transition: background-color 180ms ease;
+}
+.rt-cms-image-dialog__toolbar button:hover { background: rgb(255 255 255 / 20%); }
+.rt-cms-image-dialog__toolbar button:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+.rt-cms-image-dialog__toolbar span { font-size: 24px; line-height: 1; }
+.rt-cms-image-dialog__viewport { flex: 1 1 0; min-height: 0; overflow: auto; overscroll-behavior: contain; text-align: center; }
+.rt-cms-image-dialog__viewport img {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+  margin: auto;
+  object-fit: contain;
+}
+.rt-cms-image-dialog__viewport[data-enlarged='true'] img { max-width: none; max-height: none; }
+@keyframes rt-image-reveal { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+@media (max-width: 600px) { dialog.rt-cms-image-dialog { padding: 12px; gap: 12px; } }
+@media (prefers-reduced-motion: reduce) {
+  .rt-cms-image-dialog[open] { animation: none; }
+  .rt-cms-image-dialog__toolbar button { transition: none; }
+}

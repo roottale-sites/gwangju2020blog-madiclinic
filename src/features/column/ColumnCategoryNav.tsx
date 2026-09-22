@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import ArchiveTabs from '../../components/site/ArchiveTabs';
 
 import type { ColumnCategory } from './column-category';
 
@@ -23,34 +23,11 @@ export default function ColumnCategoryNav({
     0,
   );
 
-  return (
-    <nav className="column-category-nav" aria-label="블로그 분류">
-      <ul>
-        <li>
-          <Link
-            href="/column"
-            scroll={false}
-            aria-current={activeCategorySlug ? undefined : 'page'}
-            aria-label={`전체 ${totalPostCount}건`}
-          >
-            전체
-            <span aria-hidden="true">{totalPostCount}</span>
-          </Link>
-        </li>
-        {visibleCategories.map((category) => (
-          <li key={category.slug}>
-            <Link
-              href={category.path}
-              scroll={false}
-              aria-current={activeCategorySlug === category.slug ? 'page' : undefined}
-              aria-label={`${category.name} ${category.publishedPostCount}건`}
-            >
-              {category.name}
-              <span aria-hidden="true">{category.publishedPostCount}</span>
-            </Link>
-          </li>
-        ))}
-      </ul>
-    </nav>
-  );
+  return <ArchiveTabs label="블로그 분류"
+    activeHref={visibleCategories.find((category) => category.slug === activeCategorySlug)?.path ?? '/column'}
+    items={[
+      { name: '전체', href: '/column', count: totalPostCount },
+      ...visibleCategories.map((category) => ({ name: category.name, href: category.path, count: category.publishedPostCount })),
+    ]}
+  />;
 }

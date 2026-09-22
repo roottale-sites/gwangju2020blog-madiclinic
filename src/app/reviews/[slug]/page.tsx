@@ -195,9 +195,11 @@ export default async function ReviewDetailPage({ params }: ReviewDetailPageProps
           <div className="reviews-shell review-detail__surface">
             <header className="review-detail__header">
               <div className="review-detail__meta-row">
-                <span>
-                  치료 경험담{metadata.category ? ` · ${metadata.category}` : ''}
-                </span>
+                {metadata.category ? (
+                  <Link className="community-category-badge" href={`/reviews?category=${encodeURIComponent(metadata.category)}`}>
+                    치료 경험담 · {metadata.category}
+                  </Link>
+                ) : <span>치료 경험담</span>}
                 <time dateTime={post.publishedAt}>{formatReviewDate(post.publishedAt)}</time>
               </div>
               <h2>{title}</h2>
@@ -231,7 +233,9 @@ export default async function ReviewDetailPage({ params }: ReviewDetailPageProps
                 {metadata.category && (
                   <div>
                     <dt>진료 분야</dt>
-                    <dd>{metadata.category}</dd>
+                    <dd>
+                      <Link href={`/reviews?category=${encodeURIComponent(metadata.category)}`}>{metadata.category}</Link>
+                    </dd>
                   </div>
                 )}
               </dl>
@@ -242,7 +246,7 @@ export default async function ReviewDetailPage({ params }: ReviewDetailPageProps
                 <img
                   src={cfImageVariantUrl(originalImageUrl, 'lg')}
                   srcSet={cfImageSrcSet(originalImageUrl)}
-                  sizes="(max-width: 767px) 100vw, 928px"
+                  sizes="(max-width: 767px) 100vw, 720px"
                   alt={`${title} 후기 원문`}
                   loading="eager"
                   fetchPriority="high"
@@ -287,8 +291,8 @@ export default async function ReviewDetailPage({ params }: ReviewDetailPageProps
             <nav className="review-detail__navigation" aria-label="이전글 다음글">
               {newerRecord ? (
                 <Link href={reviewEntryPath(newerRecord)}>
-                  <span>이전글</span>
-                  {reviewTitle(newerRecord)}
+                  <span className="review-detail__navigation-label">이전글</span>
+                  <span className="review-detail__navigation-title">{reviewTitle(newerRecord)}</span>
                 </Link>
               ) : (
                 <span />
@@ -298,8 +302,8 @@ export default async function ReviewDetailPage({ params }: ReviewDetailPageProps
               </Link>
               {olderRecord ? (
                 <Link href={reviewEntryPath(olderRecord)}>
-                  <span>다음글</span>
-                  {reviewTitle(olderRecord)}
+                  <span className="review-detail__navigation-label">다음글</span>
+                  <span className="review-detail__navigation-title">{reviewTitle(olderRecord)}</span>
                 </Link>
               ) : (
                 <span />

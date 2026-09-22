@@ -8,11 +8,6 @@
   width: 100%;
 }
 
-.community-content .column-list__bar,
-.community-content .reviews-archive__bar {
-  justify-content: flex-end;
-}
-
 .community-content .community-sr-only {
   position: absolute;
   width: 1px;
@@ -51,6 +46,16 @@
   padding-top: 0;
   border-top: 0;
   border-bottom-color: var(--madi-primary);
+}
+
+.community-content .review-detail__surface {
+  width: 100%;
+  max-width: 720px;
+}
+
+.community-content .review-detail__original img {
+  width: 100%;
+  max-height: none;
 }
 
 .community-content .column-detail__surface,
@@ -152,17 +157,36 @@ main.community-content a[href]:is(:hover, :active, :focus-visible) {
   text-decoration-color: currentColor;
 }
 
-/* 카드는 면·글자색 변화로 반응한다. 여러 줄을 한꺼번에 밑줄 긋지 않는다. */
-main.community-content :is(.column-card, .review-card, .faq-topic-list, .faq-question-list) a[href],
+/* 글을 여는 주 링크만 밑줄을 생략한다. 분류·글쓴이 링크는 공통 hover 밑줄을 따른다. */
+main.community-content a.column-card__title-link[href],
+main.community-content a.review-card__title-link[href],
+main.community-content :is(.faq-topic-list, .faq-question-list) > li > a[href],
 main.community-content a.faq-section-card[href] {
   text-decoration-line: none;
 }
 
 .column-card .column-card__meta { gap: 12px; }
 .column-card a.column-card__category,
-.review-card a.review-card__category { position: relative; z-index: 1; color: var(--madi-link); }
+.review-card a.review-card__category,
+.community-content a.community-category-badge {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 9px;
+  border: 1px solid var(--madi-border);
+  border-radius: 4px;
+  background: var(--madi-bg-panel);
+  color: var(--madi-text-muted);
+  font-size: 12px;
+  line-height: 20px;
+}
 .column-card a.column-card__category:hover,
-.review-card a.review-card__category:hover { color: var(--madi-primary-hover); }
+.review-card a.review-card__category:hover,
+.community-content a.community-category-badge:hover { color: var(--madi-primary-hover); }
+
+.community-category-links { display: flex; flex-wrap: wrap; gap: 6px; }
+.column-detail__category { margin-bottom: 16px; }
 
 @media (prefers-reduced-motion: reduce) {
   main.community-content a[href] { transition: none; }

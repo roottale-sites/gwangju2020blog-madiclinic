@@ -59,14 +59,14 @@ export default function ColumnArchiveRow({ entry }: ColumnArchiveRowProps) {
             <Link className="column-card__category" href={entry.category.path}>
               {entry.category.name}
             </Link>
-            <a className="column-card__author" href={DOCTOR_PROFILE_HREF}>
-              {POST_AUTHOR_NAME}
-            </a>
           </span>
         </div>
-        <time className="column-card__date" dateTime={entry.publishedAt}>
-          {formatColumnDate(entry.publishedAt)}
-        </time>
+        <div className="column-card__byline">
+          <time className="column-card__date" dateTime={entry.publishedAt}>
+            {formatColumnDate(entry.publishedAt)}
+          </time>
+          <a className="column-card__author" href={DOCTOR_PROFILE_HREF}>{POST_AUTHOR_NAME}</a>
+        </div>
       </div>
     </li>
   );

@@ -15,6 +15,7 @@ import {
   reviewSeoDescription,
   reviewSeoTitle,
   reviewTitle,
+  searchReviews,
 } from './review-model';
 
 /**
@@ -114,6 +115,16 @@ describe('후기 SEO 문구', () => {
 });
 
 describe('후기 목록 분류와 페이지', () => {
+  test('분류 내 제목·요약 검색 후 결과를 페이지로 나눈다', () => {
+    const posts = [
+      review({ id: 'knee', title: '무릎 치료 후기', excerpt: '걷기 변화', terms: [{ id: '1', taxonomy: 'category', slug: 'knee', name: '무릎' }] }),
+      review({ id: 'head', title: '두통 치료 후기', excerpt: '약 복용 변화', terms: [{ id: '2', taxonomy: 'category', slug: 'head', name: '두통' }] }),
+    ];
+    expect(searchReviews(posts, '치료 변화').map((post) => post.id)).toEqual(['knee', 'head']);
+    expect(searchReviews(filterReviews(posts, '두통'), '약 복용').map((post) => post.id)).toEqual(['head']);
+    expect(searchReviews(posts, '없는 검색어')).toEqual([]);
+    expect(searchReviews(posts, ' ')).toHaveLength(2);
+  });
   test('분류 목록은 중복 없이 모으고 필터는 그 분류만 남긴다', () => {
     const posts = [
       review({ id: 'a', terms: [{ id: '1', taxonomy: 'category', slug: 'knee', name: '무릎' }] }),

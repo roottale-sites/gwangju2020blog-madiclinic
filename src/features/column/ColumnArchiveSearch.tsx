@@ -1,9 +1,8 @@
-import Link from 'next/link';
 import type { ReactNode } from 'react';
 
 import ArchivePagination from '../../components/site/ArchivePagination';
 import ColumnArchiveRow from './ColumnArchiveRow';
-import ColumnSearchField from './ColumnSearchField';
+import ArchiveToolbar from '../../components/site/ArchiveToolbar';
 import ColumnSourceNotice from './ColumnSourceNotice';
 import type { ColumnSourceStatus } from './column-source';
 import type { ColumnArchiveEntry } from './column-model';
@@ -39,25 +38,12 @@ export default function ColumnArchiveSearch({
 
   return (
     <>
-      <div className="column-list__bar">
-        <h2 id="column-list-title" className="community-sr-only">블로그 목록</h2>
-        <div className="column-list__tools">
-          <ColumnSearchField key={`${basePath}:${searchQuery}`} basePath={basePath} searchQuery={searchQuery} />
-          {sourceStatus === 'ok' && (
-            <div className="column-list__result">
-              <p aria-label={searchQuery ? `검색 결과 ${columnPage.total}건` : `총 ${columnPage.total}건`}>
-                {searchQuery ? `검색 결과 ${columnPage.total}건` : `총 ${columnPage.total}건`}
-              </p>
-              {searchQuery && (
-                <Link className="column-search__reset" href={columnArchiveUrl(1, '', basePath)} scroll={false}>
-                  전체 글 보기 <span aria-hidden="true">↺</span>
-                </Link>
-              )}
-            </div>
-          )}
-        </div>
-      </div>
-      {sourceStatus === 'ok' && categoryNavigation}
+      <ArchiveToolbar
+        label="블로그" headingId="column-list-title" basePath={basePath} searchQuery={searchQuery}
+        total={sourceStatus === 'ok' ? columnPage.total : undefined}
+        resetHref={columnArchiveUrl(1, '', basePath)}
+        categoryNavigation={sourceStatus === 'ok' ? categoryNavigation : null}
+      />
       {sourceStatus !== 'ok' ? (
         <ColumnSourceNotice status={sourceStatus} />
       ) : columnPage.items.length === 0 && searchQuery ? (

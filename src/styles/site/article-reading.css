@@ -175,7 +175,7 @@
   margin: 32px auto;
 }
 
-:is(.column-detail, .review-detail, .faq-detail) :is(.column-richtext, .column-imported-html, .review-richtext, .faq-richtext) :is(video, iframe) {
+:is(.column-detail, .review-detail, .faq-detail) :is(.column-richtext, .column-imported-html, .review-richtext, .faq-richtext) :is(img, video, iframe) {
   width: 100%;
 }
 

@@ -118,6 +118,9 @@ export function ColumnDetailView({
           <div className="column-shell">
             <div className="column-detail__surface">
               <header className="column-detail__header">
+                <Link className="community-category-badge column-detail__category" href={entry.category.path}>
+                  {entry.category.name}
+                </Link>
                 <h2>{entry.title}</h2>
                 <div className="column-detail__header-foot">
                   <p className="column-detail__byline">

@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import ArchiveNotice from '../../components/site/ArchiveNotice';
 
 import MadiPageFrame from '../../components/madi/MadiPageFrame';
 import JsonLd from '../../components/site/JsonLd';
@@ -82,10 +83,7 @@ export default function ColumnCategoryPage({
                 />
               }
             />
-            <aside className="column-disclaimer" aria-label="의료 콘텐츠 안내">
-              <strong>의료 콘텐츠 안내</strong>
-              <p>{columnMedicalDisclaimer}</p>
-            </aside>
+            <ArchiveNotice title="의료 콘텐츠 안내">{columnMedicalDisclaimer}</ArchiveNotice>
           </div>
         </div>
       </div>

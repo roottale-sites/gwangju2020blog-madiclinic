@@ -60,9 +60,10 @@ export default function FaqDetailPage({ collection, entry, section, topic }: Rea
           <section id={S.question.id} className="faq-question-card" aria-labelledby={faqDetailHeadingId(S.question)}>
             <div className="faq-question-card__header">
               <h3 id={faqDetailHeadingId(S.question)}>Q. {S.question.title}</h3>
-              <span>
-                {topic.name} · {entry.intent}
-              </span>
+              <div className="community-category-links">
+                <Link className="community-category-badge" href={faqTopicPath(section.slug, topic.slug)}>{topic.name}</Link>
+                <Link className="community-category-badge" href={`${faqTopicPath(section.slug, topic.slug)}?intent=${encodeURIComponent(entry.intent)}`}>{entry.intent}</Link>
+              </div>
             </div>
             <p>{entry.questionContext ?? entry.question}</p>
           </section>

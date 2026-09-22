@@ -14,7 +14,7 @@ const entry: ColumnArchiveEntry = {
 };
 
 describe('블로그 목록 정보 위계', () => {
-  test('목록 제목·도구 다음에 분류 탐색, 그 다음에 글 목록을 렌더한다', () => {
+  test('분류 탐색·검색 도구 다음에 글 목록을 렌더한다', () => {
     const categoryNavigation = createElement(
       'nav',
       { 'aria-label': '테스트 분류' },

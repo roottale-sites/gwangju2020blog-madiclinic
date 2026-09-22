@@ -125,6 +125,16 @@ export function paginateReviews(
   };
 }
 
+export function searchReviews(posts: readonly CmsPostContent[], query: string): CmsPostContent[] {
+  const words = query.normalize('NFKC').toLocaleLowerCase('ko-KR').trim().split(/\s+/).filter(Boolean);
+  if (words.length === 0) return [...posts];
+  return posts.filter((post) => {
+    const text = [reviewTitle(post), reviewExcerpt(post), reviewCategory(post)]
+      .filter(Boolean).join(' ').normalize('NFKC').toLocaleLowerCase('ko-KR');
+    return words.every((word) => text.includes(word));
+  });
+}
+
 /**
  * 후기 상세 하단의 관련 후기. ROOT-ADMIN에서 고른 글이 있으면 그 순서를 정본으로
  * 사용하고, 선택이 비었을 때만 같은 분류의 최신 후기 3건을 자동 추천한다.
