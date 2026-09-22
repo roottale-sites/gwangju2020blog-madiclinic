@@ -78,16 +78,19 @@ function archiveSeoMeta(metaJson: Record<string, unknown>): Record<string, unkno
   const title = isRecord(seo) && typeof seo.title === 'string' ? seo.title : undefined;
   const description = isRecord(seo) && typeof seo.description === 'string' ? seo.description : undefined;
 
-  // 목록 캐시에는 SEO 두 값만 남긴다. 나머지 메타데이터는 화면이 쓰지 않으므로
-  // 캐시 용량과 비공개 메타데이터 노출을 함께 막는다.
-  return title === undefined && description === undefined
-    ? {}
-    : {
-        seo: {
-          ...(title === undefined ? {} : { title }),
-          ...(description === undefined ? {} : { description }),
-        },
-      };
+  // 화면에 필요한 SEO와 원문 출처만 보존한다.
+  const source = metaJson.copiedFrom;
+  return {
+    ...(title === undefined && description === undefined ? {} : {
+      seo: {
+        ...(title === undefined ? {} : { title }),
+        ...(description === undefined ? {} : { description }),
+      },
+    }),
+    ...(isRecord(source) && typeof source.name === 'string' && typeof source.url === 'string'
+      ? { copiedFrom: { name: source.name, url: source.url } }
+      : {}),
+  };
 }
 
 export function columnArchivePost(post: ColumnPost): ColumnArchivePost {

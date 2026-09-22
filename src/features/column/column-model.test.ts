@@ -8,7 +8,7 @@ import {
   isColumnPost,
   sortColumnEntries,
 } from './column-model';
-import type { ColumnPost } from './column-wire';
+import { columnArchivePost, type ColumnPost } from './column-wire';
 
 /**
  * headnerve의 `column-body`·`column-share-image`·`column-content` 테스트가 단정하던
@@ -152,7 +152,7 @@ describe('복사 글 출처', () => {
     const copiedFrom = { name: 'headnerve', url: 'https://headnerve.com/example' };
     const item = post({ metaJson: { copiedFrom } });
     expect(columnEntryFromPost(item)?.copiedFrom).toEqual(copiedFrom);
-    expect(columnArchiveEntryFromPost(item)?.copiedFrom).toEqual(copiedFrom);
+    expect(columnArchiveEntryFromPost(columnArchivePost(item))?.copiedFrom).toEqual(copiedFrom);
   });
   test('실행 가능한 주소를 출처 링크로 허용하지 않는다', () => {
     const item = post({ metaJson: { copiedFrom: { name: '출처', url: 'javascript:alert(1)' } } });
