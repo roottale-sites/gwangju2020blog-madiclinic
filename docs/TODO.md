@@ -13,7 +13,7 @@
 - [x] 6. **reviews** — 목록·상세 포트
 - [x] 7. **faq** — 4단계 화면 포트, `faq-registry`를 CMS 분류 기반으로 재작성
 - [x] 8. **seo** — `sitemap.xml` 인덱스·`sitemap-static.xml`·robots·JSON-LD·`docs/metadata-table.md`
-- [ ] 9. **provision**(진행 중, 2026-09-22) — 사용자가 테넌트 생성. Aside로 ROOT-ADMIN 사이트 `gwangju2020-blog-madiclinic`(site id `01a09f2d-1113-7bf4-ab3a-b18e2ef62839`, tenant id `01a09eeb-bd8d-7390-aac8-ddacc5b69b91`) 확인, 웹훅 `https://gwangju2020blog.madiclinic.co.kr/api/revalidate` 등록, 읽기 전용 사이트 키 `vercel-gwangju2020blog` 발급. `content-model:sync --apply` 완료(models faq·column·reviews, fieldGroups 1, categories 0). Vercel env: `ROOTTALE_API_BASE`·`ROOTTALE_MEDIA_ORIGIN`·`NEXT_PUBLIC_ROOTTALE_SITE_ID` 3환경 등록, `vercel.json` framework nextjs.
+- [x] 9. **provision**(완료, 2026-09-23) — 사용자가 테넌트 생성. Aside로 ROOT-ADMIN 사이트 `gwangju2020-blog-madiclinic`(site id `01a09f2d-1113-7bf4-ab3a-b18e2ef62839`, tenant id `01a09eeb-bd8d-7390-aac8-ddacc5b69b91`) 확인, 웹훅 `https://gwangju2020blog.madiclinic.co.kr/api/revalidate` 등록, 읽기 전용 사이트 키 `vercel-gwangju2020blog` 발급. `content-model:sync --apply` 완료(models faq·column·reviews, fieldGroups 1, categories 0). Vercel env: `ROOTTALE_API_BASE`·`ROOTTALE_MEDIA_ORIGIN`·`NEXT_PUBLIC_ROOTTALE_SITE_ID` 3환경 등록, `vercel.json` framework nextjs.
   - [x] `ROOTTALE_API_KEY` 연결 — 기존 사이트 전용 읽기 키를 재사용해 로컬 `.env.local`과 Vercel Production·Preview·Development에 Secret으로 저장(2026-09-22). 키 원문은 코드·문서·로그에 기록하지 않음.
   - [x] 실제 CMS 조회 — column·faq·reviews 공개 API와 콘텐츠 모델 조회 200. 로컬 목록 3종·RSS 2종·FAQ 사이트맵 200 확인. 칼럼·후기·FAQ 각각 최근 3개 사본을 공개했으며 상세·분류·XML 검증은 [복사 기록](headnerve-copy.md)에 남겼다.
   - [x] 운영 재배포 — 사용자 공개 승인에 따라 반영. 발행·수정 웹훅과 공개 화면 자동 갱신 확인.
@@ -26,8 +26,9 @@
 - [x] 칼럼·후기·FAQ 공통 초안 미리보기와 ID 검증, 칼럼 분류별 글 수 캐시 갱신 보완.
 - [x] 공용 팝업 런타임·노출 API·슬롯 계약 추가. CMS 홍보 배너는 제외하고 페이지 상단 사진 배너는 유지.
 - [x] 운영 공개 조회와 로컬 서버 발행·수정·삭제, Aside 반응형 팝업 동작 검증.
-- [ ] ROOT-ADMIN 메뉴 분리 기능 배포 후 이 사이트의 `banners` 메뉴만 숨김으로 저장. 운영의 통합 팝업/배너 스위치는 끄지 않는다.
-- [ ] 승인 후 배포·관리자 운영 주소·팝업 슬롯·글 미리보기 설정을 반영하고 실제 관리자 저장부터 운영 표시까지 최종 확인.
+- [x] ROOT-ADMIN 메뉴 분리 기능 배포 후 이 사이트의 `banners` 메뉴만 숨김으로 저장. `popups` 메뉴는 유지.
+- [x] 사용자 승인 후 사이트·관리자 배포, 운영 주소·팝업 슬롯·글 미리보기 설정 반영. 실제 PC·모바일 팝업의 미리보기·발행·수정·중지·삭제 확인.
+- [x] 운영 검수에서 발견한 팝업 발행 대상 불일치, 글 발행 직후 수정 실패, 삭제 상세 캐시 잔류를 수정·배포. 칼럼·FAQ·치료후기별 초안 미리보기·발행·수정·영구 삭제를 검증하고 임시 글·팝업 정리.
 
 연결 계약·발견 사항·검증 범위·운영 순서: [root-admin-integration.md](root-admin-integration.md). 아래 단계별 결과는 당시의 기록이며 현재 배너·미리보기 동작은 이 문서를 따른다.
 
@@ -37,7 +38,7 @@
 - [x] 사용자 요청에 따라 루트만 병원 홈페이지로 301 이동한다. 현행 대상은 `docs/PLAN.md` §2.1을 따른다. Playwright 서버 준비 확인 주소도 로컬 `/column`으로 바꿨다.
 - [x] 빌드·관련 단위 테스트, HTTP 상태·검색 제외 메타데이터, Aside에서 데스크톱·태블릿·모바일 화면을 확인했다. 화면 폭은 같은 브라우저의 iframe으로 검사했다.
 - [x] 설정 변경 후 기존 `next dev`에서 커뮤니티 세 경로가 모두 404로 응답하는 현상을 재현했다. 개발 경로 타입도 비어 있었으며, 서버를 정상 재시작하자 경로 목록과 세 메뉴가 복구됐다. 운영 사이트와 production build는 정상이다.
-- 운영 반영은 아직 하지 않았다. 이 변경의 로컬 검증 결과와 캡처는 `~/workspace/output/gwangju2020blog-madiclinic/2026-09-22-not-found/`에 있다.
+- 운영 반영 완료(2026-09-23). 이 변경의 로컬 검증 결과와 캡처는 `~/workspace/output/gwangju2020blog-madiclinic/2026-09-22-not-found/`에 있다.
 
 ## 헤더 픽셀 diff 결과 (2026-09-15)
 
