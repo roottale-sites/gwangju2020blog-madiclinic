@@ -6,7 +6,8 @@ export default function ClinicGuide() {
     <aside className="clinic-guide" aria-label="진료 안내" data-analytics-placement="clinic-guide">
       <div className="clinic-guide__details">
         <div className="clinic-guide__intro">
-          <span className="clinic-guide__label">진료 안내</span>
+          <img className="clinic-guide__symbol" src="/madi/img/iconCommonInfoTitle.png"
+            width="160" height="100" alt="" />
           <h2>{clinic.name}</h2>
           <p>{clinic.address.line}</p>
         </div>

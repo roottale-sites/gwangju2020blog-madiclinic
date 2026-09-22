@@ -29,8 +29,8 @@ test('커뮤니티 메뉴는 문서와 헤더를 유지하며 이동하고 뒤�
   expect(documents).toEqual([]);
   expect(await page.evaluate((node) => node === document.querySelector('#header'), header)).toBe(true);
   await page.locator('#subHeader a[href="/column"]').click();
-  await page.locator('.column-search summary').click();
-  await page.locator('#column-search-query').fill('무릎');
+  await page.getByRole('button', { name: '블로그 검색 열기' }).click();
+  await page.getByRole('searchbox', { name: '블로그 검색' }).fill('무릎');
   await page.getByRole('button', { name: '검색', exact: true }).click();
   await expect(page).toHaveURL(/\/column\?q=/);
   expect(documents).toEqual([]);

@@ -288,7 +288,6 @@ a.column-card__author:hover {
   align-items: flex-start;
   gap: 0;
   padding-inline: 0;
-  border-bottom: 1px solid var(--madi-primary);
   background: var(--madi-bg);
   color: var(--madi-text-strong);
 }
@@ -397,7 +396,6 @@ a.column-card__author:hover {
   transition: background-color 180ms ease;
 }
 
-.column-toc--mobile summary:hover { background-color: var(--madi-bg-panel-title); }
 .column-toc--mobile summary:focus-visible { outline: 2px solid var(--madi-primary); outline-offset: -2px; }
 
 .column-toc--mobile summary::-webkit-details-marker {
@@ -418,7 +416,7 @@ a.column-card__author:hover {
 }
 
 .column-toc--mobile nav {
-  padding: 0 var(--madi-space-3) var(--madi-space-3);
+  padding: var(--madi-space-2) var(--madi-space-3) var(--madi-space-3);
 }
 
 .column-toc__title {
@@ -460,9 +458,15 @@ a.column-card__author:hover {
   font-weight: 400;
 }
 
-.column-toc__item a:hover,
 .column-toc__item a:focus-visible {
   background: color-mix(in srgb, var(--madi-text-strong) 6%, transparent);
+}
+
+@media (hover: hover) {
+  .column-toc--mobile summary:hover { background-color: var(--madi-bg-panel-title); }
+  .column-toc__item a:hover {
+    background: color-mix(in srgb, var(--madi-text-strong) 6%, transparent);
+  }
 }
 
 .column-toc__item a[aria-current='location'] {
@@ -492,8 +496,6 @@ a.column-card__author:hover {
 
 .column-richtext h2 {
   margin: var(--column-space-component) 0 var(--column-space-within);
-  padding-top: var(--madi-space-3);
-  border-top: 1px solid var(--madi-border-strong);
   font-size: var(--madi-fs-h3);
   font-weight: 700;
   line-height: 30px;
@@ -677,8 +679,6 @@ a.column-card__author:hover {
 
 .column-richtext__disease-link {
   margin-top: var(--column-space-action) !important;
-  padding-top: var(--column-space-within);
-  border-top: 1px solid var(--madi-border-strong);
 }
 
 @media (max-width: 767px) {

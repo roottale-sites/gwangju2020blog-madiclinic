@@ -44,8 +44,6 @@
 
 .community-content .review-detail__header {
   padding-top: 0;
-  border-top: 0;
-  border-bottom-color: var(--madi-primary);
 }
 
 .community-content .review-detail__surface {
