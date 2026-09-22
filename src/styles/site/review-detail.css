@@ -24,7 +24,6 @@
   max-width: var(--reviews-measure);
   margin-inline: auto;
   padding-block: var(--madi-space-4);
-  border-block: 1px solid var(--madi-border);
 }
 
 .review-detail__meta-row {
@@ -89,8 +88,6 @@
 .review-detail__original {
   max-width: var(--reviews-measure);
   margin: var(--madi-space-5) auto 0;
-  padding: var(--madi-space-3) 0 0;
-  border-top: 1px solid var(--madi-border);
 }
 
 .review-detail__original img {
@@ -148,8 +145,6 @@
 
 .review-richtext h2 {
   margin: var(--madi-space-6) 0 var(--madi-space-3);
-  padding-top: var(--madi-space-4);
-  border-top: 1px solid var(--madi-border-strong);
   font-size: var(--madi-fs-h3);
   line-height: 30px;
 }
@@ -278,7 +273,6 @@
   margin: var(--madi-space-6) auto 0;
   padding: var(--madi-space-3) var(--madi-space-4);
   border: 1px solid var(--madi-border);
-  border-top: 1px solid var(--madi-primary);
   background: var(--madi-bg-panel);
   box-shadow: var(--madi-shadow-soft);
 }
@@ -329,8 +323,6 @@
   gap: var(--madi-space-4);
   max-width: var(--reviews-measure);
   margin: var(--madi-space-6) auto 0;
-  padding-top: var(--madi-space-3);
-  border-top: 1px solid var(--madi-border);
   color: var(--madi-text-muted);
   font-size: var(--madi-fs-lg);
   line-height: var(--madi-lh-body);
@@ -348,7 +340,6 @@
 
 .review-related {
   padding-block: var(--madi-space-7);
-  border-top: 1px solid var(--madi-border);
   /* 같은 이유로 관련 후기 띠도 흰 바닥이다(reviews.css `.reviews-archive` 참고). */
   background: var(--madi-bg);
 }
@@ -397,10 +388,6 @@
 
   .review-detail__record a {
     width: 100%;
-  }
-
-  .review-detail__original {
-    padding: var(--madi-space-3) 0 0;
   }
 
   .review-richtext h2,

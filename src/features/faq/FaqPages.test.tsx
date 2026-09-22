@@ -153,13 +153,12 @@ describe('세부 질환 화면', () => {
     expect(html).toContain('aria-current="page" aria-label="2페이지"');
   });
 
-  test('질문 성격 필터와 Q·A 목록, 상세 보기 링크를 렌더한다', () => {
+  test('Q·A 목록과 상세 보기 링크를 렌더하고 중복 필터는 숨긴다', () => {
     const html = topicPage();
 
-    expect(html).toContain('class="faq-filter"');
+    expect(html).not.toContain('class="faq-filter"');
     expect(html).not.toContain('aria-label="FAQ 진료 영역"');
     expect(html).not.toContain('aria-label="FAQ 세부 질환"');
-    expect(html).toContain('전체 2');
     expect(html).toContain('class="faq-question-list__mark">Q.</span>');
     expect(html).toMatch(/faq-question-list__answer"><b>A\.<\/b><span>/u);
     expect(html).toContain('href="/faq/spine/neck-pain/mri-normal"');

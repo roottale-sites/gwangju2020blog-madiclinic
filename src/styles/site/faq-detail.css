@@ -177,8 +177,6 @@
 .faq-detailed-answer,
 .faq-clinic-perspective {
   margin-top: var(--madi-space-6);
-  padding-top: var(--madi-space-3);
-  border-top: 1px solid var(--madi-border);
 }
 
 .faq-detailed-answer > h3,
@@ -223,15 +221,12 @@
 
 .faq-related {
   margin-top: var(--madi-space-6);
-  padding-top: var(--madi-space-3);
-  border-top: 1px solid var(--madi-border);
 }
 
 .faq-related ul {
   margin: 0;
   padding: 0;
   list-style: none;
-  border-top: 1px solid var(--madi-text-strong);
 }
 
 .faq-related a {

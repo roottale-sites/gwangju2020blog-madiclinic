@@ -25,8 +25,8 @@ import {
 /**
  * `/faq/{section}/{topic}` 세부 질환 — 질문 목록.
  *
- * 질문 성격 필터는 GET 쿼리(`?intent=`)를 쓰고 canonical은 이 주소로 둔다
- * (ADR-0006 §5). headnerve 구조 그대로이며 카페 링크·의사 사진만 없다.
+ * 질문 성격은 오른쪽 목차에서 GET 쿼리(`?intent=`)로 고른다.
+ * 본문 위 중복 필터는 두지 않고 canonical은 이 주소로 둔다(ADR-0006 §5).
  */
 export default function FaqTopicPage({ collection, section, topic, selectedIntent, requestedPage = 1 }: Readonly<{
   collection: FaqCollection;
@@ -66,23 +66,6 @@ export default function FaqTopicPage({ collection, section, topic, selectedInten
       <FaqSourceNotice status={collection.status} />
       <div className="faq-layout">
         <div id="faq-question-list" className="faq-layout__main">
-          <nav className="faq-filter" aria-label="질문 분류">
-            <Link href={path} aria-current={!selectedIntent ? 'page' : undefined}>
-              전체 {allEntries.length}
-            </Link>
-            {FAQ_INTENTS.map((intent) => {
-              const count = allEntries.filter((entry) => entry.intent === intent).length;
-              return count > 0 ? (
-                <Link
-                  href={`${path}?intent=${encodeURIComponent(intent)}`}
-                  aria-current={selectedIntent === intent ? 'page' : undefined}
-                  key={intent}
-                >
-                  {intent} {count}
-                </Link>
-              ) : null;
-            })}
-          </nav>
           <div className="faq-question-groups">
             {questionGroups.map((group) => (
               <section className="faq-question-group" aria-labelledby={`faq-intent-${group.intent}`} key={group.intent}>

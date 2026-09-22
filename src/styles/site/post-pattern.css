@@ -14,14 +14,15 @@
 
 .clinic-guide__details {
   display: grid;
-  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.2fr);
-  align-items: start;
-  gap: 24px;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 20px;
 }
 
-.clinic-guide__label {
-  color: var(--madi-text-muted);
-  font-size: 13px;
+.clinic-guide__symbol {
+  display: block;
+  width: 80px;
+  height: 50px;
+  object-fit: contain;
 }
 
 .clinic-guide__intro h2 {
@@ -116,12 +117,16 @@
 }
 
 @media (max-width: 660px) {
-  .clinic-guide { padding: 24px 20px; }
-  .clinic-guide__details { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+  .clinic-guide { padding: 20px; }
+  .clinic-guide__details { gap: 12px; }
+  .clinic-guide__intro { text-align: center; }
+  .clinic-guide__symbol { width: 72px; height: 45px; margin-inline: auto; }
+  .clinic-guide .clinic-guide__note { margin-top: 16px; }
+  .clinic-guide__actions { margin-top: 20px; }
 }
 
 @media (max-width: 520px) {
-  .clinic-guide__actions { grid-template-columns: minmax(0, 1fr); gap: 16px; }
+  .clinic-guide__actions { grid-template-columns: minmax(0, 1fr); gap: 12px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

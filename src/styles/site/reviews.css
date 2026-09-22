@@ -60,8 +60,6 @@
   align-items: baseline;
   justify-content: space-between;
   gap: var(--madi-space-3);
-  padding-bottom: var(--madi-space-3);
-  border-bottom: 1px solid var(--madi-border);
 }
 
 .review-related__head h2 {
@@ -95,13 +93,7 @@
 .review-card {
   position: relative;
   min-width: 0;
-  border-top: 2px solid var(--madi-border);
   background: var(--madi-bg);
-  transition: border-color 0.3s ease;
-}
-
-.review-card:has(.review-card__title-link:hover) {
-  border-top-color: var(--madi-primary);
 }
 
 .review-card__link {
