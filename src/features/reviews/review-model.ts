@@ -6,7 +6,7 @@ import { removeEmDashes } from '../cms/content-text';
 import { reviewsIndexMetadata, reviewTitleWithSuffix } from './review-content';
 
 export const REVIEW_COLLECTION_KEY = 'reviews';
-const REVIEWS_PER_PAGE = 12;
+const REVIEWS_PER_PAGE = 10;
 
 /** 주소 계산에 필요한 최소 글 — `path` 는 cms-client 가 내려주면(0.56+) 자동으로 채워진다. */
 export type ReviewPathInput = Pick<CmsPostContent, 'slug'> & { readonly path?: string | null };

@@ -138,10 +138,28 @@ describe('진료 영역 화면', () => {
 });
 
 describe('세부 질환 화면', () => {
+  test('질문을 10건씩 나누고 질문 성격 필터를 페이지 링크에 유지한다', () => {
+    const entries = Array.from({ length: 23 }, (_, index) => ({
+      ...entry, slug: `question-${index}`, question: `질문 번호 ${index}`,
+    }));
+    const html = renderToStaticMarkup(<FaqTopicPage
+      collection={faqFixtureCollection({ archive: { source: 'cms', entries } })}
+      section={section} topic={topic} selectedIntent="검사와 진단" requestedPage={2} />);
+    expect(html.match(/class="faq-question-list__mark"/g)).toHaveLength(10);
+    expect(html).toContain('질문 번호 10</strong>');
+    expect(html).toContain('질문 번호 19</strong>');
+    expect(html).not.toContain('질문 번호 0</strong>');
+    expect(html).toContain('intent=%EA%B2%80%EC%82%AC%EC%99%80+%EC%A7%84%EB%8B%A8&amp;page=3#faq-question-list');
+    expect(html).toContain('aria-current="page" aria-label="2페이지"');
+  });
+
   test('질문 성격 필터와 Q·A 목록, 상세 보기 링크를 렌더한다', () => {
     const html = topicPage();
 
     expect(html).toContain('class="faq-filter"');
+    expect(html).toContain('aria-label="FAQ 진료 영역"');
+    expect(html).toContain('aria-label="FAQ 세부 질환"');
+    expect(html).toContain('href="/faq/spine/disc"');
     expect(html).toContain('전체 2');
     expect(html).toContain('class="faq-question-list__mark">Q.</span>');
     expect(html).toMatch(/faq-question-list__answer"><b>A\.<\/b><span>/u);

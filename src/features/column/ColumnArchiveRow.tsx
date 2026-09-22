@@ -56,6 +56,9 @@ export default function ColumnArchiveRow({ entry }: ColumnArchiveRowProps) {
           </h3>
           <span className="column-card__excerpt">{entry.description}</span>
           <span className="column-card__meta">
+            <Link className="column-card__category" href={entry.category.path}>
+              {entry.category.name}
+            </Link>
             <a className="column-card__author" href={DOCTOR_PROFILE_HREF}>
               {POST_AUTHOR_NAME}
             </a>

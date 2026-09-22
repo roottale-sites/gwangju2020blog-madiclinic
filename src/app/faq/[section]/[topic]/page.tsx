@@ -8,6 +8,7 @@ import { faqTitleWithSuffix } from '../../../../features/faq/faq-content';
 import { FAQ_INTENTS, faqTopicPath, type FaqIntent } from '../../../../features/faq/faq-model';
 import { faqSectionBySlug, faqTopicBySlug } from '../../../../features/faq/faq-registry';
 import { resolveFaqCollection } from '../../../../features/faq/faq-source';
+import { parseFaqPageNumber } from '../../../../features/faq/faq-pagination';
 
 export const dynamic = 'force-dynamic';
 
@@ -41,13 +42,15 @@ export async function generateMetadata({ params, searchParams }: Props): Promise
   if (collection.status !== 'ok') return faqStateMetadata(collection.status);
   if (!section || !topic) return {};
   const path = faqTopicPath(section.slug, topic.slug);
-  const intent = selectedIntent((await searchParams).intent);
+  const query = await searchParams;
+  const intent = selectedIntent(query.intent);
+  const page = parseFaqPageNumber(Array.isArray(query.page) ? query.page[0] : query.page);
   return {
     title: { absolute: faqTitleWithSuffix(topic.pageTitle) },
     description: topic.seoDescription,
     // 필터는 같은 질문의 다른 조합이라 색인하지 않고 canonical은 상위 주소로 둔다.
     alternates: { canonical: path },
-    robots: intent ? { index: false, follow: true } : undefined,
+    robots: intent || page > 1 ? { index: false, follow: true } : undefined,
   };
 }
 
@@ -57,12 +60,14 @@ export default async function FaqTopicRoute({ params, searchParams }: Props) {
     return <FaqStatePage pathname={path} status={collection.status} />;
   }
   if (!section || !topic) notFound();
+  const query = await searchParams;
   return (
     <FaqTopicPage
       collection={collection}
       section={section}
       topic={topic}
-      selectedIntent={selectedIntent((await searchParams).intent)}
+      selectedIntent={selectedIntent(query.intent)}
+      requestedPage={parseFaqPageNumber(Array.isArray(query.page) ? query.page[0] : query.page)}
     />
   );
 }

@@ -126,13 +126,13 @@ describe('후기 목록 분류와 페이지', () => {
     expect(filterReviews(posts, null)).toHaveLength(3);
   });
 
-  test('한 페이지에 12건씩 보여 주고 범위를 벗어난 페이지는 마지막으로 낮춘다', () => {
+  test('한 페이지에 10건씩 보여 주고 범위를 벗어난 페이지는 마지막으로 낮춘다', () => {
     const posts = Array.from({ length: 25 }, (_, index) => review({ id: `p${index}` }));
 
     expect(paginateReviews(posts, 1)).toMatchObject({ page: 1, pageCount: 3, total: 25 });
-    expect(paginateReviews(posts, 1).items).toHaveLength(12);
+    expect(paginateReviews(posts, 1).items).toHaveLength(10);
     expect(paginateReviews(posts, 99).page).toBe(3);
-    expect(paginateReviews(posts, 99).items).toHaveLength(1);
+    expect(paginateReviews(posts, 99).items).toHaveLength(5);
   });
 
   test('온전한 양의 정수만 페이지 번호로 허용한다', () => {

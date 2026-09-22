@@ -52,3 +52,30 @@ describe('블로그 데이터 안내', () => {
     expect(html).toContain('블로그 검색 열기');
   });
 });
+
+describe('블로그 검색 해제와 페이지 이동', () => {
+  const entries = Array.from({ length: 23 }, (_, index) => ({ ...entry, slug: `entry-${index}`, title: `테스트 글 ${index}` }));
+
+  test.each(['테스트', '없는 검색어'])('검색 결과 유무와 관계없이 %s 검색을 해제할 수 있다', (searchQuery) => {
+    const html = renderToStaticMarkup(<ColumnArchiveSearch entries={entries} searchQuery={searchQuery}
+      requestedPage={2} basePath="/column/knee" categoryNavigation={null} />);
+    expect(html).toContain('href="/column/knee#column-list-title"');
+    expect(html.match(/전체 글 보기/g)).toHaveLength(1);
+  });
+
+  test('검색된 목록을 10건씩 나누고 다음 페이지 링크에 검색어와 분류를 유지한다', () => {
+    const html = renderToStaticMarkup(<ColumnArchiveSearch entries={entries} searchQuery="테스트"
+      requestedPage={2} basePath="/column/knee" categoryNavigation={null} />);
+    expect(html.match(/class="column-card"/g)).toHaveLength(10);
+    expect(html).toContain('aria-current="page" aria-label="2페이지"');
+    expect(html).toContain('/column/knee?q=%ED%85%8C%EC%8A%A4%ED%8A%B8&amp;page=3#column-list-title');
+    expect(html).not.toContain('테스트 글 0</');
+  });
+
+  test('한 페이지일 때도 현재 페이지를 표시하고 빈 검색 결과에서는 숨긴다', () => {
+    const render = (searchQuery: string) => renderToStaticMarkup(<ColumnArchiveSearch entries={[entry]}
+      searchQuery={searchQuery} requestedPage={1} categoryNavigation={null} />);
+    expect(render('')).toContain('aria-label="블로그 페이지"');
+    expect(render('없음')).not.toContain('aria-label="블로그 페이지"');
+  });
+});

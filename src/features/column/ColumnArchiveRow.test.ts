@@ -57,6 +57,10 @@ describe('블로그 목록 행', () => {
     expect(renderRow(entry())).toContain('무릎 통증의 흔한 원인을 살펴봅니다.');
   });
 
+  test('카드 분류를 누르면 해당 카테고리 목록으로 이동한다', () => {
+    expect(renderRow(entry())).toContain('class="column-card__category" href="/column/knee"');
+  });
+
   test('발행일은 서울 시간대 기준으로 적고 기계용 값도 남긴다', () => {
     const html = renderRow(entry());
 

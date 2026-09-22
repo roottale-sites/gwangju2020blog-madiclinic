@@ -2,6 +2,7 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 
 import '../../styles/site/reviews.css';
+import ArchivePagination from '../../components/site/ArchivePagination';
 import MadiPageFrame from '../../components/madi/MadiPageFrame';
 import JsonLd from '../../components/site/JsonLd';
 import { webPageJsonLd } from '../../features/seo/schema';
@@ -164,44 +165,13 @@ export default async function ReviewsPage({ searchParams }: ReviewsPageProps) {
                 ))}
               </div>
             )}
-            {result.ok && !noResults && reviewPage.pageCount > 1 && (
-              <nav className="reviews-pagination" aria-label="후기 페이지">
-                <div className="reviews-pagination__direction">
-                  {reviewPage.page > 1 && (
-                    <Link
-                      href={reviewsPaginationUrl(reviewPage.page - 1, activeCategory)}
-                      rel="prev"
-                    >
-                      ← 이전
-                    </Link>
-                  )}
-                </div>
-                <ol className="reviews-pagination__pages">
-                  {Array.from({ length: reviewPage.pageCount }, (_, index) => index + 1).map(
-                    (page) => (
-                      <li key={page}>
-                        <Link
-                          href={reviewsPaginationUrl(page, activeCategory)}
-                          aria-current={page === reviewPage.page ? 'page' : undefined}
-                          aria-label={`${page}페이지`}
-                        >
-                          {page}
-                        </Link>
-                      </li>
-                    ),
-                  )}
-                </ol>
-                <div className="reviews-pagination__direction reviews-pagination__direction--next">
-                  {reviewPage.page < reviewPage.pageCount && (
-                    <Link
-                      href={reviewsPaginationUrl(reviewPage.page + 1, activeCategory)}
-                      rel="next"
-                    >
-                      다음 →
-                    </Link>
-                  )}
-                </div>
-              </nav>
+            {result.ok && !noResults && reviewPage.total > 0 && (
+              <ArchivePagination
+                label="후기 페이지"
+                page={reviewPage.page}
+                pageCount={reviewPage.pageCount}
+                hrefForPage={(page) => reviewsPaginationUrl(page, activeCategory)}
+              />
             )}
           </div>
         </section>

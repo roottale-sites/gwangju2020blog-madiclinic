@@ -16,7 +16,22 @@
  */
 
 .faq-detail {
-  max-width: var(--faq-measure);
+  width: 100%;
+  max-width: 720px;
+  margin-inline: auto;
+}
+
+.faq-page .faq-layout:has(> .faq-detail) {
+  grid-template-columns: minmax(0, 720px) var(--faq-sidebar-w);
+  justify-content: center;
+}
+
+.faq-detail .faq-answer-card {
+  font-family: "Pretendard Variable", Pretendard, "Apple SD Gothic Neo", sans-serif;
+}
+
+.faq-detail :is(.faq-detailed-answer, .faq-clinic-perspective) > h3 {
+  margin-bottom: 24px;
 }
 
 .faq-detail__header {
@@ -243,8 +258,8 @@
 /* ==== 반응형 ==== */
 
 @media screen and (max-width: 980px) {
-  .faq-detail {
-    max-width: none;
+  .faq-page .faq-layout:has(> .faq-detail) {
+    grid-template-columns: minmax(0, 720px);
   }
 
   .faq-question-card__header,

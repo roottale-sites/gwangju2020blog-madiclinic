@@ -11,6 +11,7 @@ import {
 import { faqTopicsForSection } from './faq-registry';
 import type { FaqCollection } from './faq-source';
 import FaqPageFrame, { FAQ_BREADCRUMB_ROOT } from './FaqPageFrame';
+import FaqCategoryNav from './FaqCategoryNav';
 import {
   FaqEmpty,
   FaqReviewer,
@@ -56,6 +57,7 @@ export default function FaqSectionPage({ collection, section }: Readonly<{
       <FaqSourceNotice status={collection.status} />
       <div className="faq-layout">
         <div className="faq-layout__main">
+          <FaqCategoryNav collection={collection} sectionSlug={section.slug} />
           {topics.length === 0 ? (
             collection.status === 'ok' ? <FaqEmpty message={faqNotices.emptyTopics} /> : null
           ) : (

@@ -133,9 +133,30 @@
 
 .column-list__tools {
   display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
   align-items: center;
   gap: var(--madi-space-2);
 }
+
+.column-list__result {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.column-search__reset {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  color: var(--madi-text-strong);
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.column-search__reset span { transition: transform 300ms cubic-bezier(.22, 1, .36, 1); }
+.column-search__reset:is(:hover, :focus-visible) span { transform: rotate(-45deg); }
 
 .column-search {
   display: grid;
@@ -199,6 +220,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .column-search, .column-search__panel, .column-search .column-search__toggle { transition: none; }
+  .column-search__reset span { transition: none; }
 }
 
 .column-search label {
@@ -407,62 +429,6 @@ a.column-card__author:hover {
 .column-card__link:has(.column-card__title-link:focus-visible) {
   outline: 2px solid var(--madi-primary);
   outline-offset: calc(2px * -1);
-}
-
-.column-pagination {
-  display: grid;
-  grid-template-columns: minmax(44px, 1fr) auto minmax(44px, 1fr);
-  align-items: center;
-  gap: var(--madi-space-4);
-  margin-top: var(--madi-space-5);
-  padding-top: var(--madi-space-4);
-  border-top: 1px solid var(--madi-border-strong);
-}
-
-.column-pagination :is(a, button) {
-  display: inline-flex;
-  min-width: 44px;
-  min-height: 44px;
-  align-items: center;
-  justify-content: center;
-  border: 0;
-  background: transparent;
-  color: var(--madi-text-strong);
-  cursor: pointer;
-  font-size: var(--madi-fs-lg);
-  font-weight: 500;
-  line-height: var(--madi-lh-body);
-  text-decoration: none;
-}
-
-.column-pagination :is(a, button):hover,
-.column-pagination :is(a, button):focus-visible {
-  background: var(--madi-bg-panel);
-  color: var(--madi-primary-hover);
-}
-
-.column-pagination :is(a, button):focus-visible {
-  outline: 2px solid var(--madi-primary);
-  outline-offset: 2px;
-}
-
-.column-pagination__direction--next {
-  text-align: right;
-}
-
-.column-pagination__pages {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: var(--madi-space-1);
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.column-pagination__pages :is(a, button)[aria-current='page'] {
-  background: var(--madi-tab-active);
-  color: var(--madi-text-inverse);
 }
 
 /* 빈 목록도 같은 패널·타입 역할을 쓴다. */
@@ -1057,25 +1023,6 @@ a.column-card__author:hover {
     content: '\00B7';
   }
 
-  .column-pagination {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: var(--madi-space-2);
-    margin-top: var(--madi-space-4);
-  }
-
-  .column-pagination__pages {
-    grid-column: 1 / -1;
-    grid-row: 1;
-  }
-
-  .column-pagination__direction {
-    grid-column: 1;
-    grid-row: 2;
-  }
-
-  .column-pagination__direction--next {
-    grid-column: 2;
-  }
 
   .column-empty {
     margin-top: var(--madi-space-5);

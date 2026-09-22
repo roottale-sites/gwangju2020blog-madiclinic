@@ -57,6 +57,7 @@ describe('후기 카드', () => {
     );
 
     expect(markup).toContain('무릎');
+    expect(markup).toContain('href="/reviews?category=%EB%AC%B4%EB%A6%8E"');
     expect(markup).toContain('2026년 9월 15일');
     expect(markup).toContain('무릎 통증 치료 경험담입니다.');
   });
@@ -64,7 +65,7 @@ describe('후기 카드', () => {
 
 test('후기는 지정 글쓴이만 표시하고 더보기 문구를 생략한다', () => {
   const markup = renderToStaticMarkup(createElement(ReviewCard, { post: review({ metaJson: { copiedFrom: { name: 'headnerve', url: 'https://headnerve.com/reviews/example' } } }) }));
-  expect(markup).toContain('<dt>글쓴이</dt>');
+  expect(markup).toContain('<dt class="community-sr-only">글쓴이</dt>');
   expect(markup).toContain(`href="${mainSiteOrigin}/doctor/doctor01.html"`);
   expect(markup).not.toContain('자세히 보기');
   expect(markup).not.toContain('headnerve');

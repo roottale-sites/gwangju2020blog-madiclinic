@@ -509,3 +509,10 @@
     transition: none;
   }
 }
+.faq-layout__main#faq-question-list {
+  scroll-margin-top: calc(var(--madi-header-h) + 24px);
+}
+
+.faq-category-nav { margin-bottom: 24px; }
+.faq-category-nav .faq-filter { margin-bottom: 12px; }
+.faq-category-nav .faq-filter--topics { font-size: 14px; }

@@ -59,7 +59,11 @@ export default function ReviewCard({ post }: ReviewCardProps) {
         </figure>
         <div className="review-card__body">
           <div className="review-card__topline">
-            {metadata.category && <span>{metadata.category}</span>}
+            {metadata.category && (
+              <Link className="review-card__category" href={`/reviews?${new URLSearchParams({ category: metadata.category })}`}>
+                {metadata.category}
+              </Link>
+            )}
             {date && <time dateTime={post.publishedAt}>{date}</time>}
           </div>
           <h3>
@@ -73,7 +77,7 @@ export default function ReviewCard({ post }: ReviewCardProps) {
               {metadata.patient && <div><dt>환자</dt><dd>{metadata.patient}</dd></div>}
               {metadata.doctor && (
                 <div>
-                  <dt>글쓴이</dt>
+                  <dt className="community-sr-only">글쓴이</dt>
                   <dd>
                     {isRepresentativeDoctor(metadata.doctor) ? (
                       <a className="review-card__doctor" href={DOCTOR_PROFILE_HREF}>

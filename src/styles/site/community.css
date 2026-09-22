@@ -100,7 +100,7 @@
 }
 
 /* overflow:hidden은 별도 스크롤 컨테이너를 만들어 목차 sticky를 막는다. */
-#subContainer:has(.column-detail) {
+#subContainer:has(.column-detail, .faq-detail) {
   overflow: clip;
 }
 
@@ -151,6 +151,18 @@ main.community-content a[href] {
 main.community-content a[href]:is(:hover, :active, :focus-visible) {
   text-decoration-color: currentColor;
 }
+
+/* 카드는 면·글자색 변화로 반응한다. 여러 줄을 한꺼번에 밑줄 긋지 않는다. */
+main.community-content :is(.column-card, .review-card, .faq-topic-list, .faq-question-list) a[href],
+main.community-content a.faq-section-card[href] {
+  text-decoration-line: none;
+}
+
+.column-card .column-card__meta { gap: 12px; }
+.column-card a.column-card__category,
+.review-card a.review-card__category { position: relative; z-index: 1; color: var(--madi-link); }
+.column-card a.column-card__category:hover,
+.review-card a.review-card__category:hover { color: var(--madi-primary-hover); }
 
 @media (prefers-reduced-motion: reduce) {
   main.community-content a[href] { transition: none; }
