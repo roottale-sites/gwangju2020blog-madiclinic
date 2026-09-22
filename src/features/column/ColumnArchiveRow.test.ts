@@ -67,17 +67,17 @@ describe('블로그 목록 행', () => {
   test('지은이를 누르면 본 사이트 원장 프로필로 가고, 제목 링크와 겹치지 않는다', () => {
     const html = renderRow(entry());
 
-    expect(html).toContain(`href="${mainSiteOrigin}/doctor/doctor02.html"`);
-    expect(html).toContain('광주 남구 마디클리닉 이경무 원장');
+    expect(html).toContain(`href="${mainSiteOrigin}/doctor/doctor01.html"`);
+    expect(html).toContain('이경무 원장');
     // 링크 안에 링크를 넣으면 브라우저가 DOM을 쪼갠다. 행 전체 링크는 제목 하나로만 편다.
     expect(html).toContain('class="column-card__title-link"');
     expect(html).not.toContain('class="column-card__link" href=');
   });
 });
 
- test('복사한 글은 마디클리닉 원장 대신 원문을 표시한다', () => {
+ test('복사 메타데이터가 있어도 지정 글쓴이를 표시한다', () => {
   const html = renderRow(entry({ copiedFrom: { name: 'headnerve', url: 'https://headnerve.com/column/headache/example' } }));
-  expect(html).toContain('원문: headnerve');
-  expect(html).toContain('href="https://headnerve.com/column/headache/example"');
-  expect(html).not.toContain('이경무 원장');
+  expect(html).not.toContain('원문: headnerve');
+  expect(html).toContain(`href="${mainSiteOrigin}/doctor/doctor01.html"`);
+  expect(html).toContain('이경무 원장');
 });

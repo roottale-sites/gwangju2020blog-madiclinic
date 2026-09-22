@@ -5,10 +5,9 @@ import type { ReactNode } from 'react';
 
 import MadiPageFrame from '../../components/madi/MadiPageFrame';
 import JsonLd from '../../components/site/JsonLd';
-import { clinic } from '../../data/clinic';
 import { siteUrl } from '../../data/site';
 import ClinicGuide from '../clinic-guide/ClinicGuide';
-import { DOCTOR_PROFILE_HREF } from '../clinic/doctor-profile-link';
+import { DOCTOR_PROFILE_HREF, POST_AUTHOR_NAME } from '../clinic/doctor-profile-link';
 import { articleJsonLd, webPageJsonLd } from '../seo/schema';
 import ColumnTableOfContents from './ColumnTableOfContents';
 import { columnBreadcrumb } from './ColumnArchive';
@@ -109,7 +108,6 @@ export function ColumnDetailView({
             headline: entry.title,
             description: entry.description,
             publishedAt: entry.publishedAt,
-            source: entry.copiedFrom,
             ...(entry.shareImageUrl ? { image: entry.shareImageUrl } : {}),
           }),
         ]}
@@ -124,11 +122,7 @@ export function ColumnDetailView({
                 <div className="column-detail__header-foot">
                   <p className="column-detail__byline">
                     <span>
-                      {entry.copiedFrom ? (
-                        <>원문: <a href={entry.copiedFrom.url}>{entry.copiedFrom.name}</a></>
-                      ) : (
-                        <>{clinic.name}{' '}<a href={DOCTOR_PROFILE_HREF}>{clinic.representative} 원장</a></>
-                      )}
+                      <a href={DOCTOR_PROFILE_HREF}>{POST_AUTHOR_NAME}</a>
                     </span>
                     <time dateTime={entry.publishedAt}>{formatColumnDate(entry.publishedAt)}</time>
                   </p>

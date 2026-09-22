@@ -45,7 +45,7 @@ export function faqDetailOutline(
     s.question,
     s.coreAnswer,
     ...(entry.bodyHtml ? [s.detailedAnswer] : []),
-    ...(entry.clinicPerspectiveHtml ? [{ ...s.clinicPerspective, title: entry.copiedFrom ? '원문 병원 관점' : s.clinicPerspective.title }] : []),
+    ...(entry.clinicPerspectiveHtml ? [s.clinicPerspective] : []),
     ...(relatedCount > 0 ? [s.relatedQuestions] : []),
   ];
 }

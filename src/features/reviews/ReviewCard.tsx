@@ -73,9 +73,9 @@ export default function ReviewCard({ post }: ReviewCardProps) {
               {metadata.patient && <div><dt>환자</dt><dd>{metadata.patient}</dd></div>}
               {metadata.doctor && (
                 <div>
-                  <dt>{metadata.copiedFrom ? '원문' : '담당'}</dt>
+                  <dt>글쓴이</dt>
                   <dd>
-                    {metadata.copiedFrom ? (<a href={metadata.copiedFrom.url}>{metadata.copiedFrom.name}</a>) : isRepresentativeDoctor(metadata.doctor) ? (
+                    {isRepresentativeDoctor(metadata.doctor) ? (
                       <a className="review-card__doctor" href={DOCTOR_PROFILE_HREF}>
                         {metadata.doctor}
                       </a>
@@ -87,9 +87,6 @@ export default function ReviewCard({ post }: ReviewCardProps) {
               )}
             </dl>
           )}
-          <span className="review-card__more">
-            자세히 보기 <span aria-hidden="true">→</span>
-          </span>
         </div>
       </div>
     </article>

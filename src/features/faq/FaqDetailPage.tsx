@@ -68,7 +68,7 @@ export default function FaqDetailPage({ collection, entry, section, topic }: Rea
           </section>
           <section className="faq-answer-card">
             <div className="faq-answer-card__header">
-              <FaqReviewer source={entry.copiedFrom} detail="질문 검토 및 답변 작성" />
+              <FaqReviewer detail="질문 검토 및 답변 작성" />
               <span>{formatFaqAnswerDate(entry.reviewedAt ?? entry.updatedAt)}</span>
             </div>
             <div id={S.coreAnswer.id} className="faq-core-answer">
@@ -83,7 +83,7 @@ export default function FaqDetailPage({ collection, entry, section, topic }: Rea
             )}
             {entry.clinicPerspectiveHtml && (
               <section id={S.clinicPerspective.id} className="faq-clinic-perspective" aria-labelledby={faqDetailHeadingId(S.clinicPerspective)}>
-                <h3 id={faqDetailHeadingId(S.clinicPerspective)}>{entry.copiedFrom ? '원문 병원 관점' : S.clinicPerspective.title}</h3>
+                <h3 id={faqDetailHeadingId(S.clinicPerspective)}>{S.clinicPerspective.title}</h3>
                 <div className="faq-richtext" dangerouslySetInnerHTML={{ __html: entry.clinicPerspectiveHtml }} />
               </section>
             )}
@@ -121,7 +121,7 @@ export default function FaqDetailPage({ collection, entry, section, topic }: Rea
             </nav>
           </FaqSidebarBox>
           <FaqSidebarBox title="답변 작성">
-            <FaqReviewer source={entry.copiedFrom} detail="답변 작성 및 최종 검수" />
+            <FaqReviewer detail="답변 작성 및 최종 검수" />
           </FaqSidebarBox>
         </aside>
       </div>

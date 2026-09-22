@@ -36,10 +36,10 @@ describe('후기 카드', () => {
       createElement(ReviewCard, { post: review({ fields: { doctor_name: '협진 의료진' } }) }),
     );
 
-    expect(own).toContain(`href="${mainSiteOrigin}/doctor/doctor02.html"`);
+    expect(own).toContain(`href="${mainSiteOrigin}/doctor/doctor01.html"`);
     expect(own).toContain('이경무 원장');
     expect(other).toContain('협진 의료진');
-    expect(other).not.toContain('/doctor/doctor02.html');
+    expect(other).not.toContain('/doctor/doctor01.html');
   });
 
   test('제목 링크만 카드 전체로 펼쳐 담당 링크와 겹치지 않는다', () => {
@@ -62,9 +62,11 @@ describe('후기 카드', () => {
   });
 });
 
-test('복사 후기는 원문을 담당 의료진으로 표시하지 않는다', () => {
+test('후기는 지정 글쓴이만 표시하고 더보기 문구를 생략한다', () => {
   const markup = renderToStaticMarkup(createElement(ReviewCard, { post: review({ metaJson: { copiedFrom: { name: 'headnerve', url: 'https://headnerve.com/reviews/example' } } }) }));
-  expect(markup).toContain('<dt>원문</dt>');
-  expect(markup).toContain('href="https://headnerve.com/reviews/example"');
+  expect(markup).toContain('<dt>글쓴이</dt>');
+  expect(markup).toContain(`href="${mainSiteOrigin}/doctor/doctor01.html"`);
+  expect(markup).not.toContain('자세히 보기');
+  expect(markup).not.toContain('headnerve');
   expect(markup).not.toContain('<dt>담당</dt>');
 });

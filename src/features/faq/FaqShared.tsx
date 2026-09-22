@@ -1,8 +1,6 @@
-import type { ContentSource } from '../cms/content-source';
 import type { ReactNode } from 'react';
 
-import { clinic } from '../../data/clinic';
-import { DOCTOR_PROFILE_HREF } from '../clinic/doctor-profile-link';
+import { DOCTOR_PROFILE_HREF, POST_AUTHOR_NAME } from '../clinic/doctor-profile-link';
 import { faqMedicalNote, faqNotices } from './faq-content';
 import type { FaqSourceStatus } from './faq-source';
 
@@ -19,19 +17,11 @@ import type { FaqSourceStatus } from './faq-source';
  */
 
 /** 답변을 쓴 사람. 프로필은 본 사이트가 단일 출처다. */
-export function FaqReviewer({ detail, source }: Readonly<{ detail: string; source?: ContentSource }>) {
-  if (source) {
-    return (
-      <div className="faq-reviewer">
-        <a className="faq-reviewer__name" href={source.url}>원문: {source.name}</a>
-        <span className="faq-reviewer__detail">원문을 복사한 참고 자료</span>
-      </div>
-    );
-  }
+export function FaqReviewer({ detail }: Readonly<{ detail: string }>) {
   return (
     <div className="faq-reviewer">
       <a className="faq-reviewer__name" href={DOCTOR_PROFILE_HREF}>
-        {clinic.name} {clinic.representative} {clinic.representativeTitle}
+        {POST_AUTHOR_NAME}
       </a>
       <span className="faq-reviewer__detail">{detail}</span>
     </div>

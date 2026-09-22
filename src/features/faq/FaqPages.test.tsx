@@ -124,7 +124,7 @@ describe('진료 영역 화면', () => {
     expect(html).toContain('<strong>목 통증</strong>');
     expect(html).toContain('MRI가 정상인데 목이 계속 아플 수 있나요?');
     expect(html).toContain('척추 통증 질문 목차');
-    expect(html).toContain('이경무 대표원장');
+    expect(html).toContain('이경무 원장');
   });
 
   test('세부 질환이 없으면 안내 문구가 나온다', () => {
@@ -146,7 +146,7 @@ describe('세부 질환 화면', () => {
     expect(html).toContain('class="faq-question-list__mark">Q.</span>');
     expect(html).toMatch(/faq-question-list__answer"><b>A\.<\/b><span>/u);
     expect(html).toContain('href="/faq/spine/neck-pain/mri-normal"');
-    expect(html).toContain('상세 보기');
+    expect(html).not.toContain('상세 보기');
     expect(html).toContain('목 통증 질문 목차');
   });
 
@@ -253,11 +253,10 @@ describe('CMS를 읽지 못하는 하위 단계', () => {
   );
 });
 
-test('복사 FAQ는 원문 작성자와 원문 병원 관점을 표시한다', () => {
-  const html = detail({ copiedFrom: { name: 'headnerve', url: 'https://headnerve.com/faq/example' }, clinicPerspectiveHtml: '<p>원문 관점</p>' });
-  expect(html).toContain('headnerve');
-  expect(html).toContain('href="https://headnerve.com/faq/example"');
-  expect(html).toContain('원문 병원 관점');
-  expect(html).not.toContain('질문 검토 및 답변 작성');
-  expect(html).not.toContain('마디클리닉 관점');
+test('FAQ도 지정 글쓴이와 소개 링크를 표시한다', () => {
+  const html = detail({ copiedFrom: { name: 'headnerve', url: 'https://headnerve.com/faq/example' } });
+  expect(html).toContain('이경무 원장');
+  expect(html).toContain('href="http://gwangju2020.madiclinic.co.kr/doctor/doctor01.html"');
+  expect(html).not.toContain('headnerve');
+  expect(html).not.toContain('원문:');
 });

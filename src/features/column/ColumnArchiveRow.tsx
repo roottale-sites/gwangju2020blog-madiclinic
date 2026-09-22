@@ -1,6 +1,5 @@
 import Link from 'next/link';
-import { DOCTOR_PROFILE_HREF } from '../clinic/doctor-profile-link';
-import { clinic } from '../../data/clinic';
+import { DOCTOR_PROFILE_HREF, POST_AUTHOR_NAME } from '../clinic/doctor-profile-link';
 import { formatColumnDate } from './column-content';
 import { columnEntryPath, type ColumnArchiveEntry } from './column-model';
 
@@ -57,8 +56,8 @@ export default function ColumnArchiveRow({ entry }: ColumnArchiveRowProps) {
           </h3>
           <span className="column-card__excerpt">{entry.description}</span>
           <span className="column-card__meta">
-            <a className="column-card__author" href={entry.copiedFrom?.url ?? DOCTOR_PROFILE_HREF}>
-              {entry.copiedFrom ? `원문: ${entry.copiedFrom.name}` : `${clinic.name} ${clinic.representative} 원장`}
+            <a className="column-card__author" href={DOCTOR_PROFILE_HREF}>
+              {POST_AUTHOR_NAME}
             </a>
           </span>
         </div>
