@@ -86,7 +86,7 @@
   display: grid;
   min-width: 0;
   padding: var(--madi-space-2) 0;
-  grid-template-columns: 8rem minmax(0, 1fr) minmax(5.5rem, auto);
+  grid-template-columns: 11rem minmax(0, 1fr) minmax(5.5rem, auto);
   gap: var(--madi-space-3);
   align-items: center;
   color: inherit;
@@ -95,19 +95,22 @@
 }
 
 .column-card__thumbnail {
+  position: relative;
   display: grid;
   overflow: hidden;
-  /* ROOT-ADMIN 가로형 도판의 실제 1155×634 구도를 목록의 고정 프레임으로 쓴다. */
-  aspect-ratio: 1155 / 634;
+  /* 가로 목록에서는 제목·요약·분류 묶음이 이미지의 위아래 경계를 정한다. */
+  align-self: stretch;
   place-items: center;
   background: var(--madi-bg-panel-title);
 }
 
 .column-card__image {
+  position: absolute;
+  inset: 0;
   display: block;
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover;
   object-position: center;
   transition: transform 0.3s ease;
 }
@@ -707,6 +710,8 @@ a.column-card__author:hover {
 
   .column-card__thumbnail {
     grid-column: 1 / -1;
+    /* 세로 카드에서는 ROOT-ADMIN 가로형 도판의 원본 비율을 유지한다. */
+    aspect-ratio: 1155 / 634;
     margin-bottom: var(--madi-space-2);
     border-radius: var(--madi-radius-md);
     background: var(--madi-bg-panel);
