@@ -9,8 +9,7 @@ import {
   revalidationTargetForModel,
   revalidationTargets,
 } from '../../../features/cms/revalidation';
-import { affectedFaqDetailPaths } from '../../../features/faq/faq-revalidation';
-import { resolveFaqArchive } from '../../../features/faq/faq-source';
+import { FAQ_ALL_CACHE_TAG } from '../../../features/faq/faq-cache';
 
 const MAX_WEBHOOK_BYTES = 64 * 1024;
 
@@ -71,19 +70,10 @@ export async function POST(request: Request): Promise<Response> {
   ) {
     return rejectInvalidation('model_path_mismatch', verification, payload);
   }
-  let paths = payload.paths;
-  if (initialTargets.includes('faq') && verification.event.startsWith('post.')) {
-    // 캐시본이 아니라 CMS를 직접 읽는다 — 방금 발행된 글을 "공개 FAQ 선택"으로 고른
-    // 상세 화면은 캐시본의 관계 필드에 그 글이 없어(발행 전 제외) 갱신 대상에서 빠진다.
-    const archive = await resolveFaqArchive({ fresh: true });
-    paths = [...new Set([
-      ...paths,
-      ...affectedFaqDetailPaths(archive.entries, {
-        paths,
-        ...(payload.postId ? { postId: payload.postId } : {}),
-      }),
-    ])];
-  }
+  const paths = payload.paths;
+  // 관련 답변·예약 링크도 함께 갱신하되 응답 전에 CMS 전체를 다시 조회하지 않는다.
+  // 공개 API 왕복이 웹훅의 5초 제한을 넘길 수 있으므로 FAQ 범위 전체를 무효화한다.
+  const invalidateFaqDependencies = initialTargets.includes('faq') && verification.event.startsWith('post.');
 
   const targets = revalidationTargets(verification.event, paths);
   if (verification.event.startsWith('post.') && targets.length === 0) {
@@ -101,7 +91,10 @@ export async function POST(request: Request): Promise<Response> {
       revalidatePath(path);
       revalidatedPaths.add(path);
     }
-    if (isSiteWideEvent(verification.event)) {
+    if (target === 'faq' && invalidateFaqDependencies) {
+      revalidateTag(FAQ_ALL_CACHE_TAG, { expire: 0 });
+    }
+    if (isSiteWideEvent(verification.event) || (target === 'faq' && invalidateFaqDependencies)) {
       for (const dynamicRoute of TARGET_DYNAMIC_ROUTES[target]) {
         revalidatePath(dynamicRoute, 'page');
       }

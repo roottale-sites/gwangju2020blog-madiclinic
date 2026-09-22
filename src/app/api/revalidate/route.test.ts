@@ -27,16 +27,14 @@ vi.mock('@roottale/cms-client/webhook', () => ({
 }));
 
 /**
- * FAQ 역참조 무효화는 CMS를 직접 읽는다(`{ fresh: true }`). 그 경계도 모킹해
- * 라우트의 배선만 본다 — 원장 계산은 `features/faq/faq-revalidation` 자체
- * 테스트가 덮는다.
+ * 웹훅 응답이 FAQ 공개 API 조회에 의존하지 않는지 검증한다.
+ * 의도적으로 끝나지 않는 조회를 주입해 과거의 응답 지연을 재현한다.
  */
 vi.mock('../../../features/faq/faq-source', () => ({
   resolveFaqArchive: (...args: unknown[]) => resolveFaqArchive(...args),
 }));
 
 const { GET, POST } = await import('./route');
-const { faqFixtureEntries } = await import('../../../features/faq/faq-fixture');
 
 function webhookRequest(body: unknown, headers: Record<string, string> = {}): Request {
   return new Request('https://gwangju2020blog.madiclinic.co.kr/api/revalidate', {
@@ -147,12 +145,16 @@ describe('FAQ 웹훅 무효화 배선', () => {
     expect(revalidateTag.mock.calls).toEqual([
       ['faq:archive', { expire: 0 }],
       ['faq:detail:faq.spine.neck-pain.mri-normal', { expire: 0 }],
+      ['faq:all', { expire: 0 }],
     ]);
     expect(revalidatePath.mock.calls).toEqual([
       ['/faq'],
       ['/faq-sitemap.xml'],
       ['/sitemap.xml'],
       [detailPath],
+      ['/faq/[section]', 'page'],
+      ['/faq/[section]/[topic]', 'page'],
+      ['/faq/[section]/[topic]/[slug]', 'page'],
     ]);
   });
 
@@ -161,41 +163,16 @@ describe('FAQ 웹훅 무효화 배선', () => {
    * 한다. 그 화면은 자기 캐시 태그가 무효화되지 않으면 옛 관련 목록·옛 문구를
    * 하루 동안 그대로 보여 준다.
    */
-  test('역참조한 FAQ 상세와 그 캐시 태그까지 함께 무효화한다', async () => {
-    resolveFaqArchive.mockResolvedValue({
-      source: 'cms',
-      entries: [
-        { ...faqFixtureEntries[1]!, relatedContentIds: ['post-neck-mri'] },
-        { ...faqFixtureEntries[3]!, referencedContentKeys: ['faq.spine.neck-pain.mri-normal'] },
-        faqFixtureEntries[2]!,
-      ],
-    });
-
+  test('FAQ CMS 조회가 지연되어도 관련 답변 전체를 무효화하고 바로 응답한다', async () => {
+    resolveFaqArchive.mockImplementation(() => new Promise(() => {}));
     const response = await POST(webhookRequest({
-      paths: ['/faq/spine/neck-pain/mri-normal'],
-      postId: 'post-neck-mri',
+      paths: ['/faq/spine/neck-pain/mri-normal'], postId: 'post-neck-mri',
     }));
-
-    expect(resolveFaqArchive).toHaveBeenCalledWith({ fresh: true });
-    await expect(response.json()).resolves.toEqual({
-      ok: true,
-      revalidated: true,
-      paths: [
-        '/faq',
-        '/faq-sitemap.xml',
-        '/sitemap.xml',
-        '/faq/spine/neck-pain/mri-normal',
-        '/faq/spine/neck-pain/desk-posture',
-        '/faq/joint/knee/how-long',
-      ],
-    });
-    expect(revalidateTag.mock.calls).toEqual([
-      ['faq:archive', { expire: 0 }],
-      ['faq:detail:faq.spine.neck-pain.mri-normal', { expire: 0 }],
-      ['faq:detail:faq.spine.neck-pain.desk-posture', { expire: 0 }],
-      ['faq:detail:faq.joint.knee.how-long', { expire: 0 }],
-    ]);
-  });
+    expect(response.status).toBe(200);
+    expect(resolveFaqArchive).not.toHaveBeenCalled();
+    expect(revalidateTag).toHaveBeenCalledWith('faq:all', { expire: 0 });
+    expect(revalidatePath).toHaveBeenCalledWith('/faq/[section]/[topic]/[slug]', 'page');
+  }, 1000);
 
   test('칼럼·후기 웹훅은 FAQ 원장을 읽지 않는다', async () => {
     await POST(webhookRequest({ paths: ['/column/spine/새-글'] }));
