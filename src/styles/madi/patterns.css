@@ -10,7 +10,7 @@
  *
  * 정본과 다르게 옮긴 곳
  *   - 이미지 경로 ../img/ -> /madi/img/
- *     (서브 탭 내비)는 블로그에 없어서 옮기지 않았다
+ *   - 서브 메뉴와 위치 표시줄 조작 스타일은 navigation.css가 담당한다
  *   - 푸터의 .nabyArea(제작사 크레딧·관리자 로그인)와 .BtGoTop은 이 사이트의
  *     것이 아니라 옮기지 않았다
  *   - 헤더 글꼴·body 기본값은 src/styles/madi/header.css가 이미 선언한다
@@ -169,12 +169,7 @@ table tr th:last-child {border-right: 0;}
 		.whereIsLine ul.whereIs {min-width: min(100%, 960px);}
 	}
 
-	/*
-	 * 원본의 브레드크럼 칸은 글자 + 형제 메뉴 드롭다운(ul.depthMenu)이다.
-	 * 블로그는 드롭다운 대신 상위 칸을 링크로 두므로(MadiBreadcrumb 주석 참고),
-	 * 칸 안의 a가 baseStyle의 `a {color: #444}`를 물려받아 색이 달라진다.
-	 * 칸의 글자 속성을 그대로 쓰게 되돌린다. 원본 화면과 같은 색·크기다.
-	 */
+	/* 깊은 CMS 분류의 상위 링크도 원본 위치 표시줄의 글자 속성을 따른다. */
 	.whereIsLine ul.whereIs > li > a {color: inherit; font-size: inherit; font-weight: inherit; letter-spacing: inherit;}
 	.whereIsLine ul.whereIs > li:nth-child(1) > a {font-size: 0;}
 

@@ -83,9 +83,9 @@ export default function MadiHeader({ pathname }: Readonly<{ pathname: string }>)
               {gnb.map((item, index) => {
                 const itemActive = blogActive && item.href.startsWith('/');
                 return (
-                  <li key={item.label} className={itemActive ? 'clearFix on' : 'clearFix'}>
+                  <li key={item.label} className={itemActive ? 'clearFix fix' : 'clearFix'}>
                     <div className="menuLine" />
-                    <a href={item.href} className="subHave">
+                    <a href={item.href} className="subHave" aria-current={itemActive ? 'true' : undefined}>
                       {item.label}
                     </a>
                     <ul className={`subMenu sm0${index + 1} clearFix`}>
@@ -94,7 +94,7 @@ export default function MadiHeader({ pathname }: Readonly<{ pathname: string }>)
                         const childActive = blogActive && isNavChildActive(child.href, pathname);
                         return (
                           <li key={child.label} className={childActive ? 'on clearFix' : undefined}>
-                            <a href={child.href}>{child.label}</a>
+                            <a href={child.href} aria-current={childActive ? 'page' : undefined}>{child.label}</a>
                           </li>
                         );
                       })}

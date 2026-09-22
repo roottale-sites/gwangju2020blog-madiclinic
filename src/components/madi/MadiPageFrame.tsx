@@ -1,10 +1,12 @@
 import type { ReactNode } from 'react';
 
 import MadiBreadcrumb from './MadiBreadcrumb';
+import MadiCommunityNav from './MadiCommunityNav';
 import MadiFooter from './MadiFooter';
 import MadiHeader from './MadiHeader';
 import MadiSubVisual, { type MadiBannerNo } from './MadiSubVisual';
 import type { SchemaBreadcrumb } from '../../features/seo/schema';
+import { isBlogPath } from '../../data/nav';
 
 /**
  * 모든 페이지의 공통 골격(PLAN.md §2.2).
@@ -35,6 +37,7 @@ export default function MadiPageFrame({
     <>
       <MadiHeader pathname={pathname} />
       <MadiSubVisual title={title} banner={banner} />
+      {isBlogPath(pathname) ? <MadiCommunityNav pathname={pathname} /> : null}
       <div id="subContainer" className="clearFix">
         <MadiBreadcrumb crumbs={crumbs} selfPath={pathname} />
         <main id="main" className="cBoxArea clearFix">

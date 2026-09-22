@@ -12,6 +12,17 @@ export const mainSiteOrigin = 'http://gwangju2020.madiclinic.co.kr';
 export type NavChild = Readonly<{ label: string; href: string }>;
 export type NavItem = Readonly<{ label: string; href: string; children: readonly NavChild[] }>;
 
+/** GNB·서브 메뉴·위치 표시줄이 함께 사용하는 커뮤니티 연결. */
+export const communityNav: NavItem = {
+  label: '커뮤니티',
+  href: '/column',
+  children: [
+    { label: '블로그', href: '/column' },
+    { label: '자주 묻는 질문', href: '/faq' },
+    { label: '후기', href: '/reviews' },
+  ],
+};
+
 /** 1차 메뉴. 폭은 원본과 같은 header.css 값이다(95/95/95/140/95 = 520px). */
 export const gnb: readonly NavItem[] = [
   {
@@ -49,18 +60,10 @@ export const gnb: readonly NavItem[] = [
       { label: 'IVNT', href: `${mainSiteOrigin}/special/special05.html` },
     ],
   },
-  {
-    label: '커뮤니티',
-    href: '/column',
-    children: [
-      { label: '블로그', href: '/column' },
-      { label: '자주 묻는 질문', href: '/faq' },
-      { label: '후기', href: '/reviews' },
-    ],
-  },
+  communityNav,
 ];
 
-/** 이 저장소가 담당하는 블로그 라우트. 현재 경로가 이 중 하나면 `커뮤니티`에 `on`. */
+/** 이 저장소가 담당하는 블로그 라우트. 현재 경로가 이 중 하나면 `커뮤니티`에 원본의 `fix`. */
 const blogPrefixes = ['/column', '/reviews', '/faq'] as const;
 
 /** 블로그 라우트 여부. `/column/foo`처럼 하위 경로도 포함한다. */
