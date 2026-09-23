@@ -151,13 +151,13 @@ export function shouldRevalidate(event: string, paths: readonly string[]): boole
 /**
  * 컬렉션별로 항상 무효화해야 하는 고정 경로.
  *
- * 후기·칼럼은 목록 외에 사이트맵·RSS 라우트도 같은 24시간 캐시를 쓴다. 이걸 빼면
+ * 각 컬렉션은 목록 외에 사이트맵·RSS 라우트도 같은 24시간 캐시를 쓴다. 이걸 빼면
  * ROOT-ADMIN에서 새 글을 발행해도 하루 동안 구독 피드에 안 나타날 수 있다.
  */
 const TARGET_FIXED_PATHS: Record<RevalidationTarget, readonly string[]> = {
-  reviews: ['/reviews', '/reviews-sitemap.xml', '/reviews/rss.xml', '/sitemap.xml'],
-  column: ['/column', '/column-sitemap.xml', '/column/rss.xml', '/sitemap.xml'],
-  faq: ['/faq', '/faq-sitemap.xml', '/sitemap.xml'],
+  reviews: ['/reviews', '/reviews-sitemap.xml', '/reviews/sitemap.xml', '/reviews/rss.xml', '/sitemap.xml'],
+  column: ['/column', '/column-sitemap.xml', '/column/sitemap.xml', '/column/rss.xml', '/sitemap.xml'],
+  faq: ['/faq', '/faq-sitemap.xml', '/faq/sitemap.xml', '/faq/rss.xml', '/sitemap.xml'],
 };
 
 /**

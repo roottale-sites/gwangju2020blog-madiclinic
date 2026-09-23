@@ -10,12 +10,19 @@ import { resolveColumnArchive, resolveColumnCategories } from '../../features/co
  * 아래 테스트가 둘을 대조한다(`column-sitemap.test.ts`).
  */
 export const revalidate = 86400;
+export const dynamic = 'force-dynamic';
 
 export async function GET(): Promise<Response> {
   const [archive, categories] = await Promise.all([
     resolveColumnArchive(),
     resolveColumnCategories(),
   ]);
+  if (archive.status !== 'ok' || categories.status !== 'ok') {
+    return new Response('Column sitemap is temporarily unavailable.', {
+      status: 503,
+      headers: { 'cache-control': 'no-store', 'retry-after': '300' },
+    });
+  }
   return new Response(buildColumnSitemapXml(archive.entries, categories.categories), {
     headers: {
       'content-type': 'application/xml; charset=utf-8',

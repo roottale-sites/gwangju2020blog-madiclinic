@@ -83,6 +83,7 @@ describe('무효화 경로 구성', () => {
     expect(revalidationPathsFor('column', [])).toEqual([
       '/column',
       '/column-sitemap.xml',
+      '/column/sitemap.xml',
       '/column/rss.xml',
       '/sitemap.xml',
     ]);
@@ -92,6 +93,7 @@ describe('무효화 경로 구성', () => {
     expect(revalidationPathsFor('column', ['/column/새-글', '/reviews/other'])).toEqual([
       '/column',
       '/column-sitemap.xml',
+      '/column/sitemap.xml',
       '/column/rss.xml',
       '/sitemap.xml',
       '/column/새-글',
@@ -102,6 +104,7 @@ describe('무효화 경로 구성', () => {
     expect(revalidationPathsFor('reviews', ['/reviews/sample', '/column/other'])).toEqual([
       '/reviews',
       '/reviews-sitemap.xml',
+      '/reviews/sitemap.xml',
       '/reviews/rss.xml',
       '/sitemap.xml',
       '/reviews/sample',
@@ -112,6 +115,7 @@ describe('무효화 경로 구성', () => {
     expect(revalidationPathsFor('column', ['/column', '/column'])).toEqual([
       '/column',
       '/column-sitemap.xml',
+      '/column/sitemap.xml',
       '/column/rss.xml',
       '/sitemap.xml',
     ]);
@@ -121,6 +125,8 @@ describe('무효화 경로 구성', () => {
     expect(revalidationPathsFor('faq', ['/faq/headache/migraine/sample', '/column/other'])).toEqual([
       '/faq',
       '/faq-sitemap.xml',
+      '/faq/sitemap.xml',
+      '/faq/rss.xml',
       '/sitemap.xml',
       '/faq/headache/migraine/sample',
     ]);

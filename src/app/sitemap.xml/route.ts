@@ -7,9 +7,10 @@ import { REVIEW_ARCHIVE_LASTMOD, reviewSitemapLastModified } from '../../feature
 import { buildSiteSitemapIndexXml } from '../../features/seo/site-sitemap';
 
 export const revalidate = 86400;
+export const dynamic = 'force-dynamic';
 
 /**
- * 사이트맵 인덱스. `public/robots.txt`가 가리키는 유일한 입구다.
+ * 사이트맵 인덱스. `/robots.txt`가 가리키는 유일한 입구다.
  *
  * 자식 4개(정적 목록·후기·칼럼·FAQ)는 CMS 상태와 무관하게 언제나 나열한다 —
  * 지금 읽을 수 없는 컬렉션을 인덱스에서 빼면 크롤러가 그 주소들을 사라진 것으로

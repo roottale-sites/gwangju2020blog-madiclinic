@@ -69,6 +69,7 @@ describe('칼럼 웹훅 무효화 배선', () => {
       paths: [
         '/column',
         '/column-sitemap.xml',
+        '/column/sitemap.xml',
         '/column/rss.xml',
         '/sitemap.xml',
         '/column/headache',
@@ -85,6 +86,7 @@ describe('칼럼 웹훅 무효화 배선', () => {
     expect(revalidatePath.mock.calls).toEqual([
       ['/column'],
       ['/column-sitemap.xml'],
+      ['/column/sitemap.xml'],
       ['/column/rss.xml'],
       ['/sitemap.xml'],
       ['/column/headache'],
@@ -114,16 +116,20 @@ describe('칼럼 웹훅 무효화 배선', () => {
     expect(revalidatePath.mock.calls).toEqual([
       ['/reviews'],
       ['/reviews-sitemap.xml'],
+      ['/reviews/sitemap.xml'],
       ['/reviews/rss.xml'],
       ['/sitemap.xml'],
       ['/reviews/[slug]', 'page'],
       ['/column'],
       ['/column-sitemap.xml'],
+      ['/column/sitemap.xml'],
       ['/column/rss.xml'],
       ['/column/[category]', 'page'],
       ['/column/[category]/[slug]', 'page'],
       ['/faq'],
       ['/faq-sitemap.xml'],
+      ['/faq/sitemap.xml'],
+      ['/faq/rss.xml'],
       ['/faq/[section]', 'page'],
       ['/faq/[section]/[topic]', 'page'],
       ['/faq/[section]/[topic]/[slug]', 'page'],
@@ -141,7 +147,7 @@ describe('FAQ 웹훅 무효화 배선', () => {
     await expect(response.json()).resolves.toEqual({
       ok: true,
       revalidated: true,
-      paths: ['/faq', '/faq-sitemap.xml', '/sitemap.xml', detailPath],
+      paths: ['/faq', '/faq-sitemap.xml', '/faq/sitemap.xml', '/faq/rss.xml', '/sitemap.xml', detailPath],
     });
     expect(revalidateTag.mock.calls).toEqual([
       ['faq:archive', { expire: 0 }],
@@ -151,6 +157,8 @@ describe('FAQ 웹훅 무효화 배선', () => {
     expect(revalidatePath.mock.calls).toEqual([
       ['/faq'],
       ['/faq-sitemap.xml'],
+      ['/faq/sitemap.xml'],
+      ['/faq/rss.xml'],
       ['/sitemap.xml'],
       [detailPath],
       ['/faq/[section]', 'page'],
@@ -191,7 +199,7 @@ describe('후기 웹훅 무효화 배선', () => {
     await expect(response.json()).resolves.toEqual({
       ok: true,
       revalidated: true,
-      paths: ['/reviews', '/reviews-sitemap.xml', '/reviews/rss.xml', '/sitemap.xml', '/reviews/sample'],
+      paths: ['/reviews', '/reviews-sitemap.xml', '/reviews/sitemap.xml', '/reviews/rss.xml', '/sitemap.xml', '/reviews/sample'],
     });
     expect(revalidateTag.mock.calls).toEqual([
       ['reviews:archive', { expire: 0 }],
@@ -200,6 +208,7 @@ describe('후기 웹훅 무효화 배선', () => {
     expect(revalidatePath.mock.calls).toEqual([
       ['/reviews'],
       ['/reviews-sitemap.xml'],
+      ['/reviews/sitemap.xml'],
       ['/reviews/rss.xml'],
       ['/sitemap.xml'],
       ['/reviews/sample'],

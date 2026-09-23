@@ -103,7 +103,7 @@ describe('후기 SEO 문구', () => {
   });
 
   test('SEO 값이 없으면 제목·요약으로 조립하고 사이트 이름을 붙인다', () => {
-    expect(reviewSeoTitle(review())).toBe('무릎 치료 후기 | 후기 | 광주 남구 마디클리닉');
+    expect(reviewSeoTitle(review())).toBe('무릎 치료 후기 | 치료후기 | 광주 남구 마디클리닉');
     expect(reviewSeoDescription(review())).toBe('무릎 통증 치료 경험담입니다.');
   });
 

@@ -23,7 +23,7 @@ describe('블로그 문구', () => {
   });
 
   test('상세 title은 레이아웃 template을 거치지 않는 절대값이다', () => {
-    expect(columnSeoTitle({ title: '무릎 통증' })).toBe('무릎 통증 | 블로그 | 광주 남구 마디클리닉');
+    expect(columnSeoTitle({ title: '무릎 통증' })).toBe('무릎 통증 | 광주 남구 마디클리닉 블로그');
   });
 
   test('메타 디스크립션 상한은 한 곳에서만 정한다', () => {

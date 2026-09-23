@@ -10,7 +10,7 @@
 export const reviewsIndexMetadata = {
   /** 화면(서브 배너·h1·브레드크럼)과 GNB 하위 항목이 함께 쓰는 이름. */
   label: '후기',
-  title: '후기 | 광주 남구 마디클리닉',
+  title: '치료후기 | 광주 남구 마디클리닉',
   description: '광주 남구 마디클리닉에서 치료받은 분들이 직접 남긴 치료 경험담입니다.',
 } as const;
 

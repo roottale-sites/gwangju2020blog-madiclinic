@@ -1,5 +1,0 @@
-User-agent: *
-Allow: /
-Disallow: /preview/
-
-Sitemap: https://gwangju2020blog.madiclinic.co.kr/sitemap.xml

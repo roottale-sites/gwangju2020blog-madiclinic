@@ -22,7 +22,7 @@ export function columnCategoryMetadata(
   },
 ): Metadata {
   const isVariant = state.requestedPage > 1 || state.searchQuery.length > 0;
-  const title = `${archive.category.seoTitle} | ${columnIndexMetadata.title}`;
+  const title = archive.category.seoTitle;
   const description = archive.category.seoDescription || columnIndexMetadata.description;
 
   return {

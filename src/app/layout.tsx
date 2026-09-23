@@ -46,7 +46,7 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
   openGraph: {
     locale: 'ko_KR',
-    siteName: `${clinic.name} 블로그`,
+    siteName: clinic.name,
     type: 'website',
   },
 };

@@ -17,6 +17,10 @@ describe('사이트맵 인덱스', () => {
     for (const path of SITEMAP_CHILD_PATHS) {
       expect(xml).toContain(`<loc>${siteOrigin}${path}</loc>`);
     }
+    expect(xml).toContain(`<loc>${siteOrigin}/reviews-sitemap.xml</loc>`);
+    expect(xml).toContain(`<loc>${siteOrigin}/column-sitemap.xml</loc>`);
+    expect(xml).toContain(`<loc>${siteOrigin}/faq-sitemap.xml</loc>`);
+    expect(xml).not.toContain(`<loc>${siteOrigin}/reviews/sitemap.xml</loc>`);
     expect([...xml.matchAll(/<sitemap>/g)]).toHaveLength(4);
     expect(xml).toContain(`<lastmod>${STATIC_SITEMAP_LASTMOD}</lastmod>`);
     expect(xml).toContain('<lastmod>2026-08-11T00:00:00.000Z</lastmod>');

@@ -15,7 +15,10 @@ export const dynamic = 'force-dynamic';
 export const metadata: Metadata = {
   title: { absolute: faqIndexMetadata.title },
   description: faqIndexMetadata.description,
-  alternates: { canonical: '/faq' },
+  alternates: {
+    canonical: '/faq',
+    types: { 'application/rss+xml': '/faq/rss.xml' },
+  },
 };
 
 export default async function FaqIndexRoute() {
