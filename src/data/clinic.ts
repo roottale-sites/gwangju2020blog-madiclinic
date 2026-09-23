@@ -42,7 +42,7 @@ export const clinic = {
 
   social: {
     naverBooking: 'https://m.booking.naver.com/booking/13/bizes/823238',
-    kakao: 'http://pf.kakao.com/_YIYSxj',
+    kakao: 'https://pf.kakao.com/_YIYSxj',
     instagram: 'https://instagram.com/madiclinic2020',
     youtube: 'https://youtube.com/@practicalpainmanagementwit8115',
   },

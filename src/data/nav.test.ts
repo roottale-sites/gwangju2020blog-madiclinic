@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
-import { branchTabs, gnb, isBlogPath, isNavChildActive, mainSiteOrigin, topLinks } from './nav';
+import { clinic } from './clinic';
+import { branchTabs, gnb, isBlogPath, isNavChildActive, mainSiteOrigin, officialWebUrl, topLinks } from './nav';
 
 describe('GNB 구성', () => {
   it('1차 메뉴는 5개다 - header.css의 li 폭(95/95/95/140/95 = 520px)이 5개 기준이다', () => {
@@ -27,6 +28,21 @@ describe('GNB 구성', () => {
   it('상단 아이콘은 5개이고 처음으로는 본 사이트 홈이다 - 이 서브도메인의 / 는 /column으로 301된다', () => {
     expect(topLinks.map((l) => l.className)).toEqual(['home', 'naver', 'kakao', 'instagram', 'youtube']);
     expect(topLinks[0]?.href).toBe(`${mainSiteOrigin}/`);
+  });
+
+  it('블로그에서 외부로 나가는 링크는 모두 HTTPS를 사용한다', () => {
+    const destinations = [
+      mainSiteOrigin,
+      officialWebUrl,
+      ...branchTabs.map((tab) => tab.href),
+      ...gnb.flatMap((item) => [item.href, ...item.children.map((child) => child.href)]),
+      ...topLinks.map((link) => link.href),
+      ...Object.values(clinic.social),
+    ];
+    for (const href of destinations) {
+      if (href.startsWith('/')) continue;
+      expect(new URL(href).protocol, href).toBe('https:');
+    }
   });
 });
 

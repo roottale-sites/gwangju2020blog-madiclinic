@@ -112,11 +112,11 @@ ROOT-ADMIN 팝업 미리보기의 루트 iframe 요청은 `/column`으로 307 �
 
 ### 3.4 GNB 메뉴 구성(추가 메뉴 결정)
 
-기존 4개는 유지하고 본 사이트 절대주소로 연결한다. 블로그 항목은 본 사이트가 2026-09-15에 직접 추가한 5번째 1차 메뉴 `커뮤니티`와 같은 라벨·순서로 둔다(본 사이트 쪽 하위 링크는 아직 `#`).
+기존 4개는 유지하고 본 사이트 HTTPS 절대주소로 연결한다. 블로그 항목은 본 사이트가 2026-09-15에 직접 추가한 5번째 1차 메뉴 `커뮤니티`와 같은 라벨·순서로 둔다(본 사이트 쪽 하위 링크는 아직 `#`).
 
 | 1차 | 링크 | 2차 |
 |---|---|---|
-| 원장 소개 | `http://gwangju2020.madiclinic.co.kr/doctor/doctor01.html` | 인사말, 프로필 |
+| 원장 소개 | `https://gwangju2020.madiclinic.co.kr/doctor/doctor01.html` | 인사말, 프로필 |
 | 병원 소개 | `…/about/about01.html` | 시설 소개, 오시는 길 |
 | 진료 안내 | `…/clinic/clinic01.html` | 진료 안내, 비급여 항목 |
 | 비수술 중점치료 | `…/special/special01.html` | 인대증식술, ESWT, 신경차단술, 도수치료, IVNT |
@@ -173,7 +173,7 @@ headnerve 선언을 그대로 쓴다. 분류 목록만 비운다.
 |---|---|
 | `src/data/site.ts` | `siteOrigin = 'https://gwangju2020blog.madiclinic.co.kr'` |
 | `src/data/clinic.ts` | 광주 남구 마디클리닉. 사업자 322-91-01246, 대표원장 이경무, 광주광역시 남구 독립로 14 1~3F, TEL 062-675-0750, FAX 062-675-0760, madi2020@naver.com |
-| `src/data/nav.ts` | 네이버예약 `https://m.booking.naver.com/booking/13/bizes/823238`, 카카오 `http://pf.kakao.com/_YIYSxj`, 인스타 `madiclinic2020`, 유튜브 `@practicalpainmanagementwit8115`, GNB 트리(§3.4). `cafeUrl`은 없음 → `ContentCafeLink`는 제거 |
+| `src/data/nav.ts` | 네이버예약 `https://m.booking.naver.com/booking/13/bizes/823238`, 카카오 `https://pf.kakao.com/_YIYSxj`, 인스타 `madiclinic2020`, 유튜브 `@practicalpainmanagementwit8115`, GNB 트리(§3.4). `cafeUrl`은 없음 → `ContentCafeLink`는 제거 |
 | `src/features/seo/schema.ts` | `siteEntityJsonLd`를 MedicalClinic(마디클리닉)+Physician(이경무)로 |
 | `src/app/layout.tsx` | 제목·설명·파비콘(`docs/assets/madiclinic-brand/favicon/` 세트를 `app/`으로)·OG 이미지(헤더 로고 1200×630 생성). GTM·서치콘솔·네이버 인증 토큰은 발급 후 삽입, 없으면 비움 |
 | `src/features/column/column-model.ts`, `column-content.ts`, `column-category.ts`, `column-source.ts` | 88건 JSON 폴백·`legacy-column-list-excerpts`·`DISEASE_LINK_RULES`·manifest(88건 단정) 제거. 카테고리 목록·SEO 제목은 CMS 분류 API에서 읽는다. 실패 시 빈 목록+오류 상태 |
