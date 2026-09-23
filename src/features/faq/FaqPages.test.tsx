@@ -271,7 +271,7 @@ describe('CMS를 읽지 못하는 하위 단계', () => {
 test('FAQ도 지정 글쓴이와 소개 링크를 표시한다', () => {
   const html = detail({ copiedFrom: { name: 'headnerve', url: 'https://headnerve.com/faq/example' } });
   expect(html).toContain('이경무 원장');
-  expect(html).toContain('href="http://gwangju2020.madiclinic.co.kr/doctor/doctor01.html"');
+  expect(html).toContain('href="https://gwangju2020.madiclinic.co.kr/doctor/doctor01.html"');
   expect(html).not.toContain('headnerve');
   expect(html).not.toContain('원문:');
 });

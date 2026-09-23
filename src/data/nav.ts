@@ -7,7 +7,7 @@
  */
 
 /** 본 사이트 원본. GNB 기존 4개 항목의 절대주소 기준. */
-export const mainSiteOrigin = 'http://gwangju2020.madiclinic.co.kr';
+export const mainSiteOrigin = 'https://gwangju2020.madiclinic.co.kr';
 
 export type NavChild = Readonly<{ label: string; href: string }>;
 export type NavItem = Readonly<{ label: string; href: string; children: readonly NavChild[] }>;
@@ -91,10 +91,10 @@ export const branchTabs: readonly Readonly<{
   href: string;
   current: boolean;
 }>[] = [
-  { label: '전주마디', href: 'http://jeonju.madiclinic.co.kr/', current: false },
-  { label: '제주마디', href: 'http://jeju.madiclinic.co.kr/', current: false },
-  { label: '광주 Dr.윤 마디', href: 'http://gwangju2015.madiclinic.co.kr/', current: false },
-  { label: '광주 Dr.이 마디', href: 'http://gwangju2020.madiclinic.co.kr/', current: true },
+  { label: '전주마디', href: 'https://jeonju.madiclinic.co.kr/', current: false },
+  { label: '제주마디', href: 'https://jeju.madiclinic.co.kr/', current: false },
+  { label: '광주 Dr.윤 마디', href: 'https://gwangju2015.madiclinic.co.kr/', current: false },
+  { label: '광주 Dr.이 마디', href: `${mainSiteOrigin}/`, current: true },
 ];
 
 /** 상단 띠 아이콘 5개. 클래스명이 header.css의 배경 이미지를 고른다. */
@@ -111,7 +111,7 @@ export const topLinks: readonly Readonly<{
     title: 'Naver',
     external: true,
   },
-  { className: 'kakao', href: 'http://pf.kakao.com/_YIYSxj', title: 'Kakao', external: true },
+  { className: 'kakao', href: 'https://pf.kakao.com/_YIYSxj', title: 'Kakao', external: true },
   {
     className: 'instagram',
     href: 'https://instagram.com/madiclinic2020',
@@ -127,4 +127,4 @@ export const topLinks: readonly Readonly<{
 ];
 
 /** 헤더 우측 버튼. */
-export const officialWebUrl = 'http://www.madiclinic.co.kr/';
+export const officialWebUrl = 'https://www.madiclinic.co.kr/';
