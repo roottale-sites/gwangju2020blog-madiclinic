@@ -61,7 +61,9 @@
 | `/column/sitemap.xml`, `/reviews/sitemap.xml`, `/faq/sitemap.xml` | 기존 전용 사이트맵과 같은 내용을 제공하는 섹션 주소 |
 | `/robots.txt` | `Disallow: /preview/`, `Sitemap: https://gwangju2020blog.madiclinic.co.kr/sitemap.xml` |
 
-공유 메타데이터는 대응되는 [headnerve.com](https://headnerve.com/sitemap.xml)의 URL 계층을 따른다. 목록·FAQ는 사이트 로고(1200×630)를 기본 OG 이미지로 쓰고, 칼럼·후기 상세는 공개 글의 대표 이미지를 우선한다. OG 사이트 이름은 `광주 남구 마디클리닉`이다.
+공유 메타데이터는 대응되는 [headnerve.com](https://headnerve.com/sitemap.xml)의 URL 계층을 따른다. 원래 병원 사이트의 `og:image`가 비어 있어 헤더 로고로 만든 1200×630 이미지를 기본 OG 이미지로 쓴다. 칼럼·후기 상세는 공개 글의 대표 이미지를 우선하고, 없으면 이 기본 이미지를 쓴다. OG 사이트 이름은 `광주 남구 마디클리닉`이다.
+
+사이트맵과 RSS의 XML 표시 형식은 [avcd 사이트맵](https://avcd.kr/sitemap.xml)·[avcd RSS](https://avcd.kr/blog/rss.xml)를 참고한다. 콘텐츠 주소와 수정일은 이 사이트의 원장을 사용한다.
 
 ## 전역 구조화 데이터
 

@@ -835,7 +835,7 @@ a.column-card__author:hover {
     width: min(var(--column-reading-width), 100%);
     grid-column: 2;
     grid-row: 2;
-    margin-top: var(--madi-space-6);
+    margin-top: var(--madi-space-5);
   }
 
   .column-detail__balance {

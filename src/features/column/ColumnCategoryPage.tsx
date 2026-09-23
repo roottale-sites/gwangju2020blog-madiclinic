@@ -4,6 +4,7 @@ import ArchiveNotice from '../../components/site/ArchiveNotice';
 import MadiPageFrame from '../../components/madi/MadiPageFrame';
 import JsonLd from '../../components/site/JsonLd';
 import { webPageJsonLd } from '../seo/schema';
+import { DEFAULT_OG_IMAGE_URL } from '../seo/og-image';
 import ColumnArchiveSearch from './ColumnArchiveSearch';
 import ColumnCategoryNav from './ColumnCategoryNav';
 import { columnBreadcrumb } from './ColumnArchive';
@@ -35,6 +36,13 @@ export function columnCategoryMetadata(
       title,
       description,
       url: archive.category.path,
+      images: [DEFAULT_OG_IMAGE_URL],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: [DEFAULT_OG_IMAGE_URL],
     },
   };
 }

@@ -32,7 +32,7 @@
 
 | URL | 화면 | 출처 |
 |---|---|---|
-| `/` | `http://gwangju2020.madiclinic.co.kr/`로 301 | 사용자 결정(2026-09-22). 커뮤니티 전용 서브도메인의 루트는 병원 홈페이지로 연결한다 |
+| `/` | `/column`으로 301 | 사용자 결정(2026-09-23). 커뮤니티 전용 서브도메인의 루트는 칼럼 목록으로 연결한다 |
 | `/column` | 칼럼 목록(검색·페이지네이션) | headnerve `ColumnArchive` |
 | `/column/{category}` | 카테고리 목록 | headnerve `ColumnCategoryPage` |
 | `/column/{category}/{slug}` | 칼럼 상세(TOC·병원 안내·면책) | headnerve `ColumnDetailRoute` |
@@ -51,7 +51,7 @@
 
 세 기능에 속하지 않아 가져오지 않는 headnerve 라우트: `/qa`·`/blog`·`/bbs` 등 옛 게시판 410 스텁, `/about`과 질환 페이지(`/headache` 등), 디자인 시스템 카탈로그, 다국어 라우트. 세 기능의 라우트·구성 요소는 전부 가져온다. 사용자 요청(2026-09-23)으로 팝업을 추가하며 CMS 홍보 배너 슬롯은 두지 않는다. ROOT-ADMIN에서도 CMS 배너 메뉴만 숨기고, 페이지 상단 사진 배너는 유지한다. 연결 계약과 운영 반영 항목은 [ROOT-ADMIN 연동 문서](root-admin-integration.md)를 따른다.
 
-ROOT-ADMIN 팝업 미리보기의 루트 iframe 요청만 `/column`으로 307 이동한다. 일반 방문자의 `/`는 기존 병원 홈페이지 301을 유지한다.
+ROOT-ADMIN 팝업 미리보기의 루트 iframe 요청은 `/column`으로 307 이동한다. 일반 방문자의 `/`는 같은 주소로 301 이동한다.
 
 ### 2.2 페이지 골격
 
@@ -183,8 +183,8 @@ headnerve 선언을 그대로 쓴다. 분류 목록만 비운다.
 | `FaqHomePage/FaqSectionPage/FaqTopicPage/FaqDetailPage/FaqShared.tsx` | 문구·영역 카드 이미지·의사 사진 교체, 카페 카드 제거. 화면 구조는 유지 |
 | `src/features/clinic-guide/*` | `clinic-guide-body.json`을 마디클리닉 진료 안내로 새로 작성(전화·네이버예약·카카오 버튼 3개, 색 `#08539d`·`#2e60a1`) |
 | `src/styles/*` | `site.css` 배럴 + `column.css`·`reviews.css`·`review-detail.css`·`review-faq.css`·`faq*.css`·`post-pattern.css` 유지. `tokens.css`는 `docs/DESIGN.md` §7 그대로. 각 시트의 `--figma-*`·하드코딩 색·Pretendard를 `--madi-*`·Noto Sans KR로 치환. `figma-*`·`home`·`about`·`disease*`·`ds/` 삭제. 13개 `*-contract.test.ts`는 삭제하고 `tokens.css`가 DESIGN.md 값과 일치하는지 검사하는 테스트 1개로 대체 |
-| `next.config.ts` | `images.formats`·`reactStrictMode`·`allowedDevOrigins` 유지, 리다이렉트는 `/ → /column` 1건 |
-| `public/robots.txt`, `sitemap-static.xml` | 새 호스트·정적 페이지 목록(`/column`, `/reviews`, `/faq`) |
+| `next.config.ts` | `images.formats`·`reactStrictMode`·`allowedDevOrigins` 유지, 루트는 `/column`으로 일반 방문 301·팝업 iframe 307 |
+| `src/app/robots.ts`, `sitemap-static.xml` | 새 호스트·정적 페이지 목록(`/column`, `/reviews`, `/faq`) |
 | `tests/{column-list,column-detail,reviews,sitemap,seo-schema}.spec.ts` | 셀렉터·canonical·slug 재작성. 사이트맵 자식 4개 기준 |
 
 ### 5.3 남기는 것

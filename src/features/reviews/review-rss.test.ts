@@ -23,7 +23,7 @@ describe('후기 RSS', () => {
     expect(xml).toContain('<dc:creator><![CDATA[이경무 원장]]></dc:creator>');
     expect(xml).toContain('<category><![CDATA[무릎]]></category>');
     expect(xml).toContain(
-      '<enclosure url="https://root-cdn.com/tenants/t/media/photo.png" length="0" type="image/png"/>',
+      '<enclosure url="https://root-cdn.com/tenants/t/media/photo.png" length="0" type="image/png" />',
     );
   });
 
@@ -40,7 +40,7 @@ describe('후기 RSS', () => {
     const xml = buildReviewRssXml([review()]);
 
     expect(xml).toContain(
-      `<enclosure url="${siteOrigin}/madi/img/hi_gwangju2020_20240826.png" length="0" type="image/png"/>`,
+      `<enclosure url="${siteOrigin}/madi/img/hi_gwangju2020_20240826.png" length="0" type="image/png" />`,
     );
   });
 

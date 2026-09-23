@@ -12,7 +12,7 @@ describe('FAQ RSS', () => {
     ];
     const xml = buildFaqRssXml(entries);
 
-    expect(xml).toContain(`<atom:link href="${siteOrigin}/faq/rss.xml" rel="self" type="application/rss+xml"/>`);
+    expect(xml).toContain(`<atom:link href="${siteOrigin}/faq/rss.xml" rel="self" type="application/rss+xml" />`);
     expect(xml).toContain(`<link>${siteOrigin}/faq/spine/neck-pain/renamed</link>`);
     expect(xml).toContain('<title><![CDATA[질문 & 확인]]></title>');
     expect(xml).toContain('<description><![CDATA[답변 <확인>]]></description>');

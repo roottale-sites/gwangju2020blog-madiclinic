@@ -27,7 +27,7 @@ describe('블로그 RSS', () => {
     expect(xml).toContain('<language>ko-KR</language>');
     expect(xml).toContain('<dc:creator><![CDATA[이경무]]></dc:creator>');
     expect(xml).toContain('<category><![CDATA[무릎]]></category>');
-    expect(xml).toContain(`<enclosure url="${siteOrigin}/madi/img/sbn01.jpg" length="0" type="image/jpeg"/>`);
+    expect(xml).toContain(`<enclosure url="${siteOrigin}/madi/img/sbn01.jpg" length="0" type="image/jpeg" />`);
   });
 
   test('발행일이 최신인 글부터 제공한다', () => {
@@ -43,6 +43,6 @@ describe('블로그 RSS', () => {
   test('대표 이미지가 없는 글은 병원 로고를 enclosure로 쓴다', () => {
     const xml = buildColumnRssXml([entry({ featuredImageUrl: undefined })]);
 
-    expect(xml).toContain(`<enclosure url="${siteOrigin}/madi/img/hi_gwangju2020_20240826.png" length="0" type="image/png"/>`);
+    expect(xml).toContain(`<enclosure url="${siteOrigin}/madi/img/hi_gwangju2020_20240826.png" length="0" type="image/png" />`);
   });
 });
