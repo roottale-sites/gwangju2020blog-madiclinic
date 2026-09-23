@@ -59,7 +59,7 @@ function rssItemXml(item: RssFeedItem): string {
   const author = item.author ? `<dc:creator>${cdata(item.author)}</dc:creator>` : '';
   const category = item.category ? `<category>${cdata(item.category)}</category>` : '';
   const enclosure = item.enclosure
-    ? `<enclosure url="${escapeXml(item.enclosure.url)}" length="0" type="${escapeXml(item.enclosure.type)}"/>`
+    ? `<enclosure url="${escapeXml(item.enclosure.url)}" length="0" type="${escapeXml(item.enclosure.type)}" />`
     : '';
 
   return [
@@ -90,7 +90,7 @@ export function buildRssFeedXml(feed: RssFeed): string {
     `    <link>${escapeXml(feed.link)}</link>`,
     `    <description>${escapeXml(feed.description)}</description>`,
     `    <language>${escapeXml(feed.language)}</language>${lastBuildDate}`,
-    `    <atom:link href="${escapeXml(feed.selfUrl)}" rel="self" type="application/rss+xml"/>`,
+    `    <atom:link href="${escapeXml(feed.selfUrl)}" rel="self" type="application/rss+xml" />`,
     items,
     '  </channel>',
     '</rss>',

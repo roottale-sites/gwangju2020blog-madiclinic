@@ -76,10 +76,10 @@ describe('칼럼 사이트맵', () => {
     ]);
 
     expect(xml).toContain(
-      `<loc>${siteOrigin}/column/knee</loc><lastmod>2026-09-15T20:00:00+09:00</lastmod>`,
+      `<loc>${siteOrigin}/column/knee</loc>\n    <lastmod>2026-09-15T20:00:00+09:00</lastmod>`,
     );
     expect(xml).toContain(
-      `<loc>${siteOrigin}/column/shoulder</loc><lastmod>2026-09-15T18:30:00+09:00</lastmod>`,
+      `<loc>${siteOrigin}/column/shoulder</loc>\n    <lastmod>2026-09-15T18:30:00+09:00</lastmod>`,
     );
   });
 

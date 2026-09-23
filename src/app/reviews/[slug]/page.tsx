@@ -10,6 +10,7 @@ import ReviewDetailView from '../../../features/reviews/ReviewDetailView';
 import { loadReview, loadReviewArchive } from '../../../features/reviews/review-api';
 import { reviewsIndexMetadata, reviewTitleWithSuffix } from '../../../features/reviews/review-content';
 import { reviewEntryPath, reviewImageUrl, reviewSeoDescription, reviewSeoTitle } from '../../../features/reviews/review-model';
+import { DEFAULT_OG_IMAGE_URL } from '../../../features/seo/og-image';
 import { reviewsBreadcrumb } from '../page';
 
 type ReviewDetailPageProps = {
@@ -44,7 +45,7 @@ export async function generateMetadata({ params }: ReviewDetailPageProps): Promi
   }
 
   const post = result.data;
-  const imageUrl = reviewImageUrl(post);
+  const imageUrl = reviewImageUrl(post) ?? DEFAULT_OG_IMAGE_URL;
   const title = reviewSeoTitle(post);
   const description = reviewSeoDescription(post);
   return {
@@ -56,15 +57,15 @@ export async function generateMetadata({ params }: ReviewDetailPageProps): Promi
       type: 'article',
       title,
       description,
-      ...(imageUrl ? { images: [imageUrl] } : {}),
+      images: [imageUrl],
       publishedTime: post.publishedAt,
       ...(post.updatedAt ? { modifiedTime: post.updatedAt } : {}),
     },
     twitter: {
-      card: imageUrl ? 'summary_large_image' : 'summary',
+      card: 'summary_large_image',
       title,
       description,
-      ...(imageUrl ? { images: [imageUrl] } : {}),
+      images: [imageUrl],
     },
   };
 }

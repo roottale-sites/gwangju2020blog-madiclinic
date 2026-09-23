@@ -25,7 +25,7 @@ export const COLUMN_DESCRIPTION_MAX_LENGTH = 160;
  */
 export const columnIndexMetadata = {
   label: '블로그',
-  title: '블로그 | 광주 남구 마디클리닉',
+  title: '광주 남구 마디클리닉 블로그',
   description:
     '광주 남구 마디클리닉 이경무 대표원장이 통증의 원인과 비수술 중점치료를 직접 씁니다. 영상유도하 통증중재시술 의료기관.',
 } as const;

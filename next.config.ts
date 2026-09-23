@@ -1,8 +1,7 @@
 import type { NextConfig } from 'next';
-import { mainSiteOrigin } from './src/data/nav';
 
 /**
- * 커뮤니티 전용 서브도메인이라 자체 홈이 없다. 루트만 병원 홈페이지로 보낸다.
+ * 커뮤니티 전용 서브도메인이라 자체 홈이 없다. 루트는 칼럼 목록으로 보낸다.
  *
  * 상태 코드는 `permanent: true`(=308)가 아니라 `statusCode: 301`이다.
  * PLAN.md §2.1이 문자 그대로 301을 요구한다. 두 키는 Next 타입상 상호
@@ -31,7 +30,7 @@ const nextConfig: NextConfig = {
     // 같은 origin의 /column으로 옮겨 fragment와 postMessage 연결을 유지한다.
     { source: '/', destination: '/column', permanent: false,
       has: [{ type: 'header', key: 'sec-fetch-dest', value: 'iframe' }] },
-    { source: '/', destination: `${mainSiteOrigin}/`, statusCode: PERMANENT_301 },
+    { source: '/', destination: '/column', statusCode: PERMANENT_301 },
   ],
   ...(devAllowedOrigins?.length ? { allowedDevOrigins: devAllowedOrigins } : {}),
 };

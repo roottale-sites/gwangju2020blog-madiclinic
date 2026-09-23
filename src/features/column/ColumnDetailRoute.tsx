@@ -11,6 +11,7 @@ import { siteUrl } from '../../data/site';
 import ClinicGuide from '../clinic-guide/ClinicGuide';
 import { DOCTOR_PROFILE_HREF, POST_AUTHOR_NAME } from '../clinic/doctor-profile-link';
 import { articleJsonLd, webPageJsonLd } from '../seo/schema';
+import { DEFAULT_OG_IMAGE_URL } from '../seo/og-image';
 import ColumnTableOfContents from './ColumnTableOfContents';
 import { columnBreadcrumb } from './ColumnArchive';
 import {
@@ -33,6 +34,7 @@ export async function columnDetailMetadata(slug: string): Promise<Metadata> {
   }
   const canonical = columnEntryPath(entry);
   const title = columnEntrySeoTitle(entry);
+  const imageUrl = entry.shareImageUrl ?? DEFAULT_OG_IMAGE_URL;
   return {
     title: { absolute: title },
     description: entry.description,
@@ -45,19 +47,14 @@ export async function columnDetailMetadata(slug: string): Promise<Metadata> {
       url: siteUrl(canonical),
       publishedTime: entry.publishedAt,
       ...(entry.updatedAt ? { modifiedTime: entry.updatedAt } : {}),
-      // 글별 이미지가 없으면 app/opengraph-image.png(사이트 기본)를 그대로 상속한다.
-      ...(entry.shareImageUrl ? { images: [entry.shareImageUrl] } : {}),
+      images: [imageUrl],
     },
-    ...(entry.shareImageUrl
-      ? {
-          twitter: {
-            card: 'summary_large_image',
-            title,
-            description: entry.description,
-            images: [entry.shareImageUrl],
-          },
-        }
-      : {}),
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description: entry.description,
+      images: [imageUrl],
+    },
   };
 }
 

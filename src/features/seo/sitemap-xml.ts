@@ -17,8 +17,12 @@ function escapeXml(value: string): string {
 
 export function buildSitemapUrlSetXml(entries: readonly SitemapUrlEntry[]): string {
   const urls = entries.map(({ loc, lastmod }) => {
-    const lastModified = lastmod ? `<lastmod>${escapeXml(lastmod)}</lastmod>` : '';
-    return `  <url><loc>${escapeXml(loc)}</loc>${lastModified}</url>`;
+    return [
+      '  <url>',
+      `    <loc>${escapeXml(loc)}</loc>`,
+      ...(lastmod ? [`    <lastmod>${escapeXml(lastmod)}</lastmod>`] : []),
+      '  </url>',
+    ].join('\n');
   });
 
   return [
@@ -59,8 +63,12 @@ export function latestSitemapLastModified(
 
 export function buildSitemapIndexXml(entries: readonly SitemapUrlEntry[]): string {
   const sitemaps = entries.map(({ loc, lastmod }) => {
-    const lastModified = lastmod ? `<lastmod>${escapeXml(lastmod)}</lastmod>` : '';
-    return `  <sitemap><loc>${escapeXml(loc)}</loc>${lastModified}</sitemap>`;
+    return [
+      '  <sitemap>',
+      `    <loc>${escapeXml(loc)}</loc>`,
+      ...(lastmod ? [`    <lastmod>${escapeXml(lastmod)}</lastmod>`] : []),
+      '  </sitemap>',
+    ].join('\n');
   });
 
   return [

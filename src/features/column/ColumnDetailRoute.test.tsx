@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { beforeEach, expect, test, vi } from 'vitest';
-import ColumnDetailRoute from './ColumnDetailRoute';
+import ColumnDetailRoute, { columnDetailMetadata } from './ColumnDetailRoute';
 import type { ColumnEntry } from './column-model';
 import { resolveColumnArchive, resolveColumnEntry } from './column-source';
 
@@ -53,4 +53,21 @@ test('현재 글이 공개 목록에서 빠져 있으면 무관한 글을 연결
   expect(html).not.toContain('rel="prev"');
   expect(html).not.toContain('rel="next"');
   expect(html).toContain('href="/column/headache"');
+});
+
+test('대표 이미지가 없는 칼럼은 병원 로고를 OG와 Twitter 이미지로 쓴다', async () => {
+  vi.mocked(resolveColumnEntry).mockResolvedValue(entry('without-image'));
+  const metadata = await columnDetailMetadata('without-image');
+  const image = 'https://gwangju2020blog.madiclinic.co.kr/opengraph-image.png';
+  expect(metadata.openGraph).toMatchObject({ images: [image] });
+  expect(metadata.twitter).toMatchObject({ card: 'summary_large_image', images: [image] });
+});
+
+test('대표 이미지가 있는 칼럼은 그 이미지를 OG에 우선 적용한다', async () => {
+  vi.mocked(resolveColumnEntry).mockResolvedValue({
+    ...entry('with-image'),
+    shareImageUrl: 'https://images.example.com/column.png',
+  });
+  const metadata = await columnDetailMetadata('with-image');
+  expect(metadata.openGraph).toMatchObject({ images: ['https://images.example.com/column.png'] });
 });

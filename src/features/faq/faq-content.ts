@@ -1,3 +1,5 @@
+import { clinic } from '../../data/clinic';
+
 /**
  * 자주 묻는 질문 화면 문구 단일 출처.
  *
@@ -12,14 +14,14 @@
 export const faqIndexMetadata = {
   /** 화면(서브 배너·본문 제목·브레드크럼)과 GNB 하위 항목이 함께 쓰는 이름. */
   label: '자주 묻는 질문',
-  title: '자주 묻는 질문 | 광주 남구 마디클리닉',
+  title: '질환별 자주 묻는 질문 | 광주 남구 마디클리닉',
   description:
     '광주 남구 마디클리닉 이경무 대표원장이 진료실에서 자주 받는 질문에 답합니다. 통증의 원인과 검사, 비수술 중점치료와 경과를 확인하세요.',
 } as const;
 
 /** 하위 단계 `<title>`. 레이아웃 template을 거치지 않는 절대값이다. */
 export function faqTitleWithSuffix(title: string): string {
-  return `${title} | ${faqIndexMetadata.title}`;
+  return `${title} | ${clinic.name}`;
 }
 
 /** 메타 디스크립션 길이 상한. 분류 설명과 답변이 같은 자리를 채우므로 상한도 하나다. */
