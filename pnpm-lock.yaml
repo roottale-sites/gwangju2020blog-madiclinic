@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@roottale/analytics-runtime':
-        specifier: 0.6.1
-        version: 0.6.1(next@16.3.5(@playwright/test@1.55.0)(@types/node@24.13.4)(react-dom@19.3.0(react@19.3.0))(react@19.3.0))(react@19.3.0)
+        specifier: 0.7.0
+        version: 0.7.0(next@16.3.5(@playwright/test@1.55.0)(@types/node@24.13.4)(react-dom@19.3.0(react@19.3.0))(react@19.3.0))(react@19.3.0)
       '@roottale/cms-client':
         specifier: 0.64.0
         version: 0.64.0
@@ -595,8 +595,8 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@roottale/analytics-runtime@0.6.1':
-    resolution: {integrity: sha512-79CI3BMap2m7iPG9KhEJGlOspdmn9g4iqczed0E5CGflnAU1TmoKYk5iWbVxG8SDrSiLGjrmsvdto6ww578/7g==}
+  '@roottale/analytics-runtime@0.7.0':
+    resolution: {integrity: sha512-DKM3F95X87rV8DYcXOgG8zMj5ilF5wJ9x4M5Sxi6/AfYNmrKYjhX2GqJNIFFOOwky/I3uTCOpduXJbyx3Uy96Q==}
     peerDependencies:
       next: ^16.0.0
       react: ^19.0.0
@@ -1384,7 +1384,7 @@ snapshots:
   '@rollup/rollup-win32-x64-msvc@4.63.3':
     optional: true
 
-  '@roottale/analytics-runtime@0.6.1(next@16.3.5(@playwright/test@1.55.0)(@types/node@24.13.4)(react-dom@19.3.0(react@19.3.0))(react@19.3.0))(react@19.3.0)':
+  '@roottale/analytics-runtime@0.7.0(next@16.3.5(@playwright/test@1.55.0)(@types/node@24.13.4)(react-dom@19.3.0(react@19.3.0))(react@19.3.0))(react@19.3.0)':
     optionalDependencies:
       next: 16.3.5(@playwright/test@1.55.0)(@types/node@24.13.4)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
       react: 19.3.0
