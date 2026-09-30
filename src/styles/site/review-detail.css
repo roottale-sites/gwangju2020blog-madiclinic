@@ -5,10 +5,8 @@
  * `reviews.css`와 같다.
  *
  * headnerve와 다르게 한 곳
- *   - 하단 예약 CTA(`.review-detail__cta`)와 의료진 카드(`.review-detail__doctor`)는
- *     옮기지 않았다. 앞의 것은 진료 안내 박스의 버튼 3개와 겹치고, 뒤의 것은 쓸
- *     원장 사진 자산이 없다.
- *   - 카페 링크(`.content-cafe-link`) 규칙도 옮기지 않았다(이 사이트에 카페가 없다).
+ *   - 원장 사진·질문·예약 버튼은 공통 `ClinicGuide`에서 표시한다.
+ *   - 카페 질문 링크는 공통 `content-cafe-link.css`에서 표시한다.
  */
 
 .review-detail {

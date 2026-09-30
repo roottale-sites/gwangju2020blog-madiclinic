@@ -178,7 +178,7 @@ a:hover {text-decoration: underline; color: #222;}
 	#header .headerFix .topLineArea .topLineBox ul.topLink > li > a.naver {background-image: url('/madi/img/iconTopLineNaver.png');}
 	#header .headerFix .topLineArea .topLineBox ul.topLink > li > a.kakao {background-image: url('/madi/img/iconTopLineKakao.png');}
 	#header .headerFix .topLineArea .topLineBox ul.topLink > li > a.instagram {background-image: url('/madi/img/iconTopLineInstagram.png');}
-	#header .headerFix .topLineArea .topLineBox ul.topLink > li > a.youtube {background-image: url('/madi/img/iconTopLineYouTube.png');}
+	#header .headerFix .topLineArea .topLineBox ul.topLink > li > a.blog {background-image: url('/madi/img/iconTopLineBlog.svg');}
 	#header .headerFix .topLineArea .topLineBox ul.topLink > li > a:hover {background-color: rgba(46,96,161,0.7);}
 
 	#header .headerFix > .naviArea {position: relative; width: 100%; max-width: 1200px; height: 100px; margin: 0px auto 0;}

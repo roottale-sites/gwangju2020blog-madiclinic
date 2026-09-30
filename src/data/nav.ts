@@ -1,3 +1,5 @@
+import { clinic } from './clinic';
+
 /**
  * 헤더 내비게이션 데이터 (PLAN.md §3.4).
  *
@@ -99,7 +101,7 @@ export const branchTabs: readonly Readonly<{
 
 /** 상단 띠 아이콘 5개. 클래스명이 header.css의 배경 이미지를 고른다. */
 export const topLinks: readonly Readonly<{
-  className: 'home' | 'naver' | 'kakao' | 'instagram' | 'youtube';
+  className: 'home' | 'naver' | 'kakao' | 'instagram' | 'blog';
   href: string;
   title: string;
   external: boolean;
@@ -107,21 +109,21 @@ export const topLinks: readonly Readonly<{
   { className: 'home', href: `${mainSiteOrigin}/`, title: '처음으로', external: false },
   {
     className: 'naver',
-    href: 'https://m.booking.naver.com/booking/13/bizes/823238?theme=place&area=pll',
-    title: 'Naver',
+    href: clinic.social.naverBooking,
+    title: '예약하기',
     external: true,
   },
-  { className: 'kakao', href: 'https://pf.kakao.com/_YIYSxj', title: 'Kakao', external: true },
+  { className: 'kakao', href: clinic.social.kakao, title: '상담하기(카카오톡)', external: true },
   {
     className: 'instagram',
-    href: 'https://instagram.com/madiclinic2020',
+    href: clinic.social.instagram,
     title: 'Instagram',
     external: true,
   },
   {
-    className: 'youtube',
-    href: 'https://youtube.com/@practicalpainmanagementwit8115',
-    title: 'Youtube',
+    className: 'blog',
+    href: clinic.social.blog,
+    title: '블로그',
     external: true,
   },
 ];

@@ -1,17 +1,23 @@
 import { clinic } from '../../data/clinic';
 
-/** 세 상세 화면의 진료 안내. 병원 정보와 클릭 식별자는 한 곳에서 유지한다. */
+/** 블로그·후기·FAQ가 함께 쓰는 병원 안내와 문의·예약 동작. */
 export default function ClinicGuide() {
   return (
     <aside className="clinic-guide" aria-label="진료 안내" data-analytics-placement="clinic-guide">
       <div className="clinic-guide__details">
         <div className="clinic-guide__intro">
-          <img className="clinic-guide__symbol" src="/madi/img/iconCommonInfoTitle.png"
-            width="160" height="100" alt="" />
-          <h2>{clinic.name}</h2>
-          <p>{clinic.address.line}</p>
+          <h2>{clinic.guideName}</h2>
+          <p>{clinic.address.detail}</p>
+          <p>대표전화 : <a href={`tel:${clinic.phoneTel}`} data-analytics-id="phone-call">{clinic.phoneDisplay}</a></p>
         </div>
-        <div>
+        <figure className="clinic-guide__doctor">
+          <img src={clinic.doctorPortrait.src} width={clinic.doctorPortrait.width}
+            height={clinic.doctorPortrait.height} alt={clinic.doctorPortrait.alt}
+            loading="lazy" decoding="async" />
+          <figcaption>{clinic.representative} {clinic.representativeTitle}</figcaption>
+        </figure>
+        <div className="clinic-guide__hours-section">
+          <h3>진료시간</h3>
           <dl className="clinic-guide__hours">
             {clinic.hours.map((hour) => (
               <div key={hour.label}>
@@ -21,21 +27,31 @@ export default function ClinicGuide() {
             ))}
           </dl>
           <p className="clinic-guide__holiday">{clinic.holidayNote}</p>
+          <p className="clinic-guide__lunch">{clinic.lunchNote}</p>
         </div>
+        <dl className="clinic-guide__directions">
+          {clinic.directions.map((direction) => (
+            <div key={direction.label}>
+              <dt>{direction.label}</dt>
+              <dd>{direction.text}</dd>
+            </div>
+          ))}
+        </dl>
       </div>
-      <p className="clinic-guide__note">{clinic.bookingNote}</p>
       <div className="clinic-guide__actions">
+        <a className="clinic-guide__question" href={clinic.social.cafe}
+          target="_blank" rel="noopener noreferrer" data-analytics-id="cafe-question">질문하기</a>
         <a className="clinic-guide__booking" href={clinic.social.naverBooking}
-          target="_blank" rel="noopener noreferrer" data-analytics-id="naver-booking">
-          <img src="/madi/img/iconReservationNaver.png" width="22" height="24" alt="" />
-          <span>네이버 예약 바로가기</span>
-        </a>
-        <a className="clinic-guide__phone" href={`tel:${clinic.phoneTel}`}
-          data-analytics-id="phone-call">
-          <img src="/madi/img/mIconLinkPhone.png" width="22" height="24" alt="" />
-          <span>지금 바로 전화걸기</span>
-        </a>
+          target="_blank" rel="noopener noreferrer" data-analytics-id="naver-booking">예약하기</a>
       </div>
+      <nav className="clinic-guide__channels" aria-label="병원 외부 채널">
+        <a href={clinic.social.blog} target="_blank" rel="noopener noreferrer"
+          data-analytics-id="naver-blog">블로그</a>
+        <a href={clinic.social.naverTalk} target="_blank" rel="noopener noreferrer"
+          data-analytics-id="naver-talk">상담하기(네이버톡톡)</a>
+        <a href={clinic.social.kakao} target="_blank" rel="noopener noreferrer"
+          data-analytics-id="kakao-chat">상담하기(카카오톡)</a>
+      </nav>
     </aside>
   );
 }

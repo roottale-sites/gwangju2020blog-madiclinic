@@ -86,7 +86,7 @@ ROOT-ADMIN 팝업 미리보기의 루트 iframe 요청은 `/column`으로 307 �
 | `.topLineArea` | 높이 40px, 배경 `#e5e5e5`, `border-bottom: 1px #eee` |
 | `.topLineBox` | `max-width: 1200px` 중앙 |
 | `ul.contact` | 좌측 360px, 배경 `#cecece`, 항목 80/80/100/100px, 글자 13px `#fff`, `.on`·hover 배경 `#2e60a1`. 4번째(광주 Dr.이 마디)가 `.on` |
-| `ul.topLink` | 우측 200px, 40×40 아이콘 5개(홈·네이버예약·카카오·인스타·유튜브), `background-size: 90%`, hover `rgba(46,96,161,.7)` |
+| `ul.topLink` | 우측 200px, 40×40 아이콘 5개(홈·네이버예약·카카오·인스타·블로그), `background-size: 90%`, hover `rgba(46,96,161,.7)` |
 | `.naviArea` | `max-width: 1200px; height: 100px` |
 | `h1.ci` | 좌측 240×100, `padding: 20px 0`, 로고 `hi_gwangju2020_20240826.png`(240×60) |
 | `ul.menuNavi` | `position: absolute; right: 220px; height: 100px`, 항목 폭 120px(4번째 160px), 글자 18px/500 `#555`, hover·`.on` `#000`, `.menuLine` 60×1px `rgba(89,113,176,.6)` |
@@ -173,15 +173,15 @@ headnerve 선언을 그대로 쓴다. 분류 목록만 비운다.
 |---|---|
 | `src/data/site.ts` | `siteOrigin = 'https://gwangju2020blog.madiclinic.co.kr'` |
 | `src/data/clinic.ts` | 광주 남구 마디클리닉. 사업자 322-91-01246, 대표원장 이경무, 광주광역시 남구 독립로 14 1~3F, TEL 062-675-0750, FAX 062-675-0760, madi2020@naver.com |
-| `src/data/nav.ts` | 네이버예약 `https://m.booking.naver.com/booking/13/bizes/823238`, 카카오 `https://pf.kakao.com/_YIYSxj`, 인스타 `madiclinic2020`, 유튜브 `@practicalpainmanagementwit8115`, GNB 트리(§3.4). `cafeUrl`은 없음 → `ContentCafeLink`는 제거 |
+| `src/data/nav.ts` | 예약·카카오·카페·블로그·네이버톡톡 주소는 `data/clinic.ts`를 참조한다. 2026-09-30 사용자 제공 정보로 유튜브를 제거하고 헤더의 해당 자리는 블로그로 바꾼다. GNB 트리는 §3.4를 따른다. |
 | `src/features/seo/schema.ts` | `siteEntityJsonLd`를 MedicalClinic(마디클리닉)+Physician(이경무)로 |
 | `src/app/layout.tsx` | 제목·설명·파비콘(`docs/assets/madiclinic-brand/favicon/` 세트를 `app/`으로)·OG 이미지(헤더 로고 1200×630 생성). GTM·서치콘솔·네이버 인증 토큰은 발급 후 삽입, 없으면 비움 |
 | `src/features/column/column-model.ts`, `column-content.ts`, `column-category.ts`, `column-source.ts` | 88건 JSON 폴백·`legacy-column-list-excerpts`·`DISEASE_LINK_RULES`·manifest(88건 단정) 제거. 카테고리 목록·SEO 제목은 CMS 분류 API에서 읽는다. 실패 시 빈 목록+오류 상태 |
 | `ColumnDetailRoute.tsx`, `ColumnCategoryPage.tsx`, `ColumnArchiveRow.tsx` | 바이라인 "마디클리닉 이경무 원장", 로고 대체 이미지, 라벨 "칼럼" |
 | `review-model.ts`, `ReviewCard.tsx` | 로고 대체 이미지, 대표원장 판별 |
 | `src/features/faq/faq-model.ts`, `faq-registry.ts` | `FAQ_SECTION_SLUGS` 상수와 headnerve 질환 콘텐츠 import를 걷어내고 영역·질환 트리를 CMS 모델·분류에서 읽는다. `fallbackFaqArchive`는 빈 원장. 4단계 경로 계산·JSON-LD·사이트맵 로직은 그대로 |
-| `FaqHomePage/FaqSectionPage/FaqTopicPage/FaqDetailPage/FaqShared.tsx` | 문구·영역 카드 이미지·의사 사진 교체, 카페 카드 제거. 화면 구조는 유지 |
-| `src/features/clinic-guide/*` | `clinic-guide-body.json`을 마디클리닉 진료 안내로 새로 작성(전화·네이버예약·카카오 버튼 3개, 색 `#08539d`·`#2e60a1`) |
+| `FaqHomePage/FaqSectionPage/FaqTopicPage/FaqDetailPage/FaqShared.tsx` | 병원 문구·영역 카드 이미지를 교체하고 상세 헤더에 공통 카페 질문 링크를 표시. 원장 사진은 공통 진료 안내에 둔다 |
+| `src/features/clinic-guide/*` | 마디의원 진료시간·오시는 길·원장 사진을 공통 컴포넌트로 표시. 질문·예약 버튼, 블로그·네이버톡톡·카카오톡 링크를 제공하며 데이터는 `data/clinic.ts`를 참조 |
 | `src/styles/*` | `site.css` 배럴 + `column.css`·`reviews.css`·`review-detail.css`·`review-faq.css`·`faq*.css`·`post-pattern.css` 유지. `tokens.css`는 `docs/DESIGN.md` §7 그대로. 각 시트의 `--figma-*`·하드코딩 색·Pretendard를 `--madi-*`·Noto Sans KR로 치환. `figma-*`·`home`·`about`·`disease*`·`ds/` 삭제. 13개 `*-contract.test.ts`는 삭제하고 `tokens.css`가 DESIGN.md 값과 일치하는지 검사하는 테스트 1개로 대체 |
 | `next.config.ts` | `images.formats`·`reactStrictMode`·`allowedDevOrigins` 유지, 루트는 `/column`으로 일반 방문 301·팝업 iframe 307 |
 | `src/app/robots.ts`, `sitemap-static.xml` | 새 호스트·정적 페이지 목록(`/column`, `/reviews`, `/faq`) |

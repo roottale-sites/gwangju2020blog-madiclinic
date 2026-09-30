@@ -1,0 +1,14 @@
+.content-cafe-link {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+  color: var(--madi-primary);
+  font-size: 14px;
+  font-weight: 500;
+}
+.content-cafe-link:focus-visible {
+  outline: 2px solid var(--madi-primary);
+  outline-offset: 3px;
+}
