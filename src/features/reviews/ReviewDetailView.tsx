@@ -3,6 +3,7 @@ import type { ReactNode } from 'react';
 import type { CmsPostContent } from '@roottale/cms-client/server';
 import ArticleNavigation from '../../components/site/ArticleNavigation';
 import PreferredSourceLink from '../../components/site/PreferredSourceLink';
+import ContentCafeLink from '../../components/site/ContentCafeLink';
 import MadiPageFrame from '../../components/madi/MadiPageFrame';
 import JsonLd from '../../components/site/JsonLd';
 import ClinicGuide from '../clinic-guide/ClinicGuide';
@@ -112,6 +113,7 @@ export default function ReviewDetailView({ post, archivePosts = [], notice }: Re
                 )}
                 <PreferredSourceLink />
               </div>
+              <ContentCafeLink />
               {excerpt && <p className="review-detail__summary">{excerpt}</p>}
             </header>
             {originalImageUrl && (

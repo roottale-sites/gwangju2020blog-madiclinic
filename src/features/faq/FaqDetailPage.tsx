@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import type { ReactNode } from 'react';
 import PreferredSourceLink from '../../components/site/PreferredSourceLink';
+import ContentCafeLink from '../../components/site/ContentCafeLink';
 import ClinicGuide from '../clinic-guide/ClinicGuide';
 import { DOCTOR_PROFILE_HREF, POST_AUTHOR_NAME } from '../clinic/doctor-profile-link';
 import { faqPageJsonLd, webPageJsonLd } from '../seo/schema';
@@ -68,6 +69,7 @@ export default function FaqDetailPage({ collection, entry, section, topic, notic
               </div>
               <PreferredSourceLink />
             </div>
+            <ContentCafeLink />
           </header>
           <section id={S.question.id} className="faq-question-card" aria-labelledby={faqDetailHeadingId(S.question)}>
             <div className="faq-question-card__header">

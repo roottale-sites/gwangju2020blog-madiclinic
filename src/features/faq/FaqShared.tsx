@@ -10,10 +10,8 @@ import type { FaqSourceStatus } from './faq-source';
  * headnerve와 다르게 한 곳
  *   - `FaqTopBreadcrumb`(본문 안 두 번째 브레드크럼)은 없다. 골격의 `MadiBreadcrumb`
  *     띠가 그 역할을 이미 한다.
- *   - `ContentCafeLink`(네이버 카페 질문 링크)는 쓰지 않는다 — 이 병원에는 카페가
- *     없다(PLAN.md §5.2 `cafeUrl` 없음).
- *   - `FaqReviewer`의 의사 사진(`lee-jaesung.webp`)을 뺐다. 쓸 원장 사진 자산이
- *     없어(PLAN.md §8-5) 후기 카드와 같이 이름 링크만 둔다.
+ *   - 원장 사진과 카페 질문 링크는 공통 진료 안내·상세 헤더에서 표시한다.
+ *     `FaqReviewer`는 본 사이트 프로필로 연결하는 이름 링크만 둔다.
  */
 
 /** 답변을 쓴 사람. 프로필은 본 사이트가 단일 출처다. */

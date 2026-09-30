@@ -59,9 +59,8 @@ describe('FAQ 네 단계 화면 골격', () => {
     }
   });
 
-  test('headnerve 고유 요소(카페 링크·의사 사진·질환 도판)는 남아 있지 않다', () => {
+  test('headnerve 고유 의사 사진·질환 도판·병원 이름은 남아 있지 않다', () => {
     for (const html of [home(), sectionPage(), topicPage(), detail()]) {
-      expect(html).not.toContain('content-cafe-link');
       expect(html).not.toContain('lee-jaesung');
       expect(html).not.toContain('faq-guide-card__visual');
       expect(html).not.toContain('한의원');

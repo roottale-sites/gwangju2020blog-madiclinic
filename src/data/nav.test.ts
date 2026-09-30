@@ -26,7 +26,7 @@ describe('GNB 구성', () => {
   });
 
   it('상단 아이콘은 5개이고 처음으로는 본 사이트 홈이다 - 이 서브도메인의 / 는 /column으로 301된다', () => {
-    expect(topLinks.map((l) => l.className)).toEqual(['home', 'naver', 'kakao', 'instagram', 'youtube']);
+    expect(topLinks.map((l) => l.className)).toEqual(['home', 'naver', 'kakao', 'instagram', 'blog']);
     expect(topLinks[0]?.href).toBe(`${mainSiteOrigin}/`);
   });
 

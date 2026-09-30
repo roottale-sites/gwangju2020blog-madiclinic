@@ -6,6 +6,7 @@ import type { ReactNode } from 'react';
 import MadiPageFrame from '../../components/madi/MadiPageFrame';
 import ArticleNavigation, { type ArticleNavigationLink } from '../../components/site/ArticleNavigation';
 import PreferredSourceLink from '../../components/site/PreferredSourceLink';
+import ContentCafeLink from '../../components/site/ContentCafeLink';
 import JsonLd from '../../components/site/JsonLd';
 import { siteUrl } from '../../data/site';
 import ClinicGuide from '../clinic-guide/ClinicGuide';
@@ -144,6 +145,7 @@ export function ColumnDetailView({
                   </p>
                   <PreferredSourceLink />
                 </div>
+                <ContentCafeLink />
               </header>
             </div>
             <div className="column-detail__layout">
