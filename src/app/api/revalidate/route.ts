@@ -83,7 +83,9 @@ export async function POST(request: Request): Promise<Response> {
 
   const revalidatedPaths = new Set<string>();
   for (const target of targets) {
-    for (const tag of revalidationTagsFor(target, verification.event, paths)) {
+    // slug는 모델이 가리키는 컬렉션의 글에만 해당한다.
+    const slug = target === expectedTarget ? payload.slug : undefined;
+    for (const tag of revalidationTagsFor(target, verification.event, paths, slug)) {
       revalidateTag(tag, { expire: 0 });
     }
     for (const path of revalidationPathsFor(target, paths)) {

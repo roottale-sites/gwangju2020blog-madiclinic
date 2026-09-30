@@ -160,6 +160,14 @@ describe('선택적 캐시 태그 구성', () => {
     ]);
   });
 
+  test('상세 경로가 빠진 글 이벤트도 slug로 상세 태그를 고른다', () => {
+    expect(revalidationTagsFor('column', 'post.updated', ['/column'], '두통-글'))
+      .toEqual(['column:archive', 'column:categories', 'column:detail:두통-글']);
+    expect(revalidationTagsFor('reviews', 'post.updated', ['/reviews'], 'changed'))
+      .toEqual(['reviews:archive', 'reviews:detail:changed']);
+    expect(revalidationTagsFor('faq', 'post.updated', ['/faq'], 'changed')).toEqual(['faq:archive']);
+  });
+
   test('분류·테마 이벤트만 컬렉션 전체 태그를 고른다', () => {
     expect(revalidationTagsFor('faq', 'taxonomy.updated', [])).toEqual(['faq:all']);
     expect(revalidationTagsFor('column', 'theme.updated', [])).toEqual(['column:all']);

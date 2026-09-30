@@ -23,6 +23,7 @@ export type RevalidationPayload = {
   readonly paths: string[];
   readonly postId?: string;
   readonly modelKey?: string;
+  readonly slug?: string;
 };
 
 function safePaths(value: unknown): string[] {
@@ -41,6 +42,7 @@ export function readRevalidationPayload(rawBody: string): RevalidationPayload | 
     const paths = safePaths(Reflect.get(parsed, 'paths'));
     const rawPostId = Reflect.get(parsed, 'postId');
     const rawModelKey = Reflect.get(parsed, 'modelKey');
+    const rawSlug = Reflect.get(parsed, 'slug');
     return {
       paths,
       ...(typeof rawPostId === 'string' && rawPostId.trim()
@@ -49,6 +51,7 @@ export function readRevalidationPayload(rawBody: string): RevalidationPayload | 
       ...(typeof rawModelKey === 'string' && rawModelKey.trim()
         ? { modelKey: rawModelKey.trim() }
         : {}),
+      ...(typeof rawSlug === 'string' && rawSlug.trim() ? { slug: rawSlug.trim() } : {}),
     };
   } catch {
     return null;
@@ -105,15 +108,33 @@ const TARGET_TAGS: Record<
   faq: { all: FAQ_ALL_CACHE_TAG, archive: FAQ_ARCHIVE_CACHE_TAG },
 };
 
+/**
+ * 웹훅 slug로 만든 상세 태그. ROOT-ADMIN이 상세 경로를 빠뜨려도 해당 글 상세 캐시를
+ * 지운다. FAQ 상세 태그는 분류 사슬이 필요해 slug만으로 만들 수 없고, 글 이벤트마다
+ * FAQ 전체를 무효화하므로 제외한다.
+ */
+function slugDetailCacheTags(target: RevalidationTarget, slug: string | undefined): string[] {
+  if (!slug) return [];
+  if (target === 'column') return [columnDetailCacheTag(slug)];
+  if (target === 'reviews') return [reviewDetailCacheTag(slug)];
+  return [];
+}
+
 /** 글 이벤트는 목록과 영향받은 상세만, 사이트 전역 이벤트는 해당 컬렉션 전체를 갱신한다. */
 export function revalidationTagsFor(
   target: RevalidationTarget,
   event: string,
   paths: readonly string[],
+  slug?: string,
 ): string[] {
   const tags = TARGET_TAGS[target];
   if (isSiteWideEvent(event)) return [tags.all];
-  return [tags.archive, ...(target === 'column' ? [COLUMN_CATEGORIES_CACHE_TAG] : []), ...detailCacheTagsFor(target, paths)];
+  return [...new Set([
+    tags.archive,
+    ...(target === 'column' ? [COLUMN_CATEGORIES_CACHE_TAG] : []),
+    ...detailCacheTagsFor(target, paths),
+    ...slugDetailCacheTags(target, slug),
+  ])];
 }
 
 export type RevalidationTarget = 'reviews' | 'column' | 'faq';
