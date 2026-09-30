@@ -14,6 +14,7 @@ import { DOCTOR_PROFILE_HREF, POST_AUTHOR_NAME } from '../clinic/doctor-profile-
 import { articleJsonLd, webPageJsonLd } from '../seo/schema';
 import { DEFAULT_OG_IMAGE_URL } from '../seo/og-image';
 import ColumnTableOfContents from './ColumnTableOfContents';
+import ColumnConsultationPhoto from './ColumnConsultationPhoto';
 import { columnBreadcrumb } from './ColumnArchive';
 import {
   columnIndexMetadata,
@@ -85,7 +86,7 @@ export default async function ColumnDetailRoute({
  * 미리보기가 발행 결과와 같다. `notice`는 미리보기 안내 띠처럼 화면 위에 덧붙일 요소.
  *
  * headnerve와 달리 하단은 `ClinicGuide`(진료 안내 박스, DESIGN.md §5의
- * `.commonBox`) + 의료 면책 문구 두 개만 둔다. 질환 페이지 링크(`DISEASE_LINK_RULES`)와
+ * `.commonBox`)와 의료 콘텐츠 안내, 진료 사진을 둔다. 질환 페이지 링크(`DISEASE_LINK_RULES`)와
  * 카페 링크는 이 사이트에 없다.
  */
 export function ColumnDetailView({
@@ -164,6 +165,7 @@ export function ColumnDetailView({
                   <strong>의료 콘텐츠 안내</strong>
                   <p>{columnMedicalDisclaimer}</p>
                 </aside>
+                <ColumnConsultationPhoto />
                 <ArticleNavigation previous={previous} next={next}
                   listHref={entry.category.path} listLabel="블로그 목록" />
               </div>

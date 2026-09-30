@@ -7,6 +7,7 @@ import { webPageJsonLd } from '../seo/schema';
 import { DEFAULT_OG_IMAGE_URL } from '../seo/og-image';
 import ColumnArchiveSearch from './ColumnArchiveSearch';
 import ColumnCategoryNav from './ColumnCategoryNav';
+import ColumnConsultationPhoto from './ColumnConsultationPhoto';
 import { columnBreadcrumb } from './ColumnArchive';
 import { columnIndexMetadata, columnMedicalDisclaimer } from './column-content';
 import type { ColumnCategoryArchive } from './column-source';
@@ -92,6 +93,7 @@ export default function ColumnCategoryPage({
               }
             />
             <ArchiveNotice title="의료 콘텐츠 안내">{columnMedicalDisclaimer}</ArchiveNotice>
+            <ColumnConsultationPhoto />
           </div>
         </div>
       </div>
