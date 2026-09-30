@@ -35,7 +35,16 @@
   margin-top: 16px;
 }
 
-.article-header-foot > .preferred-source-action {
+.article-header-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 16px;
+  min-width: 0;
+}
+
+.article-header-actions > .preferred-source-action {
+  flex: 0 0 auto;
   width: auto;
   margin: 0;
 }
@@ -64,7 +73,7 @@
   line-height: 1.6;
 }
 
-.review-detail__metadata > .preferred-source-action { margin-inline-start: auto; }
+.review-detail__metadata > .article-header-actions { margin-inline-start: auto; }
 
 .review-detail__field {
   display: inline-flex;
@@ -110,7 +119,9 @@
 .community-content .faq-detail .faq-question-card__header > h3 { margin: 0; }
 
 @media (max-width: 767px) {
-  .community-content .article-header-foot { gap: 12px; }
+  .community-content .article-header-foot { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+  .article-header-actions { justify-content: flex-start; gap: 12px; }
+  .review-detail__metadata > .article-header-actions { width: 100%; margin-inline-start: 0; }
   .article-header-foot .preferred-source__link { padding-inline: 10px; font-size: 12px; gap: 6px; }
   .community-content .article-header-foot :is(.column-detail__byline, .article-header-byline) { font-size: 12px; }
   .community-content .review-detail__metadata { font-size: 12px; gap: 10px 14px; }

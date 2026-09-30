@@ -5,8 +5,7 @@ import type { ReactNode } from 'react';
 
 import MadiPageFrame from '../../components/madi/MadiPageFrame';
 import ArticleNavigation, { type ArticleNavigationLink } from '../../components/site/ArticleNavigation';
-import PreferredSourceLink from '../../components/site/PreferredSourceLink';
-import ContentCafeLink from '../../components/site/ContentCafeLink';
+import ArticleHeaderActions from '../../components/site/ArticleHeaderActions';
 import JsonLd from '../../components/site/JsonLd';
 import { siteUrl } from '../../data/site';
 import ClinicGuide from '../clinic-guide/ClinicGuide';
@@ -86,8 +85,8 @@ export default async function ColumnDetailRoute({
  * 미리보기가 발행 결과와 같다. `notice`는 미리보기 안내 띠처럼 화면 위에 덧붙일 요소.
  *
  * headnerve와 달리 하단은 `ClinicGuide`(진료 안내 박스, DESIGN.md §5의
- * `.commonBox`)와 의료 콘텐츠 안내, 진료 사진을 둔다. 질환 페이지 링크(`DISEASE_LINK_RULES`)와
- * 카페 링크는 이 사이트에 없다.
+ * `.commonBox`)와 의료 콘텐츠 안내, 진료 사진을 둔다. 질환 페이지와
+ * 그 링크 규칙(`DISEASE_LINK_RULES`)은 이 사이트에 없다.
  */
 export function ColumnDetailView({
   entry,
@@ -148,9 +147,8 @@ export function ColumnDetailView({
                     </span>
                     <time dateTime={entry.publishedAt}>{formatColumnDate(entry.publishedAt)}</time>
                   </p>
-                  <PreferredSourceLink />
+                  <ArticleHeaderActions />
                 </div>
-                <ContentCafeLink />
               </header>
             </div>
             <div className="column-detail__layout">

@@ -114,7 +114,7 @@
   overflow: visible;
 }
 
-@media (max-width: 1263px) {
+@media (max-width: 959px) {
   .column-detail .column-toc--mobile {
     position: sticky;
     top: var(--madi-header-h);

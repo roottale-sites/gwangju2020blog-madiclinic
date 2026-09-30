@@ -355,8 +355,8 @@
   }
 }
 
-@media (max-width: 1263px) {
-  .column-detail :is(.column-richtext, .column-imported-html) :is(h2, h3, h4) {
+@media (max-width: 959px) {
+  .column-detail :is(.column-richtext, .column-imported-html) :is(h2, h3, h4, [data-column-heading]) {
     scroll-margin-top: calc(var(--madi-header-h) + 76px);
   }
 }

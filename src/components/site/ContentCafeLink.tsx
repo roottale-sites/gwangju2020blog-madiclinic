@@ -5,9 +5,10 @@ export default function ContentCafeLink() {
   return (
     <a className="content-cafe-link" href={clinic.social.cafe}
       target="_blank" rel="noopener noreferrer" data-analytics-id="cafe-question"
-      data-analytics-placement="article-header">
+      data-analytics-placement="article-header"
+      aria-label="네이버 카페에 궁금한 점 질문하기 (새 창)">
+      <img src="/assets/brands/naver-cafe.png" width="20" height="20" alt="" aria-hidden="true" />
       <span>카페에 궁금한 점 질문하기</span>
-      <span aria-hidden="true">↗</span>
     </a>
   );
 }

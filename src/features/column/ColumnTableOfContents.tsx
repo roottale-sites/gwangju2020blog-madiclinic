@@ -16,7 +16,7 @@ function synchronizeColumnHeadingIds(
   );
   if (!content) return [];
 
-  const headings = Array.from(content.querySelectorAll<HTMLElement>('h2, h3'))
+  const headings = Array.from(content.querySelectorAll<HTMLElement>('h2, h3, [data-column-heading]'))
     .filter((heading) => Boolean(heading.textContent?.replace(/\s+/g, ' ').trim()));
 
   return items.flatMap((item, index) => {
@@ -39,7 +39,8 @@ function useActiveColumnHeading(items: readonly ColumnTableOfContentsItem[]): st
 
     const updateActiveHeading = () => {
       const readingLine = Number.parseFloat(getComputedStyle(firstHeading).scrollMarginTop) || 128;
-      const passedHeadings = headings.filter((heading) => heading.getBoundingClientRect().top <= readingLine);
+      // 부드러운 앵커 이동 뒤 남는 소수점 반올림 차이를 허용한다.
+      const passedHeadings = headings.filter((heading) => heading.getBoundingClientRect().top <= readingLine + 1);
       setActiveId((passedHeadings.at(-1) ?? firstHeading).id);
     };
 

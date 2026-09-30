@@ -1,3 +1,5 @@
+import { visualParagraphHeadingLevel } from './column-visual-heading';
+
 export type ColumnTableOfContentsItem = {
   id: string;
   label: string;
@@ -11,7 +13,7 @@ export type ColumnDocument = {
 
 export type ColumnDocumentMode = 'annotated' | 'source-preserved';
 
-const HEADING_PATTERN = /<h([23])\b([^>]*)>([\s\S]*?)<\/h\1>/gi;
+const HEADING_PATTERN = /<(h[23]|p)\b([^>]*)>([\s\S]*?)<\/\1>/gi;
 const ID_ATTRIBUTE_PATTERN = /\s+id\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>]+))/i;
 const SAFE_FRAGMENT_ID_PATTERN = /^[^\s"'<>#]+$/u;
 
@@ -58,7 +60,8 @@ function nextHeadingId(usedIds: Set<string>, sequence: number): string {
 }
 
 /**
- * 살균을 마친 칼럼 HTML의 h2/h3만 목차 항목으로 승격한다.
+ * 살균을 마친 칼럼 HTML의 h2/h3와 편집기의 큰 굵은 소제목을 목차로 만든다.
+ * 이관 HTML 보존 모드에서는 제목 태그만 읽고 원문을 변경하지 않는다.
  *
  * 기존의 안전하고 고유한 id는 보존해 원문 내부 링크를 깨지 않는다. id가 없거나
  * 중복된 제목만 예측 가능한 로컬 id를 받으므로 CMS와 이관 JSON이 같은 결과를 낸다.
@@ -73,7 +76,13 @@ export function buildColumnDocument(
 
   const annotatedBodyHtml = bodyHtml.replace(
     HEADING_PATTERN,
-    (heading, rawLevel: string, attributes: string, content: string) => {
+    (heading: string, rawTag: string, attributes: string, content: string) => {
+      const tag = rawTag.toLowerCase();
+      const isParagraph = tag === 'p';
+      if (isParagraph && mode === 'source-preserved') return heading;
+      const semanticLevel = tag === 'h2' ? 2 : 3;
+      const level = isParagraph ? visualParagraphHeadingLevel(heading) : semanticLevel;
+      if (!level) return heading;
       const label = decodeHtmlText(content);
       if (!label) return heading;
 
@@ -87,13 +96,14 @@ export function buildColumnDocument(
       tableOfContents.push({
         id,
         label,
-        level: Number(rawLevel) as 2 | 3,
+        level,
       });
 
-      if (mode === 'source-preserved' || preservedId === id) return heading;
+      if (mode === 'source-preserved' || (!isParagraph && preservedId === id)) return heading;
 
       const attributesWithoutId = attributes.replace(ID_ATTRIBUTE_PATTERN, '');
-      return `<h${rawLevel}${attributesWithoutId} id="${id}">${content}</h${rawLevel}>`;
+      const headingAttributes = isParagraph ? ` data-column-heading="${level}" role="heading" aria-level="${level}"` : '';
+      return `<${tag}${attributesWithoutId} id="${id}"${headingAttributes}>${content}</${tag}>`;
     },
   );
 

@@ -6,7 +6,6 @@ import JsonLd from '../../components/site/JsonLd';
 import { webPageJsonLd } from '../seo/schema';
 import ColumnArchiveSearch from './ColumnArchiveSearch';
 import ColumnCategoryNav from './ColumnCategoryNav';
-import ColumnConsultationPhoto from './ColumnConsultationPhoto';
 import { columnIndexMetadata, columnMedicalDisclaimer } from './column-content';
 import { resolveColumnArchive, resolveColumnCategories } from './column-source';
 
@@ -77,7 +76,6 @@ export default async function ColumnArchive({
               categoryNavigation={<ColumnCategoryNav categories={categoryList.categories} />}
             />
             <ArchiveNotice title="의료 콘텐츠 안내">{columnMedicalDisclaimer}</ArchiveNotice>
-            <ColumnConsultationPhoto />
           </div>
         </div>
       </div>

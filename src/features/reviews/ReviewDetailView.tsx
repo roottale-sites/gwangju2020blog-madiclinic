@@ -2,8 +2,7 @@ import Link from 'next/link';
 import type { ReactNode } from 'react';
 import type { CmsPostContent } from '@roottale/cms-client/server';
 import ArticleNavigation from '../../components/site/ArticleNavigation';
-import PreferredSourceLink from '../../components/site/PreferredSourceLink';
-import ContentCafeLink from '../../components/site/ContentCafeLink';
+import ArticleHeaderActions from '../../components/site/ArticleHeaderActions';
 import MadiPageFrame from '../../components/madi/MadiPageFrame';
 import JsonLd from '../../components/site/JsonLd';
 import ClinicGuide from '../clinic-guide/ClinicGuide';
@@ -111,9 +110,8 @@ export default function ReviewDetailView({ post, archivePosts = [], notice }: Re
                 {metadata.treatmentPeriod && (
                   <span className="review-detail__field"><span>치료 기간</span>{metadata.treatmentPeriod}</span>
                 )}
-                <PreferredSourceLink />
+                <ArticleHeaderActions />
               </div>
-              <ContentCafeLink />
               {excerpt && <p className="review-detail__summary">{excerpt}</p>}
             </header>
             {originalImageUrl && (
