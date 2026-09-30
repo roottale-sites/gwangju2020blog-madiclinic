@@ -648,6 +648,13 @@ a.column-card__author:hover {
   background: var(--madi-border-strong);
 }
 
+.column-consultation-photo {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin-top: var(--madi-space-5);
+}
+
 .column-disclaimer {
   max-width: none;
   margin: var(--column-space-component) auto 0;
