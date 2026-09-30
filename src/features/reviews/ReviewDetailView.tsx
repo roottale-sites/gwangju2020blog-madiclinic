@@ -2,7 +2,7 @@ import Link from 'next/link';
 import type { ReactNode } from 'react';
 import type { CmsPostContent } from '@roottale/cms-client/server';
 import ArticleNavigation from '../../components/site/ArticleNavigation';
-import ArticleHeaderActions from '../../components/site/ArticleHeaderActions';
+import ArticleHeaderFooter from '../../components/site/ArticleHeaderFooter';
 import MadiPageFrame from '../../components/madi/MadiPageFrame';
 import JsonLd from '../../components/site/JsonLd';
 import ClinicGuide from '../clinic-guide/ClinicGuide';
@@ -84,16 +84,16 @@ export default function ReviewDetailView({ post, archivePosts = [], notice }: Re
       <div className="cBox review-detail-page clearFix">
         <article className="review-detail" data-track-read={post.id}>
           <div className="reviews-shell review-detail__surface">
-            <header className="review-detail__header">
-              <div className="article-header-category">
-                {metadata.category ? (
-                  <Link className="community-category-badge" href={`/reviews?category=${encodeURIComponent(metadata.category)}`}>
-                    치료 경험담 · {metadata.category}
-                  </Link>
-                ) : <span>치료 경험담</span>}
-              </div>
+            <div className="article-header-category">
+              {metadata.category ? (
+                <Link className="community-category-badge" href={`/reviews?category=${encodeURIComponent(metadata.category)}`}>
+                  치료 경험담 · {metadata.category}
+                </Link>
+              ) : <span>치료 경험담</span>}
+            </div>
+            <header className="review-detail__header article-header-card">
               <h2>{title}</h2>
-              <div className="article-header-foot review-detail__metadata">
+              <ArticleHeaderFooter>
                 {metadata.category && (
                   <span className="review-detail__field">
                     <span>진료 분야</span>
@@ -110,10 +110,9 @@ export default function ReviewDetailView({ post, archivePosts = [], notice }: Re
                 {metadata.treatmentPeriod && (
                   <span className="review-detail__field"><span>치료 기간</span>{metadata.treatmentPeriod}</span>
                 )}
-                <ArticleHeaderActions />
-              </div>
-              {excerpt && <p className="review-detail__summary">{excerpt}</p>}
+              </ArticleHeaderFooter>
             </header>
+            {excerpt && <p className="review-detail__summary">{excerpt}</p>}
             {originalImageUrl && (
               <figure className="review-detail__original">
                 <img

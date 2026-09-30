@@ -1,9 +1,9 @@
-.content-cafe-link {
+.community-content a.content-cafe-link {
   display: inline-flex;
   min-height: 44px;
   align-items: center;
   gap: 8px;
-  color: var(--madi-primary);
+  color: #fff;
   font-size: 14px;
   font-weight: 500;
   line-height: 20px;
@@ -11,10 +11,10 @@
 .content-cafe-link img { flex: 0 0 20px; width: 20px; height: 20px; }
 
 @media (max-width: 767px) {
-  .content-cafe-link { gap: 6px; font-size: 12px; }
+  .community-content a.content-cafe-link { gap: 6px; font-size: 12px; }
 }
 
 .content-cafe-link:focus-visible {
-  outline: 2px solid var(--madi-primary);
+  outline: 2px solid #fff;
   outline-offset: 3px;
 }

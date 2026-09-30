@@ -1,8 +1,8 @@
-import { FAQ_DATA_CACHE_TTL_SECONDS } from '../../features/faq/faq-cache';
 import { buildFaqSitemapXml } from '../../features/faq/faq-sitemap';
 import { resolveFaqCollection } from '../../features/faq/faq-source';
 
 export const revalidate = 86400;
+export const dynamic = 'force-dynamic';
 
 /**
  * FAQ 사이트맵.
@@ -23,7 +23,7 @@ export async function GET(): Promise<Response> {
   return new Response(buildFaqSitemapXml(collection.archive.entries), {
     headers: {
       'content-type': 'application/xml; charset=utf-8',
-      'cache-control': `public, max-age=0, s-maxage=${FAQ_DATA_CACHE_TTL_SECONDS}`,
+      'cache-control': 'no-store',
     },
   });
 }

@@ -63,41 +63,41 @@
 .clinic-guide__directions dd { margin: 2px 0 0; overflow-wrap: anywhere; }
 
 .clinic-guide__actions {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 8px;
   margin-top: 24px;
 }
 .clinic-guide__actions > a {
   display: inline-flex;
   box-sizing: border-box;
-  min-height: 44px;
+  min-height: 48px;
   align-items: center;
   justify-content: center;
-  padding: 10px 24px;
+  padding: 10px 12px;
+  border: 1px solid transparent;
+  border-radius: 6px;
   font-size: 14px;
-  font-weight: 700;
+  font-weight: 600;
   line-height: 24px;
   text-decoration: none;
-  transition: background-color 180ms ease;
+  white-space: nowrap;
+  transition: background-color 180ms ease, border-color 180ms ease;
 }
 .clinic-guide__actions > .clinic-guide__question {
   background: var(--madi-text-strong);
   color: var(--madi-text-inverse);
 }
 .clinic-guide__actions > .clinic-guide__booking { background: #03c75a; color: #15251c; }
+.clinic-guide__actions > .clinic-guide__blog { background: #fff; color: #14723d; border-color: #b9cebf; }
+.clinic-guide__actions > .clinic-guide__talk { background: #e7f5ed; color: #17643c; border-color: #c4e1cf; }
+.clinic-guide__actions > .clinic-guide__kakao { background: #fee500; color: #302821; }
 .clinic-guide__actions > .clinic-guide__question:is(:hover, :focus-visible) { background: var(--madi-primary); }
 .clinic-guide__actions > .clinic-guide__booking:is(:hover, :focus-visible) { background: #40d781; }
+.clinic-guide__actions > .clinic-guide__blog:is(:hover, :focus-visible) { background: #f0f8f3; border-color: #14723d; }
+.clinic-guide__actions > .clinic-guide__talk:is(:hover, :focus-visible) { background: #d5edde; border-color: #17643c; }
+.clinic-guide__actions > .clinic-guide__kakao:is(:hover, :focus-visible) { background: #f1d900; }
 .clinic-guide a:focus-visible { outline: 2px solid var(--madi-primary); outline-offset: 3px; }
-
-.clinic-guide__channels { display: flex; flex-wrap: wrap; gap: 4px 20px; margin-top: 12px; }
-.clinic-guide__channels a {
-  display: inline-flex;
-  min-height: 44px;
-  align-items: center;
-  color: var(--madi-text);
-  font-size: 13px;
-}
 
 @media (max-width: 980px) {
   .clinic-guide { margin-top: 40px; }
@@ -108,12 +108,13 @@
   .clinic-guide__doctor { grid-row: 1 / span 2; }
   .clinic-guide__doctor figcaption { font-size: 12px; }
   .clinic-guide__directions { grid-column: 1 / -1; }
+  .clinic-guide__actions { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .clinic-guide__actions > a:last-child { grid-column: 1 / -1; }
 }
 @media (max-width: 420px) {
   .clinic-guide__details { grid-template-columns: minmax(0, 1fr) 88px; }
   .clinic-guide__hours-section { grid-column: 1 / -1; }
   .clinic-guide__doctor { grid-row: 1; }
-  .clinic-guide__actions > a { flex: 1; padding-inline: 16px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .clinic-guide__actions > a { transition: none; }

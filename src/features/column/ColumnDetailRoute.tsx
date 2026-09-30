@@ -5,7 +5,7 @@ import type { ReactNode } from 'react';
 
 import MadiPageFrame from '../../components/madi/MadiPageFrame';
 import ArticleNavigation, { type ArticleNavigationLink } from '../../components/site/ArticleNavigation';
-import ArticleHeaderActions from '../../components/site/ArticleHeaderActions';
+import ArticleHeaderFooter from '../../components/site/ArticleHeaderFooter';
 import JsonLd from '../../components/site/JsonLd';
 import { siteUrl } from '../../data/site';
 import ClinicGuide from '../clinic-guide/ClinicGuide';
@@ -135,20 +135,15 @@ export function ColumnDetailView({
         <article className="column-detail" data-track-read={entry.contentId}>
           <div className="column-shell">
             <div className="column-detail__surface">
-              <header className="column-detail__header">
-                <div className="article-header-category">
-                  <Link className="community-category-badge" href={entry.category.path}>{entry.category.name}</Link>
-                </div>
+              <div className="article-header-category">
+                <Link className="community-category-badge" href={entry.category.path}>{entry.category.name}</Link>
+              </div>
+              <header className="column-detail__header article-header-card">
                 <h2>{entry.title}</h2>
-                <div className="column-detail__header-foot article-header-foot">
-                  <p className="column-detail__byline">
-                    <span>
-                      <a href={DOCTOR_PROFILE_HREF}>{POST_AUTHOR_NAME}</a>
-                    </span>
-                    <time dateTime={entry.publishedAt}>{formatColumnDate(entry.publishedAt)}</time>
-                  </p>
-                  <ArticleHeaderActions />
-                </div>
+                <ArticleHeaderFooter>
+                  <a href={DOCTOR_PROFILE_HREF}>{POST_AUTHOR_NAME}</a>
+                  <time dateTime={entry.publishedAt}>{formatColumnDate(entry.publishedAt)}</time>
+                </ArticleHeaderFooter>
               </header>
             </div>
             <div className="column-detail__layout">

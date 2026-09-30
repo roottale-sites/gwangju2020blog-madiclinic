@@ -1,8 +1,8 @@
-import { FAQ_DATA_CACHE_TTL_SECONDS } from '../../../features/faq/faq-cache';
 import { buildFaqRssXml } from '../../../features/faq/faq-rss';
 import { resolveFaqCollection } from '../../../features/faq/faq-source';
 
 export const revalidate = 86400;
+export const dynamic = 'force-dynamic';
 
 export async function GET(): Promise<Response> {
   const collection = await resolveFaqCollection();
@@ -16,7 +16,8 @@ export async function GET(): Promise<Response> {
   return new Response(buildFaqRssXml(collection.archive.entries), {
     headers: {
       'content-type': 'application/rss+xml; charset=utf-8',
-      'cache-control': `public, max-age=0, s-maxage=${FAQ_DATA_CACHE_TTL_SECONDS}`,
+      // 데이터 캐시는 유지하되 웹훅으로 지울 수 없는 CDN 응답 캐시는 금지한다.
+      'cache-control': 'no-store',
     },
   });
 }

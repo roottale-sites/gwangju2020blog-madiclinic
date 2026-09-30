@@ -38,19 +38,17 @@ export default function ClinicGuide() {
           ))}
         </dl>
       </div>
-      <div className="clinic-guide__actions">
+      <nav className="clinic-guide__actions" aria-label="병원 외부 채널">
         <a className="clinic-guide__question" href={clinic.social.cafe}
           target="_blank" rel="noopener noreferrer" data-analytics-id="cafe-question">질문하기</a>
         <a className="clinic-guide__booking" href={clinic.social.naverBooking}
           target="_blank" rel="noopener noreferrer" data-analytics-id="naver-booking">예약하기</a>
-      </div>
-      <nav className="clinic-guide__channels" aria-label="병원 외부 채널">
-        <a href={clinic.social.blog} target="_blank" rel="noopener noreferrer"
+        <a className="clinic-guide__blog" href={clinic.social.blog} target="_blank" rel="noopener noreferrer"
           data-analytics-id="naver-blog">블로그</a>
-        <a href={clinic.social.naverTalk} target="_blank" rel="noopener noreferrer"
-          data-analytics-id="naver-talk">상담하기(네이버톡톡)</a>
-        <a href={clinic.social.kakao} target="_blank" rel="noopener noreferrer"
-          data-analytics-id="kakao-chat">상담하기(카카오톡)</a>
+        <a className="clinic-guide__talk" href={clinic.social.naverTalk} target="_blank" rel="noopener noreferrer"
+          data-analytics-id="naver-talk" aria-label="네이버톡톡으로 상담하기">네이버톡톡</a>
+        <a className="clinic-guide__kakao" href={clinic.social.kakao} target="_blank" rel="noopener noreferrer"
+          data-analytics-id="kakao-chat" aria-label="카카오톡으로 상담하기">카카오톡</a>
       </nav>
     </aside>
   );

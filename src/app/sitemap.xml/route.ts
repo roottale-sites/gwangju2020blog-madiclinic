@@ -39,7 +39,8 @@ export async function GET(): Promise<Response> {
   }), {
     headers: {
       'content-type': 'application/xml; charset=utf-8',
-      'cache-control': 'public, max-age=0, s-maxage=86400',
+      // 글의 수정일도 웹훅 직후 반영되도록 CDN에 이전 인덱스를 남기지 않는다.
+      'cache-control': 'no-store',
     },
   });
 }
