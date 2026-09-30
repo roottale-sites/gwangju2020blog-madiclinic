@@ -6,8 +6,12 @@ export default function ContentCafeLink() {
     <a className="content-cafe-link" href={clinic.social.cafe}
       target="_blank" rel="noopener noreferrer" data-analytics-id="cafe-question"
       data-analytics-placement="article-header">
-      <span>카페에 궁금한 점 질문하기</span>
-      <span aria-hidden="true">↗</span>
+      <span className="content-cafe-link__icon" aria-hidden="true">N</span>
+      <span className="content-cafe-link__copy">
+        <span className="content-cafe-link__label">네이버 카페</span>
+        <span>카페에 궁금한 점 질문하기</span>
+      </span>
+      <span className="content-cafe-link__arrow" aria-hidden="true">↗</span>
     </a>
   );
 }

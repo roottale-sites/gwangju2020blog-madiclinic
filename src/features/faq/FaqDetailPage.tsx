@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import type { ReactNode } from 'react';
-import PreferredSourceLink from '../../components/site/PreferredSourceLink';
-import ContentCafeLink from '../../components/site/ContentCafeLink';
+import ArticleHeaderFooter from '../../components/site/ArticleHeaderFooter';
 import ClinicGuide from '../clinic-guide/ClinicGuide';
 import { DOCTOR_PROFILE_HREF, POST_AUTHOR_NAME } from '../clinic/doctor-profile-link';
 import { faqPageJsonLd, webPageJsonLd } from '../seo/schema';
@@ -60,16 +59,12 @@ export default function FaqDetailPage({ collection, entry, section, topic, notic
       {notice}
       <div className="faq-layout">
         <article className="faq-detail faq-layout__main" data-content-article data-track-read={entry.contentId}>
-          <header className="faq-detail__header">
+          <header className="faq-detail__header article-header-card">
             <h2 className="faq-detail__title">{entry.question}</h2>
-            <div className="article-header-foot">
-              <div className="article-header-byline">
-                <a href={DOCTOR_PROFILE_HREF}>{POST_AUTHOR_NAME}</a>
-                <time dateTime={entry.reviewedAt ?? entry.updatedAt}>{formatFaqAnswerDate(entry.reviewedAt ?? entry.updatedAt)}</time>
-              </div>
-              <PreferredSourceLink />
-            </div>
-            <ContentCafeLink />
+            <ArticleHeaderFooter>
+              <a href={DOCTOR_PROFILE_HREF}>{POST_AUTHOR_NAME}</a>
+              <time dateTime={entry.reviewedAt ?? entry.updatedAt}>{formatFaqAnswerDate(entry.reviewedAt ?? entry.updatedAt)}</time>
+            </ArticleHeaderFooter>
           </header>
           <section id={S.question.id} className="faq-question-card" aria-labelledby={faqDetailHeadingId(S.question)}>
             <div className="faq-question-card__header">

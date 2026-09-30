@@ -1,9 +1,9 @@
-import { COLUMN_DATA_CACHE_TTL_SECONDS } from '../../features/column/column-cache';
 import { buildColumnSitemapXml } from '../../features/column/column-sitemap';
 import { resolveColumnArchive, resolveColumnCategories } from '../../features/column/column-source';
 
 /**
- * 목록·상세와 같은 24시간 주기. 발행 웹훅이 오면 그 전에 갱신된다.
+ * CMS 데이터는 목록·상세와 같은 캐시를 쓰며 발행 웹훅으로 갱신된다.
+ * XML 응답의 CDN 캐시는 revalidatePath로 지워지지 않으므로 저장하지 않는다.
  *
  * 세그먼트 설정은 빌드 타임에 정적으로 읽힐 리터럴이어야 해서
  * `COLUMN_DATA_CACHE_TTL_SECONDS`를 그대로 쓸 수 없다. 값이 갈라지지 않도록
@@ -26,7 +26,7 @@ export async function GET(): Promise<Response> {
   return new Response(buildColumnSitemapXml(archive.entries, categories.categories), {
     headers: {
       'content-type': 'application/xml; charset=utf-8',
-      'cache-control': `public, max-age=0, s-maxage=${COLUMN_DATA_CACHE_TTL_SECONDS}`,
+      'cache-control': 'no-store',
     },
   });
 }

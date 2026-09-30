@@ -1,8 +1,8 @@
 import { loadReviewArchive } from '../../../features/reviews/review-api';
-import { REVIEW_DATA_CACHE_TTL_SECONDS } from '../../../features/reviews/review-cache';
 import { buildReviewRssXml } from '../../../features/reviews/review-rss';
 
 export const revalidate = 86400;
+export const dynamic = 'force-dynamic';
 
 export async function GET(): Promise<Response> {
   const result = await loadReviewArchive();
@@ -20,7 +20,8 @@ export async function GET(): Promise<Response> {
   return new Response(buildReviewRssXml(result.data), {
     headers: {
       'content-type': 'application/rss+xml; charset=utf-8',
-      'cache-control': `public, max-age=0, s-maxage=${REVIEW_DATA_CACHE_TTL_SECONDS}`,
+      // 데이터 캐시는 유지하되 웹훅으로 지울 수 없는 CDN 응답 캐시는 금지한다.
+      'cache-control': 'no-store',
     },
   });
 }
