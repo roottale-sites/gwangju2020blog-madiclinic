@@ -26,7 +26,9 @@
 - [x] 블로그·후기·FAQ 공통 안내를 맥락한의원 레퍼런스의 직사각형 구성으로 교체. 마디의원 정보·요일별 진료시간·오시는 길·제공받은 이경무 대표원장 사진을 반영.
 - [x] 상세 헤더에 카페 질문 링크, 안내 하단에 질문·예약 버튼과 블로그·네이버톡톡·카카오톡 상담 링크를 연결. 유튜브 연결은 제거하고 헤더에는 블로그를 표시.
 - [x] 타입 검사·단위 테스트·프로덕션 빌드, Aside에서 로컬 예시 글의 모바일·태블릿·데스크톱 화면과 질문·예약 새 창 이동을 확인.
-- [ ] 운영 반영 — 로컬 main 커밋까지 준비. 운영 push·배포는 사용자 승인 후 실행.
+- [x] RootTale CMS 패키지를 최신 안정 버전으로 업데이트하고 Analytics 최신 여부를 확인. 버전 정본은 `package.json`과 `pnpm-lock.yaml`이다.
+- [x] 사용자 전체 배포 승인 후 [스테이징](https://gwangju2020blog-madiclinic-k0dhp4ram-roottale.vercel.app/column)과 [운영](https://gwangju2020blog.madiclinic.co.kr/column)에 반영. Vercel Ready, 세 목록 페이지의 정상 응답, 원장 사진 파일 일치와 채널 변경을 확인.
+- 현재 CMS 발행 글이 없어 배포 주소의 상세 카드 확인은 글 발행 뒤 가능하다. 공통 카드는 칼럼·치료후기·FAQ 로컬 예시 상세에서 검증했다.
 
 데이터 정본: `src/data/clinic.ts`. 화면 계약: [DESIGN.md](DESIGN.md). QA 자료: `~/workspace/output/gwangju2020blog-madiclinic/2026-09-30-clinic-guide-qa/`.
 
