@@ -10,6 +10,8 @@
   background: #fff;
   color: var(--madi-text);
   font: 500 14px/20px "Pretendard Variable", Pretendard, sans-serif;
+  text-align: left;
+  white-space: nowrap;
 }
 .community-content a.content-cafe-link:hover {
   background: var(--madi-bg-panel);

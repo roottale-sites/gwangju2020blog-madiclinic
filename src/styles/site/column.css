@@ -708,10 +708,10 @@ a.column-card__author:hover {
     border-bottom: 0;
   }
 
-  /* 썸네일·제목·요약 아래에 분류는 왼쪽, 글쓴이·날짜는 오른쪽에 묶는다. */
+  /* 썸네일·제목·요약 아래 한 줄에 글쓴이·날짜는 왼쪽, 분류 배지는 오른쪽에 둔다(후기 목록과 같은 순서). */
   .column-card__link {
     padding: 0;
-    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1fr) auto;
     gap: var(--madi-space-2) var(--madi-space-2);
     align-items: center;
   }
@@ -741,20 +741,25 @@ a.column-card__author:hover {
 
   .column-card__date {
     display: block;
-    text-align: right;
-    font-size: var(--madi-fs-sm);
+    text-align: left;
   }
 
   .column-card__meta {
     grid-row: 4;
-    grid-column: 1;
-    margin-top: 0;
+    grid-column: 2;
+    justify-self: end;
+    margin-top: var(--madi-space-1);
   }
 
   .column-card__byline {
     grid-row: 4;
-    grid-column: 2;
-    gap: 4px;
+    grid-column: 1;
+    /* 마크업은 날짜·글쓴이 순서라 뒤집어 글쓴이를 먼저 읽게 한다. */
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+    align-items: center;
+    gap: var(--madi-space-3);
+    margin-top: var(--madi-space-1);
   }
 
 

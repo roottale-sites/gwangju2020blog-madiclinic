@@ -46,6 +46,7 @@
 
 .article-header-actions {
   display: flex;
+  flex-wrap: wrap;
   justify-content: flex-end;
   align-items: stretch;
   gap: 10px;
@@ -141,9 +142,9 @@
 @media (max-width: 767px) {
   .community-content .article-header-card { padding: 32px 24px; margin-bottom: 32px; }
   .community-content .article-header-foot { flex-wrap: wrap; margin-top: 24px; }
-  .article-header-actions { justify-content: flex-start; gap: 12px; }
+  .article-header-actions { justify-content: flex-start; gap: 8px; }
   .community-content .article-header-actions :is(a.preferred-source__link, a.content-cafe-link) {
-    padding-inline: 10px;
+    padding-inline: 8px;
     gap: 6px;
     font-size: 12px;
   }
