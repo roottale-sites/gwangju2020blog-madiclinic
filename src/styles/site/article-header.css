@@ -51,6 +51,7 @@
 
 .article-header-actions {
   display: flex;
+  flex-wrap: wrap;
   justify-content: flex-end;
   align-items: center;
   gap: 16px;
@@ -153,7 +154,8 @@
 }
 
 @media (max-width: 767px) {
-  .article-header-actions { justify-content: flex-start; gap: 12px; }
+  /* 두 동작이 한 줄에 들어가지 않으면 줄바꿈해 각자 한 줄로 읽힌다. */
+  .article-header-actions { justify-content: flex-start; gap: 8px 12px; }
   .community-content .article-header-actions a.preferred-source__link {
     padding-inline: 10px;
     gap: 6px;

@@ -88,7 +88,7 @@
   background: var(--madi-text-strong);
   color: var(--madi-text-inverse);
 }
-.clinic-guide__actions > .clinic-guide__booking { background: #03c75a; color: #15251c; }
+.clinic-guide__actions > .clinic-guide__booking { background: #03c75a; color: #fff; }
 .clinic-guide__actions > .clinic-guide__blog { background: #fff; color: #14723d; border-color: #b9cebf; }
 .clinic-guide__actions > .clinic-guide__talk { background: #e7f5ed; color: #17643c; border-color: #c4e1cf; }
 .clinic-guide__actions > .clinic-guide__kakao { background: #fee500; color: #302821; }
@@ -109,7 +109,8 @@
   .clinic-guide__doctor figcaption { font-size: 12px; }
   .clinic-guide__directions { grid-column: 1 / -1; }
   .clinic-guide__actions { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .clinic-guide__actions > a:last-child { grid-column: 1 / -1; }
+  /* 질문하기 한 줄, 나머지 네 버튼은 두 개씩(1/2/2). */
+  .clinic-guide__actions > .clinic-guide__question { grid-column: 1 / -1; }
 }
 @media (max-width: 420px) {
   .clinic-guide__details { grid-template-columns: minmax(0, 1fr) 88px; }

@@ -354,7 +354,11 @@
     border-radius: var(--madi-radius-md);
   }
 
+  /* 제목·요약은 한 줄씩 차지하고, 원장·날짜·분류는 맨 아래 한 줄에 둔다. */
   .review-card__body {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
     padding: var(--madi-space-3) 0 0;
   }
 
@@ -362,6 +366,7 @@
   .review-card h2,
   .review-card h3 {
     order: 1;
+    flex-basis: 100%;
     margin-top: 0;
     font-size: var(--madi-fs-h4);
     line-height: 30px;
@@ -369,6 +374,7 @@
 
   .review-card__excerpt {
     order: 2;
+    flex-basis: 100%;
     margin-top: var(--madi-space-2);
     font-size: var(--madi-fs-md);
     line-height: 20px;
@@ -377,17 +383,21 @@
 
   .review-card__facts {
     order: 3;
-    margin-top: var(--madi-space-3);
+    width: auto;
+    margin: var(--madi-space-3) var(--madi-space-3) 0 0;
     padding-top: 0;
     border-top: 0;
   }
 
-  /* 날짜는 왼쪽, 분류는 오른쪽 알약으로 카드 맨 아래에 둔다. */
+  /* 원장 다음에 날짜, 분류는 같은 줄 오른쪽 배지로 둔다. 좁으면 배지만 다음 줄로 내려간다. */
   .review-card__topline {
     order: 4;
+    flex: 1 1 auto;
+    width: auto;
     align-items: center;
     flex-direction: row-reverse;
-    margin-top: var(--madi-space-2);
+    justify-content: space-between;
+    margin-top: var(--madi-space-3);
   }
 
   .review-card__topline span {
