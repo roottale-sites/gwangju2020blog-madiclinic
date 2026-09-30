@@ -193,7 +193,7 @@ headnerve 고유 데이터만 남긴다(구조·화면 코드는 모두 가져�
 
 ### 5.4 패키지
 
-`@roottale/cms-client`·`cms-core`·`cms-renderer-next`는 0.64.0 이상으로 고정하고 `patchedDependencies`는 쓰지 않는다. Next 16, React 19, pnpm 10, Node 22. `sanitize-html`, `htmlparser2`, `domhandler`(시트 가져오기용) 유지. `@roottale/analytics-runtime` 0.6.1을 ROOT-ADMIN 사이트 설정과 연결한다. 클릭과 유입 정보의 연결 계약은 [ANALYTICS.md](ANALYTICS.md)를 따른다.
+RootTale CMS·Analytics 패키지는 `package.json`과 `pnpm-lock.yaml`의 고정 버전을 사용하고 `patchedDependencies`는 쓰지 않는다. Next 16, React 19, pnpm 10, Node 22 이상. `sanitize-html`, `htmlparser2`, `domhandler`(시트 가져오기용)는 유지한다. Analytics는 ROOT-ADMIN 사이트 설정과 연결하며 클릭과 유입 정보의 계약은 [ANALYTICS.md](ANALYTICS.md)를 따른다.
 
 ## 6. 구현 순서(Opus 작업 단위)
 
