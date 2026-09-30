@@ -52,7 +52,11 @@ export async function generateMetadata({ params }: ReviewDetailPageProps): Promi
     title: { absolute: title },
     description,
     alternates: { canonical: reviewEntryPath(post) },
-    other: { 'rt:content-id': post.id },
+    // ROOT-ADMIN 공개 화면 반영 확인이 읽는 글 수정 시각 표식.
+    other: {
+      'rt:content-id': post.id,
+      ...(post.updatedAt ? { 'roottale:revision': post.updatedAt } : {}),
+    },
     openGraph: {
       type: 'article',
       title,

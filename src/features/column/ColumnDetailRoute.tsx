@@ -40,7 +40,11 @@ export async function columnDetailMetadata(slug: string): Promise<Metadata> {
     title: { absolute: title },
     description: entry.description,
     alternates: { canonical },
-    other: { 'rt:content-id': entry.contentId },
+    // ROOT-ADMIN 공개 화면 반영 확인이 읽는 글 수정 시각 표식.
+    other: {
+      'rt:content-id': entry.contentId,
+      ...(entry.updatedAt ? { 'roottale:revision': entry.updatedAt } : {}),
+    },
     openGraph: {
       type: 'article',
       title,

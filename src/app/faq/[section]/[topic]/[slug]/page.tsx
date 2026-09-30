@@ -44,7 +44,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title: { absolute: faqTitleWithSuffix(entry.question) },
     description: faqDescription(entry.answer),
     alternates: { canonical: faqEntryPath(entry) },
-    ...(entry.contentId ? { other: { 'rt:content-id': entry.contentId } } : {}),
+    // ROOT-ADMIN 공개 화면 반영 확인이 읽는 글 수정 시각 표식.
+    other: {
+      ...(entry.contentId ? { 'rt:content-id': entry.contentId } : {}),
+      'roottale:revision': entry.updatedAt,
+    },
   };
 }
 
