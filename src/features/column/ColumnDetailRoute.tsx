@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import type { ReactNode } from 'react';
@@ -135,9 +134,6 @@ export function ColumnDetailView({
         <article className="column-detail" data-track-read={entry.contentId}>
           <div className="column-shell">
             <div className="column-detail__surface">
-              <div className="article-header-category">
-                <Link className="community-category-badge" href={entry.category.path}>{entry.category.name}</Link>
-              </div>
               <header className="column-detail__header article-header-card">
                 <h2>{entry.title}</h2>
                 <ArticleHeaderFooter>

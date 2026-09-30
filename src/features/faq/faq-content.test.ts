@@ -52,6 +52,6 @@ describe('자주 묻는 질문 문구', () => {
   });
 
   test('날짜 앞에 설명 없이 본 사이트 날짜 표기를 쓴다', () => {
-    expect(formatFaqAnswerDate('2026-09-15T00:00:00.000Z')).toBe('2026. 09. 15.');
+    expect(formatFaqAnswerDate('2026-09-15T00:00:00.000Z')).toBe('2026년 9월 15일');
   });
 });

@@ -84,34 +84,25 @@ export default function ReviewDetailView({ post, archivePosts = [], notice }: Re
       <div className="cBox review-detail-page clearFix">
         <article className="review-detail" data-track-read={post.id}>
           <div className="reviews-shell review-detail__surface">
-            <div className="article-header-category">
-              {metadata.category ? (
-                <Link className="community-category-badge" href={`/reviews?category=${encodeURIComponent(metadata.category)}`}>
-                  치료 경험담 · {metadata.category}
-                </Link>
-              ) : <span>치료 경험담</span>}
-            </div>
             <header className="review-detail__header article-header-card">
               <h2>{title}</h2>
               <ArticleHeaderFooter>
-                {metadata.category && (
-                  <span className="review-detail__field">
-                    <span>진료 분야</span>
-                    <Link href={`/reviews?category=${encodeURIComponent(metadata.category)}`}>{metadata.category}</Link>
-                  </span>
-                )}
                 {metadata.doctor && (isRepresentativeDoctor(metadata.doctor)
                   ? <a href={DOCTOR_PROFILE_HREF}>{metadata.doctor}</a>
                   : <span>{metadata.doctor}</span>)}
                 <time dateTime={post.publishedAt}>{formatReviewDate(post.publishedAt)}</time>
+              </ArticleHeaderFooter>
+            </header>
+            {(metadata.patient || metadata.treatmentPeriod) && (
+              <div className="review-detail__additional-info">
                 {metadata.patient && (
                   <span className="review-detail__field"><span>환자</span>{metadata.patient}</span>
                 )}
                 {metadata.treatmentPeriod && (
                   <span className="review-detail__field"><span>치료 기간</span>{metadata.treatmentPeriod}</span>
                 )}
-              </ArticleHeaderFooter>
-            </header>
+              </div>
+            )}
             {excerpt && <p className="review-detail__summary">{excerpt}</p>}
             {originalImageUrl && (
               <figure className="review-detail__original">

@@ -160,7 +160,7 @@ main.community-content a.faq-section-card[href] {
 
 /* 버튼·배지·탭은 면과 테두리로 반응한다. 텍스트만 있는 링크는 밑줄을 유지한다. */
 main.community-content :is(
-  button, a[role='button'], a.preferred-source__link,
+  button, a[role='button'], a.preferred-source__link, a.content-cafe-link,
   a.column-empty__link, a.reviews-state__link, a.faq-state__link,
   a.column-card__category, a.review-card__category, a.community-category-badge,
   .clinic-guide__actions > a, .archive-pagination__pages a,

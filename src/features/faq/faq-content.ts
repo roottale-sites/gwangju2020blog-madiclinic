@@ -77,5 +77,12 @@ export const faqMedicalNote = {
 } as const;
 
 export function formatFaqAnswerDate(value: string): string {
-  return `${value.slice(0, 10).replaceAll('-', '. ')}.`;
+  const date = new Date(value);
+  if (Number.isNaN(date.valueOf())) return '';
+  return new Intl.DateTimeFormat('ko-KR', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    timeZone: 'Asia/Seoul',
+  }).format(date);
 }

@@ -14,27 +14,18 @@
 .community-content .article-header-card {
   box-sizing: border-box;
   width: 100%;
-  padding: 64px;
+  padding: 48px 40px;
   margin-bottom: 42px;
   border: 0;
   border-radius: 16px;
-  background: #2b323c;
+  background: var(--madi-primary);
   color: #fff;
   box-shadow: 0 3px 10px rgb(0 0 0 / 14%);
 }
 
 .community-content .article-header-card h2 { color: #fff; }
 
-.article-header-category {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 8px;
-  width: 100%;
-  margin-bottom: 20px;
-}
-
-/* 넓은 칼럼 화면에서도 배지와 제목 카드를 본문과 같은 가운데 열에 둔다. */
+/* 넓은 칼럼 화면에서도 제목 카드를 본문과 같은 가운데 열에 둔다. */
 @media (min-width: 960px) {
   .column-detail .column-detail__surface {
     display: block;
@@ -45,6 +36,10 @@
 }
 
 .community-content .article-header-foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
   width: 100%;
   margin-top: 28px;
 }
@@ -52,9 +47,9 @@
 .article-header-actions {
   display: flex;
   justify-content: flex-end;
-  align-items: center;
-  gap: 16px;
-  margin-top: 16px;
+  align-items: stretch;
+  gap: 10px;
+  margin-top: 0;
   min-width: 0;
 }
 
@@ -66,12 +61,12 @@
 
 .community-content .article-header-byline {
   display: flex;
-  flex-wrap: wrap;
+  flex: 0 0 auto;
   justify-content: flex-start;
   align-items: center;
-  gap: 4px 16px;
+  gap: 12px;
   margin: 0;
-  color: #bdc7d4;
+  color: #dceafa;
   font-size: 14px;
   line-height: 1.6;
   text-align: left;
@@ -84,11 +79,11 @@
   font-weight: 600;
 }
 
-.community-content .article-header-actions a.preferred-source__link {
-  padding-inline: 16px;
+.community-content .article-header-actions :is(a.preferred-source__link, a.content-cafe-link) {
+  padding-inline: 12px;
   border-color: #d0d5dd;
   border-radius: 999px;
-  gap: 12px;
+  gap: 8px;
 }
 
 .article-header-card a:focus-visible { outline: 2px solid #fff; outline-offset: 4px; }
@@ -99,8 +94,15 @@
   gap: 8px;
 }
 
-.review-detail__field > span { color: #bdc7d4; }
-.community-content .review-detail__field > a { color: #fff; }
+.review-detail__additional-info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+  margin-bottom: 24px;
+  color: var(--madi-text);
+  font-size: 14px;
+}
+.review-detail__field > span { color: var(--madi-text-muted); }
 
 .community-content :is(.review-detail__summary, .faq-question-card > p, .faq-core-answer > p) {
   font-family: "Pretendard Variable", Pretendard, "Apple SD Gothic Neo", sans-serif;
@@ -138,7 +140,13 @@
 
 @media (max-width: 767px) {
   .community-content .article-header-card { padding: 32px 24px; margin-bottom: 32px; }
-  .community-content .article-header-foot { margin-top: 24px; }
+  .community-content .article-header-foot { flex-wrap: wrap; margin-top: 24px; }
+  .article-header-actions { justify-content: flex-start; gap: 12px; }
+  .community-content .article-header-actions :is(a.preferred-source__link, a.content-cafe-link) {
+    padding-inline: 10px;
+    gap: 6px;
+    font-size: 12px;
+  }
   .community-content .article-header-byline { font-size: 13px; gap: 6px 16px; }
   .community-content :is(.column-detail__header h2, .review-detail__header h2, .faq-detail__title) {
     font-size: 28px;
@@ -150,13 +158,4 @@
     margin-bottom: 16px;
   }
   .community-content .faq-detail :is(.faq-question-card__header, .faq-core-answer) > h3 { font-size: 20px; }
-}
-
-@media (max-width: 767px) {
-  .article-header-actions { justify-content: flex-start; gap: 12px; }
-  .community-content .article-header-actions a.preferred-source__link {
-    padding-inline: 10px;
-    gap: 6px;
-    font-size: 12px;
-  }
 }
