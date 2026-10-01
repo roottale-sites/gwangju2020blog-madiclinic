@@ -130,8 +130,8 @@ ROOT-ADMIN 팝업 미리보기의 루트 iframe 요청은 `/column`으로 307 �
 
 | 단계 | 방법 |
 |---|---|
-| 테넌트·사이트 생성 | ROOT-ADMIN `/manage/{tenantSlug}/sites/new`. 제안 slug `madiclinic-gwangju2020`, 도메인 `gwangju2020blog.madiclinic.co.kr` |
-| 콘텐츠 모델 동기화 | 플랫폼 저장소에서 `pnpm --filter @roottale/database content-model:sync -- --site-slug madiclinic-gwangju2020 --contract <이 저장소>/cms/content-models.json` (dry-run 후 `--apply`) |
+| 테넌트·사이트 생성 | ROOT-ADMIN `/manage/{tenantSlug}/sites/new`. 실제 slug `gwangju2020-blog-madiclinic`(제안값 `madiclinic-gwangju2020`과 다르다), 도메인 `gwangju2020blog.madiclinic.co.kr` |
+| 콘텐츠 모델 동기화 | 플랫폼 저장소에서 `doppler run -p roottale-platform -c dev -- pnpm --filter @roottale/database content-model:sync -- --site-slug gwangju2020-blog-madiclinic --contract <이 저장소>/cms/content-models.json` (dry-run 후 `--apply`) |
 | API 키 | `/site/{slug}/settings/api-keys`에서 사이트 범위 공개 읽기 키 1개 발급 → Vercel 민감 환경변수 `ROOTTALE_API_KEY`. 코드·문서에 기록 금지 |
 | 웹훅 | `/site/{slug}/settings/webhooks` → `https://gwangju2020blog.madiclinic.co.kr/api/revalidate`(ES256 서명은 cms-client가 검증) |
 | 작성자 프로필 | 이경무 대표원장 1명 |
