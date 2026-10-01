@@ -79,7 +79,7 @@ function cmsConfig(): FaqWireConfig | null {
  * `unstable_cache` 엔트리는 배포·환경변수와 무관하게 디스크(`.next/cache`)에 남는다.
  * 게이트를 캐시 안에 두면 키가 있던 실행이 만든 엔트리가 키를 빼고 띄운 실행에서
  * 그대로 되살아난다(로컬에서 목 CMS로 한 번 돌린 뒤 키 없이 띄웠을 때 실측).
- * 상세 캐시(`faq-source.resolveFaqDetailCollection`)도 이 판정을 먼저 본다 —
+ * 상세 조회(`faq-source.resolveFaqDetailCollection`)도 이 판정을 먼저 본다 —
  * 칼럼(`column-api.ts`)과 같은 규칙이다.
  */
 export function isFaqCmsConfigured(): boolean {
@@ -100,14 +100,20 @@ function requireCmsConfig(): FaqWireConfig {
 async function allPosts(): Promise<FaqWirePost[]> {
   const config = requireCmsConfig();
   const posts: FaqWirePost[] = [];
+  const seenCursors = new Set<string>();
   let cursor: string | undefined;
   for (let page = 0; page < MAX_PAGES; page += 1) {
     const result = await fetchFaqPostsPage(config, cursor);
     posts.push(...result.items);
-    if (!result.hasMore || !result.nextCursor) break;
+    if (!result.hasMore) return posts;
+    if (!result.nextCursor || seenCursors.has(result.nextCursor)) {
+      throw new Error('FAQ 페이지 커서가 누락되었거나 반복됩니다.');
+    }
+    seenCursors.add(result.nextCursor);
     cursor = result.nextCursor;
   }
-  return posts;
+  // 잘린 목록을 정상 원장으로 캐시하면 나머지 상세·관련 링크를 삭제된 글로 오인한다.
+  throw new Error('FAQ 원장 조회가 페이지 안전 상한에 도달했습니다.');
 }
 
 /**
@@ -258,9 +264,9 @@ const loadCachedFaqCatalog = unstable_cache(
 );
 
 /**
- * FAQ 원장과 분류 트리를 읽는다. 화면은 캐시본을 쓰고, 발행 웹훅처럼 "방금 발행된
- * 글"을 같은 요청 안에서 알아야 하는 곳만 `{ fresh: true }`로 CMS를 직접 읽는다 —
- * 캐시본의 관계 필드에는 발행 전 글이 빠져 있어 역참조 갱신 대상을 놓친다.
+ * FAQ 원장과 분류 트리를 읽는다. 모든 공개 화면은 같은 캐시본을 쓴다.
+ * `{ fresh: true }`는 명시적으로 최신 데이터가 필요한 조회에만 사용한다.
+ * 웹훅은 이 조회 없이 공용 캐시를 즉시 만료한다.
  */
 export async function loadFaqCatalog(
   options: { readonly fresh?: boolean } = {},

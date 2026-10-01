@@ -129,6 +129,18 @@ describe('무효화 경로 구성', () => {
       '/faq/rss.xml',
       '/sitemap.xml',
       '/faq/headache/migraine/sample',
+      '/faq/headache',
+      '/faq/headache/migraine',
+    ]);
+  });
+
+  test('FAQ 글을 옮기면 이전·현재 영역과 질환 목록을 함께 갱신한다', () => {
+    expect(revalidationPathsFor('faq', [
+      '/faq/목/디스크/질문', '/faq/허리/협착/질문',
+    ])).toEqual([
+      '/faq', '/faq-sitemap.xml', '/faq/sitemap.xml', '/faq/rss.xml', '/sitemap.xml',
+      '/faq/목/디스크/질문', '/faq/허리/협착/질문',
+      '/faq/목', '/faq/목/디스크', '/faq/허리', '/faq/허리/협착',
     ]);
   });
 });
@@ -155,8 +167,6 @@ describe('선택적 캐시 태그 구성', () => {
       '/faq/headache/migraine/referrer',
     ])).toEqual([
       'faq:archive',
-      'faq:detail:faq.headache.migraine.changed',
-      'faq:detail:faq.headache.migraine.referrer',
     ]);
   });
 

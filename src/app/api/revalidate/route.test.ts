@@ -147,12 +147,11 @@ describe('FAQ 웹훅 무효화 배선', () => {
     await expect(response.json()).resolves.toEqual({
       ok: true,
       revalidated: true,
-      paths: ['/faq', '/faq-sitemap.xml', '/faq/sitemap.xml', '/faq/rss.xml', '/sitemap.xml', detailPath],
+      paths: ['/faq', '/faq-sitemap.xml', '/faq/sitemap.xml', '/faq/rss.xml', '/sitemap.xml', detailPath,
+        '/faq/spine', '/faq/spine/neck-pain'],
     });
     expect(revalidateTag.mock.calls).toEqual([
       ['faq:archive', { expire: 0 }],
-      ['faq:detail:faq.spine.neck-pain.mri-normal', { expire: 0 }],
-      ['faq:all', { expire: 0 }],
     ]);
     expect(revalidatePath.mock.calls).toEqual([
       ['/faq'],
@@ -161,27 +160,42 @@ describe('FAQ 웹훅 무효화 배선', () => {
       ['/faq/rss.xml'],
       ['/sitemap.xml'],
       [detailPath],
-      ['/faq/[section]', 'page'],
-      ['/faq/[section]/[topic]', 'page'],
-      ['/faq/[section]/[topic]/[slug]', 'page'],
+      ['/faq/spine'],
+      ['/faq/spine/neck-pain'],
     ]);
   });
 
   /**
-   * 발행된 글을 "공개 FAQ 선택"·본문 예약 링크로 가리키는 상세도 함께 갱신해야
-   * 한다. 그 화면은 자기 캐시 태그가 무효화되지 않으면 옛 관련 목록·옛 문구를
-   * 하루 동안 그대로 보여 준다.
+   * 관련 질문·본문 링크는 같은 공용 원장을 읽는다. 웹훅에서 역참조를 찾기 위해
+   * CMS 조회를 기다리면 처리 제한 시간을 넘겨 발행 반영 자체가 실패할 수 있다.
    */
-  test('FAQ CMS 조회가 지연되어도 관련 답변 전체를 무효화하고 바로 응답한다', async () => {
+  test('FAQ CMS 조회가 지연되어도 공용 원장만 만료하고 바로 응답한다', async () => {
     resolveFaqArchive.mockImplementation(() => new Promise(() => {}));
     const response = await POST(webhookRequest({
       paths: ['/faq/spine/neck-pain/mri-normal'], postId: 'post-neck-mri',
     }));
     expect(response.status).toBe(200);
     expect(resolveFaqArchive).not.toHaveBeenCalled();
-    expect(revalidateTag).toHaveBeenCalledWith('faq:all', { expire: 0 });
-    expect(revalidatePath).toHaveBeenCalledWith('/faq/[section]/[topic]/[slug]', 'page');
+    expect(revalidateTag).toHaveBeenCalledWith('faq:archive', { expire: 0 });
+    expect(revalidateTag).not.toHaveBeenCalledWith('faq:all', { expire: 0 });
+    expect(revalidatePath).not.toHaveBeenCalledWith('/faq/[section]/[topic]/[slug]', 'page');
   }, 1000);
+
+  test('삭제 이벤트에 상세 주소가 없으면 FAQ 경로 전체 갱신으로 보완한다', async () => {
+    verifyRootTaleWebhook.mockResolvedValue({ ok: true, event: 'post.deleted', deliveryId: 'delete' });
+    await POST(webhookRequest({ modelKey: 'faq', paths: ['/faq'], postId: 'deleted' }));
+    expect(revalidateTag).toHaveBeenCalledWith('faq:archive', { expire: 0 });
+    expect(revalidatePath).toHaveBeenCalledWith('/faq/[section]/[topic]/[slug]', 'page');
+    expect(revalidatePath).not.toHaveBeenCalledWith('/column/[category]/[slug]', 'page');
+  });
+
+  test('FAQ 모델만 있고 경로가 비어도 FAQ 전체 범위로 안전하게 갱신한다', async () => {
+    const response = await POST(webhookRequest({ modelKey: 'faq', paths: [] }));
+    expect(response.status).toBe(200);
+    expect(revalidateTag).toHaveBeenCalledWith('faq:archive', { expire: 0 });
+    expect(revalidatePath).toHaveBeenCalledWith('/faq/[section]/[topic]/[slug]', 'page');
+    expect(resolveFaqArchive).not.toHaveBeenCalled();
+  });
 
   test('칼럼·후기 웹훅은 FAQ 원장을 읽지 않는다', async () => {
     await POST(webhookRequest({ paths: ['/column/spine/새-글'] }));

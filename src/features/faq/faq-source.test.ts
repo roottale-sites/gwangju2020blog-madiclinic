@@ -7,9 +7,6 @@ vi.mock('./faq-api', () => ({
   loadFaqCatalog: (...args: unknown[]) => loadFaqCatalog(...args),
   isFaqCmsConfigured: () => isFaqCmsConfigured(),
 }));
-vi.mock('next/cache', () => ({
-  unstable_cache: (callback: () => Promise<unknown>) => callback,
-}));
 
 const { resolveFaqArchive, resolveFaqCollection, resolveFaqDetailCollection } =
   await import('./faq-source');
@@ -56,7 +53,7 @@ describe('FAQ 출처 경계', () => {
     },
   );
 
-  test('웹훅용 원장 조회는 fresh 옵션을 그대로 넘긴다', async () => {
+  test('명시적인 최신 원장 조회는 fresh 옵션을 그대로 넘긴다', async () => {
     loadFaqCatalog.mockResolvedValue({ ok: true, data: catalog });
 
     await expect(resolveFaqArchive({ fresh: true })).resolves.toEqual(catalog.archive);
@@ -98,11 +95,11 @@ describe('FAQ 상세 선택', () => {
   });
 
   /**
-   * 상세 캐시는 `unstable_cache` 엔트리라 키가 있던 실행의 결과가 디스크에 남는다.
-   * 비밀값 게이트가 캐시보다 먼저여야 그 결과가 키 없는 실행에서 되살아나지 않는다
+   * 공용 캐시는 `unstable_cache` 엔트리라 키가 있던 실행의 결과가 디스크에 남는다.
+   * 비밀값 게이트가 조회보다 먼저여야 그 결과가 키 없는 실행에서 되살아나지 않는다
    * (로컬 목 CMS로 한 번 돌린 뒤 키 없이 띄웠을 때 실제로 되살아났다).
    */
-  test('비밀값이 없으면 상세 캐시를 들여다보지 않는다', async () => {
+  test('비밀값이 없으면 공용 원장을 읽지 않는다', async () => {
     isFaqCmsConfigured.mockReturnValue(false);
 
     const detail = await resolveFaqDetailCollection('spine', 'neck-pain', 'mri-normal');

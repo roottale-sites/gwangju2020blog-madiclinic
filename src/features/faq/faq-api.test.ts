@@ -69,7 +69,7 @@ const CATEGORIES_RESPONSE = {
 
 function installCmsResponses(
   items: readonly unknown[],
-  overrides: { model?: unknown; categories?: unknown } = {},
+  overrides: { model?: unknown; categories?: unknown; page?: () => unknown } = {},
 ): void {
   fetchMock.mockImplementation((input: string | URL | Request) => {
     const url = String(input);
@@ -80,7 +80,7 @@ function installCmsResponses(
       return Promise.resolve(response(overrides.categories ?? CATEGORIES_RESPONSE));
     }
     if (url.includes('/v1/cms/public/posts')) {
-      return Promise.resolve(response({ items, has_more: false, next_cursor: null }));
+      return Promise.resolve(response(overrides.page?.() ?? { items, has_more: false, next_cursor: null }));
     }
     throw new Error(`예상하지 못한 CMS 요청: ${url}`);
   });
@@ -101,6 +101,17 @@ afterEach(() => {
 });
 
 describe('FAQ 원장·분류 조회', () => {
+  test.each(['missing-cursor', 'repeated-cursor', 'page-limit'])(
+    '페이지 조회가 %s로 중단되면 일부 글만 성공한 원장으로 캐시하지 않는다', async (scenario) => {
+      let page = 0;
+      installCmsResponses([], { page: () => ({
+        items: [post(`question-${page}`, '페이지 질문')], has_more: true,
+        next_cursor: scenario === 'missing-cursor' ? null : scenario === 'repeated-cursor' ? 'same' : String(++page),
+      }) });
+      await expect(loadFaqCatalog()).resolves.toEqual({ ok: false, reason: 'upstream' });
+    },
+  );
+
   test('분류 트리와 글을 한 응답으로 함께 돌려준다', async () => {
     installCmsResponses([post('mri-normal', 'MRI가 정상인데 목이 아픈가요?')]);
 

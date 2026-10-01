@@ -8,7 +8,6 @@ import {
 import {
   FAQ_ALL_CACHE_TAG,
   FAQ_ARCHIVE_CACHE_TAG,
-  faqDetailCacheTag,
   faqInternalLinkKeyFromPath,
   isFaqPagePath,
 } from '../faq/faq-cache';
@@ -90,10 +89,6 @@ function detailCacheTagsFor(target: RevalidationTarget, paths: readonly string[]
     if (target === 'column' && segments.length === 3 && segments[0] === 'column') {
       return columnDetailCacheTag(segments[2]!);
     }
-    if (target === 'faq') {
-      const key = faqInternalLinkKeyFromPath(pathname);
-      return key ? faqDetailCacheTag(key) : [];
-    }
     return [];
   });
   return [...new Set(tags)];
@@ -110,8 +105,7 @@ const TARGET_TAGS: Record<
 
 /**
  * 웹훅 slug로 만든 상세 태그. ROOT-ADMIN이 상세 경로를 빠뜨려도 해당 글 상세 캐시를
- * 지운다. FAQ 상세 태그는 분류 사슬이 필요해 slug만으로 만들 수 없고, 글 이벤트마다
- * FAQ 전체를 무효화하므로 제외한다.
+ * 지운다. FAQ 상세는 별도 사본 없이 공용 원장을 읽으므로 상세 태그가 필요 없다.
  */
 function slugDetailCacheTags(target: RevalidationTarget, slug: string | undefined): string[] {
   if (!slug) return [];
@@ -194,5 +188,12 @@ export function revalidationPathsFor(
     : target === 'column'
       ? isColumnPagePath
       : isFaqPagePath;
-  return [...new Set([...TARGET_FIXED_PATHS[target], ...paths.filter(belongs)])];
+  const affectedPaths = paths.filter(belongs);
+  // CMS는 새 주소와 이전 주소를 함께 보낸다. 어느 쪽이든 부모 목록을 빠뜨리지 않는다.
+  const faqParents = target === 'faq' ? affectedPaths.flatMap((path) => {
+    if (!faqInternalLinkKeyFromPath(path)) return [];
+    const segments = path.split('/');
+    return [segments.slice(0, 3).join('/'), segments.slice(0, 4).join('/')];
+  }) : [];
+  return [...new Set([...TARGET_FIXED_PATHS[target], ...affectedPaths, ...faqParents])];
 }

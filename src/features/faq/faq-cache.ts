@@ -8,10 +8,6 @@ export const FAQ_DATA_CACHE_TTL_SECONDS = 60 * 60 * 24;
 export const FAQ_ALL_CACHE_TAG = 'faq:all';
 export const FAQ_ARCHIVE_CACHE_TAG = 'faq:archive';
 
-export function faqDetailCacheTag(internalKey: string): string {
-  return `faq:detail:${internalKey.toLowerCase()}`;
-}
-
 export function isFaqPagePath(pathname: string): boolean {
   return pathname === '/faq' || pathname.startsWith('/faq/');
 }
@@ -21,8 +17,8 @@ export function isFaqPagePath(pathname: string): boolean {
  *
  * headnerve는 같은 계산을 `faq-model.ts`에서 하며 `FAQ_SECTION_SLUGS`(정적 진료
  * 영역 목록)로 1단계 분류를 걸렀다. 이 저장소는 분류를 코드에 두지 않으므로
- * (PLAN.md §4.2) 4단계 경로 형태만 본다. 존재하지 않는 분류의 키는 캐시 태그가
- * 어디에도 붙어 있지 않아 무효화가 아무것도 건드리지 않는다.
+ * (PLAN.md §4.2) 4단계 경로 형태만 본다. 관련 질문·예약 링크의 키와 웹훅의
+ * 상세 경로 판정이 같은 규칙을 사용한다.
  */
 export function faqInternalLinkKeyFromPath(pathname: string): string | null {
   const segments = pathname.split('/').filter(Boolean).map((segment) => {

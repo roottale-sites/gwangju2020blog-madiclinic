@@ -9,7 +9,7 @@ import {
   revalidationTargetForModel,
   revalidationTargets,
 } from '../../../features/cms/revalidation';
-import { FAQ_ALL_CACHE_TAG } from '../../../features/faq/faq-cache';
+import { faqInternalLinkKeyFromPath } from '../../../features/faq/faq-cache';
 
 const MAX_WEBHOOK_BYTES = 64 * 1024;
 
@@ -61,8 +61,9 @@ export async function POST(request: Request): Promise<Response> {
   const payload = readRevalidationPayload(rawBody);
   if (!payload) return json({ ok: false }, 400);
 
-  const initialTargets = revalidationTargets(verification.event, payload.paths);
   const expectedTarget = revalidationTargetForModel(payload.modelKey);
+  const paths = expectedTarget === 'faq' && payload.paths.length === 0 ? ['/faq'] : payload.paths;
+  const initialTargets = revalidationTargets(verification.event, paths);
   if (
     verification.event.startsWith('post.') &&
     expectedTarget &&
@@ -70,10 +71,10 @@ export async function POST(request: Request): Promise<Response> {
   ) {
     return rejectInvalidation('model_path_mismatch', verification, payload);
   }
-  const paths = payload.paths;
-  // 관련 답변·예약 링크도 함께 갱신하되 응답 전에 CMS 전체를 다시 조회하지 않는다.
-  // 공개 API 왕복이 웹훅의 5초 제한을 넘길 수 있으므로 FAQ 범위 전체를 무효화한다.
-  const invalidateFaqDependencies = initialTargets.includes('faq') && verification.event.startsWith('post.');
+  // 상세 주소가 빠진 삭제/구형 알림은 FAQ 경로 전체로 보완한다. 공용 원장 만료만으로
+  // 관련 질문·본문 링크는 최신화되며, 웹훅 응답 전에 CMS 역참조 조회를 하지 않는다.
+  const fallbackFaqPaths = initialTargets.includes('faq') && verification.event.startsWith('post.') &&
+    !paths.some((path) => faqInternalLinkKeyFromPath(path) !== null);
 
   const targets = revalidationTargets(verification.event, paths);
   if (verification.event.startsWith('post.') && targets.length === 0) {
@@ -93,10 +94,7 @@ export async function POST(request: Request): Promise<Response> {
       revalidatePath(path);
       revalidatedPaths.add(path);
     }
-    if (target === 'faq' && invalidateFaqDependencies) {
-      revalidateTag(FAQ_ALL_CACHE_TAG, { expire: 0 });
-    }
-    if (isSiteWideEvent(verification.event) || (target === 'faq' && invalidateFaqDependencies)) {
+    if (isSiteWideEvent(verification.event) || (target === 'faq' && fallbackFaqPaths)) {
       for (const dynamicRoute of TARGET_DYNAMIC_ROUTES[target]) {
         revalidatePath(dynamicRoute, 'page');
       }
@@ -109,6 +107,7 @@ export async function POST(request: Request): Promise<Response> {
     event: verification.event,
     targets,
     pathCount: revalidatedPaths.size,
+    ...(fallbackFaqPaths ? { faqPathScope: 'fallback-all' } : {}),
   }));
   return json({ ok: true, revalidated: true, paths: [...revalidatedPaths] }, 200);
 }
