@@ -7,7 +7,9 @@ import {
   COLUMN_DATA_CACHE_TTL_SECONDS,
   columnDetailCacheTag,
 } from './column-cache';
-import { COLUMN_COLLECTION_KEY, isColumnPost } from './column-model';
+import { COLUMN_COLLECTION_KEY, columnEntryFromPost, isColumnPost } from './column-model';
+import { buildColumnRssXml } from './column-rss';
+import { RSS_ITEM_LIMIT } from '../seo/rss-xml';
 import {
   fetchColumnPostBySlug,
   fetchColumnPostsPage,
@@ -100,6 +102,19 @@ async function fetchCategories(): Promise<ColumnCategoryWire[]> {
   return fetchColumnCategories(requireCmsConfig(), COLUMN_COLLECTION_KEY);
 }
 
+async function fetchColumnRss(): Promise<string> {
+  // 공개 API는 published_at DESC 순서다. 본문을 한 번에 읽어 N+1 조회를 피한다.
+  const result = await fetchColumnPostsPage(requireCmsConfig(), {
+    collectionKey: COLUMN_COLLECTION_KEY,
+    limit: RSS_ITEM_LIMIT,
+  });
+  const entries = result.items.filter(isColumnPost).flatMap((post) => {
+    const entry = columnEntryFromPost(post);
+    return entry ? [{ ...entry, featuredImageUrl: post.featuredImageUrl ?? undefined }] : [];
+  });
+  return buildColumnRssXml(entries);
+}
+
 /**
  * 캐시 래퍼는 설정이 있는 경우에만 불린다.
  *
@@ -136,6 +151,22 @@ const loadCachedColumnCategories = unstable_cache(
     tags: [COLUMN_ALL_CACHE_TAG, COLUMN_CATEGORIES_CACHE_TAG],
   },
 );
+
+// 목록 캐시에 큰 본문을 섞지 않고, 최신 피드만 같은 웹훅 태그로 갱신한다.
+const loadCachedColumnRss = unstable_cache(fetchColumnRss, ['column-rss-v1'], {
+  revalidate: COLUMN_DATA_CACHE_TTL_SECONDS,
+  tags: [COLUMN_ALL_CACHE_TAG, COLUMN_ARCHIVE_CACHE_TAG],
+});
+
+export async function loadColumnRss(): Promise<ColumnLoadResult<string>> {
+  if (!cmsConfig()) return { ok: false, reason: 'unconfigured' };
+  try {
+    return { ok: true, data: await loadCachedColumnRss() };
+  } catch (error) {
+    logCmsFailure('rss', error);
+    return { ok: false, reason: 'upstream' };
+  }
+}
 
 export async function loadColumnArchive(): Promise<ColumnLoadResult<ColumnArchivePost[]>> {
   if (!cmsConfig()) return { ok: false, reason: 'unconfigured' };

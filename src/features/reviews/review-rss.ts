@@ -1,7 +1,8 @@
 import type { CmsPostContent } from '@roottale/cms-client/server';
 
 import { siteUrl } from '../../data/site';
-import { buildRssFeedXml } from '../seo/rss-xml';
+import { buildRssFeedXml, RSS_ITEM_LIMIT } from '../seo/rss-xml';
+import { renderTiptapBody } from '../cms/tiptap-body';
 import { reviewsIndexMetadata } from './review-content';
 import { reviewEntryLoc } from './review-sitemap';
 import {
@@ -47,6 +48,7 @@ function reviewRssItem(post: CmsPostContent) {
     title: reviewTitle(post),
     link: reviewEntryLoc(post),
     description: reviewSeoDescription(post),
+    contentHtml: renderTiptapBody(post.bodyJson, 'review-richtext'),
     publishedAt: post.publishedAt,
     updatedAt: post.updatedAt,
     author: metadata.doctor,
@@ -63,6 +65,6 @@ export function buildReviewRssXml(posts: readonly CmsPostContent[]): string {
     description: reviewsIndexMetadata.description,
     selfUrl: siteUrl(REVIEW_RSS_PATH),
     language: 'ko-KR',
-    items: newestFirst(posts).map(reviewRssItem),
+    items: newestFirst(posts).slice(0, RSS_ITEM_LIMIT).map(reviewRssItem),
   });
 }

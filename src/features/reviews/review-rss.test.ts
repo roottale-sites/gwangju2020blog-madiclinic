@@ -7,6 +7,14 @@ import { buildReviewRssXml, REVIEW_RSS_PATH } from './review-rss';
 
 /** headnerve `review-rss.test.ts`를 이 저장소 픽스처·문구로 다시 쓴 것이다. */
 describe('후기 RSS', () => {
+  test('후기의 요약에 없는 본문 마지막 문단도 제공한다', () => {
+    const xml = buildReviewRssXml([review({ bodyJson: {
+      type: 'doc', content: [{ type: 'paragraph', content: [{ type: 'text', text: '후기 본문 마지막 문단입니다.' }] }],
+    } })]);
+    expect(xml).toContain('<content:encoded><![CDATA[');
+    expect(xml).toContain('후기 본문 마지막 문단입니다.');
+  });
+
   test('채널 문구와 항목 절대 URL을 마디클리닉 값으로 제공한다', () => {
     const xml = buildReviewRssXml([
       review({

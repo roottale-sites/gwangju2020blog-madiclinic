@@ -3,6 +3,19 @@ import { describe, expect, test } from 'vitest';
 import { buildRssFeedXml } from './rss-xml';
 
 describe('RSS 2.0 XML', () => {
+  test('본문의 CDATA 종료 문자와 XML 금지 문자가 피드를 깨뜨리지 않는다', () => {
+    const xml = buildRssFeedXml({
+      title: '제목\u000b', link: 'https://example.com/blog', description: '설명',
+      selfUrl: 'https://example.com/blog/rss.xml', language: 'ko-KR',
+      items: [{ title: '한글 😀\u0000', link: 'https://example.com/blog/article',
+        description: '요약', contentHtml: '<p>본문\u000b 끝 ]]&gt; 😀</p>', publishedAt: '2026-10-01T00:00:00Z' }],
+    });
+    expect(xml).not.toMatch(/[\u0000\u000b]/u);
+    expect(xml).toContain('한글 😀');
+    expect(xml).toContain('<content:encoded>');
+    expect(xml).toContain('본문 끝');
+  });
+
   test('채널·자기 참조 링크·항목을 표준 RSS 형태로 만든다', () => {
     const xml = buildRssFeedXml({
       title: '광주 남구 마디클리닉 블로그',

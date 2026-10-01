@@ -1,6 +1,7 @@
 import { clinic } from '../../data/clinic';
 import { siteUrl } from '../../data/site';
-import { buildRssFeedXml } from '../seo/rss-xml';
+import { buildRssFeedXml, RSS_ITEM_LIMIT } from '../seo/rss-xml';
+import { rssParagraph } from '../seo/rss-content';
 import { faqIndexMetadata } from './faq-content';
 import { cleanFaqAnswer, cleanFaqQuestion, faqEntryPath, type FaqEntry } from './faq-model';
 
@@ -16,10 +17,16 @@ export function buildFaqRssXml(entries: readonly FaqEntry[]): string {
     description: faqIndexMetadata.description,
     selfUrl: siteUrl(FAQ_RSS_PATH),
     language: 'ko-KR',
-    items: newestFirst.map((entry) => ({
+    items: newestFirst.slice(0, RSS_ITEM_LIMIT).map((entry) => ({
       title: cleanFaqQuestion(entry.question),
       link: siteUrl(faqEntryPath(entry)),
       description: cleanFaqAnswer(entry.answer),
+      contentHtml: [
+        rssParagraph(entry.questionContext ?? cleanFaqQuestion(entry.question)),
+        rssParagraph(cleanFaqAnswer(entry.answer)),
+        entry.bodyHtml ?? '',
+        entry.clinicPerspectiveHtml ?? '',
+      ].join('\n'),
       publishedAt: entry.updatedAt,
       updatedAt: entry.updatedAt,
       author: clinic.representative,

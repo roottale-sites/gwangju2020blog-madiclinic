@@ -1,7 +1,14 @@
+import { rssContentHtml } from './rss-content';
+
+/** 본문을 포함하는 최신 피드. 전체 공개 URL은 사이트맵이 담당한다. */
+export const RSS_ITEM_LIMIT = 20;
+
 type RssFeedItem = {
   title: string;
   link: string;
   description: string;
+  /** 상세 화면과 같은 렌더러로 정화한 전체 본문. */
+  contentHtml?: string;
   publishedAt: string;
   updatedAt?: string;
   author?: string | null;
@@ -54,6 +61,7 @@ function lastUpdatedAt(items: readonly RssFeedItem[]): string | null {
 }
 
 function rssItemXml(item: RssFeedItem): string {
+  const content = item.contentHtml?.trim() ? rssContentHtml(item.contentHtml, item.link) : null;
   const publishedAt = rssDate(item.publishedAt);
   const pubDate = publishedAt ? `<pubDate>${publishedAt}</pubDate>` : '';
   const author = item.author ? `<dc:creator>${cdata(item.author)}</dc:creator>` : '';
@@ -67,7 +75,8 @@ function rssItemXml(item: RssFeedItem): string {
     `      <title>${cdata(item.title)}</title>`,
     `      <link>${escapeXml(item.link)}</link>`,
     `      <guid isPermaLink="true">${escapeXml(item.link)}</guid>`,
-    `      <description>${cdata(item.description)}</description>`,
+    `      <description>${cdata(content ?? item.description)}</description>`,
+    ...(content ? [`      <content:encoded>${cdata(content)}</content:encoded>`] : []),
     ...(pubDate ? [`      ${pubDate}`] : []),
     ...(author ? [`      ${author}`] : []),
     ...(category ? [`      ${category}`] : []),
@@ -95,5 +104,7 @@ export function buildRssFeedXml(feed: RssFeed): string {
     '  </channel>',
     '</rss>',
     '',
-  ].filter(Boolean).join('\n');
+  ].filter(Boolean).join('\n')
+    // 편집기에서 붙여 넣은 제어 문자·고립 서로게이트는 CDATA 안에서도 XML 1.0에 금지된다.
+    .replace(/[^\u0009\u000A\u000D\u0020-\uD7FF\uE000-\uFFFD\u{10000}-\u{10FFFF}]/gu, '');
 }

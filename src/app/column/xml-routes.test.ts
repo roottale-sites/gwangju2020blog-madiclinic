@@ -6,6 +6,9 @@ const source = vi.hoisted(() => ({
 }));
 
 vi.mock('../../features/column/column-source', () => source);
+vi.mock('../../features/column/column-api', () => ({
+  loadColumnRss: async () => ({ ok: false, reason: 'upstream' }),
+}));
 
 import { GET as rss } from './rss.xml/route';
 import { GET as sitemap } from './sitemap.xml/route';

@@ -1,9 +1,13 @@
 import { describe, expect, test, vi } from 'vitest';
+import { buildColumnRssXml } from '../features/column/column-rss';
 
 // CMS 통신만 대체하고 실제 라우트와 XML 생성기의 응답 계약을 확인한다.
 vi.mock('../features/column/column-source', () => ({
   resolveColumnArchive: async () => ({ status: 'ok', entries: [] }),
   resolveColumnCategories: async () => ({ status: 'ok', categories: [] }),
+}));
+vi.mock('../features/column/column-api', () => ({
+  loadColumnRss: async () => ({ ok: true, data: buildColumnRssXml([]) }),
 }));
 vi.mock('../features/reviews/review-api', () => ({
   loadReviewArchive: async () => ({ ok: true, data: [] }),
