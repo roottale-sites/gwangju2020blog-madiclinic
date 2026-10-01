@@ -45,6 +45,11 @@ export const metadata: Metadata = {
     other: [{ rel: 'mask-icon', url: '/safari-pinned-tab.svg', color: '#5bbad5' }],
   },
   robots: { index: true, follow: true },
+  verification: {
+    other: {
+      'naver-site-verification': '1a28adccd316a7a4418eeada6e3c2528fe7813ff',
+    },
+  },
   openGraph: {
     locale: 'ko_KR',
     siteName: clinic.name,
