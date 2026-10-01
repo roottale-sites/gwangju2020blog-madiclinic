@@ -1,3 +1,4 @@
+import { THEME_CACHE_TAG } from '@roottale/cms-client/server';
 import { verifyRootTaleWebhook } from '@roottale/cms-client/webhook';
 import { revalidatePath, revalidateTag } from 'next/cache';
 
@@ -75,6 +76,12 @@ export async function POST(request: Request): Promise<Response> {
   // 관련 질문·본문 링크는 최신화되며, 웹훅 응답 전에 CMS 역참조 조회를 하지 않는다.
   const fallbackFaqPaths = initialTargets.includes('faq') && verification.event.startsWith('post.') &&
     !paths.some((path) => faqInternalLinkKeyFromPath(path) !== null);
+
+  // 설정 저장(소유 확인 코드 등)은 루트 layout metadata가 읽는 theme 캐시까지 지운다.
+  if (verification.event === 'theme.updated') {
+    revalidateTag(THEME_CACHE_TAG, { expire: 0 });
+    revalidatePath('/', 'layout');
+  }
 
   const targets = revalidationTargets(verification.event, paths);
   if (verification.event.startsWith('post.') && targets.length === 0) {

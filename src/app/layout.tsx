@@ -21,8 +21,9 @@ import { clinic } from '../data/clinic';
 import { siteOrigin } from '../data/site';
 import { siteEntityJsonLd } from '../features/seo/schema';
 import { RootAnalytics } from '../features/analytics/RootAnalytics';
+import { loadSiteVerification } from '../features/seo/site-verification';
 
-export const metadata: Metadata = {
+const baseMetadata: Metadata = {
   metadataBase: new URL(siteOrigin),
   /**
    * 하위 페이지는 `%s | 광주 남구 마디클리닉 블로그`가 된다. template 없이 두면
@@ -45,18 +46,18 @@ export const metadata: Metadata = {
     other: [{ rel: 'mask-icon', url: '/safari-pinned-tab.svg', color: '#5bbad5' }],
   },
   robots: { index: true, follow: true },
-  verification: {
-    google: 'wqorcvLgTNUDn2rwq8W3CwcDf-nYDDy1M5EGqf0GJAQ',
-    other: {
-      'naver-site-verification': '1a28adccd316a7a4418eeada6e3c2528fe7813ff',
-    },
-  },
   openGraph: {
     locale: 'ko_KR',
     siteName: clinic.name,
     type: 'website',
   },
 };
+
+/** 검색엔진 소유 확인 코드는 ROOT-ADMIN 설정 → 연동에서 관리한다. */
+export async function generateMetadata(): Promise<Metadata> {
+  const verification = await loadSiteVerification();
+  return { ...baseMetadata, ...(verification ? { verification } : {}) };
+}
 
 export const viewport: Viewport = {
   width: 'device-width',

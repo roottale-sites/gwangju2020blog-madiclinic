@@ -135,6 +135,23 @@ describe('칼럼 웹훅 무효화 배선', () => {
       ['/faq/[section]/[topic]/[slug]', 'page'],
     ]);
   });
+
+  test('설정 저장은 소유 확인 메타태그가 읽는 theme 캐시와 루트 layout도 갱신한다', async () => {
+    verifyRootTaleWebhook.mockResolvedValue({ ok: true, event: 'theme.updated', deliveryId: 'd3' });
+
+    const response = await POST(webhookRequest({ paths: [] }));
+
+    expect(response.status).toBe(200);
+    expect(revalidateTag.mock.calls[0]).toEqual(['rt-theme', { expire: 0 }]);
+    expect(revalidatePath.mock.calls[0]).toEqual(['/', 'layout']);
+    expect(revalidateTag.mock.calls).toContainEqual(['faq:all', { expire: 0 }]);
+  });
+
+  test('글 발행은 theme 캐시를 건드리지 않는다', async () => {
+    await POST(webhookRequest({ paths: ['/column'] }));
+
+    expect(revalidateTag.mock.calls).not.toContainEqual(['rt-theme', { expire: 0 }]);
+  });
 });
 
 describe('FAQ 웹훅 무효화 배선', () => {
