@@ -171,3 +171,19 @@ describe('FAQ 표시 모델', () => {
     expect(entriesForSection(faqFixtureEntries, '없는-영역')).toEqual([]);
   });
 });
+
+describe('진료 영역에 바로 붙은 질문(세부 질환 없음)', () => {
+  const direct = { sectionSlug: 'shoulder', topicSlug: null, slug: 'frozen-shoulder' } as const;
+
+  test('주소와 예약 키가 한 단계 짧다', () => {
+    expect(faqEntryPath(direct)).toBe('/faq/shoulder/frozen-shoulder');
+    expect(faqInternalLinkKey(direct)).toBe('faq.shoulder.frozen-shoulder');
+  });
+
+  test('관련 콘텐츠 입력에서 한 단계 짧은 예약 키도 읽는다', () => {
+    expect(faqRelatedContentKeys('faq.shoulder.frozen-shoulder\nfaq.shoulder')).toEqual([
+      'faq.shoulder.frozen-shoulder',
+    ]);
+  });
+});
+

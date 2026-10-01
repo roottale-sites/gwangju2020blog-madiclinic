@@ -20,7 +20,8 @@ import FaqPageFrame, { FAQ_BREADCRUMB_ROOT } from './FaqPageFrame';
 import { FaqMedicalNote, FaqReviewer, FaqSidebarBox } from './FaqShared';
 
 /**
- * `/faq/{section}/{topic}/{slug}` 답변 상세.
+ * `/faq/{section}/{topic}/{slug}` 답변 상세. 진료 영역에 바로 붙은 질문
+ * (`/faq/{section}/{slug}`)은 `topic` 없이 같은 화면을 쓴다.
  *
  * headnerve 구조(질문 카드 → 핵심 답변 → 상세 답변 → 관점 → 관련 질문 + 250px
  * 목차 사이드바) 그대로다. 다르게 한 곳
@@ -33,7 +34,7 @@ export default function FaqDetailPage({ collection, entry, section, topic, notic
   collection: FaqCollection;
   entry: FaqEntry;
   section: FaqSection;
-  topic: FaqTopic;
+  topic?: FaqTopic;
   notice?: ReactNode;
 }>) {
   const path = faqEntryPath(entry);
@@ -42,7 +43,7 @@ export default function FaqDetailPage({ collection, entry, section, topic, notic
   const crumbs = [
     ...FAQ_BREADCRUMB_ROOT,
     { name: section.name, href: faqSectionPath(section.slug) },
-    { name: topic.name, href: faqTopicPath(section.slug, topic.slug) },
+    ...(topic ? [{ name: topic.name, href: faqTopicPath(section.slug, topic.slug) }] : []),
     { name: entry.question, href: path },
   ];
   const faqJsonLd = faqPageJsonLd(path, [{ question: entry.question, answer: entry.answer }]);

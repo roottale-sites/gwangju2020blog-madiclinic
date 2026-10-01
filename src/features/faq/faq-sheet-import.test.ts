@@ -78,9 +78,15 @@ describe('parseCsv / readFaqSheetRows', () => {
 
 describe('resolveFaqCategory', () => {
   it('이름의 공백·가운뎃점 차이와 slug 입력을 모두 받는다', () => {
-    expect(resolveFaqCategory(categories, '두통 편두통', '긴장성두통')?.topic.slug).toBe('tension');
-    expect(resolveFaqCategory(categories, 'dizziness', 'bppv')?.topic.id).toBe('c-bppv');
+    expect(resolveFaqCategory(categories, '두통 편두통', '긴장성두통')?.topic?.slug).toBe('tension');
+    expect(resolveFaqCategory(categories, 'dizziness', 'bppv')?.topic?.id).toBe('c-bppv');
     expect(resolveFaqCategory(categories, '두통·편두통', '이석증')).toBeNull();
+  });
+
+  it('질환을 비우면 하위 질환이 없는 영역에만 바로 붙는다', () => {
+    const withNeck = [...categories, faqCategory({ id: 'c-neck', parentId: null, slug: 'neck', name: '목' })];
+    expect(resolveFaqCategory(withNeck, '목', '')).toEqual({ section: withNeck[5], topic: null });
+    expect(resolveFaqCategory(withNeck, '두통·편두통', '')).toBeNull();
   });
 });
 
@@ -215,5 +221,28 @@ describe('planFaqSheetImport', () => {
   it('CMS에 같은 주소 글이 있으면 만들지 않고 유지로 분류한다', () => {
     expect(plan.keep[0]?.seed.title).toBe('이미 있는 질문');
     expect(plan.warnings.some((warning) => warning.includes('제목 다름'))).toBe(false);
+  });
+});
+
+describe('planFaqSheetImport — 질환 없는 영역', () => {
+  const withNeck = [...categories, faqCategory({ id: 'c-neck', parentId: null, slug: 'neck', name: '목' })];
+  const plan = planFaqSheetImport({
+    rows: readFaqSheetRows(csv([
+      '"목","","목이 결려요?","자세를 봅니다.","","","2026-10-01","neck-stiff",""',
+      '"두통·편두통","","질환을 비운 질문?","요약","","","2026-10-01","no-topic",""',
+    ])),
+    categories: withNeck,
+    existing: [],
+    scopeId: (row) => `scope-${row.rowNumber}`,
+  });
+
+  it('하위 질환이 없는 영역에 바로 붙이고, 하위가 있는 영역은 질환을 요구한다', () => {
+    expect(plan.create.map((seed) => [seed.slug, seed.categoryId, seed.key])).toEqual([
+      ['neck-stiff', 'c-neck', 'faq.neck.neck-stiff'],
+    ]);
+    expect(plan.create[0]?.categoryPath).toEqual(['neck']);
+    expect(plan.errors).toEqual([
+      '3행: 영역을 찾을 수 없거나 질환이 있는 영역입니다. 질환을 적어 주세요 — 두통·편두통',
+    ]);
   });
 });

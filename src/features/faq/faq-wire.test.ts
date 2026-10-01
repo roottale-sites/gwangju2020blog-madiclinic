@@ -95,10 +95,13 @@ describe('FAQ 공개 API 와이어', () => {
     await expect(fetchFaqPostsPage(config)).rejects.toThrow('권한 없음');
   });
 
-  test('선택한 말단에서 2단계 분류 사슬을 계산하고 부모 선택은 거부한다', () => {
+  test('선택한 분류에서 최대 2단계 분류 사슬을 계산한다', () => {
     expect(faqCategoryChain('top-neck', faqFixtureCategories, 2)?.map((category) => category.slug))
       .toEqual(['spine', 'neck-pain']);
-    expect(faqCategoryChain('sec-spine', faqFixtureCategories, 2)).toBeNull();
+    // 진료 영역에 바로 붙은 글 — 영역에 하위 질환이 생긴 뒤에도 주소를 유지한다.
+    expect(faqCategoryChain('sec-spine', faqFixtureCategories, 2)?.map((category) => category.slug))
+      .toEqual(['spine']);
+    expect(faqCategoryChain('top-neck', faqFixtureCategories, 1)).toBeNull();
     expect(faqCategoryChain('없는-분류', faqFixtureCategories, 2)).toBeNull();
   });
 });

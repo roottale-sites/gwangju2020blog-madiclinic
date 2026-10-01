@@ -45,10 +45,12 @@ function bindCategories(
   return buildFaqCmsSeeds(fallbackFaqArchive.entries).map((seed) => {
     const [sectionSlug, topicSlug] = seed.categoryPath;
     const root = roots.get(sectionSlug);
-    const leaf = categories.find(
-      (category) => category.parentId === root?.id && category.slug === topicSlug,
-    );
-    if (!root || !leaf) throw new Error(`FAQ 분류를 찾을 수 없습니다: ${sectionSlug}/${topicSlug}`);
+    const leaf = topicSlug
+      ? categories.find(
+          (category) => category.parentId === root?.id && category.slug === topicSlug,
+        )
+      : root;
+    if (!root || !leaf) throw new Error(`FAQ 분류를 찾을 수 없습니다: ${seed.categoryPath.join('/')}`);
     return { ...seed, categoryId: leaf.id };
   });
 }

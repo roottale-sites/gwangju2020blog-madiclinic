@@ -52,7 +52,7 @@ export type FaqDetailCollection = FaqCollection & { readonly entry: FaqEntry | n
 function selectFaqDetail(
   collection: FaqCollection,
   sectionSlug: string,
-  topicSlug: string,
+  topicSlug: string | null,
   slug: string,
 ): FaqDetailCollection {
   const entry = collection.archive.entries.find((candidate) =>
@@ -79,7 +79,8 @@ function selectFaqDetail(
  */
 export async function resolveFaqDetailCollection(
   sectionSlug: string,
-  topicSlug: string,
+  /** 세부 질환. 진료 영역에 바로 붙은 질문(`/faq/{section}/{slug}`)은 null이다. */
+  topicSlug: string | null,
   slug: string,
 ): Promise<FaqDetailCollection> {
   if (!isFaqCmsConfigured()) {

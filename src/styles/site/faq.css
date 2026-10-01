@@ -328,6 +328,11 @@
   list-style: none;
 }
 
+/* 세부 질환 목록 아래, 진료 영역에 바로 붙은 질문 */
+.faq-question-list--section {
+  margin-top: var(--madi-space-4);
+}
+
 .faq-question-list a {
   display: grid;
   grid-template-columns: var(--madi-space-4) minmax(0, 1fr);

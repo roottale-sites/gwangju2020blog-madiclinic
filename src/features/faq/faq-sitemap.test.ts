@@ -38,4 +38,20 @@ describe('FAQ 사이트맵', () => {
     }));
     expect(faqSitemapLastModified(entries)).toBe('2026-09-17T00:00:00.000Z');
   });
+
+  test('진료 영역에 바로 붙은 질문은 질환 화면 없이 영역과 답변만 담는다', () => {
+    const xml = buildFaqSitemapXml([{
+      ...faqFixtureEntries[0]!,
+      sectionSlug: 'shoulder',
+      topicSlug: null,
+      topicName: null,
+      slug: 'frozen-shoulder',
+    }]);
+
+    expect(xml).toContain(`<loc>${siteOrigin}/faq/shoulder</loc>`);
+    expect(xml).toContain(`<loc>${siteOrigin}/faq/shoulder/frozen-shoulder</loc>`);
+    // 홈 + 영역 1 + 답변 1
+    expect([...xml.matchAll(/<url>/gu)]).toHaveLength(3);
+  });
 });
+

@@ -23,10 +23,11 @@ describe('FAQ 캐시 태그', () => {
 });
 
 describe('FAQ 예약 키 역변환', () => {
-  test('네 단계 상세 경로만 예약 키가 된다', () => {
+  test('상세 경로(질환 아래, 또는 진료 영역에 바로 붙은 질문)만 예약 키가 된다', () => {
     expect(faqInternalLinkKeyFromPath('/faq/spine/neck-pain/mri-normal'))
       .toBe('faq.spine.neck-pain.mri-normal');
-    expect(faqInternalLinkKeyFromPath('/faq/spine/neck-pain')).toBeNull();
+    expect(faqInternalLinkKeyFromPath('/faq/spine/mri-normal')).toBe('faq.spine.mri-normal');
+    expect(faqInternalLinkKeyFromPath('/faq/spine')).toBeNull();
     expect(faqInternalLinkKeyFromPath('/faq')).toBeNull();
     expect(faqInternalLinkKeyFromPath('/column/spine/mri-normal')).toBeNull();
   });

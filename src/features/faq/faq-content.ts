@@ -65,7 +65,6 @@ export const faqNotices = {
   'no-model': '자주 묻는 질문을 준비 중입니다. 질문 콘텐츠 유형이 아직 연결되지 않았습니다.',
   upstream: '지금은 질문 목록을 불러올 수 없습니다. 잠시 후 다시 시도해 주세요.',
   emptySections: '아직 공개된 진료 영역이 없습니다. 질문이 올라오면 이 화면에서 바로 보입니다.',
-  emptyTopics: '이 진료 영역에는 아직 공개된 세부 질환이 없습니다.',
   emptyEntries: '현재 공개된 질문이 없습니다.',
   emptyIntent: '이 분류에 공개된 질문이 없습니다.',
 } as const;

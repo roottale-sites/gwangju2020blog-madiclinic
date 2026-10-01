@@ -158,7 +158,7 @@ describe('FAQ 원장·분류 조회', () => {
     expect(result.data.taxonomy.sections).toHaveLength(1);
   });
 
-  test('말단 분류가 하나가 아닌 글과 핵심 답변이 없는 글은 주소를 만들 수 없어 빠진다', async () => {
+  test('분류가 하나가 아닌 글과 핵심 답변이 없는 글은 빠지고, 진료 영역에 바로 붙은 글은 남는다', async () => {
     installCmsResponses([
       { ...post('two-categories', '분류 두 개'), terms: [
         { id: 'top-neck', taxonomy: 'category', slug: 'neck-pain', name: '목 통증' },
@@ -174,7 +174,12 @@ describe('FAQ 원장·분류 조회', () => {
     const result = await loadFaqCatalog();
     expect(result.ok).toBe(true);
     if (!result.ok) return;
-    expect(result.data.archive.entries.map((entry) => entry.slug)).toEqual(['ok']);
+    expect(result.data.archive.entries.map((entry) => entry.slug)).toEqual(['parent-only', 'ok']);
+    // 영역에 바로 붙은 글은 세부 질환이 없고 주소가 한 단계 짧다(CMS 모델 entryCategory: leaf).
+    const direct = result.data.archive.entries[0];
+    expect(direct?.topicSlug).toBeNull();
+    expect(direct?.topicName).toBeNull();
+    expect(direct?.sectionSlug).toBe('spine');
   });
 
   test('display_order가 목록 순서를 정하고 없는 글은 뒤로 간다', async () => {

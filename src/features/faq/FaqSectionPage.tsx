@@ -4,14 +4,17 @@ import { faqNotices } from './faq-content';
 import {
   entriesForSection,
   entriesForTopic,
+  faqEntryPath,
   faqSectionPath,
   faqTopicPath,
+  type FaqIntent,
   type FaqSection,
 } from './faq-model';
 import { faqTopicsForSection } from './faq-registry';
 import type { FaqCollection } from './faq-source';
 import FaqPageFrame, { FAQ_BREADCRUMB_ROOT } from './FaqPageFrame';
 import FaqCategoryNav from './FaqCategoryNav';
+import FaqQuestionListPage from './FaqQuestionListPage';
 import {
   FaqEmpty,
   FaqReviewer,
@@ -31,15 +34,39 @@ function topicPreview(question: string | undefined): string {
  * 만들어진 세부 질환을 모두(질문 0개 포함) 순서대로 보여 준다 — 분류 트리의 권위는
  * CMS이고, 편집자가 만든 영역이 화면에서 사라지면 아직 글이 없다는 사실이 보이지
  * 않는다. 사이트맵은 반대로 글이 있는 분류만 담는다(ADR-0006 §5).
+ *
+ * 세부 질환 없이 질문을 바로 담은 영역(CMS 모델 `entryCategory: leaf`)은 세부 질환
+ * 화면과 같은 질문 목록을 보여 준다. 질문이 붙은 뒤 세부 질환이 생긴 영역은 질환
+ * 목록 아래에 영역에 바로 붙은 질문을 함께 보여 준다 — 그 질문의 주소는 유지된다.
  */
-export default function FaqSectionPage({ collection, section }: Readonly<{
+export default function FaqSectionPage({ collection, section, selectedIntent, requestedPage = 1 }: Readonly<{
   collection: FaqCollection;
   section: FaqSection;
+  selectedIntent?: FaqIntent;
+  requestedPage?: number;
 }>) {
   const path = faqSectionPath(section.slug);
   const entries = entriesForSection(collection.archive.entries, section.slug);
+  const directEntries = entriesForTopic(entries, section.slug, null);
   const topics = faqTopicsForSection(collection.taxonomy, section.slug);
   const crumbs = [...FAQ_BREADCRUMB_ROOT, { name: section.name, href: path }];
+
+  if (topics.length === 0 && directEntries.length > 0) {
+    return (
+      <FaqQuestionListPage
+        collection={collection}
+        path={path}
+        crumbs={crumbs}
+        name={section.name}
+        pageTitle={section.pageTitle}
+        seoDescription={section.seoDescription}
+        entries={directEntries}
+        nav={<FaqCategoryNav collection={collection} sectionSlug={section.slug} />}
+        selectedIntent={selectedIntent}
+        requestedPage={requestedPage}
+      />
+    );
+  }
 
   return (
     <FaqPageFrame
@@ -59,7 +86,7 @@ export default function FaqSectionPage({ collection, section }: Readonly<{
         <div className="faq-layout__main">
           <FaqCategoryNav collection={collection} sectionSlug={section.slug} />
           {topics.length === 0 ? (
-            collection.status === 'ok' ? <FaqEmpty message={faqNotices.emptyTopics} /> : null
+            collection.status === 'ok' ? <FaqEmpty message={faqNotices.emptyEntries} /> : null
           ) : (
             <ul className="faq-topic-list">
               {topics.map((topic) => {
@@ -78,6 +105,22 @@ export default function FaqSectionPage({ collection, section }: Readonly<{
                 );
               })}
             </ul>
+          )}
+          {topics.length > 0 && directEntries.length > 0 && (
+            <ol className="faq-question-list faq-question-list--section">
+              {directEntries.map((entry) => (
+                <li key={entry.slug}>
+                  <Link href={faqEntryPath(entry)}>
+                    <span className="faq-question-list__mark">Q.</span>
+                    <strong>{entry.question}</strong>
+                    <span className="faq-question-list__answer">
+                      <b>A.</b>
+                      <span>{entry.answer}</span>
+                    </span>
+                  </Link>
+                </li>
+              ))}
+            </ol>
           )}
         </div>
         <aside className="faq-sidebar" aria-label={`${section.name} 질문 목차`}>

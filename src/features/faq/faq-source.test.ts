@@ -88,8 +88,8 @@ describe('FAQ 상세 선택', () => {
     expect(detail.status).toBe('upstream');
   });
 
-  test('네 단계 형태가 아닌 요청은 CMS를 부르지 않는다', async () => {
-    const detail = await resolveFaqDetailCollection('spine', '', 'mri-normal');
+  test('상세 주소 형태가 아닌 요청은 CMS를 부르지 않는다', async () => {
+    const detail = await resolveFaqDetailCollection('spine', null, '');
     expect(detail.entry).toBeNull();
     expect(loadFaqCatalog).not.toHaveBeenCalled();
   });

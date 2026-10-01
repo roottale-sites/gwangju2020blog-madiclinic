@@ -16,6 +16,10 @@ import { faqInternalLinkKeyFromPath } from './faq-cache';
  *     웹훅 재검증(4단계)이 FAQ 화면보다 먼저 그 판정을 썼고, 두 벌을 두면 갈라진다.
  *
  * 4단계 경로 계산·`faqEntryPath`·예약 링크·관련 콘텐츠 로직은 headnerve 그대로다.
+ *
+ * 하위 질환이 없는 진료 영역에는 질문을 바로 붙인다(CMS 모델 `entryCategory: leaf`).
+ * 그 질문은 `topicSlug`가 null이고 주소가 `/faq/{section}/{slug}`다. 영역에 나중에
+ * 질환이 생겨도 이미 붙은 질문은 그 주소를 유지한다.
  */
 export type FaqSource = 'cms' | 'fallback';
 
@@ -52,8 +56,9 @@ export type FaqEntry = {
   copiedFrom?: ContentSource;
   contentId?: string;
   sectionSlug: string;
-  topicSlug: string;
-  topicName: string;
+  /** 세부 질환. 진료 영역에 바로 붙은 질문은 null이다. */
+  topicSlug: string | null;
+  topicName: string | null;
   slug: string;
   /**
    * 플랫폼이 저장한 정규 공개 경로(ADR-0105). 링크·canonical·사이트맵은 이 값을
@@ -146,19 +151,28 @@ export function faqTopicPath(sectionSlug: string, topicSlug: string): string {
 export type FaqEntryPathInput = Pick<FaqEntry, 'sectionSlug' | 'topicSlug' | 'slug'> &
   Partial<Pick<FaqEntry, 'path'>>;
 
+/** 질문이 놓인 목록 주소 — 세부 질환이 없으면 진료 영역이다. */
+export function faqEntryParentPath(entry: Pick<FaqEntry, 'sectionSlug' | 'topicSlug'>): string {
+  return entry.topicSlug
+    ? faqTopicPath(entry.sectionSlug, entry.topicSlug)
+    : faqSectionPath(entry.sectionSlug);
+}
+
 /**
  * FAQ 상세 주소. 플랫폼 원장(`entry.path`)을 먼저 읽고, 없을 때만 영역·질환·slug로
  * 조립한다(ADR-0105 Amendment 1 — FRONT는 주소를 다시 계산하지 않는다).
  */
 export function faqEntryPath(entry: FaqEntryPathInput): string {
-  return entry.path ?? `${faqTopicPath(entry.sectionSlug, entry.topicSlug)}/${entry.slug}`;
+  return entry.path ?? `${faqEntryParentPath(entry)}/${entry.slug}`;
 }
 
-/** 예약 본문 링크가 URL과 독립적으로 참조하는 FAQ 공개 식별자. */
+/** 예약 본문 링크가 URL과 독립적으로 참조하는 FAQ 공개 식별자(주소 조각을 점으로 잇는다). */
 export function faqInternalLinkKey(
   entry: Pick<FaqEntry, 'sectionSlug' | 'topicSlug' | 'slug'>,
 ): string {
-  return `faq.${entry.sectionSlug}.${entry.topicSlug}.${entry.slug}`.toLowerCase();
+  return (entry.topicSlug
+    ? `faq.${entry.sectionSlug}.${entry.topicSlug}.${entry.slug}`
+    : `faq.${entry.sectionSlug}.${entry.slug}`).toLowerCase();
 }
 
 export { faqInternalLinkKeyFromPath };
@@ -188,7 +202,7 @@ export function faqPublishedInternalLinkPaths(
 }
 
 const FAQ_INTERNAL_CONTENT_KEY_PATTERN =
-  /^faq\.([a-z0-9가-힣-]+)\.([a-z0-9가-힣-]+)\.([a-z0-9가-힣-]+)$/iu;
+  /^faq\.[a-z0-9가-힣-]+(?:\.[a-z0-9가-힣-]+)?\.[a-z0-9가-힣-]+$/iu;
 
 /**
  * ROOT-ADMIN "공개 FAQ 선택"(relationship) 값에서 글 ID를 읽는다.
@@ -285,6 +299,11 @@ export function entriesForSection(entries: readonly FaqEntry[], sectionSlug: str
   return entries.filter((entry) => entry.sectionSlug === sectionSlug);
 }
 
-export function entriesForTopic(entries: readonly FaqEntry[], sectionSlug: string, topicSlug: string): FaqEntry[] {
+/** 세부 질환의 질문. `topicSlug`가 null이면 진료 영역에 바로 붙은 질문이다. */
+export function entriesForTopic(
+  entries: readonly FaqEntry[],
+  sectionSlug: string,
+  topicSlug: string | null,
+): FaqEntry[] {
   return entries.filter((entry) => entry.sectionSlug === sectionSlug && entry.topicSlug === topicSlug);
 }

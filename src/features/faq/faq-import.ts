@@ -5,7 +5,8 @@ export type FaqCmsSeed = {
   title: string;
   excerpt: string;
   bodyJson: Record<string, unknown>;
-  categoryPath: readonly [string, string];
+  /** 진료 영역 → 세부 질환. 세부 질환이 없는 영역의 질문은 영역 하나다. */
+  categoryPath: readonly [string] | readonly [string, string];
   fieldValues: Record<string, unknown>;
 };
 
@@ -53,7 +54,7 @@ export function buildFaqCmsSeeds(entries: readonly FaqEntry[]): FaqCmsSeed[] {
       title: entry.question,
       excerpt: entry.answer,
       bodyJson: emptyTiptapDocument(),
-      categoryPath: [entry.sectionSlug, entry.topicSlug],
+      categoryPath: entry.topicSlug ? [entry.sectionSlug, entry.topicSlug] : [entry.sectionSlug],
       fieldValues: {
         classification: entry.intent,
         reviewed_at: entry.updatedAt.slice(0, 10),

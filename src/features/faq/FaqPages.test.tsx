@@ -2,13 +2,13 @@ import { renderToStaticMarkup } from 'react-dom/server';
 import { describe, expect, test } from 'vitest';
 
 import { faqNotices } from './faq-content';
-import { faqFixtureCollection, faqFixtureEntries } from './faq-fixture';
+import { faqCategory, faqFixtureCategories, faqFixtureCollection, faqFixtureEntries } from './faq-fixture';
 import FaqDetailPage from './FaqDetailPage';
 import FaqHomePage from './FaqHomePage';
 import FaqSectionPage from './FaqSectionPage';
 import FaqStatePage from './FaqStatePage';
 import FaqTopicPage from './FaqTopicPage';
-import { EMPTY_FAQ_TAXONOMY, faqSectionBySlug, faqTopicBySlug } from './faq-registry';
+import { EMPTY_FAQ_TAXONOMY, faqSectionBySlug, faqTaxonomyFromCategories, faqTopicBySlug } from './faq-registry';
 
 const collection = faqFixtureCollection();
 const section = faqSectionBySlug(collection.taxonomy, 'spine');
@@ -126,12 +126,12 @@ describe('진료 영역 화면', () => {
     expect(html).toContain('이경무 원장');
   });
 
-  test('세부 질환이 없으면 안내 문구가 나온다', () => {
+  test('세부 질환도 영역에 바로 붙은 질문도 없으면 질문 없음 안내가 나온다', () => {
     const html = sectionPage(faqFixtureCollection({
       taxonomy: { sections: collection.taxonomy.sections, topics: [] },
     }));
 
-    expect(html).toContain(faqNotices.emptyTopics);
+    expect(html).toContain(faqNotices.emptyEntries);
     expect(html).not.toContain('class="faq-topic-list"');
   });
 });
@@ -274,3 +274,58 @@ test('FAQ도 지정 글쓴이와 소개 링크를 표시한다', () => {
   expect(html).not.toContain('headnerve');
   expect(html).not.toContain('원문:');
 });
+
+describe('세부 질환 없이 진료 영역에 바로 붙은 질문', () => {
+  const directEntry = {
+    ...entry,
+    contentId: 'post-shoulder-direct',
+    sectionSlug: 'shoulder',
+    topicSlug: null,
+    topicName: null,
+    slug: 'frozen-shoulder',
+    question: '오십견은 저절로 낫나요?',
+  };
+  const spineDirect = {
+    ...entry,
+    contentId: 'post-spine-direct',
+    sectionSlug: 'spine',
+    topicSlug: null,
+    topicName: null,
+    slug: 'spine-general',
+    question: '척추 통증은 어느 과에서 보나요?',
+  };
+  const leafCollection = faqFixtureCollection({
+    archive: { source: 'cms', entries: [...faqFixtureEntries, directEntry, spineDirect] },
+    taxonomy: faqTaxonomyFromCategories([
+      ...faqFixtureCategories,
+      faqCategory({ id: 'sec-shoulder', parentId: null, slug: 'shoulder', name: '어깨' }),
+    ]),
+  });
+  const shoulder = faqSectionBySlug(leafCollection.taxonomy, 'shoulder');
+  const spine = faqSectionBySlug(leafCollection.taxonomy, 'spine');
+  if (!shoulder || !spine) throw new Error('픽스처 영역이 없습니다.');
+
+  test('질환이 없는 영역은 질문 목록을 바로 보여 주고 질문은 두 단계 주소로 연결한다', () => {
+    const html = renderToStaticMarkup(<FaqSectionPage collection={leafCollection} section={shoulder} />);
+    expect(html).toContain('href="/faq/shoulder/frozen-shoulder"');
+    expect(html).toContain('오십견은 저절로 낫나요?');
+    expect(html).toContain('어깨 질문 목차');
+    expect(html).not.toContain(faqNotices.emptyEntries);
+  });
+
+  test('질환이 있는 영역은 질환 목록 아래에 영역에 바로 붙은 질문을 함께 보여 준다', () => {
+    const html = renderToStaticMarkup(<FaqSectionPage collection={leafCollection} section={spine} />);
+    expect(html).toContain('href="/faq/spine/neck-pain"');
+    expect(html).toContain('href="/faq/spine/spine-general"');
+  });
+
+  test('상세 화면은 질환 없이 영역까지만 이동 경로를 만든다', () => {
+    const html = renderToStaticMarkup(
+      <FaqDetailPage collection={leafCollection} entry={directEntry} section={shoulder} />,
+    );
+    expect(html).toContain('href="/faq/shoulder"');
+    expect(html).toContain('오십견은 저절로 낫나요?');
+    expect(html).not.toContain('href="/faq/shoulder/frozen-shoulder/');
+  });
+});
+

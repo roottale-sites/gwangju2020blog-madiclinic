@@ -49,7 +49,8 @@ export type FaqSheetSeed = {
   bodyJson: Record<string, unknown>;
   bodyMode: 'tiptap' | 'importedHtml' | 'empty';
   categoryId: string;
-  categoryPath: readonly [string, string];
+  /** 영역 → 질환. 질환이 없는 영역에 바로 붙는 질문은 영역 하나다. */
+  categoryPath: readonly [string] | readonly [string, string];
   key: string;
   publishedOn: string;
   fieldValues: Record<string, unknown>;
@@ -73,8 +74,10 @@ export type FaqSheetImportPlan = {
 };
 
 /** `faqInternalLinkKey`와 같은 형식 — CMS 분류가 원장이라 정적 영역 목록에 묶지 않는다. */
-export function faqSheetLinkKey(sectionSlug: string, topicSlug: string, slug: string): string {
-  return `faq.${sectionSlug}.${topicSlug}.${slug}`.toLowerCase();
+export function faqSheetLinkKey(sectionSlug: string, topicSlug: string | null, slug: string): string {
+  return (topicSlug
+    ? `faq.${sectionSlug}.${topicSlug}.${slug}`
+    : `faq.${sectionSlug}.${slug}`).toLowerCase();
 }
 
 const RELATED_HEADING_PATTERN = /같이\s*많이\s*묻는\s*질문|함께\s*보면\s*좋은\s*질문|관련\s*질문/u;
@@ -158,7 +161,8 @@ export function readFaqSheetRows(csv: string): FaqSheetRow[] {
   const index = Object.fromEntries(
     Object.entries(HEADER_ALIASES).map(([key, aliases]) => [key, columnIndex(headers, aliases)]),
   ) as Record<HeaderKey, number>;
-  for (const required of ['section', 'topic', 'question', 'summary'] as const) {
+  // 질환 열은 선택이다 — 질환이 없는 영역의 질문은 비워 둔다.
+  for (const required of ['section', 'question', 'summary'] as const) {
     if (index[required] < 0) throw new Error(`시트에 ${HEADER_ALIASES[required][0]} 열이 없습니다`);
   }
   const cell = (cells: readonly string[], key: HeaderKey): string =>
@@ -195,10 +199,14 @@ function normalizeName(value: string): string {
 
 export type ResolvedFaqCategory = {
   section: FaqWireCategory;
-  topic: FaqWireCategory;
+  /** 질환이 없는 영역에 바로 붙는 질문은 null이다. */
+  topic: FaqWireCategory | null;
 };
 
-/** 영역·질환을 CMS 분류 이름 또는 slug로 찾는다. */
+/**
+ * 영역·질환을 CMS 분류 이름 또는 slug로 찾는다. 질환을 비우면 하위 질환이 없는
+ * 영역에만 붙는다(CMS 모델 `entryCategory: leaf`와 같은 규칙).
+ */
 export function resolveFaqCategory(
   categories: readonly FaqWireCategory[],
   section: string,
@@ -211,6 +219,11 @@ export function resolveFaqCategory(
       category.slug === section.trim().toLowerCase(),
   );
   if (!root) return null;
+  if (!topic.trim()) {
+    return categories.some((category) => category.parentId === root.id)
+      ? null
+      : { section: root, topic: null };
+  }
   const leaf = categories.find(
     (category) =>
       category.parentId === root.id &&
@@ -460,11 +473,15 @@ function existingLinkTargets(
 ): FaqLinkTarget[] {
   const byId = new Map(categories.map((category) => [category.id, category]));
   return existing.flatMap((post) => {
-    const leaf = post.categoryIds.map((id) => byId.get(id)).find((category) => category?.parentId);
-    const root = leaf?.parentId ? byId.get(leaf.parentId) : undefined;
-    if (!leaf || !root) return [];
+    const category = post.categoryIds.map((id) => byId.get(id)).find(Boolean);
+    if (!category) return [];
+    if (!category.parentId) {
+      return [{ key: faqSheetLinkKey(category.slug, null, post.slug), question: post.title }];
+    }
+    const root = byId.get(category.parentId);
+    if (!root) return [];
     return [{
-      key: faqSheetLinkKey(root.slug, leaf.slug, post.slug),
+      key: faqSheetLinkKey(root.slug, category.slug, post.slug),
       question: post.title,
     }];
   });
@@ -482,7 +499,9 @@ export function planFaqSheetImport(input: FaqSheetPlanInput): FaqSheetImportPlan
     }
     if (!row.summary) errors.push(`${row.rowNumber}행: 요약답변이 비어 있습니다`);
     if (!resolved) {
-      errors.push(`${row.rowNumber}행: 분류를 찾을 수 없습니다 — ${row.section} › ${row.topic}`);
+      errors.push(row.topic
+        ? `${row.rowNumber}행: 분류를 찾을 수 없습니다 — ${row.section} › ${row.topic}`
+        : `${row.rowNumber}행: 영역을 찾을 수 없거나 질환이 있는 영역입니다. 질환을 적어 주세요 — ${row.section}`);
       return [];
     }
     const slug = row.slug || faqQuestionSlug(row.question);
@@ -501,7 +520,7 @@ export function planFaqSheetImport(input: FaqSheetPlanInput): FaqSheetImportPlan
   }
 
   const sheetTargets: FaqLinkTarget[] = resolvedRows.map(({ row, resolved, slug }) => ({
-    key: faqSheetLinkKey(resolved.section.slug, resolved.topic.slug, slug),
+    key: faqSheetLinkKey(resolved.section.slug, resolved.topic?.slug ?? null, slug),
     question: row.question,
   }));
   const targets = [...sheetTargets, ...existingLinkTargets(input.existing, input.categories)];
@@ -510,7 +529,7 @@ export function planFaqSheetImport(input: FaqSheetPlanInput): FaqSheetImportPlan
   const create: FaqSheetSeed[] = [];
   const keep: { seed: FaqSheetSeed; post: ExistingFaqPost }[] = [];
   for (const { row, resolved, slug, slugDerived } of resolvedRows) {
-    const key = faqSheetLinkKey(resolved.section.slug, resolved.topic.slug, slug);
+    const key = faqSheetLinkKey(resolved.section.slug, resolved.topic?.slug ?? null, slug);
     const rowWarnings: string[] = [];
     if (slugDerived) rowWarnings.push(`주소 열이 비어 질문에서 만든 주소를 씁니다 — ${slug}`);
 
@@ -551,8 +570,10 @@ export function planFaqSheetImport(input: FaqSheetPlanInput): FaqSheetImportPlan
       excerpt: row.summary,
       bodyJson,
       bodyMode: converted.mode,
-      categoryId: resolved.topic.id,
-      categoryPath: [resolved.section.slug, resolved.topic.slug],
+      categoryId: (resolved.topic ?? resolved.section).id,
+      categoryPath: resolved.topic
+        ? [resolved.section.slug, resolved.topic.slug]
+        : [resolved.section.slug],
       key,
       publishedOn: row.publishedOn,
       fieldValues,

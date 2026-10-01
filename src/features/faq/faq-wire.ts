@@ -225,10 +225,12 @@ export async function fetchFaqPostsPage(
 }
 
 /**
- * 글이 고른 말단 분류에서 `depth`단계 분류 사슬을 계산한다.
+ * 글이 고른 분류에서 루트까지의 분류 사슬(최대 `depth`단계)을 계산한다.
  *
- * 부모를 고른 글(사슬 길이 1)이나 자식을 가진 분류는 말단이 아니므로 null이다 —
- * 그 글은 네 단계 주소를 가질 수 없고, 목록·사이트맵에서 빠진다.
+ * 하위 질환이 없는 진료 영역에 바로 붙은 글은 사슬 길이가 1이다(CMS 모델
+ * `entryCategory: leaf`). 하위가 있는지는 보지 않는다 — CMS가 새로 고를 때 막고,
+ * 영역에 나중에 질환이 생겨도 이미 붙은 글의 주소는 플랫폼이 유지한다. 끊긴
+ * 부모·순환·중복 id·최대 단계 초과는 null이고 그 글은 목록·사이트맵에서 빠진다.
  */
 export function faqCategoryChain(
   leafId: string,
@@ -236,7 +238,7 @@ export function faqCategoryChain(
   depth: number,
 ): FaqWireCategory[] | null {
   const byId = new Map(categories.map((category) => [category.id, category]));
-  if (byId.size !== categories.length || categories.some((category) => category.parentId === leafId)) return null;
+  if (byId.size !== categories.length) return null;
   const reversed: FaqWireCategory[] = [];
   const visited = new Set<string>();
   let currentId: string | null = leafId;
@@ -246,7 +248,8 @@ export function faqCategoryChain(
     const current = byId.get(currentId);
     if (!current) return null;
     reversed.push(current);
+    if (reversed.length > depth) return null;
     currentId = current.parentId;
   }
-  return reversed.length === depth ? reversed.reverse() : null;
+  return reversed.reverse();
 }

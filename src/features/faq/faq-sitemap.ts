@@ -26,8 +26,10 @@ export function buildFaqSitemapXml(entries: readonly FaqEntry[]): string {
 
   for (const entry of entries) {
     const sectionPath = faqSectionPath(entry.sectionSlug);
-    const topicPath = faqTopicPath(entry.sectionSlug, entry.topicSlug);
     sectionDates.set(sectionPath, [...(sectionDates.get(sectionPath) ?? []), entry.updatedAt]);
+    // 진료 영역에 바로 붙은 질문은 세부 질환 화면이 없다.
+    if (!entry.topicSlug) continue;
+    const topicPath = faqTopicPath(entry.sectionSlug, entry.topicSlug);
     topicDates.set(topicPath, [...(topicDates.get(topicPath) ?? []), entry.updatedAt]);
   }
 

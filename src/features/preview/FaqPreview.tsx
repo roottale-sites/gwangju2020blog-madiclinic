@@ -24,9 +24,11 @@ export default async function FaqPreview({ post }: Readonly<{ post: CmsPostPrevi
     }, categories, published.archive.entries);
     const taxonomy = faqTaxonomyFromCategories(categories);
     const section = entry && faqSectionBySlug(taxonomy, entry.sectionSlug);
-    const topic = entry && faqTopicBySlug(taxonomy, entry.sectionSlug, entry.topicSlug);
-    if (!entry || !section || !topic) return <PreviewMessage title="답변 내용을 확인해 주세요">
-      두 단계 분류의 마지막 질환을 하나 선택하고 질문·요약 답변을 입력하면 미리보기를 볼 수 있습니다.
+    const topic = entry?.topicSlug
+      ? faqTopicBySlug(taxonomy, entry.sectionSlug, entry.topicSlug)
+      : undefined;
+    if (!entry || !section || (entry.topicSlug && !topic)) return <PreviewMessage title="답변 내용을 확인해 주세요">
+      분류(세부 질환, 또는 세부 질환이 없는 진료 영역)를 하나 선택하고 질문·요약 답변을 입력하면 미리보기를 볼 수 있습니다.
     </PreviewMessage>;
     const collection = { ...published, taxonomy, archive: { ...published.archive,
       entries: [...published.archive.entries.filter((item) => item.contentId !== post.id), entry],

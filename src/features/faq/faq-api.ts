@@ -58,8 +58,8 @@ const MAX_PAGES = 10;
 type PreparedFaqPost = {
   post: FaqWirePost;
   sectionSlug: string;
-  topicSlug: string;
-  topicName: string;
+  topicSlug: string | null;
+  topicName: string | null;
   question: string;
   answer: string;
 };
@@ -117,10 +117,10 @@ async function allPosts(): Promise<FaqWirePost[]> {
 }
 
 /**
- * 글 하나를 네 단계 주소로 놓을 수 있는지 판정한다.
+ * 글 하나를 FAQ 주소에 놓을 수 있는지 판정한다.
  *
- * 말단 2단계 분류가 정확히 하나 붙어 있고 질문·핵심 답변이 있어야 한다. 하나라도
- * 어긋나면 null이고 목록·사이트맵에서 빠진다 — 주소를 만들 수 없는 글이다.
+ * 분류가 정확히 하나 붙어 있고(세부 질환, 또는 질환 없이 진료 영역) 질문·핵심
+ * 답변이 있어야 한다. 하나라도 어긋나면 null이고 목록·사이트맵에서 빠진다.
  */
 function prepareFaqPost(
   post: FaqWirePost,
@@ -130,9 +130,9 @@ function prepareFaqPost(
   const selectedCategories = post.terms.filter((term) => term.taxonomy === 'category');
   if (selectedCategories.length !== 1) return null;
   const chain = faqCategoryChain(selectedCategories[0]!.id, categories, categoryDepth);
-  if (!chain || chain.length !== 2) return null;
+  if (!chain || chain.length < 1 || chain.length > 2) return null;
   const [section, topicCategory] = chain;
-  if (!section || !topicCategory) return null;
+  if (!section) return null;
   if (!post.slug || !post.title || !post.excerpt || post.modelKey !== 'faq') return null;
 
   const question = cleanFaqQuestion(post.title);
@@ -142,8 +142,8 @@ function prepareFaqPost(
   return {
     post,
     sectionSlug: section.slug,
-    topicSlug: topicCategory.slug,
-    topicName: topicCategory.name,
+    topicSlug: topicCategory?.slug ?? null,
+    topicName: topicCategory?.name ?? null,
     question,
     answer,
   };

@@ -146,7 +146,7 @@ headnerve 선언을 그대로 쓴다. 분류 목록만 비운다.
 |---|---|---|
 | `column` | `category_tree`, `basePath: /column`, `categoryDepth: 1`, `categoryCardinality: exactly-one`, feed·og | `categories: []`. ROOT-ADMIN에서 1단계 분류를 만든다. 글마다 정확히 1개 |
 | `reviews` | `detail`, `/reviews/:slug`, 커스텀 필드 `patient_name`·`doctor_name`·`treatment_period`(ADR-0001) | 없음 |
-| `faq` | `category_tree`, `basePath: /faq`, `categoryDepth: 2`, 필드 `clinic_perspective`(라벨 "마디클리닉 관점") | `categories: []`. ROOT-ADMIN에서 진료 영역(1단계)→세부 질환(2단계)을 만든다. 글마다 2단계 말단 분류 정확히 1개 |
+| `faq` | `category_tree`, `basePath: /faq`, `categoryDepth: 2`, `entryCategory: leaf`, 필드 `clinic_perspective`(라벨 "마디클리닉 관점") | `categories: []`. ROOT-ADMIN에서 진료 영역(1단계)→세부 질환(2단계)을 만든다. 글마다 **하위가 없는 분류** 정확히 1개 — 세부 질환이 필요 없는 영역에는 질문을 바로 붙인다(`/faq/{영역}/{slug}`). 질문이 붙은 영역에 나중에 질환이 생겨도 기존 주소는 유지된다(2026-10-01 고객 요청) |
 
 분류 값은 이 설계에서 정하지 않는다. 화면·URL·사이트맵은 CMS 공개 API의 분류(`/v1/cms/public/categories`, `content-models`)만 읽어 만들고 코드에는 slug를 두지 않는다. headnerve에서 정적 분류 원장 역할을 하던 `column-category-manifest.json`·`faq-registry.ts`의 질환 트리는 CMS 조회로 대체한다.
 
