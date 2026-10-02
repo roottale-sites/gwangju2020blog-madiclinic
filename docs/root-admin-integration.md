@@ -74,6 +74,8 @@ FAQ 공용 캐시와 글·분류 변경의 갱신 범위는 [FAQ 캐시 계약](
 
 ## 운영 설정
 
+FAQ는 `cms/content-models.json`의 `editor.requiredFields: ["excerpt"]`로 요약 답변을 필수로 지정한다. 관리자 입력란에 “요약 답변 (필수)”를 표시하고, 비어 있거나 공백만 있으면 발행·예약을 차단한다. 초안 저장은 허용한다. 홈페이지는 요약 답변이 없는 FAQ를 목록·상세에서 제외하므로, 이미 발행된 글도 요약 답변을 입력한 뒤 저장해야 표시된다.
+
 - 이번 연동 검수 배포: 사이트 `f9558fe`, 관리자 `7ec5b1d2`. 각 운영 도메인에 READY 상태로 반영한 뒤 검수했다.
 - Production URL: `gwangju2020blog.madiclinic.co.kr`. 별도 Staging URL은 없다.
 - 운영 웹훅: `https://gwangju2020blog.madiclinic.co.kr/api/revalidate` 하나를 활성화한다.
