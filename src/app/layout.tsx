@@ -70,16 +70,36 @@ export const viewport: Viewport = {
  * `@import` + `@font-face` + body font-family를 그대로 옮긴 것). 여기서는
  * 연결만 미리 열어 첫 렌더의 글꼴 교체를 줄인다.
  *
- * 자체 클릭·유입 수집은 RootAnalytics가 연결한다. 외부 태그는 ROOT-ADMIN 설정을 따른다.
+ * 자체 클릭·유입 수집은 RootAnalytics가 연결한다. GTM은 공통 head에서 로드하고,
+ * 그 외 외부 태그는 ROOT-ADMIN 설정을 따른다.
  */
 export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
   return (
     <html lang="ko" data-scroll-behavior="smooth">
       <head>
+        <script
+          id="google-tag-manager"
+          dangerouslySetInnerHTML={{
+            __html: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-T7TXDQ88');`,
+          }}
+        />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       </head>
       <body>
+        <noscript>
+          <iframe
+            src="https://www.googletagmanager.com/ns.html?id=GTM-T7TXDQ88"
+            height="0"
+            width="0"
+            style={{ display: 'none', visibility: 'hidden' }}
+            title="Google Tag Manager"
+          />
+        </noscript>
         <JsonLd nodes={siteEntityJsonLd} />
         <SiteLayout>{children}</SiteLayout>
         <RootAnalytics />
