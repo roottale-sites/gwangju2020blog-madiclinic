@@ -20,18 +20,21 @@
         "editor": {
           "labels": {
             "title": "질문",
-            "excerpt": "요약 답변",
+            "excerpt": "요약 답변 (필수)",
             "body": "상세 답변",
             "categories": "영역 · 질환",
             "tags": "검색 태그 (선택)"
           },
           "helpText": {
-            "excerpt": "질문에 대한 핵심 답변을 2~4문장으로 작성하세요. 목록과 상세 화면 상단에 표시되는 필수 내용입니다.",
+            "excerpt": "질문에 대한 핵심 답변을 2~4문장으로 작성하세요. 발행·예약하려면 반드시 입력해야 하며, 목록과 상세 화면 상단에 표시됩니다.",
             "body": "요약 답변 아래에 표시하는 선택 내용입니다. 여러 줄로 작성하거나 HTML로 가져올 수 있으며, [[internal:faq.영역.질환.slug|표시 문구]] 예약 링크도 사용할 수 있습니다(질환이 없는 영역의 질문은 faq.영역.slug)."
           },
           "categoryLevels": [
             "영역",
             "질환"
+          ],
+          "requiredFields": [
+            "excerpt"
           ]
         },
         "publication": {
