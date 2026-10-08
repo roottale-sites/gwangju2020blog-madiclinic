@@ -13,6 +13,7 @@ import { articleJsonLd, webPageJsonLd } from '../seo/schema';
 import { DEFAULT_OG_IMAGE_URL } from '../seo/og-image';
 import ColumnTableOfContents from './ColumnTableOfContents';
 import ColumnConsultationPhoto from './ColumnConsultationPhoto';
+import { loadColumnFooterImage, type ColumnFooterImage } from './column-footer-image';
 import { columnBreadcrumb } from './ColumnArchive';
 import {
   columnIndexMetadata,
@@ -68,12 +69,12 @@ export default async function ColumnDetailRoute({
 }: Readonly<{ slug: string; expectedCategorySlug?: string }>) {
   const entry = await resolveColumnEntry(slug);
   if (!entry || (expectedCategorySlug && entry.category.slug !== expectedCategorySlug)) notFound();
-  const archive = await resolveColumnArchive();
+  const [archive, footerImage] = await Promise.all([resolveColumnArchive(), loadColumnFooterImage()]);
   const entries = archive.entries.filter((item) => item.category.slug === entry.category.slug);
   const currentIndex = entries.findIndex((item) => item.slug === entry.slug);
   const previous = currentIndex > 0 ? entries[currentIndex - 1] : undefined;
   const next = currentIndex >= 0 ? entries[currentIndex + 1] : undefined;
-  return <ColumnDetailView entry={entry}
+  return <ColumnDetailView entry={entry} footerImage={footerImage}
     previous={previous ? { href: columnEntryPath(previous), title: previous.title } : undefined}
     next={next ? { href: columnEntryPath(next), title: next.title } : undefined} />;
 }
@@ -92,11 +93,13 @@ export function ColumnDetailView({
   notice,
   previous,
   next,
+  footerImage = null,
 }: Readonly<{
   entry: ColumnEntry;
   notice?: ReactNode;
   previous?: ArticleNavigationLink;
   next?: ArticleNavigationLink;
+  footerImage?: ColumnFooterImage | null;
 }>) {
   const canonical = columnEntryPath(entry);
   const isImportedHtml = entry.bodyFormat === 'imported-html';
@@ -154,7 +157,7 @@ export function ColumnDetailView({
                   <strong>의료 콘텐츠 안내</strong>
                   <p>{columnMedicalDisclaimer}</p>
                 </aside>
-                <ColumnConsultationPhoto />
+                <ColumnConsultationPhoto image={footerImage} />
                 <ArticleNavigation previous={previous} next={next}
                   listHref={entry.category.path} listLabel="블로그 목록" />
               </div>

@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { ColumnDetailView } from '../column/ColumnDetailRoute';
 import { columnEntryFromPost } from '../column/column-model';
+import { loadColumnFooterImage } from '../column/column-footer-image';
 import ReviewDetailView from '../reviews/ReviewDetailView';
 import FaqPreview from './FaqPreview';
 import { loadPostPreview } from './post-preview';
@@ -38,5 +39,6 @@ export default async function PostPreviewRoute({ postId, token }: Readonly<{ pos
   if (!entry) return <PreviewMessage title="분류를 선택해 주세요">
     칼럼 분류를 하나 선택하면 실제 사이트와 같은 화면으로 미리보기를 볼 수 있습니다.
   </PreviewMessage>;
-  return <ColumnDetailView entry={entry} notice={notice} />;
+  const footerImage = await loadColumnFooterImage();
+  return <ColumnDetailView entry={entry} notice={notice} footerImage={footerImage} />;
 }

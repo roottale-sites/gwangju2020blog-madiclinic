@@ -152,6 +152,14 @@ describe('칼럼 웹훅 무효화 배선', () => {
 
     expect(revalidateTag.mock.calls).not.toContainEqual(['rt-theme', { expire: 0 }]);
   });
+
+  test('공통 블록 수정·발행 해제는 이미지 캐시와 모든 블로그 상세를 즉시 갱신한다', async () => {
+    verifyRootTaleWebhook.mockResolvedValue({ ok: true, event: 'theme.updated', deliveryId: 'footer' });
+    const response = await POST(webhookRequest({ paths: [] }));
+    expect(response.status).toBe(200);
+    expect(revalidateTag).toHaveBeenCalledWith('rt-site-patterns', { expire: 0 });
+    expect(revalidatePath).toHaveBeenCalledWith('/column/[category]/[slug]', 'page');
+  });
 });
 
 describe('FAQ 웹훅 무효화 배선', () => {
