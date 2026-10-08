@@ -48,6 +48,6 @@ test('검색 폼은 GET 주소로 목록 상태를 고정한다', async ({ page 
   await page.goto('/column?q=%EB%AC%B4%EB%A6%8E');
 
   await expect(page.getByRole('searchbox', { name: '블로그 검색' })).toHaveValue('무릎');
-  // 검색·페이지 상태는 같은 글의 다른 조합이라 색인하지 않는다.
+  // 검색 결과에만 색인 제한을 적용한다.
   await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', /noindex/);
 });

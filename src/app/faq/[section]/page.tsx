@@ -44,13 +44,12 @@ export async function generateMetadata({ params, searchParams }: Props): Promise
   if (!section) return {};
   const query = await searchParams;
   const intent = selectedIntent(query.intent);
-  const page = parseFaqPageNumber(Array.isArray(query.page) ? query.page[0] : query.page);
   return {
     title: { absolute: faqTitleWithSuffix(section.pageTitle) },
     description: section.seoDescription,
     alternates: { canonical: faqSectionPath(section.slug) },
-    // 질문을 바로 담은 영역의 필터·페이지는 같은 질문의 다른 조합이라 색인하지 않는다.
-    robots: intent || page > 1 ? { index: false, follow: true } : undefined,
+    // 질문을 바로 담은 영역의 필터 결과에만 색인 제한을 적용한다.
+    robots: intent ? { index: false, follow: true } : undefined,
   };
 }
 

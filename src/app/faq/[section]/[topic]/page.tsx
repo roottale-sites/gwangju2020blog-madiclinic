@@ -82,13 +82,12 @@ export async function generateMetadata({ params, searchParams }: Props): Promise
   const path = faqTopicPath(section.slug, topic.slug);
   const query = await searchParams;
   const intent = selectedIntent(query.intent);
-  const page = parseFaqPageNumber(Array.isArray(query.page) ? query.page[0] : query.page);
   return {
     title: { absolute: faqTitleWithSuffix(topic.pageTitle) },
     description: topic.seoDescription,
     // 필터는 같은 질문의 다른 조합이라 색인하지 않고 canonical은 상위 주소로 둔다.
     alternates: { canonical: path },
-    robots: intent || page > 1 ? { index: false, follow: true } : undefined,
+    robots: intent ? { index: false, follow: true } : undefined,
   };
 }
 

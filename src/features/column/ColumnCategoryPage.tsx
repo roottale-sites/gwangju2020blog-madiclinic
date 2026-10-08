@@ -22,7 +22,6 @@ export function columnCategoryMetadata(
     searchQuery: '',
   },
 ): Metadata {
-  const isVariant = state.requestedPage > 1 || state.searchQuery.length > 0;
   const title = archive.category.seoTitle;
   const description = archive.category.seoDescription || columnIndexMetadata.description;
 
@@ -30,7 +29,7 @@ export function columnCategoryMetadata(
     title: { absolute: title },
     description,
     alternates: { canonical: archive.category.path },
-    robots: isVariant ? { index: false, follow: true } : undefined,
+    robots: state.searchQuery ? { index: false, follow: true } : undefined,
     openGraph: {
       type: 'website',
       title,

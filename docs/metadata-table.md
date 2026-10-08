@@ -6,6 +6,10 @@
 절대값이다(`metadata.title.absolute`). 세 기능의 제목이 두 번 사이트 이름을 달지
 않게 하려는 것이며, 값의 단일 출처는 각 기능의 `*-content.ts`다.
 
+칼럼 전체·분류, 치료후기, FAQ 영역·질환 목록은 페이지 번호(`?page=2` 이상)만으로
+`noindex`를 적용하지 않는다. 검색·필터에 따른 `noindex, follow`는 아래 표를 따르며,
+canonical은 각 목록의 기본 주소로 유지한다.
+
 ## 공통 404
 
 | URL | `<title>` | `description` | 비고 |
@@ -18,7 +22,7 @@
 
 | URL | `<title>` | `description` | 비고 |
 |---|---|---|---|
-| `/column` | 광주 남구 마디클리닉 블로그 | 광주 남구 마디클리닉 이경무 대표원장이 통증의 원인과 비수술 중점치료를 직접 씁니다. 영상유도하 통증중재시술 의료기관. | `columnIndexMetadata`. `?q=`·`?page=2`는 `noindex, follow` |
+| `/column` | 광주 남구 마디클리닉 블로그 | 광주 남구 마디클리닉 이경무 대표원장이 통증의 원인과 비수술 중점치료를 직접 씁니다. 영상유도하 통증중재시술 의료기관. | `columnIndexMetadata`. `?q=` 검색 결과는 `noindex, follow` |
 | `/column/{category}` | {분류 SEO 제목} | {분류 SEO 설명}, 비어 있으면 `/column` 설명 | CMS 공개 분류 API의 `seo_title`을 완전한 제목으로 사용한다. 비어 있으면 분류 이름을 쓴다(PLAN.md §4.2) |
 | `/column/{category}/{slug}` | {글 제목} \| 광주 남구 마디클리닉 블로그 | 글의 `seo.description` → 발췌문 → 기본 문구(160자 상한) | canonical은 플랫폼이 저장한 공개 경로(ADR-0105) |
 | 없는 분류·글 | 공통 404 제목 | 공통 404 설명 | `noindex, follow` |
@@ -27,7 +31,7 @@
 
 | URL | `<title>` | `description` | 비고 |
 |---|---|---|---|
-| `/reviews` | 치료후기 \| 광주 남구 마디클리닉 | 광주 남구 마디클리닉에서 치료받은 분들이 직접 남긴 치료 경험담입니다. | `reviewsIndexMetadata`. `?category=`·`?page=2`는 `noindex, follow`이고 canonical은 `/reviews` 고정 |
+| `/reviews` | 치료후기 \| 광주 남구 마디클리닉 | 광주 남구 마디클리닉에서 치료받은 분들이 직접 남긴 치료 경험담입니다. | `reviewsIndexMetadata`. `?category=`·`?q=`는 `noindex, follow`이고 canonical은 `/reviews` 고정 |
 | `/reviews?category={분류}` | {분류} 치료후기 \| 광주 남구 마디클리닉 | 광주 남구 마디클리닉의 {분류} 치료 경험담입니다. 개인의 경험은 서로 다를 수 있습니다. | 분류는 CMS 글에 붙은 분류 이름이다 |
 | `/reviews/{slug}` | 글의 `seo.title`, 없으면 {후기 제목} \| 치료후기 \| 광주 남구 마디클리닉 | 글의 `seo.description` → 발췌문 → 목록 설명(180자 상한) | canonical은 플랫폼이 저장한 공개 경로(ADR-0105). 옛 slug 요청은 정규 주소로 308 |
 | 없는 후기 | 후기를 찾을 수 없습니다 \| 치료후기 \| 광주 남구 마디클리닉 | 요청한 후기를 찾을 수 없습니다. | `noindex, follow` |

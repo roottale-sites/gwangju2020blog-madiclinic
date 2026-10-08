@@ -53,7 +53,7 @@ function reviewsPaginationUrl(page: number, category: string | null, searchQuery
   return `${reviewsUrl(page, category, searchQuery)}#reviews-list-title`;
 }
 
-/** 분류·페이지 상태는 정규 주소가 아니므로 상위 목록을 canonical로 유지한다. */
+/** 목록의 canonical은 분류·검색·페이지 상태와 관계없이 기본 주소로 유지한다. */
 export async function generateMetadata({ searchParams }: ReviewsPageProps): Promise<Metadata> {
   const params = await searchParams;
   const category = firstValue(params.category);
@@ -74,7 +74,7 @@ export async function generateMetadata({ searchParams }: ReviewsPageProps): Prom
       canonical: '/reviews',
       types: { 'application/rss+xml': '/reviews/rss.xml' },
     },
-    robots: category || firstValue(params.q) || page > 1 ? { index: false, follow: true } : { index: true, follow: true },
+    robots: category || firstValue(params.q) ? { index: false, follow: true } : { index: true, follow: true },
   };
 }
 

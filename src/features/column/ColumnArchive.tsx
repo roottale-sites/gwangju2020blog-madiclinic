@@ -18,8 +18,6 @@ export const columnBreadcrumb = [
 export function columnIndexMetadataFor(
   state: Readonly<{ requestedPage: number; searchQuery: string }>,
 ): Metadata {
-  const hasQueryState = Boolean(state.searchQuery) || state.requestedPage > 1;
-
   return {
     title: { absolute: columnIndexMetadata.title },
     description: columnIndexMetadata.description,
@@ -27,8 +25,8 @@ export function columnIndexMetadataFor(
       canonical: '/column',
       types: { 'application/rss+xml': '/column/rss.xml' },
     },
-    // 검색·페이지 상태는 같은 글의 다른 조합이라 색인하지 않는다.
-    robots: hasQueryState ? { index: false, follow: true } : undefined,
+    // 검색 결과에만 색인 제한을 적용한다.
+    robots: state.searchQuery ? { index: false, follow: true } : undefined,
   };
 }
 
