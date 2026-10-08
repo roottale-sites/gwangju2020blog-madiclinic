@@ -6,7 +6,7 @@ import '../../../../../styles/site/faq-detail.css';
 import '../../../../../styles/site/post-pattern.css';
 import FaqDetailPage from '../../../../../features/faq/FaqDetailPage';
 import FaqStatePage, { faqStateMetadata } from '../../../../../features/faq/FaqStatePage';
-import { faqDescription, faqTitleWithSuffix } from '../../../../../features/faq/faq-content';
+import { faqEntryMetadata } from '../../../../../features/faq/faq-metadata';
 import { faqEntryPath } from '../../../../../features/faq/faq-model';
 import { faqSectionBySlug, faqTopicBySlug } from '../../../../../features/faq/faq-registry';
 import { resolveFaqDetailCollection } from '../../../../../features/faq/faq-source';
@@ -40,16 +40,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { collection, entry } = await resolveRoute(params);
   if (collection.status !== 'ok') return faqStateMetadata(collection.status);
   if (!entry) return {};
-  return {
-    title: { absolute: faqTitleWithSuffix(entry.question) },
-    description: faqDescription(entry.answer),
-    alternates: { canonical: faqEntryPath(entry) },
-    // ROOT-ADMIN 공개 화면 반영 확인이 읽는 글 수정 시각 표식.
-    other: {
-      ...(entry.contentId ? { 'rt:content-id': entry.contentId } : {}),
-      'roottale:revision': entry.updatedAt,
-    },
-  };
+  return faqEntryMetadata(entry);
 }
 
 export default async function FaqDetailRoute({ params }: Props) {

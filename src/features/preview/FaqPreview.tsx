@@ -1,5 +1,6 @@
 import type { CmsPostPreviewContent } from '@roottale/cms-client/server';
 import { contentSource } from '../cms/content-source';
+import { readCmsSeo } from '../seo/cms-metadata';
 import FaqDetailPage from '../faq/FaqDetailPage';
 import { faqEntryFromPost } from '../faq/faq-api';
 import { faqSectionBySlug, faqTaxonomyFromCategories, faqTopicBySlug } from '../faq/faq-registry';
@@ -20,6 +21,7 @@ export default async function FaqPreview({ post }: Readonly<{ post: CmsPostPrevi
       title: post.title, excerpt: post.excerpt, updatedAt: post.updatedAt,
       bodyJson: post.bodyJson, bodyHtml: post.bodyHtml ?? null, fields: post.fields ?? {},
       copiedFrom: contentSource(post.metaJson), terms: post.terms,
+      seo: readCmsSeo(post.metaJson), featuredImageUrl: post.featuredImageUrl,
       relatedPostIds: post.relatedPosts?.map((related) => related.id) ?? [],
     }, categories, published.archive.entries);
     const taxonomy = faqTaxonomyFromCategories(categories);

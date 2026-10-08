@@ -21,7 +21,7 @@ describe('칼럼 분류 메타데이터', () => {
     expect(metadata.openGraph).toMatchObject({
       title: '무릎 통증 칼럼 | 검사와 치료 정보',
       description: '무릎 통증의 검사와 치료 글을 모았습니다.',
-      url: '/column/knee',
+      url: 'https://gwangju2020blog.madiclinic.co.kr/column/knee',
       images: ['https://gwangju2020blog.madiclinic.co.kr/opengraph-image.png'],
     });
     expect(metadata.twitter).toMatchObject({

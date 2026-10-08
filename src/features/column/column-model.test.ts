@@ -4,6 +4,7 @@ import {
   columnArchiveEntryFromPost,
   columnEntryFromPost,
   columnEntryPath,
+  columnEntrySeoTitle,
   columnPostDescription,
   isColumnPost,
   sortColumnEntries,
@@ -36,6 +37,12 @@ function post(overrides: Partial<ColumnPost> = {}): ColumnPost {
 }
 
 describe('칼럼 글 판별', () => {
+  test('글 제목을 유지하면서 CMS 검색 제목을 완전한 제목으로 사용한다', () => {
+    const entry = columnEntryFromPost(post({ metaJson: { seo: { title: '무릎 검사 안내 | 마디클리닉' } } }));
+    expect(entry?.title).toBe('무릎 통증의 원인');
+    expect(columnEntrySeoTitle(entry!)).toBe('무릎 검사 안내 | 마디클리닉');
+  });
+
   test('type·collectionKey가 모두 맞는 글만 칼럼이다', () => {
     expect(isColumnPost(post())).toBe(true);
     expect(isColumnPost(post({ collectionKey: 'reviews' }))).toBe(false);

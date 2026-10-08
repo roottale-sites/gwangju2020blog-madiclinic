@@ -38,6 +38,7 @@ function sectionFromCategory(category: FaqWireCategory): FaqSection {
     name: category.name,
     description,
     pageTitle: category.seoTitle ?? faqSectionPageTitle(category.name),
+    seoTitle: category.seoTitle?.trim() || undefined,
     seoDescription: category.seoDescription ?? description,
   };
 }
@@ -50,6 +51,7 @@ function topicFromCategory(category: FaqWireCategory, sectionSlug: string): FaqT
     name: category.name,
     description,
     pageTitle: category.seoTitle ?? faqSectionPageTitle(category.name),
+    seoTitle: category.seoTitle?.trim() || undefined,
     seoDescription: category.seoDescription ?? description,
   };
 }

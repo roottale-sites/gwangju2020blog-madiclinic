@@ -1,6 +1,10 @@
 {
-  "version": 3,
-  "pages": [],
+  "version": 4,
+  "pages": [
+    { "key": "column", "path": "/column", "templateKey": "community-metadata", "allowedSections": [] },
+    { "key": "reviews", "path": "/reviews", "templateKey": "community-metadata", "allowedSections": [] },
+    { "key": "faq", "path": "/faq", "templateKey": "community-metadata", "allowedSections": [] }
+  ],
   "models": [],
   "dynamicPages": [],
   "exposureSlots": [

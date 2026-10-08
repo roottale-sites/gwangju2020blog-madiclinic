@@ -9,6 +9,8 @@ import ArchiveNotice from '../../components/site/ArchiveNotice';
 import MadiPageFrame from '../../components/madi/MadiPageFrame';
 import JsonLd from '../../components/site/JsonLd';
 import { webPageJsonLd } from '../../features/seo/schema';
+import { loadArchiveSeo } from '../../features/seo/archive-seo';
+import { pageSeoMetadata } from '../../features/seo/cms-metadata';
 import ReviewCard from '../../features/reviews/ReviewCard';
 import { loadReviewArchive } from '../../features/reviews/review-api';
 import { reviewDisclosure, reviewsIndexMetadata } from '../../features/reviews/review-content';
@@ -58,23 +60,25 @@ export async function generateMetadata({ searchParams }: ReviewsPageProps): Prom
   const params = await searchParams;
   const category = firstValue(params.category);
   const page = parsePageNumber(firstValue(params.page));
+  const seo = await loadArchiveSeo('reviews');
   const title = category
-    ? `${category} ${reviewsIndexMetadata.title}`
+    ? `${category} ${seo.title}`
     : page > 1
-      ? `${reviewsIndexMetadata.label} ${page}페이지 | 광주 남구 마디클리닉`
-      : reviewsIndexMetadata.title;
+      ? `${seo.title} | ${page}페이지`
+      : seo.title;
   const description = category
     ? `광주 남구 마디클리닉의 ${category} 치료 경험담입니다. 개인의 경험은 서로 다를 수 있습니다.`
-    : reviewsIndexMetadata.description;
+    : seo.description;
 
   return {
-    title: { absolute: title },
-    description,
+    ...pageSeoMetadata('/reviews', {
+      ...seo, title, description,
+      noindex: seo.noindex || Boolean(category || firstValue(params.q)),
+    }),
     alternates: {
       canonical: '/reviews',
       types: { 'application/rss+xml': '/reviews/rss.xml' },
     },
-    robots: category || firstValue(params.q) ? { index: false, follow: true } : { index: true, follow: true },
   };
 }
 
@@ -87,7 +91,7 @@ export async function generateMetadata({ searchParams }: ReviewsPageProps): Prom
  */
 export default async function ReviewsPage({ searchParams }: ReviewsPageProps) {
   const params = await searchParams;
-  const result = await loadReviewArchive();
+  const [result, seo] = await Promise.all([loadReviewArchive(), loadArchiveSeo('reviews')]);
   const allReviews = result.ok ? result.data : [];
   const categories = reviewCategories(allReviews);
   const requestedCategory = firstValue(params.category);
@@ -109,8 +113,8 @@ export default async function ReviewsPage({ searchParams }: ReviewsPageProps) {
         nodes={[
           webPageJsonLd({
             path: '/reviews',
-            name: reviewsIndexMetadata.title,
-            description: reviewsIndexMetadata.description,
+            name: seo.title,
+            description: seo.description,
             type: 'CollectionPage',
           }),
         ]}

@@ -2,8 +2,9 @@ import type { Metadata } from 'next';
 
 import '../../styles/site/faq.css';
 import FaqHomePage from '../../features/faq/FaqHomePage';
-import { faqIndexMetadata } from '../../features/faq/faq-content';
 import { resolveFaqCollection } from '../../features/faq/faq-source';
+import { loadArchiveSeo } from '../../features/seo/archive-seo';
+import { pageSeoMetadata } from '../../features/seo/cms-metadata';
 
 /**
  * 데이터는 24시간 `unstable_cache`가 잡고 렌더링은 요청 시점에 한다. 정적
@@ -12,15 +13,17 @@ import { resolveFaqCollection } from '../../features/faq/faq-source';
  */
 export const dynamic = 'force-dynamic';
 
-export const metadata: Metadata = {
-  title: { absolute: faqIndexMetadata.title },
-  description: faqIndexMetadata.description,
-  alternates: {
-    canonical: '/faq',
-    types: { 'application/rss+xml': '/faq/rss.xml' },
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    ...pageSeoMetadata('/faq', await loadArchiveSeo('faq')),
+    alternates: {
+      canonical: '/faq',
+      types: { 'application/rss+xml': '/faq/rss.xml' },
+    },
+  };
+}
 
 export default async function FaqIndexRoute() {
-  return <FaqHomePage collection={await resolveFaqCollection()} />;
+  const [collection, seo] = await Promise.all([resolveFaqCollection(), loadArchiveSeo('faq')]);
+  return <FaqHomePage collection={collection} seo={seo} />;
 }

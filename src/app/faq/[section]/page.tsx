@@ -4,7 +4,7 @@ import { notFound } from 'next/navigation';
 import '../../../styles/site/faq.css';
 import FaqSectionPage from '../../../features/faq/FaqSectionPage';
 import FaqStatePage, { faqStateMetadata } from '../../../features/faq/FaqStatePage';
-import { faqTitleWithSuffix } from '../../../features/faq/faq-content';
+import { faqCategoryMetadata } from '../../../features/faq/faq-metadata';
 import { FAQ_INTENTS, faqSectionPath, type FaqIntent } from '../../../features/faq/faq-model';
 import { parseFaqPageNumber } from '../../../features/faq/faq-pagination';
 import { faqSectionBySlug } from '../../../features/faq/faq-registry';
@@ -44,13 +44,7 @@ export async function generateMetadata({ params, searchParams }: Props): Promise
   if (!section) return {};
   const query = await searchParams;
   const intent = selectedIntent(query.intent);
-  return {
-    title: { absolute: faqTitleWithSuffix(section.pageTitle) },
-    description: section.seoDescription,
-    alternates: { canonical: faqSectionPath(section.slug) },
-    // 질문을 바로 담은 영역의 필터 결과에만 색인 제한을 적용한다.
-    robots: intent ? { index: false, follow: true } : undefined,
-  };
+  return faqCategoryMetadata(faqSectionPath(section.slug), section, Boolean(intent));
 }
 
 export default async function FaqSectionRoute({ params, searchParams }: Props) {

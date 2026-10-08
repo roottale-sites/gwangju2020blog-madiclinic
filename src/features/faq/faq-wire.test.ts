@@ -69,6 +69,8 @@ describe('FAQ 공개 API 와이어', () => {
         title: '질문', excerpt: '답변',
         published_at: '2026-09-14T00:00:00.000Z', updated_at: '2026-09-15T00:00:00.000Z',
         body_json: { type: 'doc' }, body_html: '<p>상세</p>',
+        meta_json: { seo: { title: '검색용 질문', description: '검색용 답변', ogImage: '/faq-og.png' } },
+        featured_image_url: 'https://images.example.test/faq.png',
         terms: [{ id: 't1', taxonomy: 'category', slug: 'neck-pain', name: '목 통증' }],
         pattern_slots: { post_footer: 'clinic-guide' },
         related_posts: [{ id: 'rel-1', title: '관련', slug: 'rel-1' }, { id: 'rel-2', title: '관련2', slug: 'rel-2' }],
@@ -84,6 +86,9 @@ describe('FAQ 공개 API 와이어', () => {
       modelKey: 'faq', collectionKey: 'faq', slug: 'mri-normal', bodyHtml: '<p>상세</p>',
       terms: [{ id: 't1', taxonomy: 'category', slug: 'neck-pain', name: '목 통증' }],
       relatedPostIds: ['rel-1', 'rel-2'],
+      seo: { title: '검색용 질문', description: '검색용 답변',
+        ogImage: 'https://gwangju2020blog.madiclinic.co.kr/faq-og.png' },
+      featuredImageUrl: 'https://images.example.test/faq.png',
     });
     expect(page.items[0]).not.toHaveProperty('patternSlots');
   });

@@ -143,6 +143,8 @@ describe('칼럼 웹훅 무효화 배선', () => {
 
     expect(response.status).toBe(200);
     expect(revalidateTag.mock.calls[0]).toEqual(['rt-theme', { expire: 0 }]);
+    expect(revalidateTag).toHaveBeenCalledWith('rt-blog-settings', { expire: 0 });
+    expect(revalidateTag).toHaveBeenCalledWith('site:archive-seo', { expire: 0 });
     expect(revalidatePath.mock.calls[0]).toEqual(['/', 'layout']);
     expect(revalidateTag.mock.calls).toContainEqual(['faq:all', { expire: 0 }]);
   });

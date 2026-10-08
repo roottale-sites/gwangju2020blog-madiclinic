@@ -5,6 +5,7 @@ import MadiPageFrame from '../../components/madi/MadiPageFrame';
 import JsonLd from '../../components/site/JsonLd';
 import { webPageJsonLd } from '../seo/schema';
 import { DEFAULT_OG_IMAGE_URL } from '../seo/og-image';
+import { pageSeoMetadata } from '../seo/cms-metadata';
 import ColumnArchiveSearch from './ColumnArchiveSearch';
 import ColumnCategoryNav from './ColumnCategoryNav';
 import { columnBreadcrumb } from './ColumnArchive';
@@ -21,29 +22,14 @@ export function columnCategoryMetadata(
     requestedPage: 1,
     searchQuery: '',
   },
+  imageUrl: string = DEFAULT_OG_IMAGE_URL,
 ): Metadata {
   const title = archive.category.seoTitle;
   const description = archive.category.seoDescription || columnIndexMetadata.description;
 
-  return {
-    title: { absolute: title },
-    description,
-    alternates: { canonical: archive.category.path },
-    robots: state.searchQuery ? { index: false, follow: true } : undefined,
-    openGraph: {
-      type: 'website',
-      title,
-      description,
-      url: archive.category.path,
-      images: [DEFAULT_OG_IMAGE_URL],
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title,
-      description,
-      images: [DEFAULT_OG_IMAGE_URL],
-    },
-  };
+  return pageSeoMetadata(archive.category.path, {
+    title, description, imageUrl, noindex: Boolean(state.searchQuery),
+  });
 }
 
 /** `/column/{category}` 목록. 본문은 headnerve와 같고 틀만 `MadiPageFrame`이다. */

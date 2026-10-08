@@ -5,6 +5,7 @@ import { cfImageVariantUrl, isCfImageUrl } from '../cms/cf-image-url';
 import { removeEmDashes } from '../cms/content-text';
 import { sanitizeCmsHtml } from '../cms/raw-html';
 import { renderTiptapBody } from '../cms/tiptap-body';
+import { readCmsSeo, type CmsSeo } from '../seo/cms-metadata';
 import type { ColumnArchivePost, ColumnPost } from './column-wire';
 import { COLUMN_DESCRIPTION_MAX_LENGTH, columnSeoTitle } from './column-content';
 import {
@@ -37,6 +38,7 @@ export type ColumnEntry = {
   path?: string | null;
   title: string;
   description: string;
+  seo?: CmsSeo;
   publishedAt: string;
   updatedAt?: string;
   bodyHtml: string;
@@ -122,6 +124,7 @@ export function columnEntryFromPost(post: ColumnPost): ColumnEntry | null {
     path: post.path,
     title: removeEmDashes(post.title),
     description: columnPostDescription(post),
+    seo: readCmsSeo(post.metaJson),
     copiedFrom: contentSource(post.metaJson),
     publishedAt: post.publishedAt,
     updatedAt: post.updatedAt ?? post.publishedAt,
@@ -157,8 +160,8 @@ export function columnEntryPath(entry: Pick<ColumnEntry, 'slug' | 'category' | '
   return entry.path ?? nestedColumnEntryPath(entry.category.slug, entry.slug);
 }
 
-export function columnEntrySeoTitle(entry: Pick<ColumnEntry, 'title'>): string {
-  return columnSeoTitle(entry);
+export function columnEntrySeoTitle(entry: Pick<ColumnEntry, 'title' | 'seo'>): string {
+  return entry.seo?.title ?? columnSeoTitle(entry);
 }
 
 export function sortColumnEntries<T extends Pick<ColumnEntry, 'publishedAt'>>(

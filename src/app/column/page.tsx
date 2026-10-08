@@ -4,6 +4,7 @@ import '../../styles/site/column.css';
 import '../../styles/site/post-pattern.css';
 import ColumnArchive, { columnIndexMetadataFor } from '../../features/column/ColumnArchive';
 import { parseColumnPageNumber } from '../../features/column/column-pagination';
+import { loadArchiveSeo } from '../../features/seo/archive-seo';
 
 /**
  * 데이터는 24시간 `unstable_cache`가 잡고, 렌더링은 요청 시점에 한다.
@@ -28,7 +29,7 @@ function listState(params: Record<string, string | string[] | undefined>) {
 }
 
 export async function generateMetadata({ searchParams }: ColumnIndexPageProps): Promise<Metadata> {
-  return columnIndexMetadataFor(listState(await searchParams));
+  return columnIndexMetadataFor(listState(await searchParams), await loadArchiveSeo('column'));
 }
 
 export default async function ColumnIndexPage({ searchParams }: ColumnIndexPageProps) {

@@ -34,6 +34,7 @@ describe('FAQ 분류 트리', () => {
       name: '척추 통증',
       description: '목·허리 통증에 관해 자주 받는 질문입니다.',
       pageTitle: '척추 통증 자주 묻는 질문',
+      seoTitle: '척추 통증 자주 묻는 질문',
       seoDescription: '목·허리 통증의 검사와 비수술 치료 질문을 확인하세요.',
     });
   });

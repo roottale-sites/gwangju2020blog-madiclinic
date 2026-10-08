@@ -14,7 +14,10 @@ import { FaqEmpty, FaqSourceNotice } from './FaqShared';
  * (PLAN.md §5.3) 이미지 없이 본 사이트 안내 박스 표면(`.commonBox`, DESIGN.md §5)을
  * 쓰는 카드만 둔다. 영역 목록·이름·설명은 전부 CMS 분류에서 온다.
  */
-export default function FaqHomePage({ collection }: Readonly<{ collection: FaqCollection }>) {
+export default function FaqHomePage({ collection, seo = faqIndexMetadata }: Readonly<{
+  collection: FaqCollection;
+  seo?: { title: string; description: string };
+}>) {
   const { taxonomy, archive, status } = collection;
 
   return (
@@ -24,8 +27,8 @@ export default function FaqHomePage({ collection }: Readonly<{ collection: FaqCo
       jsonLd={[
         webPageJsonLd({
           path: '/faq',
-          name: faqIndexMetadata.title,
-          description: faqIndexMetadata.description,
+          name: seo.title,
+          description: seo.description,
           type: 'CollectionPage',
         }),
       ]}
