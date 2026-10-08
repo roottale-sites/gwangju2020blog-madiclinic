@@ -1,0 +1,66 @@
+{
+  "version": 3,
+  "pages": [],
+  "models": [],
+  "dynamicPages": [],
+  "exposureSlots": [
+    {
+      "key": "site-popup",
+      "kind": "popup",
+      "variants": [
+        "card",
+        "image-card",
+        "image"
+      ],
+      "assetKinds": [
+        "image"
+      ],
+      "pathPrefixes": [
+        "/"
+      ],
+      "repeatOptions": [
+        "always",
+        "session",
+        "day",
+        "never"
+      ],
+      "runtimeVersion": 2,
+      "homePaths": [
+        "/column",
+        "/faq",
+        "/reviews"
+      ],
+      "pathRules": [
+        {
+          "path": "/",
+          "match": "exact"
+        }
+      ],
+      "label": "커뮤니티 팝업",
+      "description": "블로그·자주 묻는 질문·후기 첫 화면의 PC·모바일 팝업. 상세 글에서는 표시하지 않습니다.",
+      "placement": "popup",
+      "imageDimensions": {
+        "desktop": {
+          "width": 600,
+          "height": 600
+        },
+        "mobile": {
+          "width": 750,
+          "height": 750
+        }
+      },
+      "sizes": [
+        "small",
+        "medium",
+        "large"
+      ]
+    }
+  ],
+  "fixedPatterns": [
+    {
+      "key": "column-footer-image",
+      "label": "블로그 하단 이미지",
+      "location": "모든 블로그 글에서 의료 콘텐츠 안내 아래, 블로그 목록 바로 위에 표시됩니다. 후기·FAQ에는 표시되지 않습니다."
+    }
+  ]
+}
