@@ -1,14 +1,19 @@
-import Image from 'next/image';
+import { cfImageSrcSet, cfImageVariantUrl } from '../cms/cf-image-url';
+import type { ColumnFooterImage } from './column-footer-image';
 
-export default function ColumnConsultationPhoto() {
+export default function ColumnConsultationPhoto({ image }: Readonly<{ image: ColumnFooterImage | null }>) {
+  if (!image) return null;
   return (
-    <Image
+    <img
       className="column-consultation-photo"
-      src="/madi/img/clinic-consultation.webp"
-      alt="마디클리닉 진료실에서 척추 모형으로 환자에게 설명하는 의료진"
-      width={2400}
-      height={1600}
+      src={cfImageVariantUrl(image.src, 'md')}
+      srcSet={cfImageSrcSet(image.src)}
+      alt={image.alt}
+      width={image.width}
+      height={image.height}
       sizes="(max-width: 520px) calc(100vw - 40px), 480px"
+      loading="lazy"
+      decoding="async"
     />
   );
 }

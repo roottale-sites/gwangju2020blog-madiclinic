@@ -6,6 +6,9 @@ import { loadPostPreview } from './post-preview';
 import PostPreviewRoute, { postPreviewMetadata } from './PostPreviewRoute';
 
 vi.mock('./post-preview', () => ({ loadPostPreview: vi.fn() }));
+vi.mock('../column/column-footer-image', () => ({
+  loadColumnFooterImage: async () => ({ src: '/preview-footer.webp', alt: '공통 하단 사진' }),
+}));
 vi.mock('../faq/faq-wire', async (original) => ({
   ...await original<typeof import('../faq/faq-wire')>(),
   fetchFaqCategories: async () => faqFixtureCategories,
@@ -27,6 +30,8 @@ test.each(['column', 'reviews', 'faq'])('%s 미리보기는 해당 공개 상세
   expect(html).toContain('미리보기');
   expect(html).toContain(model === 'reviews' ? 'review-detail' : model === 'faq' ? 'faq-detail' : 'column-detail');
   if (model === 'faq') expect(html).toContain('편집 중인 관점');
+  if (model === 'column') expect(html).toContain('src="/preview-footer.webp"');
+  else expect(html).not.toContain('preview-footer.webp');
   expect(await postPreviewMetadata('id', 'token')).toMatchObject({ robots: { index: false, follow: false } });
 });
 

@@ -1,4 +1,4 @@
-import { THEME_CACHE_TAG } from '@roottale/cms-client/server';
+import { SITE_PATTERNS_CACHE_TAG, THEME_CACHE_TAG } from '@roottale/cms-client/server';
 import { verifyRootTaleWebhook } from '@roottale/cms-client/webhook';
 import { revalidatePath, revalidateTag } from 'next/cache';
 
@@ -77,9 +77,10 @@ export async function POST(request: Request): Promise<Response> {
   const fallbackFaqPaths = initialTargets.includes('faq') && verification.event.startsWith('post.') &&
     !paths.some((path) => faqInternalLinkKeyFromPath(path) !== null);
 
-  // 설정 저장(소유 확인 코드 등)은 루트 layout metadata가 읽는 theme 캐시까지 지운다.
+  // 공통 블록 저장·발행·비공개도 theme.updated로 전달된다.
   if (verification.event === 'theme.updated') {
     revalidateTag(THEME_CACHE_TAG, { expire: 0 });
+    revalidateTag(SITE_PATTERNS_CACHE_TAG, { expire: 0 });
     revalidatePath('/', 'layout');
   }
 

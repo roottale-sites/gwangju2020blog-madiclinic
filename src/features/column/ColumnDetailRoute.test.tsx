@@ -4,8 +4,10 @@ import { beforeEach, expect, test, vi } from 'vitest';
 import ColumnDetailRoute, { columnDetailMetadata } from './ColumnDetailRoute';
 import type { ColumnEntry } from './column-model';
 import { resolveColumnArchive, resolveColumnEntry } from './column-source';
+import { loadColumnFooterImage } from './column-footer-image';
 
 vi.mock('./column-source', () => ({ resolveColumnArchive: vi.fn(), resolveColumnEntry: vi.fn() }));
+vi.mock('./column-footer-image', () => ({ loadColumnFooterImage: vi.fn() }));
 vi.mock('../../components/madi/MadiPageFrame', () => ({
   default: ({ children }: { children: ReactNode }) => <main>{children}</main>,
 }));
@@ -19,9 +21,19 @@ function entry(slug: string, category = 'headache'): ColumnEntry {
 }
 
 beforeEach(() => {
+  vi.mocked(loadColumnFooterImage).mockResolvedValue(null);
   vi.mocked(resolveColumnArchive).mockResolvedValue({
     status: 'ok', entries: [entry('newest'), entry('other', 'spine'), entry('middle'), entry('oldest')],
   });
+});
+
+test('관리자 하단 사진을 의료 안내와 블로그 목록 사이에 표시한다', async () => {
+  vi.mocked(resolveColumnEntry).mockResolvedValue(entry('middle'));
+  vi.mocked(loadColumnFooterImage).mockResolvedValue({ src: '/replacement.webp', alt: '교체한 사진' });
+  const html = renderToStaticMarkup(await ColumnDetailRoute({ slug: 'middle' }));
+  expect(html).toContain('src="/replacement.webp"');
+  expect(html.indexOf('column-disclaimer')).toBeLessThan(html.indexOf('column-consultation-photo'));
+  expect(html.indexOf('column-consultation-photo')).toBeLessThan(html.indexOf('article-navigation'));
 });
 
 async function navigation(slug: string) {
