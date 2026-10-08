@@ -1,3 +1,6 @@
+import { resolveMetadata, readMetadataValues } from '@roottale/cms-core';
+import { contentMetadataDefaults } from './metadata-contract';
+import { buildPageMetadata } from '@roottale/cms-renderer-next/routes';
 import type { Metadata } from 'next';
 import { clinic } from '../../data/clinic';
 import { siteUrl } from '../../data/site';
@@ -31,16 +34,15 @@ export function metadataImageUrl(value: unknown): string | undefined {
 }
 
 export function readCmsSeo(metaJson: Record<string, unknown>): CmsSeo {
-  const seo = metaJson.seo;
-  if (!seo || typeof seo !== 'object' || Array.isArray(seo)) return {};
-  return {
-    title: metadataText(Reflect.get(seo, 'title')),
-    description: metadataText(Reflect.get(seo, 'description')),
-    ogImage: metadataImageUrl(Reflect.get(seo, 'ogImage')),
-    ogImageAlt: metadataText(Reflect.get(seo, 'ogImageAlt')),
-    noindex: Reflect.get(seo, 'noindex') === true,
-    nofollow: Reflect.get(seo, 'nofollow') === true,
-  };
+  return resolveMetadata({ overrides: readMetadataValues(metaJson.seo), imageBaseUrl: siteUrl('/') });
+}
+
+/** 자동 문구는 배포 계약의 공통 포맷터, 직접 입력은 같은 해석기의 우선값이다. */
+export function contentSeo(
+  metaJson: Record<string, unknown>,
+  input: Parameters<typeof contentMetadataDefaults>[0],
+): CmsSeo {
+  return resolveMetadata({ overrides: readCmsSeo(metaJson), defaults: contentMetadataDefaults(input) });
 }
 
 export type PageSeo = {
@@ -48,24 +50,26 @@ export type PageSeo = {
   description: string;
   imageUrl: string;
   imageAlt?: string;
+  verification?: { routeKey: string; locale: string; version?: string; contractChecksum?: string };
   noindex?: boolean;
   nofollow?: boolean;
 };
 
 /** 검색·공유 문구를 함께 생성하며, canonical은 사이트 공개 경로를 유지한다. */
 export function pageSeoMetadata(path: string, seo: PageSeo): Metadata {
-  const images = seo.imageAlt ? [{ url: seo.imageUrl, alt: seo.imageAlt }] : [seo.imageUrl];
+  const metadata = buildPageMetadata({
+    overrides: {
+      title: seo.title, description: seo.description, ogImage: seo.imageUrl,
+      ogImageAlt: seo.imageAlt, noindex: seo.noindex, nofollow: seo.nofollow,
+    },
+  }, {
+    canonical: path,
+    siteUrl: siteUrl('/'),
+    path,
+    verification: seo.verification,
+  });
   return {
-    title: { absolute: seo.title },
-    description: seo.description,
-    alternates: { canonical: path },
-    robots: { index: !seo.noindex, follow: !seo.nofollow },
-    openGraph: {
-      type: 'website', locale: 'ko_KR', siteName: clinic.name,
-      title: seo.title, description: seo.description, url: siteUrl(path), images,
-    },
-    twitter: {
-      card: 'summary_large_image', title: seo.title, description: seo.description, images,
-    },
+    ...metadata,
+    openGraph: { ...metadata.openGraph, locale: 'ko_KR', siteName: clinic.name, url: siteUrl(path) },
   };
 }

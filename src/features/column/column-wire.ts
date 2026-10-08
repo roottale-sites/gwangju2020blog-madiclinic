@@ -52,6 +52,10 @@ export type ColumnTerm = {
 };
 
 export type ColumnCategoryWire = {
+  seoOgImage?: string;
+  seoOgImageAlt?: string;
+  seoNofollow?: boolean;
+  hubPromoted?: boolean;
   slug: string;
   name: string;
   publishedPostCount: number;
@@ -77,14 +81,18 @@ function archiveSeoMeta(metaJson: Record<string, unknown>): Record<string, unkno
   const seo = metaJson.seo;
   const title = isRecord(seo) && typeof seo.title === 'string' ? seo.title : undefined;
   const description = isRecord(seo) && typeof seo.description === 'string' ? seo.description : undefined;
+  const noindex = isRecord(seo) && typeof seo.noindex === 'boolean' ? seo.noindex : undefined;
+  const nofollow = isRecord(seo) && typeof seo.nofollow === 'boolean' ? seo.nofollow : undefined;
 
   // 화면에 필요한 SEO와 원문 출처만 보존한다.
   const source = metaJson.copiedFrom;
   return {
-    ...(title === undefined && description === undefined ? {} : {
+    ...(title === undefined && description === undefined && noindex === undefined && nofollow === undefined ? {} : {
       seo: {
         ...(title === undefined ? {} : { title }),
         ...(description === undefined ? {} : { description }),
+        ...(noindex === undefined ? {} : { noindex }),
+        ...(nofollow === undefined ? {} : { nofollow }),
       },
     }),
     ...(isRecord(source) && typeof source.name === 'string' && typeof source.url === 'string'
@@ -298,6 +306,10 @@ export async function fetchColumnCategories(
       description: nullableString(category.description),
       seoTitle: nullableString(category.seo_title),
       seoDescription: nullableString(category.seo_description),
+      seoOgImage: nullableString(category.seo_og_image) ?? undefined,
+      seoOgImageAlt: nullableString(category.seo_og_image_alt) ?? undefined,
+      seoNofollow: typeof category.seo_nofollow === 'boolean' ? category.seo_nofollow : undefined,
+      hubPromoted: typeof category.hub_promoted === 'boolean' ? category.hub_promoted : undefined,
       path: nullableString(category.path),
     }];
   });

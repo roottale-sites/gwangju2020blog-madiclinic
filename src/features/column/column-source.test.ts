@@ -1,3 +1,4 @@
+import { columnIndexMetadata } from './column-content';
 import { beforeEach, describe, expect, test, vi } from 'vitest';
 
 /**
@@ -137,7 +138,7 @@ describe('칼럼 분류 출처', () => {
     expect(list.categories[0]).toMatchObject({
       path: '/column/knee',
       seoTitle: '무릎',
-      seoDescription: '',
+      seoDescription: columnIndexMetadata.description,
     });
   });
 

@@ -125,7 +125,7 @@ async function fetchColumnRss(): Promise<string> {
 const loadCachedColumnArchive = unstable_cache(
   fetchColumnArchive,
   // v1: 이 저장소의 첫 스키마. 캐시 키에 비밀값을 넣지 않는 것이 핵심이다.
-  ['column-archive-v1'],
+  ['column-archive-v2'],
   {
     revalidate: COLUMN_DATA_CACHE_TTL_SECONDS,
     tags: [COLUMN_ALL_CACHE_TAG, COLUMN_ARCHIVE_CACHE_TAG],

@@ -1,3 +1,4 @@
+import { loadSitemapMetadata } from '../../features/seo/sitemap-metadata';
 import { buildColumnSitemapXml } from '../../features/column/column-sitemap';
 import { resolveColumnArchive, resolveColumnCategories } from '../../features/column/column-source';
 
@@ -23,7 +24,7 @@ export async function GET(): Promise<Response> {
       headers: { 'cache-control': 'no-store', 'retry-after': '300' },
     });
   }
-  return new Response(buildColumnSitemapXml(archive.entries, categories.categories), {
+  return new Response(buildColumnSitemapXml(archive.entries, categories.categories, await loadSitemapMetadata(['column'])), {
     headers: {
       'content-type': 'application/xml; charset=utf-8',
       'cache-control': 'no-store',

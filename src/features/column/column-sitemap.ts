@@ -1,3 +1,4 @@
+import { mergeSitemapMetadata, type SitemapMetadataContext } from '../seo/sitemap-metadata';
 import { siteUrl } from '../../data/site';
 import {
   buildSitemapUrlSetXml,
@@ -39,6 +40,7 @@ export function columnSitemapLastModified(entries: readonly ColumnArchiveEntry[]
 export function buildColumnSitemapXml(
   entries: readonly ColumnArchiveEntry[],
   categories: readonly ColumnCategory[],
+  context?: SitemapMetadataContext,
 ): string {
   const archiveLastModified = columnSitemapLastModified(entries);
   const categoryPaths = new Map<string, string[]>();
@@ -66,5 +68,7 @@ export function buildColumnSitemapXml(
         lastmod: columnEntryLastModified(entry),
       };
     }),
-  ]);
-}
+  ], mergeSitemapMetadata(context, [
+    ...categories.map((category) => [category.path, { noindex: category.noindex }] as const),
+    ...entries.map((entry) => [columnEntryPath(entry), entry.seo] as const),
+  ]));}

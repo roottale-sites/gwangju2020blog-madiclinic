@@ -1,3 +1,4 @@
+import { metadataTitle } from '../seo/metadata-contract';
 import type { Metadata } from 'next';
 import { pageSeoMetadata } from '../seo/cms-metadata';
 import { loadDefaultOgImage } from '../seo/cms-seo-settings';
@@ -11,7 +12,7 @@ export async function faqEntryMetadata(entry: FaqEntry): Promise<Metadata> {
     ...pageSeoMetadata(faqEntryPath(entry), {
       ...seo,
       title: seo?.title ?? faqTitleWithSuffix(entry.question),
-      description: faqDescription(seo?.description ?? entry.answer),
+      description: seo?.description ?? faqDescription(entry.answer),
       imageUrl: seo?.ogImage ?? entry.shareImageUrl ?? await loadDefaultOgImage(),
       imageAlt: seo?.ogImage ? seo.ogImageAlt : undefined,
     }),
@@ -28,9 +29,11 @@ export async function faqCategoryMetadata(
   filtered: boolean,
 ): Promise<Metadata> {
   return pageSeoMetadata(path, {
-    title: category.seoTitle ?? faqTitleWithSuffix(category.pageTitle),
+    title: category.seoTitle ?? metadataTitle('terms', 'faq', category.name),
     description: category.seoDescription,
-    imageUrl: await loadDefaultOgImage(),
-    noindex: filtered,
+    imageUrl: category.ogImage ?? await loadDefaultOgImage(),
+    imageAlt: category.ogImageAlt,
+    noindex: filtered || category.noindex,
+    nofollow: category.nofollow,
   });
 }

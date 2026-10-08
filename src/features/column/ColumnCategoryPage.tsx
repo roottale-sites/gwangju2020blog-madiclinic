@@ -28,7 +28,10 @@ export function columnCategoryMetadata(
   const description = archive.category.seoDescription || columnIndexMetadata.description;
 
   return pageSeoMetadata(archive.category.path, {
-    title, description, imageUrl, noindex: Boolean(state.searchQuery),
+    title, description, imageUrl: archive.category.ogImage ?? imageUrl,
+    imageAlt: archive.category.ogImageAlt,
+    noindex: archive.category.noindex || Boolean(state.searchQuery),
+    nofollow: archive.category.nofollow,
   });
 }
 

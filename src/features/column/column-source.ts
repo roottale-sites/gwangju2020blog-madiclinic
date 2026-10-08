@@ -1,3 +1,4 @@
+import { contentMetadataDefaults } from '../seo/metadata-contract';
 import { loadColumnArchive, loadColumnCategories, loadColumnPost } from './column-api';
 import { columnCategoryPath, type ColumnCategory } from './column-category';
 import {
@@ -60,9 +61,13 @@ export async function resolveColumnCategories(): Promise<ColumnCategoryList> {
       name: category.name,
       path: category.path ?? columnCategoryPath(category.slug),
       description: category.description ?? '',
-      seoTitle: category.seoTitle ?? category.name,
-      seoDescription: category.seoDescription ?? category.description ?? '',
+      seoTitle: category.seoTitle ?? contentMetadataDefaults({ kind: 'terms', modelKey: 'column', title: category.name }).title ?? category.name,
+      seoDescription: category.seoDescription ?? contentMetadataDefaults({ kind: 'terms', modelKey: 'column', title: category.name, description: category.description }).description ?? '',
       publishedPostCount: category.publishedPostCount,
+    ogImage: category.seoOgImage ?? undefined,
+    ogImageAlt: category.seoOgImageAlt ?? undefined,
+    noindex: category.hubPromoted === undefined ? undefined : !category.hubPromoted,
+    nofollow: category.seoNofollow ?? undefined,
     })),
     status: 'ok',
   };

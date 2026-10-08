@@ -1,9 +1,9 @@
+import { contentSeo } from '../seo/cms-metadata';
 import { contentSource, type ContentSource } from '../cms/content-source';
 import { selectRelatedPosts, type CmsPostContent } from '@roottale/cms-client/server';
 
 import { firstBodyImageUrl } from '../cms/body-image';
 import { removeEmDashes } from '../cms/content-text';
-import { reviewsIndexMetadata, reviewTitleWithSuffix } from './review-content';
 
 export const REVIEW_COLLECTION_KEY = 'reviews';
 const REVIEWS_PER_PAGE = 10;
@@ -174,23 +174,11 @@ export function formatReviewDate(value: string): string {
 }
 
 export function reviewSeoDescription(post: CmsPostContent): string {
-  const seo = post.metaJson.seo;
-  if (seo && typeof seo === 'object') {
-    const description = Reflect.get(seo, 'description');
-    if (typeof description === 'string' && description.trim()) {
-      return removeEmDashes(description.trim()).slice(0, 180);
-    }
-  }
-  return (reviewExcerpt(post)?.trim() || reviewsIndexMetadata.description).slice(0, 180);
+  return contentSeo(post.metaJson, { kind: 'posts', modelKey: 'reviews', title: post.title, description: post.excerpt }).description ?? '';
 }
 
 export function reviewSeoTitle(post: CmsPostContent): string {
-  const seo = post.metaJson.seo;
-  if (seo && typeof seo === 'object') {
-    const title = Reflect.get(seo, 'title');
-    if (typeof title === 'string' && title.trim()) return removeEmDashes(title.trim());
-  }
-  return reviewTitleWithSuffix(reviewTitle(post));
+  return contentSeo(post.metaJson, { kind: 'posts', modelKey: 'reviews', title: post.title, description: post.excerpt }).title ?? post.title;
 }
 
 export function isReviewPost(value: unknown): value is CmsPostContent {

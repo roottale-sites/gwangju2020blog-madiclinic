@@ -1,4 +1,4 @@
-import { BLOG_SETTINGS_CACHE_TAG, SITE_PATTERNS_CACHE_TAG, THEME_CACHE_TAG } from '@roottale/cms-client/server';
+import { BLOG_SETTINGS_CACHE_TAG, METADATA_CACHE_TAG, SITE_METADATA_DEFAULTS_CACHE_TAG, SITE_PATTERNS_CACHE_TAG, THEME_CACHE_TAG } from '@roottale/cms-client/server';
 import { verifyRootTaleWebhook } from '@roottale/cms-client/webhook';
 import { revalidatePath, revalidateTag } from 'next/cache';
 
@@ -11,7 +11,6 @@ import {
   revalidationTargets,
 } from '../../../features/cms/revalidation';
 import { faqInternalLinkKeyFromPath } from '../../../features/faq/faq-cache';
-import { ARCHIVE_SEO_CACHE_TAG } from '../../../features/seo/archive-seo';
 
 const MAX_WEBHOOK_BYTES = 64 * 1024;
 
@@ -83,8 +82,10 @@ export async function POST(request: Request): Promise<Response> {
     revalidateTag(THEME_CACHE_TAG, { expire: 0 });
     revalidateTag(SITE_PATTERNS_CACHE_TAG, { expire: 0 });
     revalidateTag(BLOG_SETTINGS_CACHE_TAG, { expire: 0 });
-    revalidateTag(ARCHIVE_SEO_CACHE_TAG, { expire: 0 });
+    revalidateTag(SITE_METADATA_DEFAULTS_CACHE_TAG, { expire: 0 });
+    revalidateTag(METADATA_CACHE_TAG, { expire: 0 });
     revalidatePath('/', 'layout');
+    revalidatePath('/sitemap-static.xml');
   }
 
   const targets = revalidationTargets(verification.event, paths);
@@ -95,7 +96,7 @@ export async function POST(request: Request): Promise<Response> {
 
   // 고정 페이지도 post.* 알림을 보내므로 목록 메타데이터 캐시를 함께 갱신한다.
   if (payload.modelKey === 'page' && verification.event.startsWith('post.')) {
-    revalidateTag(ARCHIVE_SEO_CACHE_TAG, { expire: 0 });
+    revalidateTag(METADATA_CACHE_TAG, { expire: 0 });
   }
 
   const revalidatedPaths = new Set<string>();

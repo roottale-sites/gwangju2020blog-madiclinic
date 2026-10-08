@@ -16,8 +16,8 @@ test('대표 이미지가 없는 후기는 병원 로고를 OG와 Twitter 이미
   vi.mocked(loadReview).mockResolvedValue({ ok: true, data: reviewFixture() });
   const metadata = await generateMetadata({ params: Promise.resolve({ slug: 'knee-review' }) });
   const image = 'https://gwangju2020blog.madiclinic.co.kr/opengraph-image.png';
-  expect(metadata.openGraph).toMatchObject({ images: [image] });
-  expect(metadata.twitter).toMatchObject({ card: 'summary_large_image', images: [image] });
+  expect(metadata.openGraph).toMatchObject({ images: [{ url: image }] });
+  expect(metadata.twitter).toMatchObject({ card: 'summary_large_image', images: [{ url: image }] });
 });
 
 test('대표 이미지가 있는 후기는 그 이미지를 OG에 우선 적용한다', async () => {
@@ -26,5 +26,5 @@ test('대표 이미지가 있는 후기는 그 이미지를 OG에 우선 적용�
     data: reviewFixture({ featuredImageUrl: 'https://images.example.com/review.png' }),
   });
   const metadata = await generateMetadata({ params: Promise.resolve({ slug: 'knee-review' }) });
-  expect(metadata.openGraph).toMatchObject({ images: ['https://images.example.com/review.png'] });
+  expect(metadata.openGraph).toMatchObject({ images: [{ url: 'https://images.example.com/review.png' }] });
 });

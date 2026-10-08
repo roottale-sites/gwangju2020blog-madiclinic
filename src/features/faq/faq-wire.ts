@@ -1,5 +1,6 @@
+import { firstBodyImageUrl } from '../cms/body-image';
 import { contentSource, type ContentSource } from '../cms/content-source';
-import { readCmsSeo, type CmsSeo } from '../seo/cms-metadata';
+import { contentSeo, type CmsSeo } from '../seo/cms-metadata';
 /**
  * FAQ 전용 공개 API 와이어 클라이언트. headnerve `features/faq/faq-wire.ts`다.
  *
@@ -22,6 +23,10 @@ export type FaqWireTerm = {
 };
 
 export type FaqWireCategory = {
+  ogImage?: string;
+  ogImageAlt?: string;
+  noindex?: boolean;
+  nofollow?: boolean;
   id: string;
   parentId: string | null;
   slug: string;
@@ -170,6 +175,10 @@ export async function fetchFaqCategories(config: FaqWireConfig): Promise<FaqWire
       name,
       collectionKey,
       description: nullableString(value.description),
+      ogImage: nullableString(value.seo_og_image) ?? undefined,
+      ogImageAlt: nullableString(value.seo_og_image_alt) ?? undefined,
+      noindex: typeof value.hub_promoted === 'boolean' ? !value.hub_promoted : undefined,
+      nofollow: typeof value.seo_nofollow === 'boolean' ? value.seo_nofollow : undefined,
       seoTitle: nullableString(value.seo_title),
       seoDescription: nullableString(value.seo_description),
     }];
@@ -192,7 +201,7 @@ function postFromWire(value: Record<string, unknown>): FaqWirePost {
     updatedAt: stringValue(value.updated_at) || publishedAt || new Date(0).toISOString(),
     bodyJson: recordValue(value.body_json),
     copiedFrom: contentSource(recordValue(value.meta_json)),
-    seo: readCmsSeo(recordValue(value.meta_json)),
+    seo: contentSeo(recordValue(value.meta_json), { kind: 'posts', modelKey: 'faq', title: stringValue(value.title), description: nullableString(value.excerpt), featuredImage: nullableString(value.featured_media_url) ?? nullableString(value.featured_image_url), firstBodyImage: firstBodyImageUrl(recordValue(value.body_json)) }),
     featuredImageUrl: nullableString(value.featured_image_url),
     bodyHtml: nullableString(value.body_html),
     fields: recordValue(value.fields),

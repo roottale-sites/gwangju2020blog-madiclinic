@@ -1,11 +1,33 @@
 {
-  "version": 4,
-  "pages": [
-    { "key": "column", "path": "/column", "templateKey": "community-metadata", "allowedSections": [] },
-    { "key": "reviews", "path": "/reviews", "templateKey": "community-metadata", "allowedSections": [] },
-    { "key": "faq", "path": "/faq", "templateKey": "community-metadata", "allowedSections": [] }
+  "version": 5,
+  "pages": [],
+  "models": [
+    {
+      "modelKey": "faq",
+      "preset": "article",
+      "listPath": "/faq",
+      "templateKey": "faq",
+      "allowedQueryFields": [],
+      "shared": false
+    },
+    {
+      "modelKey": "column",
+      "preset": "article",
+      "listPath": "/column",
+      "templateKey": "column",
+      "allowedQueryFields": [],
+      "shared": false
+    },
+    {
+      "modelKey": "reviews",
+      "preset": "article",
+      "listPath": "/reviews",
+      "detailPath": "/reviews/:slug",
+      "templateKey": "reviews",
+      "allowedQueryFields": [],
+      "shared": false
+    }
   ],
-  "models": [],
   "dynamicPages": [],
   "exposureSlots": [
     {
@@ -60,6 +82,198 @@
       ]
     }
   ],
+  "metadata": {
+    "version": 1,
+    "routes": [
+      {
+        "routeKey": "column",
+        "label": "블로그 목록",
+        "source": {
+          "kind": "model-list",
+          "modelKey": "column"
+        },
+        "defaults": {
+          "title": "광주 남구 마디클리닉 블로그",
+          "description": "광주 남구 마디클리닉 이경무 대표원장이 통증의 원인과 비수술 중점치료를 직접 씁니다. 영상유도하 통증중재시술 의료기관."
+        },
+        "fallback": {
+          "ogImage": "https://gwangju2020blog.madiclinic.co.kr/opengraph-image.png"
+        },
+        "supportedFields": [
+          "title",
+          "description",
+          "ogImage",
+          "ogImageAlt",
+          "noindex",
+          "nofollow"
+        ]
+      },
+      {
+        "routeKey": "reviews",
+        "label": "치료후기 목록",
+        "source": {
+          "kind": "model-list",
+          "modelKey": "reviews"
+        },
+        "defaults": {
+          "title": "치료후기 | 광주 남구 마디클리닉",
+          "description": "광주 남구 마디클리닉에서 치료받은 분들이 직접 남긴 치료 경험담입니다."
+        },
+        "fallback": {
+          "ogImage": "https://gwangju2020blog.madiclinic.co.kr/opengraph-image.png"
+        },
+        "supportedFields": [
+          "title",
+          "description",
+          "ogImage",
+          "ogImageAlt",
+          "noindex",
+          "nofollow"
+        ]
+      },
+      {
+        "routeKey": "faq",
+        "label": "FAQ 목록",
+        "source": {
+          "kind": "model-list",
+          "modelKey": "faq"
+        },
+        "defaults": {
+          "title": "질환별 자주 묻는 질문 | 광주 남구 마디클리닉",
+          "description": "광주 남구 마디클리닉 이경무 대표원장이 진료실에서 자주 받는 질문에 답합니다. 통증의 원인과 검사, 비수술 중점치료와 경과를 확인하세요."
+        },
+        "fallback": {
+          "ogImage": "https://gwangju2020blog.madiclinic.co.kr/opengraph-image.png"
+        },
+        "supportedFields": [
+          "title",
+          "description",
+          "ogImage",
+          "ogImageAlt",
+          "noindex",
+          "nofollow"
+        ]
+      }
+    ],
+    "posts": {
+      "supportedFields": [
+        "title",
+        "description",
+        "ogImage",
+        "ogImageAlt",
+        "noindex",
+        "nofollow"
+      ],
+      "modelKeys": [
+        "column",
+        "reviews",
+        "faq"
+      ],
+      "titleTemplates": {
+        "column": "%s | 광주 남구 마디클리닉 블로그",
+        "reviews": "%s | 치료후기 | 광주 남구 마디클리닉",
+        "faq": "%s | 광주 남구 마디클리닉"
+      },
+      "defaultRules": {
+        "column": {
+          "title": {
+            "removeEmDashes": true
+          },
+          "description": {
+            "removeEmDashes": true,
+            "maxLength": 160,
+            "fallback": "광주 남구 마디클리닉 이경무 대표원장이 쓰는 통증·비수술 치료 칼럼입니다."
+          },
+          "useFirstBodyImage": true,
+          "imageAltSource": "title",
+          "normalizeCloudflareImages": true,
+          "fallback": {
+            "ogImage": "https://gwangju2020blog.madiclinic.co.kr/opengraph-image.png"
+          }
+        },
+        "reviews": {
+          "title": {
+            "removeEmDashes": true
+          },
+          "description": {
+            "removeEmDashes": true,
+            "maxLength": 180,
+            "fallback": "광주 남구 마디클리닉에서 치료받은 분들이 직접 남긴 치료 경험담입니다."
+          },
+          "useFirstBodyImage": true,
+          "imageAltSource": "title",
+          "normalizeCloudflareImages": true,
+          "fallback": {
+            "ogImage": "https://gwangju2020blog.madiclinic.co.kr/opengraph-image.png"
+          }
+        },
+        "faq": {
+          "title": {
+            "stripLeadingLabel": "question",
+            "replaceLineBreakTokens": true,
+            "normalizeWhitespace": true
+          },
+          "description": {
+            "stripLeadingLabel": "answer",
+            "replaceLineBreakTokens": true,
+            "normalizeWhitespace": true,
+            "maxLength": 160,
+            "ellipsis": "…",
+            "fallback": "광주 남구 마디클리닉 이경무 대표원장이 진료실에서 자주 받는 질문에 답합니다. 통증의 원인과 검사, 비수술 중점치료와 경과를 확인하세요."
+          },
+          "useFirstBodyImage": true,
+          "imageAltSource": "title",
+          "normalizeCloudflareImages": true,
+          "fallback": {
+            "ogImage": "https://gwangju2020blog.madiclinic.co.kr/opengraph-image.png"
+          }
+        }
+      }
+    },
+    "terms": {
+      "supportedFields": [
+        "title",
+        "description",
+        "ogImage",
+        "ogImageAlt",
+        "noindex",
+        "nofollow"
+      ],
+      "modelKeys": [
+        "column",
+        "faq"
+      ],
+      "titleTemplates": {
+        "column": "%s",
+        "faq": "%s 자주 묻는 질문 | 광주 남구 마디클리닉"
+      },
+      "defaultRules": {
+        "column": {
+          "description": {
+            "fallback": "광주 남구 마디클리닉 이경무 대표원장이 통증의 원인과 비수술 중점치료를 직접 씁니다. 영상유도하 통증중재시술 의료기관."
+          },
+          "useTermImage": false,
+          "imageAltSource": "title",
+          "normalizeCloudflareImages": true,
+          "fallback": {
+            "ogImage": "https://gwangju2020blog.madiclinic.co.kr/opengraph-image.png"
+          }
+        },
+        "faq": {
+          "description": {
+            "fallbackWithParent": "%s의 증상·검사·치료와 경과에 관해 자주 묻는 질문입니다.",
+            "fallbackWithoutParent": "%s에 관해 진료실에서 자주 받는 질문과 답변입니다."
+          },
+          "useTermImage": false,
+          "imageAltSource": "title",
+          "normalizeCloudflareImages": true,
+          "fallback": {
+            "ogImage": "https://gwangju2020blog.madiclinic.co.kr/opengraph-image.png"
+          }
+        }
+      }
+    }
+  },
   "fixedPatterns": [
     {
       "key": "column-footer-image",

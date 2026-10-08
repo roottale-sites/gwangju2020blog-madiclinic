@@ -1,3 +1,4 @@
+import { metadataDefaultsForPath, metadataTitle } from '../seo/metadata-contract';
 /**
  * 블로그(칼럼) 화면 문구·서식 단일 출처.
  *
@@ -25,9 +26,7 @@ export const COLUMN_DESCRIPTION_MAX_LENGTH = 160;
  */
 export const columnIndexMetadata = {
   label: '블로그',
-  title: '광주 남구 마디클리닉 블로그',
-  description:
-    '광주 남구 마디클리닉 이경무 대표원장이 통증의 원인과 비수술 중점치료를 직접 씁니다. 영상유도하 통증중재시술 의료기관.',
+  ...metadataDefaultsForPath('/column'),
 } as const;
 
 /**
@@ -40,7 +39,7 @@ export const columnMedicalDisclaimer =
 
 /** 상세 `<title>`. 레이아웃 template을 거치지 않는 절대값이다. */
 export function columnSeoTitle(entry: Readonly<{ title: string }>): string {
-  return `${entry.title} | ${columnIndexMetadata.title}`;
+  return metadataTitle('posts', 'column', entry.title);
 }
 
 export function formatColumnDate(value: string): string {

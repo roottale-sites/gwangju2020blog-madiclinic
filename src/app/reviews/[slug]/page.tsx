@@ -48,8 +48,8 @@ export async function generateMetadata({ params }: ReviewDetailPageProps): Promi
   const post = result.data;
   const seo = readCmsSeo(post.metaJson);
   const imageUrl = seo.ogImage ?? metadataImageUrl(reviewImageUrl(post)) ?? await loadDefaultOgImage();
-  const title = reviewSeoTitle(post);
-  const description = reviewSeoDescription(post);
+  const title = seo.title ?? reviewSeoTitle(post);
+  const description = seo.description ?? reviewSeoDescription(post);
   const metadata = pageSeoMetadata(reviewEntryPath(post), {
     ...seo, title, description, imageUrl, imageAlt: seo.ogImage ? seo.ogImageAlt : undefined,
   });

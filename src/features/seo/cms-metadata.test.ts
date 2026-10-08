@@ -2,9 +2,9 @@ import { describe, expect, test } from 'vitest';
 import { metadataImageUrl, pageSeoMetadata, readCmsSeo } from './cms-metadata';
 
 describe('CMS 검색·공유 입력', () => {
-  test('빈 값과 잘못된 타입은 기본값으로 넘기고 true인 색인 설정만 읽는다', () => {
+  test('빈 값과 잘못된 타입은 기본값으로 넘기고 명시적인 boolean 색인 설정만 읽는다', () => {
     expect(readCmsSeo({ seo: { title: '  ', description: 42, noindex: 'false', nofollow: true } }))
-      .toMatchObject({ title: undefined, description: undefined, noindex: false, nofollow: true });
+      .toEqual({ nofollow: true });
     expect(readCmsSeo({ seo: ['잘못된 형식'] })).toEqual({});
   });
 

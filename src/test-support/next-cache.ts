@@ -6,6 +6,8 @@ import { IncrementalCache } from 'next/dist/server/lib/incremental-cache';
 import { nodeFs } from 'next/dist/server/lib/node-fs-methods';
 import { createWorkStore } from 'next/dist/server/async-storage/work-store';
 import { workAsyncStorage } from 'next/dist/server/app-render/work-async-storage.external';
+import { workUnitAsyncStorage } from 'next/dist/server/app-render/work-unit-async-storage.external';
+import { createPatchedFetcher } from 'next/dist/server/lib/patch-fetch';
 
 /** Next의 실제 캐시를 메모리에서 실행한다. 디스크·운영 CMS에는 쓰지 않는다. */
 export function nextCacheFixture() {
@@ -47,5 +49,6 @@ export function nextCacheFixture() {
     return value;
   }
 
-  return { request, cache };
+  const cachedFetch = (originFetch: typeof fetch) => createPatchedFetcher(originFetch, { workAsyncStorage, workUnitAsyncStorage });
+  return { request, cache, cachedFetch };
 }

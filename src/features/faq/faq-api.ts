@@ -261,7 +261,7 @@ async function fetchFaqCatalog(): Promise<FaqCatalog | null> {
 const loadCachedFaqCatalog = unstable_cache(
   fetchFaqCatalog,
   // v2: 글 SEO·공유 이미지와 분류의 완전한 SEO 제목을 함께 보관한다.
-  ['faq-catalog-v2'],
+  ['faq-catalog-v3'],
   {
     revalidate: FAQ_DATA_CACHE_TTL_SECONDS,
     tags: [FAQ_ALL_CACHE_TAG, FAQ_ARCHIVE_CACHE_TAG],

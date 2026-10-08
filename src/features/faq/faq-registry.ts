@@ -1,3 +1,4 @@
+import { contentMetadataDefaults } from '../seo/metadata-contract';
 import {
   faqSectionFallbackDescription,
   faqSectionPageTitle,
@@ -39,7 +40,11 @@ function sectionFromCategory(category: FaqWireCategory): FaqSection {
     description,
     pageTitle: category.seoTitle ?? faqSectionPageTitle(category.name),
     seoTitle: category.seoTitle?.trim() || undefined,
-    seoDescription: category.seoDescription ?? description,
+    ogImage: category.ogImage,
+    ogImageAlt: category.ogImageAlt,
+    noindex: category.noindex,
+    nofollow: category.nofollow,
+    seoDescription: category.seoDescription ?? contentMetadataDefaults({ kind: 'terms', modelKey: 'faq', title: category.name, description: category.description, slug: category.slug, parentId: category.parentId }).description ?? description,
   };
 }
 
@@ -52,7 +57,11 @@ function topicFromCategory(category: FaqWireCategory, sectionSlug: string): FaqT
     description,
     pageTitle: category.seoTitle ?? faqSectionPageTitle(category.name),
     seoTitle: category.seoTitle?.trim() || undefined,
-    seoDescription: category.seoDescription ?? description,
+    ogImage: category.ogImage,
+    ogImageAlt: category.ogImageAlt,
+    noindex: category.noindex,
+    nofollow: category.nofollow,
+    seoDescription: category.seoDescription ?? contentMetadataDefaults({ kind: 'terms', modelKey: 'faq', title: category.name, description: category.description, slug: category.slug, parentId: category.parentId }).description ?? description,
   };
 }
 

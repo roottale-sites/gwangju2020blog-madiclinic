@@ -34,10 +34,10 @@ export async function columnDetailMetadata(slug: string): Promise<Metadata> {
     };
   }
   const canonical = columnEntryPath(entry);
-  const title = columnEntrySeoTitle(entry);
+  const title = entry.seo?.title ?? columnEntrySeoTitle(entry);
   const imageUrl = entry.seo?.ogImage ?? metadataImageUrl(entry.shareImageUrl) ?? await loadDefaultOgImage();
   const metadata = pageSeoMetadata(canonical, {
-    ...entry.seo, title, description: entry.description, imageUrl,
+    ...entry.seo, title, description: entry.seo?.description ?? entry.description, imageUrl,
     imageAlt: entry.seo?.ogImage ? entry.seo.ogImageAlt : undefined,
   });
   return {
@@ -119,7 +119,7 @@ export function ColumnDetailView({
           articleJsonLd({
             path: canonical,
             headline: entry.title,
-            description: entry.description,
+            description: entry.seo?.description ?? entry.description,
             publishedAt: entry.publishedAt,
             ...(entry.shareImageUrl ? { image: entry.shareImageUrl } : {}),
           }),
