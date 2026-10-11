@@ -10,6 +10,7 @@ import ColumnDetailRoute, {
 } from '../../../features/column/ColumnDetailRoute';
 import { parseColumnPageNumber } from '../../../features/column/column-pagination';
 import { resolveColumnCategoryArchive } from '../../../features/column/column-source';
+import { loadDefaultOgImage } from '../../../features/seo/cms-seo-settings';
 
 type ColumnCategoryRouteProps = {
   params: Promise<{ category: string }>;
@@ -46,7 +47,7 @@ export async function generateMetadata({
   return columnCategoryMetadata(categoryArchive, {
     requestedPage: parseColumnPageNumber(firstValue(query.page) || null),
     searchQuery: firstValue(query.q),
-  });
+  }, await loadDefaultOgImage());
 }
 
 export default async function ColumnCategoryRoute({

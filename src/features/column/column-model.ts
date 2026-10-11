@@ -5,6 +5,7 @@ import { cfImageVariantUrl, isCfImageUrl } from '../cms/cf-image-url';
 import { removeEmDashes } from '../cms/content-text';
 import { sanitizeCmsHtml } from '../cms/raw-html';
 import { renderTiptapBody } from '../cms/tiptap-body';
+import { contentSeo, type CmsSeo } from '../seo/cms-metadata';
 import type { ColumnArchivePost, ColumnPost } from './column-wire';
 import { COLUMN_DESCRIPTION_MAX_LENGTH, columnSeoTitle } from './column-content';
 import {
@@ -37,6 +38,7 @@ export type ColumnEntry = {
   path?: string | null;
   title: string;
   description: string;
+  seo?: CmsSeo;
   publishedAt: string;
   updatedAt?: string;
   bodyHtml: string;
@@ -52,7 +54,7 @@ export type ColumnEntry = {
 /** 목록과 XML 사이트맵에 필요한 본문 없는 칼럼 요약 모델. */
 export type ColumnArchiveEntry = Pick<
   ColumnEntry,
-  'slug' | 'path' | 'title' | 'description' | 'publishedAt' | 'updatedAt' | 'category' | 'copiedFrom'
+  'slug' | 'path' | 'title' | 'description' | 'seo' | 'publishedAt' | 'updatedAt' | 'category' | 'copiedFrom'
 > & {
   /** CMS 대표 이미지. 목록 도판과 RSS enclosure가 쓴다. */
   featuredImageUrl?: string;
@@ -122,6 +124,7 @@ export function columnEntryFromPost(post: ColumnPost): ColumnEntry | null {
     path: post.path,
     title: removeEmDashes(post.title),
     description: columnPostDescription(post),
+    seo: contentSeo(post.metaJson, { kind: 'posts', modelKey: 'column', title: post.title, description: post.excerpt, featuredImage: post.featuredImageUrl, firstBodyImage: firstBodyImageUrl(post.bodyJson) }),
     copiedFrom: contentSource(post.metaJson),
     publishedAt: post.publishedAt,
     updatedAt: post.updatedAt ?? post.publishedAt,
@@ -141,6 +144,7 @@ export function columnArchiveEntryFromPost(post: ColumnArchivePost): ColumnArchi
     path: post.path,
     title: removeEmDashes(post.title),
     description: columnPostDescription(post),
+    seo: contentSeo(post.metaJson, { kind: 'posts', modelKey: 'column', title: post.title, description: post.excerpt, featuredImage: post.featuredImageUrl }),
     copiedFrom: contentSource(post.metaJson),
     publishedAt: post.publishedAt,
     updatedAt: post.updatedAt ?? post.publishedAt,
@@ -157,8 +161,8 @@ export function columnEntryPath(entry: Pick<ColumnEntry, 'slug' | 'category' | '
   return entry.path ?? nestedColumnEntryPath(entry.category.slug, entry.slug);
 }
 
-export function columnEntrySeoTitle(entry: Pick<ColumnEntry, 'title'>): string {
-  return columnSeoTitle(entry);
+export function columnEntrySeoTitle(entry: Pick<ColumnEntry, 'title' | 'seo'>): string {
+  return entry.seo?.title ?? columnSeoTitle(entry);
 }
 
 export function sortColumnEntries<T extends Pick<ColumnEntry, 'publishedAt'>>(

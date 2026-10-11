@@ -1,0 +1,43 @@
+name: CI
+
+# 운영(main)·스테이징 반영과 PR마다 타입 검사와 단위 테스트를 강제한다.
+# Vercel 빌드만으로는 깨진 테스트가 main에 들어가는 것을 막지 못했다.
+on:
+  push:
+    branches: [main, staging]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  verify:
+    name: Type check and tests
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      # pnpm 버전은 package.json 의 packageManager 를 따른다.
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v6
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Type check
+        run: pnpm typecheck
+
+      - name: Unit tests
+        run: pnpm test

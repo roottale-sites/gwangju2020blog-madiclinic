@@ -71,8 +71,8 @@ test('대표 이미지가 없는 칼럼은 병원 로고를 OG와 Twitter 이미
   vi.mocked(resolveColumnEntry).mockResolvedValue(entry('without-image'));
   const metadata = await columnDetailMetadata('without-image');
   const image = 'https://gwangju2020blog.madiclinic.co.kr/opengraph-image.png';
-  expect(metadata.openGraph).toMatchObject({ images: [image] });
-  expect(metadata.twitter).toMatchObject({ card: 'summary_large_image', images: [image] });
+  expect(metadata.openGraph).toMatchObject({ images: [{ url: image }] });
+  expect(metadata.twitter).toMatchObject({ card: 'summary_large_image', images: [{ url: image }] });
 });
 
 test('대표 이미지가 있는 칼럼은 그 이미지를 OG에 우선 적용한다', async () => {
@@ -81,5 +81,5 @@ test('대표 이미지가 있는 칼럼은 그 이미지를 OG에 우선 적용�
     shareImageUrl: 'https://images.example.com/column.png',
   });
   const metadata = await columnDetailMetadata('with-image');
-  expect(metadata.openGraph).toMatchObject({ images: ['https://images.example.com/column.png'] });
+  expect(metadata.openGraph).toMatchObject({ images: [{ url: 'https://images.example.com/column.png' }] });
 });

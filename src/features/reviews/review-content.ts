@@ -1,3 +1,4 @@
+import { metadataDefaultsForPath, metadataTitle } from '../seo/metadata-contract';
 /**
  * 후기 화면 문구 단일 출처.
  *
@@ -8,15 +9,13 @@
  * 절대값이다. `docs/metadata-table.md`의 확정값과 같아야 한다.
  */
 export const reviewsIndexMetadata = {
-  /** 화면(서브 배너·h1·브레드크럼)과 GNB 하위 항목이 함께 쓰는 이름. */
   label: '후기',
-  title: '치료후기 | 광주 남구 마디클리닉',
-  description: '광주 남구 마디클리닉에서 치료받은 분들이 직접 남긴 치료 경험담입니다.',
+  ...metadataDefaultsForPath('/reviews'),
 } as const;
 
 /** 상세 `<title>`. CMS가 SEO 제목을 비워 둘 때 쓰는 조립 규칙이다. */
 export function reviewTitleWithSuffix(title: string): string {
-  return `${title} | ${reviewsIndexMetadata.title}`;
+  return metadataTitle('posts', 'reviews', title);
 }
 
 /**

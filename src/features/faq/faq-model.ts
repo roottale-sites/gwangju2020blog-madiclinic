@@ -1,4 +1,5 @@
 import type { ContentSource } from '../cms/content-source';
+import type { CmsSeo } from '../seo/cms-metadata';
 import { faqInternalLinkKeyFromPath } from './faq-cache';
 
 /**
@@ -35,6 +36,11 @@ export type FaqIntent = (typeof FAQ_INTENTS)[number];
 
 /** 진료 영역(1단계 분류). 이름·설명·SEO 문구는 모두 CMS 분류에서 온다. */
 export type FaqSection = {
+  seoTitle?: string;
+  ogImage?: string;
+  ogImageAlt?: string;
+  noindex?: boolean;
+  nofollow?: boolean;
   slug: string;
   name: string;
   description: string;
@@ -44,6 +50,11 @@ export type FaqSection = {
 
 /** 세부 질환(2단계 분류). */
 export type FaqTopic = {
+  seoTitle?: string;
+  ogImage?: string;
+  ogImageAlt?: string;
+  noindex?: boolean;
+  nofollow?: boolean;
   sectionSlug: string;
   slug: string;
   name: string;
@@ -53,6 +64,8 @@ export type FaqTopic = {
 };
 
 export type FaqEntry = {
+  seo?: CmsSeo;
+  shareImageUrl?: string;
   copiedFrom?: ContentSource;
   contentId?: string;
   sectionSlug: string;

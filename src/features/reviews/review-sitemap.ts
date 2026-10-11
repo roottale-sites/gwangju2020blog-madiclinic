@@ -1,3 +1,5 @@
+import { mergeSitemapMetadata, type SitemapMetadataContext } from '../seo/sitemap-metadata';
+import { readCmsSeo } from '../seo/cms-metadata';
 import type { CmsPostContent } from '@roottale/cms-client/server';
 
 import { siteUrl } from '../../data/site';
@@ -10,7 +12,7 @@ import { reviewEntryPath, type ReviewPathInput } from './review-model';
 export type ReviewSitemapEntry = Pick<
   CmsPostContent,
   'slug' | 'publishedAt' | 'updatedAt'
-> & ReviewPathInput;
+> & ReviewPathInput & { metaJson?: Record<string, unknown> };
 
 /** 후기가 없거나 CMS를 일시적으로 읽지 못할 때 쓰는 목록 기준 수정일. */
 export const REVIEW_ARCHIVE_LASTMOD = '2026-09-15T00:00:00.000Z';
@@ -31,7 +33,7 @@ export function reviewSitemapLastModified(reviews: readonly ReviewSitemapEntry[]
   );
 }
 
-export function buildReviewSitemapXml(reviews: readonly ReviewSitemapEntry[]): string {
+export function buildReviewSitemapXml(reviews: readonly ReviewSitemapEntry[], context?: SitemapMetadataContext): string {
   const archiveLastModified = reviewSitemapLastModified(reviews);
 
   return buildSitemapUrlSetXml([
@@ -40,5 +42,4 @@ export function buildReviewSitemapXml(reviews: readonly ReviewSitemapEntry[]): s
       loc: reviewEntryLoc(review),
       lastmod: reviewLastModifiedAt(review),
     })),
-  ]);
-}
+  ], mergeSitemapMetadata(context, reviews.map((review) => [reviewEntryPath(review), readCmsSeo(review.metaJson ?? {})] as const)));}

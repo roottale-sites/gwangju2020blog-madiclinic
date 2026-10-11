@@ -10,7 +10,8 @@ import ReviewDetailView from '../../../features/reviews/ReviewDetailView';
 import { loadReview, loadReviewArchive } from '../../../features/reviews/review-api';
 import { reviewsIndexMetadata, reviewTitleWithSuffix } from '../../../features/reviews/review-content';
 import { reviewEntryPath, reviewImageUrl, reviewSeoDescription, reviewSeoTitle } from '../../../features/reviews/review-model';
-import { DEFAULT_OG_IMAGE_URL } from '../../../features/seo/og-image';
+import { metadataImageUrl, pageSeoMetadata, readCmsSeo } from '../../../features/seo/cms-metadata';
+import { loadDefaultOgImage } from '../../../features/seo/cms-seo-settings';
 import { reviewsBreadcrumb } from '../page';
 
 type ReviewDetailPageProps = {
@@ -45,31 +46,25 @@ export async function generateMetadata({ params }: ReviewDetailPageProps): Promi
   }
 
   const post = result.data;
-  const imageUrl = reviewImageUrl(post) ?? DEFAULT_OG_IMAGE_URL;
-  const title = reviewSeoTitle(post);
-  const description = reviewSeoDescription(post);
+  const seo = readCmsSeo(post.metaJson);
+  const imageUrl = seo.ogImage ?? metadataImageUrl(reviewImageUrl(post)) ?? await loadDefaultOgImage();
+  const title = seo.title ?? reviewSeoTitle(post);
+  const description = seo.description ?? reviewSeoDescription(post);
+  const metadata = pageSeoMetadata(reviewEntryPath(post), {
+    ...seo, title, description, imageUrl, imageAlt: seo.ogImage ? seo.ogImageAlt : undefined,
+  });
   return {
-    title: { absolute: title },
-    description,
-    alternates: { canonical: reviewEntryPath(post) },
+    ...metadata,
     // ROOT-ADMIN 공개 화면 반영 확인이 읽는 글 수정 시각 표식.
     other: {
       'rt:content-id': post.id,
       ...(post.updatedAt ? { 'roottale:revision': post.updatedAt } : {}),
     },
     openGraph: {
+      ...metadata.openGraph,
       type: 'article',
-      title,
-      description,
-      images: [imageUrl],
       publishedTime: post.publishedAt,
       ...(post.updatedAt ? { modifiedTime: post.updatedAt } : {}),
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title,
-      description,
-      images: [imageUrl],
     },
   };
 }

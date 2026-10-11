@@ -1,3 +1,4 @@
+import { filterSitemapUrls, type SitemapMetadataContext } from './sitemap-metadata';
 export type SitemapUrlEntry = {
   loc: string;
   lastmod?: string | null;
@@ -15,8 +16,8 @@ function escapeXml(value: string): string {
     .replaceAll("'", '&apos;');
 }
 
-export function buildSitemapUrlSetXml(entries: readonly SitemapUrlEntry[]): string {
-  const urls = entries.map(({ loc, lastmod }) => {
+export function buildSitemapUrlSetXml(entries: readonly SitemapUrlEntry[], context?: SitemapMetadataContext): string {
+  const urls = filterSitemapUrls(entries, context).map(({ loc, lastmod }) => {
     return [
       '  <url>',
       `    <loc>${escapeXml(loc)}</loc>`,

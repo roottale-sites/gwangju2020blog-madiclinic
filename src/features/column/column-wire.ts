@@ -16,6 +16,7 @@
  * 클라이언트가 `body_html`을 내보내는 버전이 나오면 이 파일을 지우고
  * `fetchPosts`·`fetchPost`로 되돌리면 된다.
  */
+import { categoryNoindexFromWire } from '../seo/category-index';
 
 /**
  * 칼럼 표시에 실제로 쓰는 필드만 담은 글.
@@ -52,6 +53,11 @@ export type ColumnTerm = {
 };
 
 export type ColumnCategoryWire = {
+  seoOgImage?: string;
+  seoOgImageAlt?: string;
+  seoNofollow?: boolean;
+  /** 분류 색인 전환 전에는 false. 전환 뒤에는 승격하지 않은 분류만 true. */
+  noindex?: boolean;
   slug: string;
   name: string;
   publishedPostCount: number;
@@ -77,14 +83,18 @@ function archiveSeoMeta(metaJson: Record<string, unknown>): Record<string, unkno
   const seo = metaJson.seo;
   const title = isRecord(seo) && typeof seo.title === 'string' ? seo.title : undefined;
   const description = isRecord(seo) && typeof seo.description === 'string' ? seo.description : undefined;
+  const noindex = isRecord(seo) && typeof seo.noindex === 'boolean' ? seo.noindex : undefined;
+  const nofollow = isRecord(seo) && typeof seo.nofollow === 'boolean' ? seo.nofollow : undefined;
 
   // 화면에 필요한 SEO와 원문 출처만 보존한다.
   const source = metaJson.copiedFrom;
   return {
-    ...(title === undefined && description === undefined ? {} : {
+    ...(title === undefined && description === undefined && noindex === undefined && nofollow === undefined ? {} : {
       seo: {
         ...(title === undefined ? {} : { title }),
         ...(description === undefined ? {} : { description }),
+        ...(noindex === undefined ? {} : { noindex }),
+        ...(nofollow === undefined ? {} : { nofollow }),
       },
     }),
     ...(isRecord(source) && typeof source.name === 'string' && typeof source.url === 'string'
@@ -298,6 +308,10 @@ export async function fetchColumnCategories(
       description: nullableString(category.description),
       seoTitle: nullableString(category.seo_title),
       seoDescription: nullableString(category.seo_description),
+      seoOgImage: nullableString(category.seo_og_image) ?? undefined,
+      seoOgImageAlt: nullableString(category.seo_og_image_alt) ?? undefined,
+      seoNofollow: typeof category.seo_nofollow === 'boolean' ? category.seo_nofollow : undefined,
+      noindex: categoryNoindexFromWire(json, category),
       path: nullableString(category.path),
     }];
   });

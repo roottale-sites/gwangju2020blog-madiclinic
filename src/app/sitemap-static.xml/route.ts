@@ -1,3 +1,5 @@
+import { metadataRoutes } from '../../features/seo/metadata-contract';
+import { loadSitemapMetadata } from '../../features/seo/sitemap-metadata';
 import { buildStaticSitemapXml } from '../../features/seo/static-sitemap';
 
 /**
@@ -7,12 +9,13 @@ import { buildStaticSitemapXml } from '../../features/seo/static-sitemap';
  * 원장이 바뀐 배포에서 새 XML을 만들고 평소에는 하루 동안 재사용한다.
  */
 export const revalidate = 86400;
+export const dynamic = 'force-dynamic';
 
-export function GET(): Response {
-  return new Response(buildStaticSitemapXml(), {
+export async function GET(): Promise<Response> {
+  return new Response(buildStaticSitemapXml(await loadSitemapMetadata(metadataRoutes.map((route) => route.routeKey))), {
     headers: {
       'content-type': 'application/xml; charset=utf-8',
-      'cache-control': 'public, max-age=0, s-maxage=86400',
+      'cache-control': 'no-store',
     },
   });
 }

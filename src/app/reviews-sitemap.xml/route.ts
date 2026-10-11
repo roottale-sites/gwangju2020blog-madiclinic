@@ -1,3 +1,4 @@
+import { loadSitemapMetadata } from '../../features/seo/sitemap-metadata';
 import { loadReviewArchive } from '../../features/reviews/review-api';
 import { buildReviewSitemapXml } from '../../features/reviews/review-sitemap';
 
@@ -17,7 +18,7 @@ export async function GET(): Promise<Response> {
     });
   }
 
-  return new Response(buildReviewSitemapXml(result.data), {
+  return new Response(buildReviewSitemapXml(result.data, await loadSitemapMetadata(['reviews'])), {
     headers: {
       'content-type': 'application/xml; charset=utf-8',
       'cache-control': 'no-store',

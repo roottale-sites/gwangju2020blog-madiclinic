@@ -14,6 +14,10 @@ export type ColumnCategory = {
   seoTitle: string;
   seoDescription: string;
   publishedPostCount: number;
+  ogImage?: string;
+  ogImageAlt?: string;
+  noindex?: boolean;
+  nofollow?: boolean;
 };
 
 export type ColumnCategoryRef = Pick<ColumnCategory, 'slug' | 'name' | 'path'>;

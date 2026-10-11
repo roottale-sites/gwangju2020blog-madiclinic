@@ -7,7 +7,7 @@ import '../../../../styles/site/post-pattern.css';
 import FaqDetailPage from '../../../../features/faq/FaqDetailPage';
 import FaqStatePage, { faqStateMetadata } from '../../../../features/faq/FaqStatePage';
 import FaqTopicPage from '../../../../features/faq/FaqTopicPage';
-import { faqDescription, faqTitleWithSuffix } from '../../../../features/faq/faq-content';
+import { faqCategoryMetadata, faqEntryMetadata } from '../../../../features/faq/faq-metadata';
 import {
   FAQ_INTENTS,
   faqEntryPath,
@@ -66,29 +66,14 @@ export async function generateMetadata({ params, searchParams }: Props): Promise
   if (route.kind === 'entry') {
     const { entry } = route;
     if (!entry) return {};
-    return {
-      title: { absolute: faqTitleWithSuffix(entry.question) },
-      description: faqDescription(entry.answer),
-      alternates: { canonical: faqEntryPath(entry) },
-      // ROOT-ADMIN 공개 화면 반영 확인이 읽는 글 수정 시각 표식.
-      other: {
-        ...(entry.contentId ? { 'rt:content-id': entry.contentId } : {}),
-        'roottale:revision': entry.updatedAt,
-      },
-    };
+    return faqEntryMetadata(entry);
   }
   const { section, topic } = route;
   if (!section || !topic) return {};
   const path = faqTopicPath(section.slug, topic.slug);
   const query = await searchParams;
   const intent = selectedIntent(query.intent);
-  return {
-    title: { absolute: faqTitleWithSuffix(topic.pageTitle) },
-    description: topic.seoDescription,
-    // 필터는 같은 질문의 다른 조합이라 색인하지 않고 canonical은 상위 주소로 둔다.
-    alternates: { canonical: path },
-    robots: intent ? { index: false, follow: true } : undefined,
-  };
+  return faqCategoryMetadata(path, topic, Boolean(intent));
 }
 
 export default async function FaqTopicRoute({ params, searchParams }: Props) {

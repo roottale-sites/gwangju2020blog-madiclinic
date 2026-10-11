@@ -1,4 +1,4 @@
-import { SITE_PATTERNS_CACHE_TAG, THEME_CACHE_TAG } from '@roottale/cms-client/server';
+import { BLOG_SETTINGS_CACHE_TAG, METADATA_CACHE_TAG, SITE_METADATA_DEFAULTS_CACHE_TAG, SITE_PATTERNS_CACHE_TAG, THEME_CACHE_TAG } from '@roottale/cms-client/server';
 import { verifyRootTaleWebhook } from '@roottale/cms-client/webhook';
 import { revalidatePath, revalidateTag } from 'next/cache';
 
@@ -81,7 +81,11 @@ export async function POST(request: Request): Promise<Response> {
   if (verification.event === 'theme.updated') {
     revalidateTag(THEME_CACHE_TAG, { expire: 0 });
     revalidateTag(SITE_PATTERNS_CACHE_TAG, { expire: 0 });
+    revalidateTag(BLOG_SETTINGS_CACHE_TAG, { expire: 0 });
+    revalidateTag(SITE_METADATA_DEFAULTS_CACHE_TAG, { expire: 0 });
+    revalidateTag(METADATA_CACHE_TAG, { expire: 0 });
     revalidatePath('/', 'layout');
+    revalidatePath('/sitemap-static.xml');
   }
 
   const targets = revalidationTargets(verification.event, paths);
@@ -89,6 +93,11 @@ export async function POST(request: Request): Promise<Response> {
     return rejectInvalidation('unsupported_revalidation_target', verification, payload);
   }
   if (targets.length === 0) return json({ ok: true, revalidated: false, paths: [] }, 200);
+
+  // 고정 페이지도 post.* 알림을 보내므로 목록 메타데이터 캐시를 함께 갱신한다.
+  if (payload.modelKey === 'page' && verification.event.startsWith('post.')) {
+    revalidateTag(METADATA_CACHE_TAG, { expire: 0 });
+  }
 
   const revalidatedPaths = new Set<string>();
   for (const target of targets) {

@@ -4,6 +4,9 @@ import ArchiveNotice from '../../components/site/ArchiveNotice';
 import MadiPageFrame from '../../components/madi/MadiPageFrame';
 import JsonLd from '../../components/site/JsonLd';
 import { webPageJsonLd } from '../seo/schema';
+import { loadArchiveSeo } from '../seo/archive-seo';
+import { pageSeoMetadata, type PageSeo } from '../seo/cms-metadata';
+import { DEFAULT_OG_IMAGE_URL } from '../seo/og-image';
 import ColumnArchiveSearch from './ColumnArchiveSearch';
 import ColumnCategoryNav from './ColumnCategoryNav';
 import { columnIndexMetadata, columnMedicalDisclaimer } from './column-content';
@@ -17,16 +20,14 @@ export const columnBreadcrumb = [
 
 export function columnIndexMetadataFor(
   state: Readonly<{ requestedPage: number; searchQuery: string }>,
+  seo: PageSeo = { ...columnIndexMetadata, imageUrl: DEFAULT_OG_IMAGE_URL },
 ): Metadata {
   return {
-    title: { absolute: columnIndexMetadata.title },
-    description: columnIndexMetadata.description,
+    ...pageSeoMetadata('/column', { ...seo, noindex: seo.noindex || Boolean(state.searchQuery) }),
     alternates: {
       canonical: '/column',
       types: { 'application/rss+xml': '/column/rss.xml' },
     },
-    // 검색 결과에만 색인 제한을 적용한다.
-    robots: state.searchQuery ? { index: false, follow: true } : undefined,
   };
 }
 
@@ -41,9 +42,10 @@ export default async function ColumnArchive({
   requestedPage,
   searchQuery,
 }: Readonly<{ requestedPage: number; searchQuery: string }>) {
-  const [archive, categoryList] = await Promise.all([
+  const [archive, categoryList, seo] = await Promise.all([
     resolveColumnArchive(),
     resolveColumnCategories(),
+    loadArchiveSeo('column'),
   ]);
 
   return (
@@ -57,8 +59,8 @@ export default async function ColumnArchive({
         nodes={[
           webPageJsonLd({
             path: '/column',
-            name: columnIndexMetadata.title,
-            description: columnIndexMetadata.description,
+            name: seo.title,
+            description: seo.description,
             type: 'CollectionPage',
           }),
         ]}

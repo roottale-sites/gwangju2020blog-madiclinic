@@ -1,3 +1,4 @@
+import { mergeSitemapMetadata, type SitemapMetadataContext } from '../seo/sitemap-metadata';
 import { siteUrl } from '../../data/site';
 import { buildSitemapUrlSetXml, latestSitemapLastModified } from '../seo/sitemap-xml';
 import {
@@ -19,7 +20,7 @@ export function faqSitemapLastModified(entries: readonly FaqEntry[]): string {
   return latestSitemapLastModified(entries.map((entry) => entry.updatedAt), FAQ_ARCHIVE_LASTMOD);
 }
 
-export function buildFaqSitemapXml(entries: readonly FaqEntry[]): string {
+export function buildFaqSitemapXml(entries: readonly FaqEntry[], context?: SitemapMetadataContext): string {
   const archiveLastModified = faqSitemapLastModified(entries);
   const sectionDates = new Map<string, string[]>();
   const topicDates = new Map<string, string[]>();
@@ -39,5 +40,4 @@ export function buildFaqSitemapXml(entries: readonly FaqEntry[]): string {
     ...[...sectionDates].map(([path, dates]) => ({ loc: siteUrl(path), lastmod: latest(dates) })),
     ...[...topicDates].map(([path, dates]) => ({ loc: siteUrl(path), lastmod: latest(dates) })),
     ...entries.map((entry) => ({ loc: siteUrl(faqEntryPath(entry)), lastmod: entry.updatedAt })),
-  ]);
-}
+  ], mergeSitemapMetadata(context, entries.map((entry) => [faqEntryPath(entry), entry.seo] as const)));}

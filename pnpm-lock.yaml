@@ -12,14 +12,14 @@ importers:
         specifier: 0.7.0
         version: 0.7.0(next@16.3.5(@playwright/test@1.55.0)(@types/node@24.13.4)(react-dom@19.3.0(react@19.3.0))(react@19.3.0))(react@19.3.0)
       '@roottale/cms-client':
-        specifier: 0.66.0
-        version: 0.66.0
+        specifier: 0.67.0
+        version: 0.67.0
       '@roottale/cms-core':
-        specifier: 0.65.1
-        version: 0.65.1
+        specifier: 0.67.0
+        version: 0.67.0
       '@roottale/cms-renderer-next':
-        specifier: 0.66.0
-        version: 0.66.0(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
+        specifier: 0.67.0
+        version: 0.67.0(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
       domhandler:
         specifier: ^5.0.3
         version: 5.0.3
@@ -606,17 +606,14 @@ packages:
       react:
         optional: true
 
-  '@roottale/cms-client@0.66.0':
-    resolution: {integrity: sha512-9LA+pwS1vUt75GvjnenvnbtDBIDMNYyk+IykEvVScZWHTqXd4z1QHTRfH/KZVdDWfxqz0CM0z0BwwimePS6L/g==}
+  '@roottale/cms-client@0.67.0':
+    resolution: {integrity: sha512-b0zTcRFI6N2PvJJPjUJmrgTUQH2LXOUKyxRaFI8U2QGoEfp8y3ogMC6LalQf4NdfjS+0sX7qdueO7n+i5Ghvbw==}
 
-  '@roottale/cms-core@0.65.1':
-    resolution: {integrity: sha512-E9I+B2mRSsaemtn6LYqkcEmQ5DioGeDi3g/bzSqpk3mlh+y79oIgdiwod/oJqazqyUwCqoH5OqErbyusuBdxvQ==}
+  '@roottale/cms-core@0.67.0':
+    resolution: {integrity: sha512-U4+G2ToprAWM7OkA/3CdzTnmET2Crtfxpp+lxk73F/ufUX3ctzx4+blR8S1cykQL02ESxXXNs8O4+R6n4fsq1w==}
 
-  '@roottale/cms-core@0.66.0':
-    resolution: {integrity: sha512-Seg2+CoyLRn5/mfWo75Lcp/88R+yyH1AjJ0UX2el3IVYAVHM/4W17UIWcoSXzz9n6sJHxRf3wUAU6ppEUjGxig==}
-
-  '@roottale/cms-renderer-next@0.66.0':
-    resolution: {integrity: sha512-rHW/G47fOrLNUcJssa+/+SbXDoyRPm6K/7dOdyWMYz+l9I8matZMjo9L+MznIqkhyDzUGDOyqJ28k74Rvxo4mQ==}
+  '@roottale/cms-renderer-next@0.67.0':
+    resolution: {integrity: sha512-Vk6KZ9T7eKkfiE98Jcjk4RvSAcoUHQlz349pIg56W/rz74rPSDoUUj3nQjI0mlMs5JBCv/+sLCU7VZSAoXlM1w==}
     peerDependencies:
       react: ^19.0.0
       react-dom: ^19.0.0
@@ -1392,29 +1389,23 @@ snapshots:
       next: 16.3.5(@playwright/test@1.55.0)(@types/node@24.13.4)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
       react: 19.3.0
 
-  '@roottale/cms-client@0.66.0':
+  '@roottale/cms-client@0.67.0':
     dependencies:
+      '@roottale/cms-core': 0.67.0
       '@roottale/inquiry-forms': 0.2.0
       jose: 5.10.0
 
-  '@roottale/cms-core@0.65.1':
+  '@roottale/cms-core@0.67.0':
     dependencies:
       postcss: 8.5.28
       sanitize-html: 2.17.6
       uuidv7: 1.2.1
       zod: 3.25.76
 
-  '@roottale/cms-core@0.66.0':
+  '@roottale/cms-renderer-next@0.67.0(react-dom@19.3.0(react@19.3.0))(react@19.3.0)':
     dependencies:
-      postcss: 8.5.28
-      sanitize-html: 2.17.6
-      uuidv7: 1.2.1
-      zod: 3.25.76
-
-  '@roottale/cms-renderer-next@0.66.0(react-dom@19.3.0(react@19.3.0))(react@19.3.0)':
-    dependencies:
-      '@roottale/cms-client': 0.66.0
-      '@roottale/cms-core': 0.66.0
+      '@roottale/cms-client': 0.67.0
+      '@roottale/cms-core': 0.67.0
       react: 19.3.0
       react-dom: 19.3.0(react@19.3.0)
 

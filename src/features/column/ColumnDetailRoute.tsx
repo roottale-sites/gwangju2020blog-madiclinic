@@ -6,11 +6,11 @@ import MadiPageFrame from '../../components/madi/MadiPageFrame';
 import ArticleNavigation, { type ArticleNavigationLink } from '../../components/site/ArticleNavigation';
 import ArticleHeaderFooter from '../../components/site/ArticleHeaderFooter';
 import JsonLd from '../../components/site/JsonLd';
-import { siteUrl } from '../../data/site';
 import ClinicGuide from '../clinic-guide/ClinicGuide';
 import { DOCTOR_PROFILE_HREF, POST_AUTHOR_NAME } from '../clinic/doctor-profile-link';
 import { articleJsonLd, webPageJsonLd } from '../seo/schema';
-import { DEFAULT_OG_IMAGE_URL } from '../seo/og-image';
+import { metadataImageUrl, pageSeoMetadata } from '../seo/cms-metadata';
+import { loadDefaultOgImage } from '../seo/cms-seo-settings';
 import ColumnTableOfContents from './ColumnTableOfContents';
 import ColumnConsultationPhoto from './ColumnConsultationPhoto';
 import { loadColumnFooterImage, type ColumnFooterImage } from './column-footer-image';
@@ -34,31 +34,24 @@ export async function columnDetailMetadata(slug: string): Promise<Metadata> {
     };
   }
   const canonical = columnEntryPath(entry);
-  const title = columnEntrySeoTitle(entry);
-  const imageUrl = entry.shareImageUrl ?? DEFAULT_OG_IMAGE_URL;
+  const title = entry.seo?.title ?? columnEntrySeoTitle(entry);
+  const imageUrl = entry.seo?.ogImage ?? metadataImageUrl(entry.shareImageUrl) ?? await loadDefaultOgImage();
+  const metadata = pageSeoMetadata(canonical, {
+    ...entry.seo, title, description: entry.seo?.description ?? entry.description, imageUrl,
+    imageAlt: entry.seo?.ogImage ? entry.seo.ogImageAlt : undefined,
+  });
   return {
-    title: { absolute: title },
-    description: entry.description,
-    alternates: { canonical },
+    ...metadata,
     // ROOT-ADMIN 공개 화면 반영 확인이 읽는 글 수정 시각 표식.
     other: {
       'rt:content-id': entry.contentId,
       ...(entry.updatedAt ? { 'roottale:revision': entry.updatedAt } : {}),
     },
     openGraph: {
+      ...metadata.openGraph,
       type: 'article',
-      title,
-      description: entry.description,
-      url: siteUrl(canonical),
       publishedTime: entry.publishedAt,
       ...(entry.updatedAt ? { modifiedTime: entry.updatedAt } : {}),
-      images: [imageUrl],
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title,
-      description: entry.description,
-      images: [imageUrl],
     },
   };
 }
@@ -126,7 +119,7 @@ export function ColumnDetailView({
           articleJsonLd({
             path: canonical,
             headline: entry.title,
-            description: entry.description,
+            description: entry.seo?.description ?? entry.description,
             publishedAt: entry.publishedAt,
             ...(entry.shareImageUrl ? { image: entry.shareImageUrl } : {}),
           }),

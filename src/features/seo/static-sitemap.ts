@@ -1,3 +1,4 @@
+import type { SitemapMetadataContext } from './sitemap-metadata';
 import { siteUrl } from '../../data/site';
 import {
   buildSitemapUrlSetXml,
@@ -40,6 +41,6 @@ export const STATIC_SITEMAP_LASTMOD = latestSitemapLastModified(
   STATIC_PAGE_LASTMOD.column,
 );
 
-export function buildStaticSitemapXml(): string {
-  return buildSitemapUrlSetXml(STATIC_SITEMAP_ENTRIES);
+export function buildStaticSitemapXml(context?: SitemapMetadataContext): string {
+  return buildSitemapUrlSetXml(STATIC_SITEMAP_ENTRIES, context);
 }

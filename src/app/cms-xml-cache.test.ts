@@ -13,7 +13,7 @@ vi.mock('../features/reviews/review-api', () => ({
   loadReviewArchive: async () => ({ ok: true, data: [] }),
 }));
 vi.mock('../features/faq/faq-source', () => ({
-  resolveFaqCollection: async () => ({ status: 'ok', archive: { source: 'cms', entries: [] } }),
+  resolveFaqCollection: async () => ({ status: 'ok', archive: { source: 'cms', entries: [] }, taxonomy: { sections: [], topics: [] } }),
 }));
 
 import { GET as columnRss } from './column/rss.xml/route';

@@ -1,3 +1,5 @@
+import { faqSectionPath, faqTopicPath } from '../../features/faq/faq-model';
+import { loadSitemapMetadata, mergeSitemapMetadata } from '../../features/seo/sitemap-metadata';
 import { buildFaqSitemapXml } from '../../features/faq/faq-sitemap';
 import { resolveFaqCollection } from '../../features/faq/faq-source';
 
@@ -20,7 +22,12 @@ export async function GET(): Promise<Response> {
     });
   }
 
-  return new Response(buildFaqSitemapXml(collection.archive.entries), {
+  return new Response(buildFaqSitemapXml(collection.archive.entries, mergeSitemapMetadata(
+    await loadSitemapMetadata(['faq']), [
+      ...collection.taxonomy.sections.map((section) => [faqSectionPath(section.slug), section] as const),
+      ...collection.taxonomy.topics.map((topic) => [faqTopicPath(topic.sectionSlug, topic.slug), topic] as const),
+    ],
+  )), {
     headers: {
       'content-type': 'application/xml; charset=utf-8',
       'cache-control': 'no-store',

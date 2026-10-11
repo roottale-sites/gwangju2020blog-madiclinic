@@ -6,6 +6,8 @@ import {
 } from '../cms/internal-content-links';
 import { sanitizeCmsHtml } from '../cms/raw-html';
 import { renderTiptapBody } from '../cms/tiptap-body';
+import { firstBodyImageUrl } from '../cms/body-image';
+import { metadataImageUrl } from '../seo/cms-metadata';
 import {
   FAQ_ALL_CACHE_TAG,
   FAQ_ARCHIVE_CACHE_TAG,
@@ -185,6 +187,8 @@ function entryFromPreparedPost(
 
   return {
     contentId: post.id || undefined,
+    seo: post.seo,
+    shareImageUrl: metadataImageUrl(post.featuredImageUrl) ?? metadataImageUrl(firstBodyImageUrl(post.bodyJson)),
     copiedFrom: post.copiedFrom,
     sectionSlug,
     topicSlug,
@@ -256,7 +260,8 @@ async function fetchFaqCatalog(): Promise<FaqCatalog | null> {
 
 const loadCachedFaqCatalog = unstable_cache(
   fetchFaqCatalog,
-  ['faq-catalog-v1'],
+  // v2: 글 SEO·공유 이미지와 분류의 완전한 SEO 제목을 함께 보관한다.
+  ['faq-catalog-v3'],
   {
     revalidate: FAQ_DATA_CACHE_TTL_SECONDS,
     tags: [FAQ_ALL_CACHE_TAG, FAQ_ARCHIVE_CACHE_TAG],
