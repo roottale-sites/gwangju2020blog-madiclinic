@@ -607,19 +607,19 @@ packages:
         optional: true
 
   '@roottale/cms-client@0.67.0':
-    resolution: {integrity: sha512-+K9pOHYNV9YPiq7EGpN6Vt3urlH/HCWsbfWKp/BlUf4EBBuAPgKWMTtNmDYB34/UbZF0nbx9JoU3+OofQ8bJEA==}
+    resolution: {integrity: sha512-b0zTcRFI6N2PvJJPjUJmrgTUQH2LXOUKyxRaFI8U2QGoEfp8y3ogMC6LalQf4NdfjS+0sX7qdueO7n+i5Ghvbw==}
 
   '@roottale/cms-core@0.67.0':
-    resolution: {integrity: sha512-DTS6wWfmaigcm+sUlTPF7d52StTAym+vtug+VGWpFau5ms64vFASvJTm156x9iXZAXysHYC0uBBwVNeADEO0dg==}
+    resolution: {integrity: sha512-U4+G2ToprAWM7OkA/3CdzTnmET2Crtfxpp+lxk73F/ufUX3ctzx4+blR8S1cykQL02ESxXXNs8O4+R6n4fsq1w==}
 
   '@roottale/cms-renderer-next@0.67.0':
-    resolution: {integrity: sha512-G9Y05cYXKLC3TVFhr82D/jjKLQv+jjVxdRVnuBLHjbbA5C3LZsotcnuYqNSTyERvTdKdt1t53+ZwzGqFtx/ZXg==}
+    resolution: {integrity: sha512-Vk6KZ9T7eKkfiE98Jcjk4RvSAcoUHQlz349pIg56W/rz74rPSDoUUj3nQjI0mlMs5JBCv/+sLCU7VZSAoXlM1w==}
     peerDependencies:
       react: ^19.0.0
       react-dom: ^19.0.0
 
   '@roottale/inquiry-forms@0.2.0':
-    resolution: {integrity: sha512-bzu7kbNpGdAWdjMEJLHNGmCEsQFLICm4X8vklLevNpnxqKuGmL7dJJy7QR32cpeIWD+OOrzqcxoZFwQ4axoOCA==, tarball: https://registry.npmjs.org/@roottale/inquiry-forms/-/inquiry-forms-0.2.0.tgz}
+    resolution: {integrity: sha512-bzu7kbNpGdAWdjMEJLHNGmCEsQFLICm4X8vklLevNpnxqKuGmL7dJJy7QR32cpeIWD+OOrzqcxoZFwQ4axoOCA==}
 
   '@swc/helpers@0.5.23':
     resolution: {integrity: sha512-5lSsMOTXURePglDfvuAQUqkGek9Hg2kksOYay2m0+XR++b2NWYL/4sWyuvVBIs8oKnJaxkdi9whaL/sqN13afw==}
