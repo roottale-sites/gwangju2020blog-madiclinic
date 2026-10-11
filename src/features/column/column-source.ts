@@ -66,7 +66,7 @@ export async function resolveColumnCategories(): Promise<ColumnCategoryList> {
       publishedPostCount: category.publishedPostCount,
     ogImage: category.seoOgImage ?? undefined,
     ogImageAlt: category.seoOgImageAlt ?? undefined,
-    noindex: category.hubPromoted === undefined ? undefined : !category.hubPromoted,
+    noindex: category.noindex,
     nofollow: category.seoNofollow ?? undefined,
     })),
     status: 'ok',

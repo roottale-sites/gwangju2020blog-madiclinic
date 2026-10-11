@@ -231,6 +231,7 @@
       }
     },
     "terms": {
+      "categoryIndexActivation": "required",
       "supportedFields": [
         "title",
         "description",

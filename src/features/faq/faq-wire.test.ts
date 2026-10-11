@@ -54,12 +54,21 @@ describe('FAQ 공개 API 와이어', () => {
       {
         id: 's1', slug: 'spine', name: '척추 통증', parentId: null, collectionKey: 'faq',
         description: '목·허리 통증 질문', seoTitle: '척추 통증 자주 묻는 질문', seoDescription: '검사와 치료',
+        noindex: false,
       },
       {
         id: 't1', slug: 'neck-pain', name: '목 통증', parentId: 's1', collectionKey: 'faq',
-        description: null, seoTitle: null, seoDescription: null,
+        description: null, seoTitle: null, seoDescription: null, noindex: false,
       },
     ]);
+  });
+
+  test('분류 색인 전환 뒤에만 승격하지 않은 FAQ 분류를 검색에서 제외한다', async () => {
+    const categories = [{ id: 's1', slug: 'spine', name: '척추 통증', parent_id: null, collection_key: 'faq', hub_promoted: false }];
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue(new Response(JSON.stringify({ categories }), { status: 200 })));
+    await expect(fetchFaqCategories(config)).resolves.toMatchObject([{ id: 's1', noindex: false }]);
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue(new Response(JSON.stringify({ category_index_activated: true, categories }), { status: 200 })));
+    await expect(fetchFaqCategories(config)).resolves.toMatchObject([{ id: 's1', noindex: true }]);
   });
 
   test('글을 model_key=faq로 조회하고 term id와 본문 필드를 잃지 않는다', async () => {

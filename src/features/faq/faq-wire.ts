@@ -1,6 +1,7 @@
 import { firstBodyImageUrl } from '../cms/body-image';
 import { contentSource, type ContentSource } from '../cms/content-source';
 import { contentSeo, type CmsSeo } from '../seo/cms-metadata';
+import { categoryNoindexFromWire } from '../seo/category-index';
 /**
  * FAQ 전용 공개 API 와이어 클라이언트. headnerve `features/faq/faq-wire.ts`다.
  *
@@ -177,7 +178,7 @@ export async function fetchFaqCategories(config: FaqWireConfig): Promise<FaqWire
       description: nullableString(value.description),
       ogImage: nullableString(value.seo_og_image) ?? undefined,
       ogImageAlt: nullableString(value.seo_og_image_alt) ?? undefined,
-      noindex: typeof value.hub_promoted === 'boolean' ? !value.hub_promoted : undefined,
+      noindex: categoryNoindexFromWire(json, value),
       nofollow: typeof value.seo_nofollow === 'boolean' ? value.seo_nofollow : undefined,
       seoTitle: nullableString(value.seo_title),
       seoDescription: nullableString(value.seo_description),
