@@ -172,7 +172,7 @@ headnerve 선언을 그대로 쓴다. 분류 목록만 비운다.
 | 파일 | 변경 |
 |---|---|
 | `src/data/site.ts` | `siteOrigin = 'https://gwangju2020blog.madiclinic.co.kr'` |
-| `src/data/clinic.ts` | 광주 남구 마디클리닉. 사업자 322-91-01246, 대표원장 이경무, 광주광역시 남구 독립로 14 1~3F, TEL 062-675-0750, FAX 062-675-0760, madi2020@naver.com |
+| `src/data/clinic.ts` | 광주 남구 마디클리닉. 사업자 322-91-01246, 대표원장 이경무, 전남광주통합특별시 남구 독립로 14 1~3F, TEL 062-675-0750, FAX 062-675-0760, madi2020@naver.com |
 | `src/data/nav.ts` | 예약·카카오·카페·블로그·네이버톡톡 주소는 `data/clinic.ts`를 참조한다. 2026-09-30 사용자 제공 정보로 유튜브를 제거하고 헤더의 해당 자리는 블로그로 바꾼다. GNB 트리는 §3.4를 따른다. |
 | `src/features/seo/schema.ts` | `siteEntityJsonLd`를 MedicalClinic(마디클리닉)+Physician(이경무)로 |
 | `src/app/layout.tsx` | 제목·설명·파비콘(`docs/assets/madiclinic-brand/favicon/` 세트를 `app/`으로)·OG 이미지(헤더 로고 1200×630 생성). GTM·서치콘솔·네이버 인증 토큰은 발급 후 삽입, 없으면 비움 |
