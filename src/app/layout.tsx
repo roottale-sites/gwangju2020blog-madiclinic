@@ -34,7 +34,7 @@ const baseMetadata: Metadata = {
     template: '%s | 광주 남구 마디클리닉 블로그',
   },
   description:
-    '광주 남구 마디클리닉의 칼럼·치료후기·자주 묻는 질문. 영상유도하 통증중재시술 의료기관, 이경무 대표원장 진료. 광주광역시 남구 독립로 14.',
+    '광주 남구 마디클리닉의 칼럼·치료후기·자주 묻는 질문. 영상유도하 통증중재시술 의료기관, 이경무 대표원장 진료. 전남광주통합특별시 남구 독립로 14.',
   applicationName: clinic.name,
   manifest: '/site.webmanifest',
   icons: {
