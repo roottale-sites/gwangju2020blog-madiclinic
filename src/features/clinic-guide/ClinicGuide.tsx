@@ -40,7 +40,7 @@ export default function ClinicGuide() {
       </div>
       <nav className="clinic-guide__actions" aria-label="병원 외부 채널">
         <a className="clinic-guide__question" href={clinic.social.cafe}
-          target="_blank" rel="noopener noreferrer" data-analytics-id="cafe-question">질문하기</a>
+          target="_blank" rel="noopener noreferrer" data-analytics-id="cafe-question" data-analytics-cta="true">질문하기</a>
         <a className="clinic-guide__booking" href={clinic.social.naverBooking}
           target="_blank" rel="noopener noreferrer" data-analytics-id="naver-booking">예약하기</a>
         <a className="clinic-guide__blog" href={clinic.social.blog} target="_blank" rel="noopener noreferrer"

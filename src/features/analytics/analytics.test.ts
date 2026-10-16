@@ -26,13 +26,24 @@ describe('유입 경로와 클릭 연결', () => {
     ['tel:0626750750', 'phone_click', undefined],
     ['https://m.booking.naver.com/booking/13/bizes/823238?theme=place', 'booking_click', 'naver'],
     ['https://pf.kakao.com/_test', 'chat_click', 'kakao'],
-    ['/faq', 'cta_click', undefined],
-    [null, 'cta_click', undefined],
-    ['https://booking.naver.com.evil.test', 'cta_click', undefined],
+    ['https://talk.naver.com/ct/test', 'chat_click', 'naver'],
+    ['/faq', 'button_click', undefined],
+    [null, 'button_click', undefined],
+    ['https://booking.naver.com.evil.test', 'button_click', undefined],
   ])('버튼 %s를 관리자 이벤트로 분류한다', (href, event, provider) => {
     const result = classifyClick(href, '검색 열기', 'clinic-guide', origin);
     expect(result.event).toBe(event);
     expect(result.dimensions.trackPlacement).toBe('clinic-guide');
     expect(result.dimensions.trackProvider).toBe(provider);
+  });
+});
+
+
+describe('일반 조작과 명시적 CTA', () => {
+  it('같은 링크도 CTA로 지정한 경우에만 CTA 이벤트로 보낸다', () => {
+    expect(classifyClick('/faq', '질문하기', 'article', origin).event).toBe('button_click');
+    expect(classifyClick('/faq', '질문하기', 'article', origin, true)).toEqual({
+      event: 'cta_click', dimensions: { trackPlacement: 'article', trackCta: '질문하기', trackKind: 'cta' },
+    });
   });
 });

@@ -2,9 +2,10 @@ import { isTrackEvent, type TrackEventName } from '@roottale/analytics-runtime/e
 import type { EntryAttribution } from './entry-attribution';
 
 export const CLICK_TARGET_SELECTOR = 'a[href], button, summary, [role="button"], input[type="submit"], input[type="button"], #naviToggle';
-export type ClickTracking = { event: TrackEventName; dimensions: Record<string, string> };
+// 기존 런타임의 전송 함수는 문자열 이벤트를 지원한다. 수집 API를 먼저 배포한다.
+export type ClickTracking = { event: TrackEventName | 'button_click'; dimensions: Record<string, string> };
 
-export function classifyClick(href: string | null, id: string, placement: string, origin: string): ClickTracking {
+export function classifyClick(href: string | null, id: string, placement: string, origin: string, isCta = false): ClickTracking {
   const dimensions: Record<string, string> = { trackPlacement: placement };
   try {
     const target = new URL(href ?? '', origin);
@@ -16,8 +17,13 @@ export function classifyClick(href: string | null, id: string, placement: string
     if (target.hostname === 'pf.kakao.com') {
       return { event: 'chat_click', dimensions: { ...dimensions, trackProvider: 'kakao' } };
     }
-  } catch { /* 링크가 아닌 펼치기·닫기 버튼도 CTA로 수집한다. */ }
-  return { event: 'cta_click', dimensions: { ...dimensions, trackCta: id.slice(0, 128) } };
+    if (target.hostname === 'talk.naver.com') {
+      return { event: 'chat_click', dimensions: { ...dimensions, trackProvider: 'naver' } };
+    }
+  } catch { /* 링크가 아닌 조작은 일반 버튼으로 수집한다. */ }
+  return isCta
+    ? { event: 'cta_click', dimensions: { ...dimensions, trackCta: id.slice(0, 128), trackKind: 'cta' } }
+    : { event: 'button_click', dimensions: { ...dimensions, trackButton: id.slice(0, 128) } };
 }
 
 function placementFor(element: Element): string {
@@ -35,7 +41,7 @@ function placementFor(element: Element): string {
 
 export function trackingForElement(element: Element): ClickTracking {
   const explicitEvent = element.getAttribute('data-track');
-  if (explicitEvent && isTrackEvent(explicitEvent)) {
+  if (explicitEvent && (isTrackEvent(explicitEvent) || explicitEvent === 'button_click')) {
     const dimensions: Record<string, string> = {};
     for (const attr of element.attributes) {
       if (attr.name.startsWith('data-track-')) {
@@ -43,18 +49,19 @@ export function trackingForElement(element: Element): ClickTracking {
         dimensions[key] = attr.value.slice(0, 128);
       }
     }
+    if (explicitEvent === 'cta_click') dimensions.trackKind = 'cta';
     return { event: explicitEvent, dimensions };
   }
   // 입력값이나 검색어는 읽지 않고 조작 이름만 보낸다.
   const id = element.getAttribute('data-analytics-id') || element.getAttribute('aria-label') ||
     element.getAttribute('title') || element.textContent?.trim().replace(/\s+/g, ' ') ||
     element.querySelector('img')?.getAttribute('alt') || element.id || element.tagName.toLowerCase();
-  return classifyClick(element.getAttribute('href'), id, placementFor(element), location.origin);
+  return classifyClick(element.getAttribute('href'), id, placementFor(element), location.origin, element.hasAttribute('data-analytics-cta'));
 }
 
 /** SDK의 data-track 위임과 중복되지 않게, 문서의 모든 조작 요소를 한 곳에서 수집한다. */
 export function bindClickTracking(
-  send: (event: TrackEventName, dimensions: Record<string, string>) => void,
+  send: (event: ClickTracking['event'], dimensions: Record<string, string>) => void,
   entry: () => EntryAttribution,
 ): () => void {
   const onClick = (event: MouseEvent) => {
@@ -66,6 +73,7 @@ export function bindClickTracking(
     const explicit = target.closest('[data-track]');
     if (explicit && event.type === 'click') {
       const attribution = entry();
+      if (explicit.getAttribute('data-track') === 'cta_click') explicit.setAttribute('data-track-kind', 'cta');
       explicit.setAttribute('data-track-attr', '1');
       for (const key of ['lp', 'ref', 'rh', 'air', 'us', 'um', 'uc', 'rs', 'gc'] as const) {
         const value = attribution[key];
