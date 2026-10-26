@@ -42,12 +42,12 @@ describe('FAQ 상세 답변 구성 목차', () => {
   });
 
   test('관점 섹션 제목은 콘텐츠 모델의 필드 라벨과 같다', () => {
-    expect(faqDetailSections.clinicPerspective.title).toBe('마디클리닉 관점');
+    expect(faqDetailSections.clinicPerspective.title).toBe('광주 남구 마디의원 관점');
   });
 
   test('목차는 실제로 렌더된 섹션과 1:1이고, 각 링크는 같은 제목의 헤딩을 가리킨다', () => {
     for (const overrides of [
-      { bodyHtml: '<p>상세 설명</p>', clinicPerspectiveHtml: '<p>마디클리닉 관점</p>' },
+      { bodyHtml: '<p>상세 설명</p>', clinicPerspectiveHtml: '<p>광주 남구 마디의원 관점</p>' },
       { bodyHtml: undefined, clinicPerspectiveHtml: undefined },
     ]) {
       const html = render(overrides);
