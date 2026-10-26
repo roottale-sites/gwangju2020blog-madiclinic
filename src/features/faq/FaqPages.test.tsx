@@ -201,7 +201,7 @@ describe('답변 상세', () => {
     }
   });
 
-  test('CMS에서 고른 마디클리닉 관점과 관련 FAQ를 우선 렌더한다', () => {
+  test('CMS에서 고른 광주 남구 마디의원 관점과 관련 FAQ를 우선 렌더한다', () => {
     const related = faqFixtureEntries.find((item) => item.slug === 'how-long');
     if (!related) throw new Error('관련 FAQ 픽스처가 없습니다.');
     const cmsEntry = {
@@ -218,7 +218,7 @@ describe('답변 상세', () => {
       />,
     );
 
-    expect(html).toContain('마디클리닉 관점');
+    expect(html).toContain('광주 남구 마디의원 관점');
     expect(html).toContain('업무 환경을 함께 봅니다.');
     expect(html).toContain(related.question);
     // 명시 설정이 있으면 자동 추천으로 대체하지 않는다.

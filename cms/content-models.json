@@ -48,16 +48,16 @@
         {
           "key": "group_faq_answer_sections",
           "title": "답변 확장",
-          "description": "필요한 글에만 마디클리닉 관점을 덧붙입니다.",
+          "description": "필요한 글에만 광주 남구 마디의원 관점을 덧붙입니다.",
           "position": "normal",
           "fields": [
             {
               "key": "field_faq_clinic_perspective",
               "name": "clinic_perspective",
-              "label": "마디클리닉 관점",
+              "label": "광주 남구 마디의원 관점",
               "type": "wysiwyg",
               "required": false,
-              "instructions": "필요할 때만 작성하세요. 일반 상세 답변과 구분해 마디클리닉 관점으로 표시됩니다."
+              "instructions": "필요할 때만 작성하세요. 일반 상세 답변과 구분해 광주 남구 마디의원 관점으로 표시됩니다."
             }
           ]
         }
