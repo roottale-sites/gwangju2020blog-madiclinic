@@ -12,6 +12,7 @@ import { createPatchedFetcher } from 'next/dist/server/lib/patch-fetch';
 /** Next의 실제 캐시를 메모리에서 실행한다. 디스크·운영 CMS에는 쓰지 않는다. */
 export function nextCacheFixture() {
   const id = randomUUID();
+  const preview = { previewModeId: id, previewModeEncryptionKey: '', previewModeSigningKey: '' };
   const cache = new IncrementalCache({
     fs: nodeFs,
     dev: false,
@@ -20,10 +21,11 @@ export function nextCacheFixture() {
     fetchCacheKeyPrefix: id,
     maxMemoryCacheSize: 5 * 1024 * 1024,
     requestHeaders: {},
-    getPrerenderManifest: () => ({
+    previewProps: preview,
+    prerenderManifest: {
       version: 4, routes: {}, dynamicRoutes: {}, notFoundRoutes: [],
-      preview: { previewModeId: id, previewModeEncryptionKey: '', previewModeSigningKey: '' },
-    }),
+      preview,
+    },
   });
 
   async function request<T>(run: () => Promise<T>, page = '/faq/page'): Promise<T> {
@@ -34,9 +36,9 @@ export function nextCacheFixture() {
         cacheLifeProfiles: { default: { stale: 300, revalidate: 900, expire: 86400 } },
         staticPageGenerationTimeout: 60,
         cacheComponents: false, validationLevel: 'warning',
-        supportsDynamicResponse: true, isDraftMode: false,
+        assetPrefix: '', isDraftMode: false,
         isBuildTimePrerendering: false, isDebugDynamicAccesses: false,
-        experimental: { isRoutePPREnabled: false, authInterrupts: false, useCacheTimeout: 60 },
+        experimental: { isRoutePPREnabled: false, authInterrupts: false, useCacheTimeout: 60, durableUseCacheEntries: false },
         waitUntil: undefined, onClose: () => {}, onAfterTaskError: undefined,
       },
     });
