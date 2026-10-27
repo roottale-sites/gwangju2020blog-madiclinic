@@ -27,7 +27,7 @@ canonical은 각 목록의 기본 주소로 유지한다.
 | URL | `<title>` | `description` | 비고 |
 |---|---|---|---|
 | `/column` | 광주 남구 마디클리닉 블로그 | 광주 남구 마디클리닉 이경무 대표원장이 통증의 원인과 비수술 중점치료를 직접 씁니다. 영상유도하 통증중재시술 의료기관. | `columnIndexMetadata`. `?q=` 검색 결과는 `noindex, follow` |
-| `/column/{category}` | {분류 SEO 제목} | {분류 SEO 설명}, 비어 있으면 `/column` 설명 | CMS 공개 분류 API의 `seo_title`을 완전한 제목으로 사용한다. 비어 있으면 분류 이름을 쓴다(PLAN.md §4.2) |
+| `/column/{category}` | {분류 SEO 제목} | 분류 `seo_description` → `description` → `광주 남구 마디클리닉 이경무 대표원장의 {분류명} 칼럼입니다. 통증의 원인과 비수술 치료를 설명합니다.` | 설명 서식은 계약의 `metadata.terms.defaultRules.column.description.fallbackWithoutParent`를 사용한다. CMS 공개 분류 API의 `seo_title`을 완전한 제목으로 사용하며, 비어 있으면 분류 이름을 쓴다(PLAN.md §4.2) |
 | `/column/{category}/{slug}` | 글의 `seo.title`, 없으면 {글 제목} \| 광주 남구 마디클리닉 블로그 | 글의 `seo.description` → 발췌문 → 기본 문구(160자 상한) | canonical은 플랫폼이 저장한 공개 경로(ADR-0105) |
 | 없는 분류·글 | 공통 404 제목 | 공통 404 설명 | `noindex, follow` |
 

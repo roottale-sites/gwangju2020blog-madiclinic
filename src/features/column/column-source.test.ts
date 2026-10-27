@@ -1,5 +1,5 @@
-import { columnIndexMetadata } from './column-content';
 import { beforeEach, describe, expect, test, vi } from 'vitest';
+import { columnCategoryMetadata } from './ColumnCategoryPage';
 
 /**
  * 출처 경계 회귀 테스트.
@@ -127,10 +127,13 @@ describe('칼럼 분류 출처', () => {
     });
   });
 
-  test('CMS가 SEO 값을 비워 두면 분류 이름으로 채운다', async () => {
+  test('SEO 설명과 분류 설명이 모두 없으면 계약 템플릿으로 서로 다른 설명을 만든다', async () => {
     loadColumnCategories.mockResolvedValue({
       ok: true,
-      data: [cmsCategory({ path: null, description: null, seoTitle: null, seoDescription: null })],
+      data: [
+        cmsCategory({ path: null, description: null, seoTitle: null, seoDescription: null }),
+        cmsCategory({ slug: 'treatment-info', name: '검사/치료정보', path: null, description: null, seoTitle: null, seoDescription: null }),
+      ],
     });
 
     const list = await resolveColumnCategories();
@@ -138,8 +141,25 @@ describe('칼럼 분류 출처', () => {
     expect(list.categories[0]).toMatchObject({
       path: '/column/knee',
       seoTitle: '무릎',
-      seoDescription: columnIndexMetadata.description,
     });
+    const descriptions = list.categories.map((category) => columnCategoryMetadata({
+      category, categories: list.categories, entries: [],
+    }).description);
+    expect(descriptions).toEqual([
+      '광주 남구 마디클리닉 이경무 대표원장의 무릎 칼럼입니다. 통증의 원인과 비수술 치료를 설명합니다.',
+      '광주 남구 마디클리닉 이경무 대표원장의 검사/치료정보 칼럼입니다. 통증의 원인과 비수술 치료를 설명합니다.',
+    ]);
+    expect(new Set(descriptions).size).toBe(2);
+  });
+
+  test('SEO 설명이 없으면 분류 설명을 계약 템플릿보다 우선한다', async () => {
+    loadColumnCategories.mockResolvedValue({
+      ok: true, data: [cmsCategory({ seoDescription: null })],
+    });
+
+    const list = await resolveColumnCategories();
+
+    expect(list.categories[0]?.seoDescription).toBe('무릎 통증 글입니다.');
   });
 
   test.each(['unconfigured', 'upstream'] as const)(

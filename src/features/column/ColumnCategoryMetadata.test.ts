@@ -17,6 +17,7 @@ const archive: ColumnCategoryArchive = {
 describe('칼럼 분류 메타데이터', () => {
   test('CMS SEO 제목을 전체 제목과 OG 제목으로 그대로 사용한다', () => {
     const metadata = columnCategoryMetadata(archive);
+    expect(metadata.description).toBe('무릎 통증의 검사와 치료 글을 모았습니다.');
     expect(metadata.title).toEqual({ absolute: '무릎 통증 칼럼 | 검사와 치료 정보' });
     expect(metadata.openGraph).toMatchObject({
       title: '무릎 통증 칼럼 | 검사와 치료 정보',

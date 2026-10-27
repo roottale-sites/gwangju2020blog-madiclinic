@@ -1,5 +1,5 @@
 {
-  "version": 5,
+  "version": 6,
   "pages": [],
   "models": [
     {
@@ -251,6 +251,7 @@
       "defaultRules": {
         "column": {
           "description": {
+            "fallbackWithoutParent": "광주 남구 마디클리닉 이경무 대표원장의 %s 칼럼입니다. 통증의 원인과 비수술 치료를 설명합니다.",
             "fallback": "광주 남구 마디클리닉 이경무 대표원장이 통증의 원인과 비수술 중점치료를 직접 씁니다. 영상유도하 통증중재시술 의료기관."
           },
           "useTermImage": false,
