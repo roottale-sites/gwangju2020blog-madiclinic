@@ -2,13 +2,13 @@
 
 확인일: 2026-09-23. 대상은 [ROOT-ADMIN 사이트](https://admin.roottale.com/site/gwangju2020-blog-madiclinic)와 `gwangju2020blog.madiclinic.co.kr`이다. 사용자 승인에 따라 사이트·관리자를 배포하고 운영 주소·팝업 슬롯·미리보기·메뉴 설정을 반영했다.
 
-## SDK·GTM 연동 보완 (2026-10-28, 로컬)
+## SDK·GTM 연동 보완 (2026-10-28, 운영 반영 완료)
 
 CMS client·core·renderer-next는 0.73.0, analytics-runtime은 0.9.0을 사용한다. 공개 경로·루트 이동·canonical·robots·사이트맵은 유지한다. 교체된 작업본의 `preview_superseded`는 기존 만료 안내로 처리해 관리자에서 새 미리보기를 열도록 안내한다.
 
 ROOT-ADMIN 설정 → 연동의 GTM 컨테이너 ID(`theme.siteTracking.googleTagManagerId`)를 `googleTagManagerSnippet`으로 출력한다. 소유 확인 코드와 요청당 한 번의 theme 조회를 공유하며, `VERCEL_ENV=production`인 정식 호스트 `gwangju2020blog.madiclinic.co.kr`의 공개 페이지에서만 연결한다. 페이지의 404·주소 이동 판정 뒤 본문 앞에 스크립트·noscript를 넣어 미리보기·404·다른 호스트에서 출력되지 않게 한다. 관리자 iframe 미리보기도 제외한다. 정상 조회의 빈 값·유효하지 않은 ID는 GTM을 생략한다. theme 조회 실패에는 소유 확인 코드처럼 기존 운영 GTM(`GTM-T7TXDQ88`)을 대체값으로 쓴다. 이 ID는 이전에 코드에 고정했던 값이므로 배포 전에 관리자 연동 설정에 같은 ID를 등록해야 GTM이 끊기지 않는다.
 
-서명된 `theme.updated` 웹훅의 `rt-theme` 즉시 만료와 루트 layout·공개 경로 갱신이 소유 확인 코드·GTM에 함께 적용된다. 팝업은 커뮤니티 세 첫 화면용으로 유지하고 CMS 홍보 배너는 사용하지 않는다. 블로그 하단 이미지 계약도 유지한다. 배포와 운영 설정 확인은 사용자 승인 후 별도로 진행한다.
+서명된 `theme.updated` 웹훅의 `rt-theme` 즉시 만료와 루트 layout·공개 경로 갱신이 소유 확인 코드·GTM에 함께 적용된다. 팝업은 커뮤니티 세 첫 화면용으로 유지하고 CMS 홍보 배너는 사용하지 않는다. 블로그 하단 이미지 계약도 유지한다. 2026-10-28 사용자 승인으로 관리자에 기존 GTM을 먼저 등록한 뒤 [PR #10](https://github.com/roottale-sites/gwangju2020blog-madiclinic/pull/10)을 운영 배포했다.
 
 ## 연결 계약
 

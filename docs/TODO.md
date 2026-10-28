@@ -27,7 +27,7 @@
 - [x] ROOT-ADMIN `theme.siteTracking`의 GTM 연결. 소유 확인 코드와 theme 조회를 공유하고 Production 정식 공개 호스트에서만 출력. 미리보기·iframe·404·다른 호스트와 정상 조회의 빈 설정은 제외하고, 조회 실패에는 기존 운영 GTM을 대체값으로 사용.
 - [x] `preview_superseded`를 기존 만료 안내로 처리. 새 미리보기를 열도록 안내하고 검색 제외 유지.
 - [x] 단위 테스트 76파일 604케이스·타입 검사·production build 통과. GTM 조건·실패·삭제·theme 웹훅 갱신과 실제 라우트 404를 로컬 fixture로 검증. 서버 listen 권한·Aside 연결 제한으로 실브라우저 확인은 미실행.
-- [ ] 사용자 승인 후 기존 GTM(`GTM-T7TXDQ88`)을 관리자 연동 설정에 먼저 등록하고 배포·반영 확인. 이번 작업은 로컬 검증까지 진행한다.
+- [x] 사용자 승인으로 기존 GTM(`GTM-T7TXDQ88`)을 관리자 연동 설정에 먼저 등록한 뒤 [PR #10](https://github.com/roottale-sites/gwangju2020blog-madiclinic/pull/10) 운영 배포(2026-10-28). 칼럼·FAQ·후기 목록과 상세의 GTM·소유 확인 태그, 404의 GTM 미출력, 메타데이터 설치 dry-run 통과를 확인했다.
 
 ## 블로그 하단 이미지 관리 (2026-10-08)
 
