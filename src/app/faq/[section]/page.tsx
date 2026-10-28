@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
+import { withSiteTracking } from '../../../features/seo/with-site-tracking';
 
 import '../../../styles/site/faq.css';
 import FaqSectionPage from '../../../features/faq/FaqSectionPage';
@@ -47,7 +48,7 @@ export async function generateMetadata({ params, searchParams }: Props): Promise
   return faqCategoryMetadata(faqSectionPath(section.slug), section, Boolean(intent));
 }
 
-export default async function FaqSectionRoute({ params, searchParams }: Props) {
+async function FaqSectionRoute({ params, searchParams }: Props) {
   const { collection, section, sectionSlug } = await resolveRoute(params);
   if (collection.status !== 'ok') {
     return <FaqStatePage pathname={faqSectionPath(sectionSlug)} status={collection.status} />;
@@ -63,3 +64,5 @@ export default async function FaqSectionRoute({ params, searchParams }: Props) {
     />
   );
 }
+
+export default withSiteTracking(FaqSectionRoute);

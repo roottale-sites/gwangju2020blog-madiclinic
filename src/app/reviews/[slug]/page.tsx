@@ -13,6 +13,7 @@ import { reviewEntryPath, reviewImageUrl, reviewSeoDescription, reviewSeoTitle }
 import { metadataImageUrl, pageSeoMetadata, readCmsSeo } from '../../../features/seo/cms-metadata';
 import { loadDefaultOgImage } from '../../../features/seo/cms-seo-settings';
 import { reviewsBreadcrumb } from '../page';
+import { withSiteTracking } from '../../../features/seo/with-site-tracking';
 
 type ReviewDetailPageProps = {
   params: Promise<{ slug: string }>;
@@ -69,7 +70,7 @@ export async function generateMetadata({ params }: ReviewDetailPageProps): Promi
   };
 }
 
-export default async function ReviewDetailPage({ params }: ReviewDetailPageProps) {
+async function ReviewDetailPage({ params }: ReviewDetailPageProps) {
   const requestedSlug = decodeSlugParam((await params).slug);
   const result = await loadReview(requestedSlug);
   if (result.ok && !result.data) notFound();
@@ -101,3 +102,5 @@ export default async function ReviewDetailPage({ params }: ReviewDetailPageProps
   const archive = await loadReviewArchive();
   return <ReviewDetailView post={post} archivePosts={archive.ok ? archive.data : []} />;
 }
+
+export default withSiteTracking(ReviewDetailPage);

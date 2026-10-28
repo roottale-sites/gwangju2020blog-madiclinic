@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import type { Metadata } from 'next';
+import { withSiteTracking } from '../../features/seo/with-site-tracking';
 
 import '../../styles/site/reviews.css';
 import ArchivePagination from '../../components/site/ArchivePagination';
@@ -89,7 +90,7 @@ export async function generateMetadata({ searchParams }: ReviewsPageProps): Prom
  * `MadiPageFrame`(배너 02)으로 바꿨다. `SitePageHero`·`FinalCta`·`DiseaseClosing`은
  * 쓰지 않는다(PLAN.md §2.2).
  */
-export default async function ReviewsPage({ searchParams }: ReviewsPageProps) {
+async function ReviewsPage({ searchParams }: ReviewsPageProps) {
   const params = await searchParams;
   const [result, seo] = await Promise.all([loadReviewArchive(), loadArchiveSeo('reviews')]);
   const allReviews = result.ok ? result.data : [];
@@ -185,3 +186,5 @@ export default async function ReviewsPage({ searchParams }: ReviewsPageProps) {
     </MadiPageFrame>
   );
 }
+
+export default withSiteTracking(ReviewsPage);

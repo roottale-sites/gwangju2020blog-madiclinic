@@ -9,17 +9,17 @@ importers:
   .:
     dependencies:
       '@roottale/analytics-runtime':
-        specifier: 0.7.0
-        version: 0.7.0(next@16.4.3(@playwright/test@1.55.0)(@types/node@24.13.4)(react-dom@19.3.0(react@19.3.0))(react@19.3.0))(react@19.3.0)
+        specifier: 0.9.0
+        version: 0.9.0(next@16.4.3(@playwright/test@1.55.0)(@types/node@24.13.4)(react-dom@19.3.0(react@19.3.0))(react@19.3.0))(react@19.3.0)
       '@roottale/cms-client':
-        specifier: 0.67.0
-        version: 0.67.0
+        specifier: 0.73.0
+        version: 0.73.0
       '@roottale/cms-core':
-        specifier: 0.67.0
-        version: 0.67.0
+        specifier: 0.73.0
+        version: 0.73.0
       '@roottale/cms-renderer-next':
-        specifier: 0.67.0
-        version: 0.67.0(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
+        specifier: 0.73.0
+        version: 0.73.0(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
       domhandler:
         specifier: ^5.0.3
         version: 5.0.3
@@ -595,8 +595,8 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@roottale/analytics-runtime@0.7.0':
-    resolution: {integrity: sha512-DKM3F95X87rV8DYcXOgG8zMj5ilF5wJ9x4M5Sxi6/AfYNmrKYjhX2GqJNIFFOOwky/I3uTCOpduXJbyx3Uy96Q==}
+  '@roottale/analytics-runtime@0.9.0':
+    resolution: {integrity: sha512-K/73su+VxKqzf15QI0NP5B5aE45nPs7mLEBwBqJzMZt/wazRvcMDrDKF9F3O5FT9WPUXmOQ0L8Q5X0o+aUNRRA==}
     peerDependencies:
       next: ^16.0.0
       react: ^19.0.0
@@ -606,14 +606,14 @@ packages:
       react:
         optional: true
 
-  '@roottale/cms-client@0.67.0':
-    resolution: {integrity: sha512-b0zTcRFI6N2PvJJPjUJmrgTUQH2LXOUKyxRaFI8U2QGoEfp8y3ogMC6LalQf4NdfjS+0sX7qdueO7n+i5Ghvbw==}
+  '@roottale/cms-client@0.73.0':
+    resolution: {integrity: sha512-13jgHpT1TEX0hvMgzlmOEy6fCSPDYCiWm1L+Xq9oTe5oPhASkgn6kmwAwxstI8duSoUlcecKac7c39WTdAPmzA==}
 
-  '@roottale/cms-core@0.67.0':
-    resolution: {integrity: sha512-U4+G2ToprAWM7OkA/3CdzTnmET2Crtfxpp+lxk73F/ufUX3ctzx4+blR8S1cykQL02ESxXXNs8O4+R6n4fsq1w==}
+  '@roottale/cms-core@0.73.0':
+    resolution: {integrity: sha512-pXVQiSWAQUt1aJmtEwTeVcz96tUHLXkfZPeMkIe9DRyVbQeDfpQ4fRqPr0hvdyDa8DfqKzNX3eDfdTuL2ZzTBw==}
 
-  '@roottale/cms-renderer-next@0.67.0':
-    resolution: {integrity: sha512-Vk6KZ9T7eKkfiE98Jcjk4RvSAcoUHQlz349pIg56W/rz74rPSDoUUj3nQjI0mlMs5JBCv/+sLCU7VZSAoXlM1w==}
+  '@roottale/cms-renderer-next@0.73.0':
+    resolution: {integrity: sha512-XmskeXdvv7Ti9dc75le3aQJMV5vo/ey4DNbCQHFsQ3XW4oBd7MizwE4kbF1gqFebhi2/3jon8G1x5Cb0V5PMwg==}
     peerDependencies:
       react: ^19.0.0
       react-dom: ^19.0.0
@@ -1384,28 +1384,28 @@ snapshots:
   '@rollup/rollup-win32-x64-msvc@4.63.3':
     optional: true
 
-  '@roottale/analytics-runtime@0.7.0(next@16.4.3(@playwright/test@1.55.0)(@types/node@24.13.4)(react-dom@19.3.0(react@19.3.0))(react@19.3.0))(react@19.3.0)':
+  '@roottale/analytics-runtime@0.9.0(next@16.4.3(@playwright/test@1.55.0)(@types/node@24.13.4)(react-dom@19.3.0(react@19.3.0))(react@19.3.0))(react@19.3.0)':
     optionalDependencies:
       next: 16.4.3(@playwright/test@1.55.0)(@types/node@24.13.4)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
       react: 19.3.0
 
-  '@roottale/cms-client@0.67.0':
+  '@roottale/cms-client@0.73.0':
     dependencies:
-      '@roottale/cms-core': 0.67.0
+      '@roottale/cms-core': 0.73.0
       '@roottale/inquiry-forms': 0.2.0
       jose: 5.10.0
 
-  '@roottale/cms-core@0.67.0':
+  '@roottale/cms-core@0.73.0':
     dependencies:
       postcss: 8.5.28
       sanitize-html: 2.17.6
       uuidv7: 1.2.1
       zod: 3.25.76
 
-  '@roottale/cms-renderer-next@0.67.0(react-dom@19.3.0(react@19.3.0))(react@19.3.0)':
+  '@roottale/cms-renderer-next@0.73.0(react-dom@19.3.0(react@19.3.0))(react@19.3.0)':
     dependencies:
-      '@roottale/cms-client': 0.67.0
-      '@roottale/cms-core': 0.67.0
+      '@roottale/cms-client': 0.73.0
+      '@roottale/cms-core': 0.73.0
       react: 19.3.0
       react-dom: 19.3.0(react@19.3.0)
 

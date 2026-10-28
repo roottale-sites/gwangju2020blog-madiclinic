@@ -51,6 +51,10 @@ test('만료와 CMS 장애를 구분해 재시도 안내를 제공한다', async
   fetchMock.mockRejectedValueOnce(new Error('network'));
   expect(await loadPostPreview('draft-id', 'token')).toEqual({ kind: 'unavailable' });
 });
+test('교체된 작업본은 새 미리보기를 열도록 만료 상태로 처리한다', async () => {
+  fetchMock.mockResolvedValue(Response.json({ code: 'preview_superseded' }, { status: 409 }));
+  expect(await loadPostPreview('draft-id', 'old-token')).toEqual({ kind: 'expired' });
+});
 test('빈 토큰과 미설정 키는 CMS를 조회하지 않는다', async () => {
   expect(await loadPostPreview('draft-id', '')).toEqual({ kind: 'missing' });
   vi.stubEnv('ROOTTALE_API_KEY', 'local_unconfigured');

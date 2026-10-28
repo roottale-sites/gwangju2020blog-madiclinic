@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { withSiteTracking } from '../../features/seo/with-site-tracking';
 
 import '../../styles/site/faq.css';
 import FaqHomePage from '../../features/faq/FaqHomePage';
@@ -23,7 +24,9 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default async function FaqIndexRoute() {
+async function FaqIndexRoute() {
   const [collection, seo] = await Promise.all([resolveFaqCollection(), loadArchiveSeo('faq')]);
   return <FaqHomePage collection={collection} seo={seo} />;
 }
+
+export default withSiteTracking(FaqIndexRoute);

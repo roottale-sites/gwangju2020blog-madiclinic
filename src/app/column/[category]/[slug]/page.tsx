@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { withSiteTracking } from '../../../../features/seo/with-site-tracking';
 
 import '../../../../styles/site/column.css';
 import '../../../../styles/site/post-pattern.css';
@@ -22,12 +23,12 @@ export async function generateMetadata({ params }: NestedColumnPageProps): Promi
   return columnDetailMetadata(decodeSegment((await params).slug));
 }
 
-export default async function NestedColumnPage({ params }: NestedColumnPageProps) {
+async function NestedColumnPage({ params }: NestedColumnPageProps) {
   const { category, slug } = await params;
-  return (
-    <ColumnDetailRoute
-      slug={decodeSegment(slug)}
-      expectedCategorySlug={decodeSegment(category)}
-    />
-  );
+  return ColumnDetailRoute({
+    slug: decodeSegment(slug),
+    expectedCategorySlug: decodeSegment(category),
+  });
 }
+
+export default withSiteTracking(NestedColumnPage);
