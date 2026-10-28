@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { withSiteTracking } from '../../features/seo/with-site-tracking';
 
 import '../../styles/site/column.css';
 import '../../styles/site/post-pattern.css';
@@ -32,7 +33,9 @@ export async function generateMetadata({ searchParams }: ColumnIndexPageProps): 
   return columnIndexMetadataFor(listState(await searchParams), await loadArchiveSeo('column'));
 }
 
-export default async function ColumnIndexPage({ searchParams }: ColumnIndexPageProps) {
+async function ColumnIndexPage({ searchParams }: ColumnIndexPageProps) {
   const state = listState(await searchParams);
   return <ColumnArchive requestedPage={state.requestedPage} searchQuery={state.searchQuery} />;
 }
+
+export default withSiteTracking(ColumnIndexPage);

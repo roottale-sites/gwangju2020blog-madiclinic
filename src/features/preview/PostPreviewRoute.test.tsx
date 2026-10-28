@@ -51,3 +51,12 @@ test('잘못된 ID·토큰의 metadata에 다른 초안 제목이 들어가지 �
     title: { absolute: '미리보기' }, robots: { index: false, follow: false },
   });
 });
+
+test('만료되거나 교체된 작업본은 새 미리보기 안내와 검색 제외를 유지한다', async () => {
+  vi.mocked(loadPostPreview).mockResolvedValue({ kind: 'expired' });
+  const html = renderToStaticMarkup(await PostPreviewRoute({ postId: 'id', token: 'old-token' }));
+  expect(html).toContain('관리자에서 미리보기를 다시 열어 주세요.');
+  expect(await postPreviewMetadata('id', 'old-token')).toMatchObject({
+    robots: { index: false, follow: false },
+  });
+});

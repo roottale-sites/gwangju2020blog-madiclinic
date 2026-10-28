@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { withSiteTracking } from '../../../features/seo/with-site-tracking';
 
 import '../../../styles/site/column.css';
 import '../../../styles/site/post-pattern.css';
@@ -50,13 +51,13 @@ export async function generateMetadata({
   }, await loadDefaultOgImage());
 }
 
-export default async function ColumnCategoryRoute({
+async function ColumnCategoryRoute({
   params,
   searchParams,
 }: ColumnCategoryRouteProps) {
   const category = decodeCategory((await params).category);
   const categoryArchive = await resolveColumnCategoryArchive(category);
-  if (!categoryArchive) return <ColumnDetailRoute slug={category} />;
+  if (!categoryArchive) return ColumnDetailRoute({ slug: category });
 
   const query = await searchParams;
   return (
@@ -67,3 +68,5 @@ export default async function ColumnCategoryRoute({
     />
   );
 }
+
+export default withSiteTracking(ColumnCategoryRoute);

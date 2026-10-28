@@ -134,6 +134,18 @@ describe('POST 웹훅 서명 경계', () => {
     expect(revalidatePath).not.toHaveBeenCalled();
   });
 
+  test('유효한 theme.updated 서명은 소유 확인·GTM 공용 theme과 공개 layout을 즉시 갱신한다', async () => {
+    const rawBody = JSON.stringify({ paths: [] });
+    const signature = await signWebhookToken(rawBody, { event: 'theme.updated' });
+    const response = await POST(webhookRequest(rawBody, signature));
+    expect(response.status).toBe(200);
+    expect(revalidateTag).toHaveBeenCalledWith('rt-theme', { expire: 0 });
+    expect(revalidatePath).toHaveBeenCalledWith('/', 'layout');
+    expect(revalidatePath).toHaveBeenCalledWith('/column');
+    expect(revalidatePath).toHaveBeenCalledWith('/reviews');
+    expect(revalidatePath).toHaveBeenCalledWith('/faq');
+  });
+
   test('서명이 없으면 401이고 캐시를 무효화하지 않는다', async () => {
     const rawBody = JSON.stringify({ paths: ['/column/unsigned-post'] });
 

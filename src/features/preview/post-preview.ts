@@ -1,5 +1,8 @@
 import { cache } from 'react';
-import { CmsApiError, fetchPostPreview, isPreviewExpiredError, type CmsPostPreviewContent } from '@roottale/cms-client/server';
+import {
+  CmsApiError, fetchPostPreview, isPreviewExpiredError, isPreviewSupersededError,
+  type CmsPostPreviewContent,
+} from '@roottale/cms-client/server';
 
 type PreviewLookup =
   | { kind: 'post'; post: CmsPostPreviewContent }
@@ -19,7 +22,7 @@ export const loadPostPreview = cache(async (postId: string, token: string): Prom
       (post.modelKey && post.modelKey !== post.collectionKey)) return { kind: 'unsupported' };
     return { kind: 'post', post };
   } catch (error) {
-    if (isPreviewExpiredError(error)) return { kind: 'expired' };
+    if (isPreviewExpiredError(error) || isPreviewSupersededError(error)) return { kind: 'expired' };
     if (error instanceof CmsApiError && [400, 401, 403, 404].includes(error.status)) return { kind: 'missing' };
     // 오류에 포함될 수 있는 토큰과 상류 본문은 로그·HTML에 기록하지 않는다.
     return { kind: 'unavailable' };
