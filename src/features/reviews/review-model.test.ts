@@ -10,7 +10,6 @@ import {
   reviewEntryPath,
   reviewExcerpt,
   reviewImageUrl,
-  reviewLeadImageUrl,
   reviewMetadata,
   reviewSeoDescription,
   reviewSeoTitle,
@@ -82,15 +81,6 @@ describe('후기 도판', () => {
     });
 
     expect(reviewImageUrl(post)).toBe('https://root-cdn.com/body.png');
-    expect(reviewLeadImageUrl(post)).toBe('https://root-cdn.com/body.png');
-  });
-
-  test('본문 첫 노드가 사진이 아니면 선두 이미지는 없다', () => {
-    const post = review({
-      bodyJson: { type: 'doc', content: [{ type: 'paragraph', content: [{ type: 'text', text: '본문' }] }] },
-    });
-
-    expect(reviewLeadImageUrl(post)).toBeNull();
   });
 });
 

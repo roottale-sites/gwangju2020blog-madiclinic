@@ -5,7 +5,7 @@ import { renderReviewBody, renderReviewBodySections, reviewRelatedCopy } from '.
 /**
  * headnerve `review-body.test.ts`를 이 저장소 픽스처로 다시 쓴 것이다. 두 문단
  * 연관 기록 패널을 원문 위치에 남기고 양쪽을 따로 정화하는 계약, FAQ 블록을 본문에서
- * 빼는 계약, 선두 이미지 중복 제거 계약이 핵심이다.
+ * 빼는 계약이 핵심이다. 이미지 배치는 ReviewDetailView.test.tsx에서 확인한다.
  */
 function paragraph(text: string) {
   return { type: 'paragraph', content: [{ type: 'text', text }] };
@@ -65,20 +65,6 @@ describe('본문 렌더 경계', () => {
 
     expect(sections.beforeRelatedHtml).toContain('본문');
     expect(sections.beforeRelatedHtml).not.toContain('질문');
-  });
-
-  test('상단에 따로 크게 보여 주는 선두 이미지는 본문에서 한 번만 나온다', () => {
-    const body = {
-      type: 'doc',
-      content: [
-        { type: 'image', attrs: { src: 'https://root-cdn.com/lead.png' } },
-        paragraph('본문'),
-      ],
-    };
-
-    expect(renderReviewBodySections(body, { omitLeadingImage: true }).beforeRelatedHtml)
-      .not.toContain('lead.png');
-    expect(renderReviewBodySections(body).beforeRelatedHtml).toContain('lead.png');
   });
 
   test('실행 코드는 본문에 남지 않는다', () => {

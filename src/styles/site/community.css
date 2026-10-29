@@ -51,11 +51,6 @@
   max-width: 720px;
 }
 
-.community-content .review-detail__original img {
-  width: 100%;
-  max-height: none;
-}
-
 .community-content .column-detail__surface,
 .community-content .column-detail__reading {
   width: min(45rem, 100%);

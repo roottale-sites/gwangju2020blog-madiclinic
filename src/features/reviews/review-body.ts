@@ -57,14 +57,9 @@ export type ReviewBodySections = {
   relatedCopy: ReviewRelatedCopy | null;
 };
 
-type ReviewBodyRenderOptions = Readonly<{
-  omitLeadingImage?: boolean;
-}>;
-
 /** Sanitizes both sides independently so the migrated panel can retain its authored position. */
 export function renderReviewBodySections(
   bodyJson: Record<string, unknown>,
-  { omitLeadingImage = false }: ReviewBodyRenderOptions = {},
 ): ReviewBodySections {
   const content = bodyJson.content;
   if (!Array.isArray(content)) {
@@ -75,11 +70,7 @@ export function renderReviewBodySections(
     };
   }
 
-  const contentWithoutLeadImage = omitLeadingImage && content[0] && typeof content[0] === 'object'
-    && Reflect.get(content[0], 'type') === 'image'
-    ? content.slice(1)
-    : content;
-  const bodyContent = withoutFaqBlocks(contentWithoutLeadImage);
+  const bodyContent = withoutFaqBlocks(content);
   const start = relatedPanelStart(bodyContent);
   if (start < 0) {
     return {
