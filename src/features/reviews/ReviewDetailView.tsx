@@ -7,7 +7,6 @@ import MadiPageFrame from '../../components/madi/MadiPageFrame';
 import JsonLd from '../../components/site/JsonLd';
 import ClinicGuide from '../clinic-guide/ClinicGuide';
 import { DOCTOR_PROFILE_HREF, isRepresentativeDoctor } from '../clinic/doctor-profile-link';
-import { cfImageSrcSet, cfImageVariantUrl } from '../cms/cf-image-url';
 import { faqPageJsonLd, webPageJsonLd } from '../seo/schema';
 import ReviewCard from './ReviewCard';
 import ReviewFaq from './ReviewFaq';
@@ -16,13 +15,9 @@ import { reviewDisclosure, reviewsIndexMetadata } from './review-content';
 import { reviewFaqItems } from './review-faq';
 import {
   formatReviewDate, relatedReviews, reviewEntryPath, reviewExcerpt, reviewImageUrl,
-  reviewLeadImageUrl, reviewMetadata, reviewSeoDescription, reviewTitle,
+  reviewMetadata, reviewSeoDescription, reviewTitle,
 } from './review-model';
 import { reviewsBreadcrumb } from '../../app/reviews/page';
-
-function isSameReviewImage(left: string, right: string): boolean {
-  return cfImageVariantUrl(left, 'lg') === cfImageVariantUrl(right, 'lg');
-}
 
 /** 발행 글과 관리자 미리보기가 같은 후기 화면을 사용한다. */
 export default function ReviewDetailView({ post, archivePosts = [], notice }: Readonly<{
@@ -33,14 +28,7 @@ export default function ReviewDetailView({ post, archivePosts = [], notice }: Re
   const metadata = reviewMetadata(post);
   const title = reviewTitle(post);
   const excerpt = reviewExcerpt(post);
-  const leadImageUrl = reviewLeadImageUrl(post);
-  const originalImageUrl = post.featuredImageUrl ?? leadImageUrl;
-  const originalImageIsLeadingBodyImage = Boolean(
-    originalImageUrl && leadImageUrl && isSameReviewImage(originalImageUrl, leadImageUrl),
-  );
-  const bodySections = renderReviewBodySections(post.bodyJson, {
-    omitLeadingImage: originalImageIsLeadingBodyImage,
-  });
+  const bodySections = renderReviewBodySections(post.bodyJson);
   const faqItems = reviewFaqItems(post);
   const currentIndex = archivePosts.findIndex((candidate) => candidate.id === post.id);
   const newerRecord = currentIndex > 0 ? archivePosts[currentIndex - 1] : null;
@@ -104,33 +92,12 @@ export default function ReviewDetailView({ post, archivePosts = [], notice }: Re
               </div>
             )}
             {excerpt && <p className="review-detail__summary">{excerpt}</p>}
-            {originalImageUrl && (
-              <figure className="review-detail__original">
-                <img
-                  src={cfImageVariantUrl(originalImageUrl, 'lg')}
-                  srcSet={cfImageSrcSet(originalImageUrl)}
-                  sizes="(max-width: 767px) 100vw, 720px"
-                  alt={`${title} 후기 원문`}
-                  loading="eager"
-                  fetchPriority="high"
-                  decoding="async"
-                  referrerPolicy="no-referrer"
-                />
-                <figcaption>환자분이 직접 남긴 후기 원문</figcaption>
-              </figure>
-            )}
             <div className="review-detail__content-grid">
-              {bodySections.beforeRelatedHtml ? (
+              {bodySections.beforeRelatedHtml && (
                 <div
                   className="review-richtext"
                   dangerouslySetInnerHTML={{ __html: bodySections.beforeRelatedHtml }}
                 />
-              ) : (
-                !bodySections.afterRelatedHtml && (
-                  <div className="review-richtext">
-                    <p>{excerpt ?? '후기 원문을 이미지로 확인해 주세요.'}</p>
-                  </div>
-                )
               )}
               {relatedCopy && relatedRecord && (
                 <aside className="review-detail__record" aria-label="연관 진료 기록">

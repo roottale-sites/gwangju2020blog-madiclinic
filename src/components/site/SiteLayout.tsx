@@ -13,7 +13,7 @@ export default function SiteLayout({ children }: Readonly<{ children: ReactNode 
     <>
       <SkipLink />
       <MadiSiteHeader />
-      <RootTaleImageLightbox imageSelector=".column-richtext img, .column-imported-html img, .review-richtext img, .review-detail__original img, .faq-richtext img">
+      <RootTaleImageLightbox imageSelector=".column-richtext img, .column-imported-html img, .review-richtext img, .faq-richtext img">
         {children}
       </RootTaleImageLightbox>
       <MadiFooter />

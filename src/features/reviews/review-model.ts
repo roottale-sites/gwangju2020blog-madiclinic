@@ -77,16 +77,6 @@ export function reviewMetadata(post: CmsPostContent): ReviewMetadata {
   };
 }
 
-/** 상세 상단에 단독으로 둘 수 있는, 본문 첫머리의 후기 원문 이미지다. */
-export function reviewLeadImageUrl(post: CmsPostContent): string | null {
-  const content = post.bodyJson.content;
-  const first = Array.isArray(content) ? content[0] : null;
-  if (!first || typeof first !== 'object' || Reflect.get(first, 'type') !== 'image') return null;
-  const attrs = Reflect.get(first, 'attrs');
-  const src = attrs && typeof attrs === 'object' ? Reflect.get(attrs, 'src') : null;
-  return typeof src === 'string' && src.trim() ? src : null;
-}
-
 export function reviewImageUrl(post: CmsPostContent): string | null {
   return post.featuredImageUrl ?? firstBodyImageUrl(post.bodyJson);
 }
