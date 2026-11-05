@@ -458,3 +458,12 @@ production build를 `/faq`·`/column`·`/reviews`에서 1440·390px로 확인했
 - [ ] 값을 실제로 바꿔 발행한 뒤 공개 화면이 바로 바뀌는지는 운영에서 시험하지 않았다. 고객 첫 수정 때 확인한다.
 
 증거 `~/workspace/output/qudakwkd1-site-content-evidence-2026-11-05/`, 백업 `~/workspace/data/gwangju2020blog-madiclinic/backup/2026-11-05-site-content/`.
+
+## 2026-11-05 구조화 데이터 보강 — 운영 적용
+
+- [x] [PR #16](https://github.com/roottale-sites/gwangju2020blog-madiclinic/pull/16): 칼럼 `Article`에 `dateModified`·`articleSection`·`inLanguage`를 채웠다. `WebSite`·`MedicalClinic`·`Person`은 `<head>`에서 한 번만 낸다. 페이지별 항목은 본문에 있다.
+- [x] 운영 24개 페이지 전후 비교: 상태·제목·설명·canonical·robots·본문 단어 동일. 표본 16개 페이지 모두 공통 항목이 `<head>`에 1회, 칼럼 상세 4개에 새 항목이 나온다.
+- `reviewedBy`는 넣지 않았다. 화면에 `의료진 감수` 표시가 없다. 대표원장 `hasOccupation`도 병원 공식 소개에서 근거 문구를 찾지 못해 넣지 않았다.
+- [ ] Google Rich Results Test는 돌리지 않았다.
+
+증거 `~/workspace/output/qudakwkd1-site-content-evidence-2026-11-05/`.
