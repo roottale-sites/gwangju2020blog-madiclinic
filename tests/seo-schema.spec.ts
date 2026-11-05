@@ -46,7 +46,7 @@ test('병원 엔티티는 세 기능에서 같은 주체 하나를 가리킨다'
   const clinic = nodes.find((node) => node['@type'] === 'MedicalClinic');
   expect(clinic?.name).toBe('광주 남구 마디클리닉');
   // 병원 자체의 url은 본 사이트다. 이 배포는 블로그 서브도메인이다.
-  expect(clinic?.url).toBe('http://gwangju2020.madiclinic.co.kr/');
+  expect(clinic?.url).toBe('https://gwangju2020.madiclinic.co.kr/');
   expect(clinic?.['@id']).toBe('https://gwangju2020blog.madiclinic.co.kr/#medical-clinic');
 
   const physician = nodes.find((node) => node['@type'] === 'Person');
