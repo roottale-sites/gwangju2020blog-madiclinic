@@ -2,7 +2,7 @@
   "version": 1,
   "source": {
     "repository": "gwangju2020blog-madiclinic",
-    "commit": "f94fc626dd8b8ab692004cd472c22e3db70722a9"
+    "commit": "247e45767fcb2c0164c1a97d52d264acfd42b4e4"
   },
   "identityMap": {
     "clinic-common/shared/clinic/hours/0": "01a1ab15-6532-7239-91b9-564904de46ed",
