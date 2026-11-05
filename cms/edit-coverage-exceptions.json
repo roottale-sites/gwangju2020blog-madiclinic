@@ -1,0 +1,7 @@
+[
+  {
+    "templateKey": "clinic-common",
+    "fieldKey": "field_shared__physician__alternate_name",
+    "reason": "사용자 지정: 의사 구조화 데이터에만 출력하고 항목 목록에서 편집한다. 공개 화면과 미리보기 카드에는 표시하지 않는다."
+  }
+]

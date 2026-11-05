@@ -1,3 +1,5 @@
+import { sharedModels } from '../../../features/site-content/defaults';
+import { CONTENT_EDITING_CACHE_TAG } from '@roottale/cms-renderer-next/routes';
 import { BLOG_SETTINGS_CACHE_TAG, METADATA_CACHE_TAG, SITE_METADATA_DEFAULTS_CACHE_TAG, SITE_PATTERNS_CACHE_TAG, THEME_CACHE_TAG } from '@roottale/cms-client/server';
 import { verifyRootTaleWebhook } from '@roottale/cms-client/webhook';
 import { revalidatePath, revalidateTag } from 'next/cache';
@@ -61,6 +63,17 @@ export async function POST(request: Request): Promise<Response> {
 
   const payload = readRevalidationPayload(rawBody);
   if (!payload) return json({ ok: false }, 400);
+
+  const sharedModel = sharedModels.find(model => model.key === payload.modelKey);
+  if (sharedModel && verification.event.startsWith('post.')) {
+    revalidateTag(CONTENT_EDITING_CACHE_TAG, { expire: 0 });
+    if (sharedModel.key === 'clinic-common') revalidatePath('/', 'layout');
+    for (const path of sharedModel.listPaths) {
+      revalidatePath(path);
+      for (const route of TARGET_DYNAMIC_ROUTES[path.slice(1) as keyof typeof TARGET_DYNAMIC_ROUTES]) revalidatePath(route, 'page');
+    }
+    return json({ ok: true, revalidated: true, paths: sharedModel.listPaths }, 200);
+  }
 
   const expectedTarget = revalidationTargetForModel(payload.modelKey);
   const paths = expectedTarget === 'faq' && payload.paths.length === 0 ? ['/faq'] : payload.paths;

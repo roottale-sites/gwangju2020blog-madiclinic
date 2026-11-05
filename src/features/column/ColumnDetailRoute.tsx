@@ -1,3 +1,6 @@
+import { loadSiteContent } from '../site-content/source';
+import type { SiteContent } from '../site-content/bindings';
+import MedicalNotice from '../site-content/MedicalNotice';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import type { ReactNode } from 'react';
@@ -17,7 +20,6 @@ import { loadColumnFooterImage, type ColumnFooterImage } from './column-footer-i
 import { columnBreadcrumb } from './ColumnArchive';
 import {
   columnIndexMetadata,
-  columnMedicalDisclaimer,
   formatColumnDate,
 } from './column-content';
 import { buildColumnDocument } from './column-document';
@@ -67,7 +69,8 @@ export default async function ColumnDetailRoute({
   const currentIndex = entries.findIndex((item) => item.slug === entry.slug);
   const previous = currentIndex > 0 ? entries[currentIndex - 1] : undefined;
   const next = currentIndex >= 0 ? entries[currentIndex + 1] : undefined;
-  return <ColumnDetailView entry={entry} footerImage={footerImage}
+  const content = await loadSiteContent();
+  return <ColumnDetailView content={content} entry={entry} footerImage={footerImage}
     previous={previous ? { href: columnEntryPath(previous), title: previous.title } : undefined}
     next={next ? { href: columnEntryPath(next), title: next.title } : undefined} />;
 }
@@ -87,7 +90,9 @@ export function ColumnDetailView({
   previous,
   next,
   footerImage = null,
+  content,
 }: Readonly<{
+  content?: SiteContent;
   entry: ColumnEntry;
   notice?: ReactNode;
   previous?: ArticleNavigationLink;
@@ -132,7 +137,7 @@ export function ColumnDetailView({
             <div className="column-detail__surface">
               <header className="column-detail__header article-header-card">
                 <h2>{entry.title}</h2>
-                <ArticleHeaderFooter>
+                <ArticleHeaderFooter content={content}>
                   <a href={DOCTOR_PROFILE_HREF}>{POST_AUTHOR_NAME}</a>
                   <time dateTime={entry.publishedAt}>{formatColumnDate(entry.publishedAt)}</time>
                 </ArticleHeaderFooter>
@@ -145,13 +150,10 @@ export function ColumnDetailView({
                   className={isImportedHtml ? 'column-imported-html' : 'column-richtext'}
                   dangerouslySetInnerHTML={{ __html: columnDocument.bodyHtml }}
                 />
-                <ClinicGuide />
-                <aside className="column-disclaimer" aria-label="의료 콘텐츠 안내">
-                  <strong>의료 콘텐츠 안내</strong>
-                  <p>{columnMedicalDisclaimer}</p>
-                </aside>
+                <ClinicGuide content={content} modelKey="column-footer" />
+                <MedicalNotice content={content} modelKey="column-footer" />
                 <ColumnConsultationPhoto image={footerImage} />
-                <ArticleNavigation previous={previous} next={next}
+                <ArticleNavigation content={content} previous={previous} next={next}
                   listHref={entry.category.path} listLabel="블로그 목록" />
               </div>
               <div className="column-detail__balance" aria-hidden="true" />

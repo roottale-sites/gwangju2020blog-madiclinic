@@ -1,3 +1,4 @@
+import type { SiteContent } from '../site-content/bindings';
 import Link from 'next/link';
 import type { ReactNode } from 'react';
 import ArticleHeaderFooter from '../../components/site/ArticleHeaderFooter';
@@ -30,7 +31,8 @@ import { FaqMedicalNote, FaqReviewer, FaqSidebarBox } from './FaqShared';
  *   - 사이드바의 "진료가 필요한 경우" 질환 페이지 링크는 없다(질환 라우트가 없다).
  *   - 답변에만 `FAQPage`를 준다(ADR-0006 §5). 목록에는 만들지 않는다.
  */
-export default function FaqDetailPage({ collection, entry, section, topic, notice }: Readonly<{
+export default function FaqDetailPage({ collection, entry, section, topic, notice, content }: Readonly<{
+  content?: SiteContent;
   collection: FaqCollection;
   entry: FaqEntry;
   section: FaqSection;
@@ -62,7 +64,7 @@ export default function FaqDetailPage({ collection, entry, section, topic, notic
         <article className="faq-detail faq-layout__main" data-content-article data-track-read={entry.contentId}>
           <header className="faq-detail__header article-header-card">
             <h2 className="faq-detail__title">{entry.question}</h2>
-            <ArticleHeaderFooter>
+            <ArticleHeaderFooter content={content}>
               <a href={DOCTOR_PROFILE_HREF}>{POST_AUTHOR_NAME}</a>
               <time dateTime={entry.reviewedAt ?? entry.updatedAt}>{formatFaqAnswerDate(entry.reviewedAt ?? entry.updatedAt)}</time>
             </ArticleHeaderFooter>
@@ -90,9 +92,9 @@ export default function FaqDetailPage({ collection, entry, section, topic, notic
                 <div className="faq-richtext" dangerouslySetInnerHTML={{ __html: entry.clinicPerspectiveHtml }} />
               </section>
             )}
-            <FaqMedicalNote />
+            <FaqMedicalNote content={content} />
           </section>
-          <ClinicGuide />
+          <ClinicGuide content={content} modelKey="faq-footer" />
           {related.length > 0 && (
             <section id={S.relatedQuestions.id} className="faq-related" aria-labelledby={faqDetailHeadingId(S.relatedQuestions)}>
               <h3 id={faqDetailHeadingId(S.relatedQuestions)}>{S.relatedQuestions.title}</h3>

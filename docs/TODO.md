@@ -439,3 +439,16 @@ production build를 `/faq`·`/column`·`/reviews`에서 1440·390px로 확인했
 - [ ] 실데이터 기준 1440·390px 전체 화면 캡처(이번 작업은 목록·상세 동작 검증).
 
 복사 범위·원본 보호·웹훅 수정 근거·남은 제약: [headnerve-copy.md](headnerve-copy.md).
+
+## 사이트 내용 공유 문서 (2026-11-05) — 로컬 구현, 운영 미적용
+
+- [x] v7 계약, 독립 공유 모델 4종·초기 문서·필드 그룹·내보내기·runtime receipt 준비. 기존 글 모델·metadata·팝업·블로그 하단 이미지 패턴과 빈 `pages` 보존.
+- [x] 공통 푸터·상세 버튼·병원/의사 JSON-LD, 세 상세의 진료 안내와 기존 의료 고지 연결. `alternateName`은 빈칸·항목 목록 전용이며 의사 타입은 유지.
+- [x] 토큰 미리보기·클릭 주소·원점 제한·no-store/noindex/no-referrer·공개 런타임 격리와 공유 문서 발행 캐시 갱신 구현.
+- [x] `pnpm test` 전체·키 없는 `pnpm build`·플랫폼 importer dry-run·내보내기 재생성 일치 확인. 공개 HTML 기준값, 초기 문서/누락/빈 값/주소 제한/의료 고지/편집 칸 대조/미리보기 경계/실제 Next 캐시 검증. 상세 결과는 [편집 범위](cms-edit-scope.md)·[운영 절차](content-operations.md)를 따른다.
+- [x] 로컬 가짜 CMS로 공개 화면의 값 반영·빈 값 숨김·위험 주소 거부와 공유 문서 미리보기를 Aside PC·390px에서 확인했다. 운영 데이터는 쓰지 않았다.
+- [ ] 승인 범위의 클린 워크트리 사이트 배포.
+- [ ] 운영 v7 계약 sync와 새 모델·필드 그룹·listPaths 설치. 기존 고객 값 보존.
+- [ ] production:content-import plan 검토 → 승인 → 초기 문서 publish. `alternateName`은 입력하지 않음.
+- [ ] v7 계약 checksum으로 메타데이터 설치 근거 재등록.
+- [ ] 관리자 PC·모바일 미리보기·클릭 편집·발행 웹훅·공개 반영 확인.

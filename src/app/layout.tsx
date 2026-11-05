@@ -1,3 +1,5 @@
+import { headers } from 'next/headers';
+import { loadSiteContent } from '../features/site-content/source';
 import type { Metadata, Viewport } from 'next';
 import type { ReactNode } from 'react';
 
@@ -19,7 +21,7 @@ import JsonLd from '../components/site/JsonLd';
 import SiteLayout from '../components/site/SiteLayout';
 import { clinic } from '../data/clinic';
 import { siteOrigin } from '../data/site';
-import { siteEntityJsonLd } from '../features/seo/schema';
+import { contentEntityJsonLd } from '../features/seo/schema';
 import { RootAnalytics } from '../features/analytics/RootAnalytics';
 import { loadSiteVerification } from '../features/seo/site-verification';
 
@@ -55,6 +57,7 @@ const baseMetadata: Metadata = {
 
 /** 검색엔진 소유 확인 코드는 ROOT-ADMIN 설정 → 연동에서 관리한다. */
 export async function generateMetadata(): Promise<Metadata> {
+  if ((await headers()).get('x-madi-preview') === '1') return { robots: { index: false, follow: false }, referrer: 'no-referrer' };
   const verification = await loadSiteVerification();
   return { ...baseMetadata, ...(verification ? { verification } : {}) };
 }
@@ -73,7 +76,10 @@ export const viewport: Viewport = {
  * 자체 클릭·유입 수집은 RootAnalytics가 연결한다. GTM은 공개 페이지의
  * 404 판정이 끝난 뒤 ROOT-ADMIN 설정을 읽어 withSiteTracking에서 연결한다.
  */
-export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
+export default async function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
+  const requestHeaders = await headers();
+  const preview = requestHeaders.get('x-madi-preview') === '1';
+  const content = preview ? undefined : await loadSiteContent();
   return (
     <html lang="ko" data-scroll-behavior="smooth">
       <head>
@@ -81,9 +87,11 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       </head>
       <body>
-        <JsonLd nodes={siteEntityJsonLd} />
-        <SiteLayout>{children}</SiteLayout>
-        <RootAnalytics />
+        <>{preview ? children : <>
+          <JsonLd nodes={contentEntityJsonLd(content)} />
+          <SiteLayout content={content}>{children}</SiteLayout>
+          <RootAnalytics />
+        </>}</>
       </body>
     </html>
   );

@@ -1,3 +1,6 @@
+import { bindGroup, contentAttributes as edit, present, type SiteContent } from '../site-content/bindings';
+import { commonDefaults } from '../site-content/defaults';
+import MedicalNotice from '../site-content/MedicalNotice';
 import Link from 'next/link';
 import type { ReactNode } from 'react';
 import type { CmsPostContent } from '@roottale/cms-client/server';
@@ -11,7 +14,7 @@ import { faqPageJsonLd, webPageJsonLd } from '../seo/schema';
 import ReviewCard from './ReviewCard';
 import ReviewFaq from './ReviewFaq';
 import { renderReviewBodySections } from './review-body';
-import { reviewDisclosure, reviewsIndexMetadata } from './review-content';
+import { reviewsIndexMetadata } from './review-content';
 import { reviewFaqItems } from './review-faq';
 import {
   formatReviewDate, relatedReviews, reviewEntryPath, reviewExcerpt, reviewImageUrl,
@@ -20,11 +23,13 @@ import {
 import { reviewsBreadcrumb } from '../../app/reviews/page';
 
 /** 발행 글과 관리자 미리보기가 같은 후기 화면을 사용한다. */
-export default function ReviewDetailView({ post, archivePosts = [], notice }: Readonly<{
+export default function ReviewDetailView({ post, archivePosts = [], notice, content }: Readonly<{
+  content?: SiteContent;
   post: CmsPostContent;
   archivePosts?: readonly CmsPostContent[];
   notice?: ReactNode;
 }>) {
+  const { pageCommon } = bindGroup(content, 'clinic-common', 'shared', commonDefaults);
   const metadata = reviewMetadata(post);
   const title = reviewTitle(post);
   const excerpt = reviewExcerpt(post);
@@ -74,7 +79,7 @@ export default function ReviewDetailView({ post, archivePosts = [], notice }: Re
           <div className="reviews-shell review-detail__surface">
             <header className="review-detail__header article-header-card">
               <h2>{title}</h2>
-              <ArticleHeaderFooter>
+              <ArticleHeaderFooter content={content}>
                 {metadata.doctor && (isRepresentativeDoctor(metadata.doctor)
                   ? <a href={DOCTOR_PROFILE_HREF}>{metadata.doctor}</a>
                   : <span>{metadata.doctor}</span>)}
@@ -111,14 +116,11 @@ export default function ReviewDetailView({ post, archivePosts = [], notice }: Re
                   dangerouslySetInnerHTML={{ __html: bodySections.afterRelatedHtml }}
                 />
               )}
-              <ClinicGuide />
-              <aside className="review-detail__note" aria-label="치료 경험담 안내">
-                <strong>치료 경험담 안내</strong>
-                <p>{reviewDisclosure}</p>
-              </aside>
+              <ClinicGuide content={content} modelKey="reviews-footer" />
+              <MedicalNotice content={content} modelKey="reviews-footer" />
               <ReviewFaq items={faqItems} />
             </div>
-            <ArticleNavigation listHref="/reviews" listLabel="후기 목록"
+            <ArticleNavigation content={content} listHref="/reviews" listLabel="후기 목록"
               previous={newerRecord ? { href: reviewEntryPath(newerRecord), title: reviewTitle(newerRecord) } : undefined}
               next={olderRecord ? { href: reviewEntryPath(olderRecord), title: reviewTitle(olderRecord) } : undefined} />
           </div>
@@ -127,10 +129,10 @@ export default function ReviewDetailView({ post, archivePosts = [], notice }: Re
           <section className="review-related" aria-labelledby="review-related-title">
             <div className="reviews-shell">
               <div className="review-related__head">
-                <h2 id="review-related-title">다른 치료 경험</h2>
-                <Link href="/reviews">
-                  전체 후기 보기 <span aria-hidden="true">→</span>
-                </Link>
+                {present(pageCommon.relatedReviews) && <h2 id="review-related-title" {...edit(pageCommon, 'relatedReviews')}>{pageCommon.relatedReviews}</h2>}
+                {present(pageCommon.allReviews) && <Link href="/reviews" {...edit(pageCommon, 'allReviews')}>
+                  {pageCommon.allReviews} <span aria-hidden="true">→</span>
+                </Link>}
               </div>
               <div className="review-related__grid">
                 {related.map((item) => (

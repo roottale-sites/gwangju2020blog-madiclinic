@@ -1,5 +1,5 @@
 {
-  "version": 6,
+  "version": 7,
   "pages": [],
   "models": [
     {
@@ -26,6 +26,122 @@
       "templateKey": "reviews",
       "allowedQueryFields": [],
       "shared": false
+    },
+    {
+      "modelKey": "clinic-common",
+      "preset": "entity",
+      "templateKey": "clinic-common",
+      "allowedQueryFields": [],
+      "shared": true,
+      "sharedFieldVerification": {
+        "paths": [
+          "/column"
+        ],
+        "fields": [
+          {
+            "key": "field_shared__clinic__business_number",
+            "path": [
+              "shared",
+              "clinic",
+              "business_number"
+            ],
+            "sectionKey": "clinic",
+            "normalization": "text"
+          },
+          {
+            "key": "field_shared__clinic__representative",
+            "path": [
+              "shared",
+              "clinic",
+              "representative"
+            ],
+            "sectionKey": "clinic",
+            "normalization": "text"
+          },
+          {
+            "key": "field_shared__clinic__representative_title",
+            "path": [
+              "shared",
+              "clinic",
+              "representative_title"
+            ],
+            "sectionKey": "clinic",
+            "normalization": "text"
+          },
+          {
+            "key": "field_shared__clinic__address__line",
+            "path": [
+              "shared",
+              "clinic",
+              "address",
+              "line"
+            ],
+            "sectionKey": "clinic",
+            "normalization": "text"
+          },
+          {
+            "key": "field_shared__clinic__phone_display",
+            "path": [
+              "shared",
+              "clinic",
+              "phone_display"
+            ],
+            "sectionKey": "clinic",
+            "normalization": "phone"
+          },
+          {
+            "key": "field_shared__clinic__fax_display",
+            "path": [
+              "shared",
+              "clinic",
+              "fax_display"
+            ],
+            "sectionKey": "clinic",
+            "normalization": "phone"
+          },
+          {
+            "key": "field_shared__clinic__email",
+            "path": [
+              "shared",
+              "clinic",
+              "email"
+            ],
+            "sectionKey": "clinic",
+            "normalization": "text"
+          },
+          {
+            "key": "field_shared__clinic__copyright",
+            "path": [
+              "shared",
+              "clinic",
+              "copyright"
+            ],
+            "sectionKey": "clinic",
+            "normalization": "text"
+          }
+        ]
+      }
+    },
+    {
+      "modelKey": "column-footer",
+      "preset": "entity",
+      "templateKey": "column-footer",
+      "allowedQueryFields": [],
+      "shared": true
+    },
+    {
+      "modelKey": "reviews-footer",
+      "preset": "entity",
+      "templateKey": "reviews-footer",
+      "allowedQueryFields": [],
+      "shared": true
+    },
+    {
+      "modelKey": "faq-footer",
+      "preset": "entity",
+      "templateKey": "faq-footer",
+      "allowedQueryFields": [],
+      "shared": true
     }
   ],
   "dynamicPages": [],
@@ -282,5 +398,227 @@
       "label": "블로그 하단 이미지",
       "location": "모든 블로그 글에서 의료 콘텐츠 안내 아래, 블로그 목록 바로 위에 표시됩니다. 후기·FAQ에는 표시되지 않습니다."
     }
-  ]
+  ],
+  "visualEditing": {
+    "previewPath": "/preview/content/:id",
+    "templateVersion": "1",
+    "templates": [
+      {
+        "key": "clinic-common",
+        "modelKey": "clinic-common",
+        "sections": [
+          {
+            "key": "clinic",
+            "label": "병원 정보",
+            "fieldKeys": [
+              "field_shared__clinic__representative",
+              "field_shared__clinic__representative_title",
+              "field_shared__clinic__business_number",
+              "field_shared__clinic__email",
+              "field_shared__clinic__phone_display",
+              "field_shared__clinic__fax_display",
+              "field_shared__clinic__address__line",
+              "field_shared__clinic__copyright",
+              "field_shared__clinic__social__naver_booking",
+              "field_shared__clinic__social__cafe",
+              "field_shared__clinic__social__blog",
+              "field_shared__clinic__social__kakao",
+              "field_shared__clinic__social__instagram",
+              "field_shared__clinic__schema__address__street_address",
+              "field_shared__clinic__schema__address__address_locality",
+              "field_shared__clinic__schema__address__address_region",
+              "field_shared__clinic__schema__address__address_country",
+              "field_shared__clinic__schema__description",
+              "field_shared__clinic__schema__available_service_names__value",
+              "field_shared__clinic__schema__physician__description"
+            ],
+            "allowHide": false,
+            "allowDelete": false
+          },
+          {
+            "key": "physician",
+            "label": "의사 정보",
+            "fieldKeys": [
+              "field_shared__physician__alternate_name"
+            ],
+            "allowHide": false,
+            "allowDelete": false
+          },
+          {
+            "key": "footer",
+            "label": "하단 안내",
+            "fieldKeys": [
+              "field_shared__footer__business",
+              "field_shared__footer__representative",
+              "field_shared__footer__phone",
+              "field_shared__footer__fax",
+              "field_shared__footer__email"
+            ],
+            "allowHide": false,
+            "allowDelete": false
+          },
+          {
+            "key": "page-common",
+            "label": "페이지 공통 버튼·제목",
+            "fieldKeys": [
+              "field_shared__page_common__cafe",
+              "field_shared__page_common__previous",
+              "field_shared__page_common__next",
+              "field_shared__page_common__column_list",
+              "field_shared__page_common__reviews_list",
+              "field_shared__page_common__related_reviews",
+              "field_shared__page_common__all_reviews",
+              "field_shared__page_common__preferred_source"
+            ],
+            "allowHide": false,
+            "allowDelete": false
+          }
+        ]
+      },
+      {
+        "key": "column-footer",
+        "modelKey": "column-footer",
+        "sections": [
+          {
+            "key": "guide",
+            "label": "진료 안내 카드",
+            "fieldKeys": [
+              "field_footer__guide__clinic__guide_name",
+              "field_footer__guide__clinic__representative",
+              "field_footer__guide__clinic__representative_title",
+              "field_footer__guide__clinic__phone_display",
+              "field_footer__guide__clinic__address__detail",
+              "field_footer__guide__clinic__hours__label",
+              "field_footer__guide__clinic__hours__value",
+              "field_footer__guide__clinic__holiday_note",
+              "field_footer__guide__clinic__lunch_note",
+              "field_footer__guide__clinic__directions__label",
+              "field_footer__guide__clinic__directions__text",
+              "field_footer__guide__clinic__doctor_portrait__alt",
+              "field_footer__guide__clinic__social__cafe",
+              "field_footer__guide__clinic__social__naver_booking",
+              "field_footer__guide__clinic__social__blog",
+              "field_footer__guide__clinic__social__naver_talk",
+              "field_footer__guide__clinic__social__kakao",
+              "field_footer__guide__labels__phone",
+              "field_footer__guide__labels__hours",
+              "field_footer__guide__labels__question",
+              "field_footer__guide__labels__booking",
+              "field_footer__guide__labels__blog",
+              "field_footer__guide__labels__talk",
+              "field_footer__guide__labels__kakao"
+            ],
+            "allowHide": true,
+            "allowDelete": false
+          },
+          {
+            "key": "notice",
+            "label": "의료 고지",
+            "fieldKeys": [
+              "field_footer__notice__title",
+              "field_footer__notice__body"
+            ],
+            "allowHide": false,
+            "allowDelete": false
+          }
+        ]
+      },
+      {
+        "key": "reviews-footer",
+        "modelKey": "reviews-footer",
+        "sections": [
+          {
+            "key": "guide",
+            "label": "진료 안내 카드",
+            "fieldKeys": [
+              "field_footer__guide__clinic__guide_name",
+              "field_footer__guide__clinic__representative",
+              "field_footer__guide__clinic__representative_title",
+              "field_footer__guide__clinic__phone_display",
+              "field_footer__guide__clinic__address__detail",
+              "field_footer__guide__clinic__hours__label",
+              "field_footer__guide__clinic__hours__value",
+              "field_footer__guide__clinic__holiday_note",
+              "field_footer__guide__clinic__lunch_note",
+              "field_footer__guide__clinic__directions__label",
+              "field_footer__guide__clinic__directions__text",
+              "field_footer__guide__clinic__doctor_portrait__alt",
+              "field_footer__guide__clinic__social__cafe",
+              "field_footer__guide__clinic__social__naver_booking",
+              "field_footer__guide__clinic__social__blog",
+              "field_footer__guide__clinic__social__naver_talk",
+              "field_footer__guide__clinic__social__kakao",
+              "field_footer__guide__labels__phone",
+              "field_footer__guide__labels__hours",
+              "field_footer__guide__labels__question",
+              "field_footer__guide__labels__booking",
+              "field_footer__guide__labels__blog",
+              "field_footer__guide__labels__talk",
+              "field_footer__guide__labels__kakao"
+            ],
+            "allowHide": true,
+            "allowDelete": false
+          },
+          {
+            "key": "notice",
+            "label": "의료 고지",
+            "fieldKeys": [
+              "field_footer__notice__title",
+              "field_footer__notice__body"
+            ],
+            "allowHide": false,
+            "allowDelete": false
+          }
+        ]
+      },
+      {
+        "key": "faq-footer",
+        "modelKey": "faq-footer",
+        "sections": [
+          {
+            "key": "guide",
+            "label": "진료 안내 카드",
+            "fieldKeys": [
+              "field_footer__guide__clinic__guide_name",
+              "field_footer__guide__clinic__representative",
+              "field_footer__guide__clinic__representative_title",
+              "field_footer__guide__clinic__phone_display",
+              "field_footer__guide__clinic__address__detail",
+              "field_footer__guide__clinic__hours__label",
+              "field_footer__guide__clinic__hours__value",
+              "field_footer__guide__clinic__holiday_note",
+              "field_footer__guide__clinic__lunch_note",
+              "field_footer__guide__clinic__directions__label",
+              "field_footer__guide__clinic__directions__text",
+              "field_footer__guide__clinic__doctor_portrait__alt",
+              "field_footer__guide__clinic__social__cafe",
+              "field_footer__guide__clinic__social__naver_booking",
+              "field_footer__guide__clinic__social__blog",
+              "field_footer__guide__clinic__social__naver_talk",
+              "field_footer__guide__clinic__social__kakao",
+              "field_footer__guide__labels__phone",
+              "field_footer__guide__labels__hours",
+              "field_footer__guide__labels__question",
+              "field_footer__guide__labels__booking",
+              "field_footer__guide__labels__blog",
+              "field_footer__guide__labels__talk",
+              "field_footer__guide__labels__kakao"
+            ],
+            "allowHide": true,
+            "allowDelete": false
+          },
+          {
+            "key": "notice",
+            "label": "의료 고지",
+            "fieldKeys": [
+              "field_footer__notice__title",
+              "field_footer__notice__body"
+            ],
+            "allowHide": false,
+            "allowDelete": false
+          }
+        ]
+      }
+    ]
+  }
 }

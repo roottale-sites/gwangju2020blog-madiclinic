@@ -1,0 +1,5 @@
+/* 편집 화면의 보이지 않는 연결 주소·검색 정보만 목록에서 고친다. */
+.site-content-fields { margin: 32px 0; }
+.site-content-fields > div { padding: 12px 0; border-bottom: 1px solid #ddd; }
+.site-content-fields dt { font-weight: 600; }
+.site-content-fields dd { margin: 6px 0 0; overflow-wrap: anywhere; white-space: pre-wrap; }

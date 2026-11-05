@@ -1,7 +1,9 @@
+import type { SiteContent } from '../site-content/bindings';
+import MedicalNotice from '../site-content/MedicalNotice';
 import type { ReactNode } from 'react';
 
 import { DOCTOR_PROFILE_HREF, POST_AUTHOR_NAME } from '../clinic/doctor-profile-link';
-import { faqMedicalNote, faqNotices } from './faq-content';
+import { faqNotices } from './faq-content';
 import type { FaqSourceStatus } from './faq-source';
 
 /**
@@ -35,13 +37,8 @@ export function FaqSidebarBox({ title, children }: Readonly<{ title: string; chi
   );
 }
 
-export function FaqMedicalNote() {
-  return (
-    <aside className="faq-medical-note" aria-label="의료 정보 안내">
-      <strong>{faqMedicalNote.title}</strong>
-      <p>{faqMedicalNote.body}</p>
-    </aside>
-  );
+export function FaqMedicalNote({ content }: { content?: SiteContent } = {}) {
+  return <MedicalNotice content={content} modelKey="faq-footer" />;
 }
 
 /**

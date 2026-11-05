@@ -1,3 +1,6 @@
+import { bindGroup, present, safeContentHref, type SiteContent } from '../site-content/bindings';
+import { phoneFromDisplay } from '../site-content/phone';
+import { commonDefaults } from '../site-content/defaults';
 import { clinic } from '../../data/clinic';
 import { mainSiteOrigin } from '../../data/nav';
 import { siteOrigin, siteUrl } from '../../data/site';
@@ -45,7 +48,11 @@ export function breadcrumbJsonLd(
  * 다른 주체로 읽히지 않게 `mainEntityOfPage` 대신 `url`을 본 사이트로 두고
  * `sameAs`에 SNS와 본 사이트를 함께 넣는다.
  */
-export const siteEntityJsonLd: readonly JsonLdNode[] = [
+export function contentEntityJsonLd(content?: SiteContent): readonly JsonLdNode[] {
+  const shared = bindGroup(content, 'clinic-common', 'shared', commonDefaults);
+  const facts = shared.clinic;
+  const phone = phoneFromDisplay(facts.phoneDisplay);
+  return [
   {
     '@type': 'WebSite',
     '@id': websiteSchemaId,
@@ -62,41 +69,44 @@ export const siteEntityJsonLd: readonly JsonLdNode[] = [
     url: `${mainSiteOrigin}/`,
     logo: siteUrl('/madi/img/hi_gwangju2020_20240826.png'),
     image: siteUrl('/madi/img/hi_gwangju2020_20240826.png'),
-    description: clinic.schema.description,
-    telephone: clinic.phoneE164,
-    faxNumber: clinic.faxDisplay,
-    email: clinic.email,
+    description: facts.schema.description,
+    ...(phone ? { telephone: phone.e164 } : {}),
+    faxNumber: facts.faxDisplay,
+    email: facts.email,
     identifier: {
       '@type': 'PropertyValue',
       propertyID: '사업자등록번호',
-      value: clinic.businessNumber,
+      value: facts.businessNumber,
     },
-    address: { '@type': 'PostalAddress', ...clinic.schema.address },
-    availableService: clinic.schema.availableServiceNames.map((name) => ({
+    address: { '@type': 'PostalAddress', ...facts.schema.address },
+    availableService: facts.schema.availableServiceNames.filter(present).map((name) => ({
       '@type': 'MedicalProcedure',
       name,
     })),
     sameAs: [
       `${mainSiteOrigin}/`,
-      clinic.social.naverBooking,
-      clinic.social.kakao,
-      clinic.social.instagram,
-      clinic.social.cafe,
-      clinic.social.blog,
-    ],
+      facts.social.naverBooking,
+      facts.social.kakao,
+      facts.social.instagram,
+      facts.social.cafe,
+      facts.social.blog,
+    ].filter(value => safeContentHref(value)),
     employee: { '@id': physicianSchemaId },
   },
   {
-    '@type': 'Physician',
+    // schema.org의 Physician은 조직·장소 계열이라 사람에게 쓰지 않는다. `@id`는 유지해 글 저자 연결을 지킨다.
+    '@type': 'Person',
     '@id': physicianSchemaId,
-    name: clinic.representative,
+    name: facts.representative,
     image: siteUrl(clinic.doctorPortrait.src),
+    ...(present(shared.physician.alternateName) ? { alternateName: shared.physician.alternateName } : {}),
     url: `${mainSiteOrigin}/doctor/doctor01.html`,
-    jobTitle: clinic.schema.physician.jobTitle,
-    description: clinic.schema.physician.description,
+    jobTitle: facts.representativeTitle,
+    description: facts.schema.physician.description,
     worksFor: { '@id': clinicSchemaId },
   },
 ];
+}
 
 export function webPageJsonLd({
   path,
@@ -123,7 +133,7 @@ export function webPageJsonLd({
 /**
  * 글 한 편(칼럼·후기)의 `Article`.
  *
- * 저자는 대표원장(`Physician`), 발행자는 병원(`MedicalClinic`)이며 둘 다 사이트
+ * 저자는 대표원장(`Person`), 발행자는 병원(`MedicalClinic`)이며 둘 다 사이트
  * 주체 그래프의 노드를 참조한다. 같은 주체를 라우트마다 새로 선언하면 크롤러가
  * 서로 다른 주체로 읽는다.
  */
