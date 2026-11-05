@@ -21,6 +21,9 @@ const devAllowedOrigins = process.env.NEXT_DEV_ALLOWED_ORIGINS
   .filter(Boolean);
 
 const nextConfig: NextConfig = {
+  // 메타 태그 스트리밍을 끈다. 켜 두면 CMS 응답이 늦은 요청에서 제목·canonical·공유
+  // 카드가 `<head>` 밖으로 나간다. Next 기본 목록에 없는 구글·카카오톡 수집기가 받던 문제다.
+  htmlLimitedBots: /.*/,
   images: {
     formats: ['image/avif', 'image/webp'],
   },
