@@ -143,6 +143,7 @@ export function articleJsonLd({
   description,
   publishedAt,
   updatedAt,
+  section,
   image,
   source,
 }: Readonly<{
@@ -151,6 +152,7 @@ export function articleJsonLd({
   description: string;
   publishedAt: string;
   updatedAt?: string;
+  section?: string;
   /** 절대 주소. 검색 미리보기·AI 인용용이며 없으면 필드를 생략한다. */
   image?: string;
   source?: { name: string; url: string };
@@ -164,6 +166,8 @@ export function articleJsonLd({
     ...(image ? { image: [image] } : {}),
     datePublished: publishedAt,
     ...(updatedAt ? { dateModified: updatedAt } : {}),
+    ...(section ? { articleSection: section } : {}),
+    inLanguage: 'ko-KR',
     ...(source
       ? { isBasedOn: { '@type': 'CreativeWork', name: source.name, url: source.url } }
       : { author: { '@id': physicianSchemaId } }),

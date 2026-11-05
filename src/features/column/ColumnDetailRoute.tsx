@@ -126,6 +126,8 @@ export function ColumnDetailView({
             headline: entry.title,
             description: entry.seo?.description ?? entry.description,
             publishedAt: entry.publishedAt,
+            ...(entry.updatedAt ? { updatedAt: entry.updatedAt } : {}),
+            section: entry.category.name,
             ...(entry.shareImageUrl ? { image: entry.shareImageUrl } : {}),
           }),
         ]}
