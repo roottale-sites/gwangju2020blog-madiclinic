@@ -34,7 +34,7 @@ test('세 기능 목록 모두 병원 엔티티·페이지·브레드크럼 스�
   for (const path of ['/column', '/reviews', '/faq']) {
     await page.goto(path);
     expect(nodeTypes(await structuredDataNodes(page))).toEqual(expect.arrayContaining([
-      'WebSite', 'MedicalClinic', 'Physician', 'CollectionPage', 'BreadcrumbList',
+      'WebSite', 'MedicalClinic', 'Person', 'CollectionPage', 'BreadcrumbList',
     ]));
   }
 });
@@ -49,7 +49,7 @@ test('병원 엔티티는 세 기능에서 같은 주체 하나를 가리킨다'
   expect(clinic?.url).toBe('http://gwangju2020.madiclinic.co.kr/');
   expect(clinic?.['@id']).toBe('https://gwangju2020blog.madiclinic.co.kr/#medical-clinic');
 
-  const physician = nodes.find((node) => node['@type'] === 'Physician');
+  const physician = nodes.find((node) => node['@type'] === 'Person');
   expect(physician?.name).toBe('이경무');
   expect(physician?.worksFor).toEqual({ '@id': clinic?.['@id'] });
 });

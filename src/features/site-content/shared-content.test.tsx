@@ -65,7 +65,7 @@ test.each(['column-footer','reviews-footer','faq-footer'] as const)('의료 고�
 test('의사 alternateName은 입력값이 있을 때 구조화 데이터에만 나오며 타입·사이트 이름은 고정한다', () => {
   const content = initialContent(); fields(content,'clinic-common',['shared','physician']).alternate_name = '시험 활동명';
   fields(content,'clinic-common',['shared','clinic']).representative = '시험 원장';
-  const graph = contentEntityJsonLd(content); const physician = graph.find(node => node['@type'] === 'Physician');
+  const graph = contentEntityJsonLd(content); const physician = graph.find(node => node['@type'] === 'Person');
   expect(physician?.alternateName).toBe('시험 활동명'); expect(physician?.name).toBe('시험 원장');
   expect(graph.find(node => node['@type'] === 'MedicalClinic')?.name).toBe('광주 남구 마디클리닉');
   expect(render(<MadiFooter content={content} />)).not.toContain('시험 활동명');

@@ -15,7 +15,7 @@
 
 네 모델은 값을 자동 공유하지 않는다. 같은 전화·주소·시간이 초기값에 반복되더라도 각 하단은 자기 문서만 읽는다. `clinic-common`은 공통 푸터·JSON-LD·`ContentCafeLink`·`page_common`에서 실제로 읽는 칸만 보관한다. 진료시간·휴진·점심·오시는 길·안내 카드 이름·상세 주소·사진 설명·네이버톡톡 주소는 공개 상세의 각 하단 문서가 소유하며 공통 문서에는 없다. `src/data/clinic.ts`의 원본 값은 하단 기본값으로 유지한다.
 
-각 문서의 전화번호는 `phone_display` 한 칸에서 받는다. 유효한 국내 번호의 맨 앞 0을 국가번호로 바꿔 JSON-LD에 쓰고, 하이픈을 지워 전화 링크를 만든다. 기본값 `062-675-0750`은 `tel:0626750750`과 `+82-62-675-0750`이 된다. 형식이 맞지 않으면 전화 링크와 JSON-LD `telephone`을 생략한다. 별도 `phone_tel`·`phone_e164` 칸은 없다. `Physician.jobTitle`은 공통 `representative_title`을 읽으며 별도 검색 직함 칸도 없다.
+각 문서의 전화번호는 `phone_display` 한 칸에서 받는다. 유효한 국내 번호의 맨 앞 0을 국가번호로 바꿔 JSON-LD에 쓰고, 하이픈을 지워 전화 링크를 만든다. 기본값 `062-675-0750`은 `tel:0626750750`과 `+82-62-675-0750`이 된다. 형식이 맞지 않으면 전화 링크와 JSON-LD `telephone`을 생략한다. 별도 `phone_tel`·`phone_e164` 칸은 없다. `Person.jobTitle`은 공통 `representative_title`을 읽으며 별도 검색 직함 칸도 없다.
 
 ## 편집 칸과 값 처리
 
@@ -23,7 +23,7 @@
 
 누락된 키는 키별 코드 기본값을 쓴다. 저장된 빈 문자열·공백은 그대로 받아 해당 줄·버튼을 숨긴다. 버튼에는 문구와 유효한 주소가 모두 필요하다. 주소는 HTTPS·내부 경로·`tel:`·`mailto:`만 허용하고 자바스크립트·data·프로토콜 상대 주소·인증정보 URL·공백·역슬래시를 거부한다. 의료 고지 제목·본문은 비어도 코드 원문을 표시하며 계약에서 숨김·삭제를 허용하지 않는다.
 
-`shared.physician.alternate_name`의 관리자 칸 이름은 사용자 지정대로 `alternateName`이다. 초기값은 빈칸이다. 값이 있을 때만 `Physician.alternateName`에 출력한다. 의사 `@type`은 `Physician`을 유지했다. 공개 화면·미리보기 카드·미리보기 아래 목록에는 출력하지 않으며 관리자 항목 목록에서만 편집한다. [편집 범위 예외](../cms/edit-coverage-exceptions.json)에 이유를 기록했다. 실제 활동명은 입력하지 않았다.
+`shared.physician.alternate_name`의 관리자 칸 이름은 사용자 지정대로 `alternateName`이다. 초기값은 빈칸이다. 값이 있을 때만 대표원장 `Person` 항목의 `alternateName`에 출력한다. 공개 화면·미리보기 카드·미리보기 아래 목록에는 출력하지 않으며 관리자 항목 목록에서만 편집한다. [편집 범위 예외](../cms/edit-coverage-exceptions.json)에 이유를 기록했다. 실제 활동명은 입력하지 않았다.
 
 ## 미리보기와 공개 런타임
 

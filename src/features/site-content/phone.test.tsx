@@ -33,7 +33,7 @@ test('표시 번호와 원장 직함의 변경을 같은 문서에서 계산한�
   shared.clinic.phone_display = '02-1234-5678'; shared.clinic.representative_title = '진료원장';
   const graph = contentEntityJsonLd(content);
   expect(graph.find(node => node['@type'] === 'MedicalClinic')?.telephone).toBe('+82-2-1234-5678');
-  expect(graph.find(node => node['@type'] === 'Physician')?.jobTitle).toBe('진료원장');
+  expect(graph.find(node => node['@type'] === 'Person')?.jobTitle).toBe('진료원장');
   const footer = content.documents.find(doc => doc.modelKey === 'column-footer')!.fields.footer;
   if (!record(footer) || !record(footer.guide) || !record(footer.guide.clinic)) throw new Error('fixture 하단 누락');
   footer.guide.clinic.phone_display = '010-1234-5678';

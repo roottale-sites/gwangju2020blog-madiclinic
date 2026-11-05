@@ -94,7 +94,8 @@ export function contentEntityJsonLd(content?: SiteContent): readonly JsonLdNode[
     employee: { '@id': physicianSchemaId },
   },
   {
-    '@type': 'Physician',
+    // schema.org의 Physician은 조직·장소 계열이라 사람에게 쓰지 않는다. `@id`는 유지해 글 저자 연결을 지킨다.
+    '@type': 'Person',
     '@id': physicianSchemaId,
     name: facts.representative,
     image: siteUrl(clinic.doctorPortrait.src),
@@ -132,7 +133,7 @@ export function webPageJsonLd({
 /**
  * 글 한 편(칼럼·후기)의 `Article`.
  *
- * 저자는 대표원장(`Physician`), 발행자는 병원(`MedicalClinic`)이며 둘 다 사이트
+ * 저자는 대표원장(`Person`), 발행자는 병원(`MedicalClinic`)이며 둘 다 사이트
  * 주체 그래프의 노드를 참조한다. 같은 주체를 라우트마다 새로 선언하면 크롤러가
  * 서로 다른 주체로 읽는다.
  */
