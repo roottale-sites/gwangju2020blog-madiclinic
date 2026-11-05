@@ -50,7 +50,12 @@ test('API 키가 없으면 공개 API를 호출하지 않는다', async () => {
 });
 
 test('실패한 모델은 다음 요청에서 재조회하고 성공한 모델의 캐시는 유지한다', async () => {
-  readPosts.mockImplementationOnce(async () => { throw new Error('일시적 실패'); });
+  // 네 모델을 동시에 읽어 호출 순서가 일정하지 않다. 실패시킬 모델을 키로 고른다.
+  let failed = false;
+  readPosts.mockImplementation(async ({ modelKey }: { modelKey: string }) => {
+    if (modelKey === 'clinic-common' && !failed) { failed = true; throw new Error('일시적 실패'); }
+    return posts.filter(post => post.modelKey === modelKey);
+  });
   const first = await read();
   expect(first.documents.some(doc => doc.modelKey === 'clinic-common')).toBe(false);
   const common = posts.find(post => post.modelKey === 'clinic-common')!;
