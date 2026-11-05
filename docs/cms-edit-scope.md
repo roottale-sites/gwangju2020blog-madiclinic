@@ -1,6 +1,6 @@
 # 사이트 내용 편집 범위
 
-2026-11-05 로컬 구현. 운영 설치본은 v6이며 이 작업은 v7 계약과 초기 문서를 준비했다. 운영에는 적용하지 않았다. 필드·초기값·문서 ID의 정본은 [content-import.json](../cms/content-import.json), 계약은 [site-content-contract.json](../cms/site-content-contract.json)이다.
+2026-11-05 운영 적용. 운영 설치본은 v7이다. 필드·초기값·문서 ID의 정본은 [content-import.json](../cms/content-import.json), 계약은 [site-content-contract.json](../cms/site-content-contract.json)이다.
 
 ## 문서와 표시 위치
 
