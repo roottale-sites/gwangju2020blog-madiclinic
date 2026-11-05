@@ -338,8 +338,12 @@ describe('라우트 오류 처리', () => {
 });
 
 describe('사이트 내용 공유 문서 발행', () => {
-  test.each(['clinic-common','column-footer','reviews-footer','faq-footer'])('%s의 경로 없는 발행도 200으로 처리하고 편집 캐시를 만료한다', async modelKey => {
-    const response = await POST(webhookRequest({ modelKey, paths: [] }));
+  test.each(['clinic-common','column-footer','reviews-footer','faq-footer'].flatMap(modelKey => [
+    [modelKey, { modelKey, paths: [] }],
+    // 플랫폼 단건 발행 알림은 modelKey 없이 slug만 보낸다.
+    [modelKey, { postId: '01a1ab98-f4f6-7ff9-88d8-5ec14703e93e', slug: modelKey, type: 'post', paths: [] }],
+  ] as const))('%s의 경로 없는 발행도 200으로 처리하고 편집 캐시를 만료한다', async (modelKey, payload) => {
+    const response = await POST(webhookRequest(payload));
     expect(response.status).toBe(200);
     const { CONTENT_EDITING_CACHE_TAG } = await import('@roottale/cms-renderer-next/routes');
     expect(revalidateTag).toHaveBeenCalledWith(CONTENT_EDITING_CACHE_TAG, { expire: 0 });
