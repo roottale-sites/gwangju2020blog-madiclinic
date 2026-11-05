@@ -64,7 +64,9 @@ export async function POST(request: Request): Promise<Response> {
   const payload = readRevalidationPayload(rawBody);
   if (!payload) return json({ ok: false }, 400);
 
-  const sharedModel = sharedModels.find(model => model.key === payload.modelKey);
+  // 단건 발행 알림에는 modelKey가 없다. 공유 문서는 slug가 모델 키와 같고 slug는 사이트에서 유일하다.
+  const sharedKey = payload.modelKey ?? payload.slug;
+  const sharedModel = sharedModels.find(model => model.key === sharedKey);
   if (sharedModel && verification.event.startsWith('post.')) {
     revalidateTag(CONTENT_EDITING_CACHE_TAG, { expire: 0 });
     if (sharedModel.key === 'clinic-common') revalidatePath('/', 'layout');

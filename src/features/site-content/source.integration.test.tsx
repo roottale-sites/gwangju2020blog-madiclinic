@@ -30,7 +30,7 @@ test('공통 조회는 페이지별로 늘지 않고 공유 태그 발행 뒤 �
   const clinic = Reflect.get(shared,'clinic'); if (!clinic || typeof clinic !== 'object') throw new Error('fixture clinic 없음');
   Reflect.set(clinic,'email','changed@example.test');
   expect(renderToStaticMarkup(<MadiFooter content={await read()} />)).not.toContain('changed@example.test');
-  const response = await runtime.request(() => POST(new Request('https://site.test/api/revalidate', { method: 'POST', body: JSON.stringify({ modelKey: 'clinic-common', paths: [] }) })), '/api/revalidate/route');
+  const response = await runtime.request(() => POST(new Request('https://site.test/api/revalidate', { method: 'POST', body: JSON.stringify({ postId: common.id, slug: 'clinic-common', type: 'post', paths: [] }) })), '/api/revalidate/route');
   expect(response.status).toBe(200);
   expect(renderToStaticMarkup(<MadiFooter content={await read()} />)).toContain('changed@example.test');
   expect(readPosts).toHaveBeenCalledTimes(8);
