@@ -83,3 +83,22 @@ test('대표 이미지가 있는 칼럼은 그 이미지를 OG에 우선 적용�
   const metadata = await columnDetailMetadata('with-image');
   expect(metadata.openGraph).toMatchObject({ images: [{ url: 'https://images.example.com/column.png' }] });
 });
+
+test.each([undefined, '2026-11-05T00:00:00Z'])(
+  '칼럼 Article에 분류·언어와 선택적인 수정 시각(%s)을 전달한다', async (updatedAt) => {
+    const column = { ...entry('schema'), updatedAt };
+    vi.mocked(resolveColumnEntry).mockResolvedValue(column);
+    const html = renderToStaticMarkup(await ColumnDetailRoute({ slug: column.slug }));
+    const script = html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/);
+    expect(script).not.toBeNull();
+    const nodes = JSON.parse(script![1]!)['@graph'] as Array<Record<string, unknown>>;
+    const article = nodes.find((node) => node['@type'] === 'Article');
+    expect(article).toMatchObject({
+      datePublished: column.publishedAt,
+      articleSection: column.category.name,
+      inLanguage: 'ko-KR',
+    });
+    if (updatedAt) expect(article).toHaveProperty('dateModified', updatedAt);
+    else expect(article).not.toHaveProperty('dateModified');
+  },
+);

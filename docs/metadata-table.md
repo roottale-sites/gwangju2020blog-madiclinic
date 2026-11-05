@@ -75,8 +75,14 @@ canonical은 각 목록의 기본 주소로 유지한다.
 
 ## 전역 구조화 데이터
 
-`src/app/layout.tsx`가 모든 페이지에 `WebSite`·`MedicalClinic`(마디클리닉)·
-`Person`(이경무) 세 노드를 넣는다(`contentEntityJsonLd`). 페이지별로는 목록·분류가
+`src/app/layout.tsx`가 각 페이지의 `<head>`에서 공통 `WebSite`·`MedicalClinic`(마디클리닉)·
+`Person`(이경무) 세 노드를 한 번만 넣는다(`contentEntityJsonLd`).
+`x-madi-preview`가 `1`인 미리보기에는 공통 노드를 넣지 않는다. 페이지별 구조화 데이터는
+본문에 유지하며, 목록·분류가
 `CollectionPage`, 상세가 `WebPage`이고 칼럼 상세는 `Article`, FAQ 상세는 `FAQPage`,
 후기 상세는 후기 FAQ 블록이 있을 때 `FAQPage`를 더한다. `BreadcrumbList`는
 `MadiBreadcrumb`이 화면 브레드크럼과 같은 배열에서 만든다.
+
+칼럼 `Article`은 수정 시각(`entry.updatedAt`)이 있으면 `dateModified`를 넣고,
+분류 이름(`entry.category.name`)을 `articleSection`으로 넣는다. `inLanguage`는
+항상 `ko-KR`로 넣는다.

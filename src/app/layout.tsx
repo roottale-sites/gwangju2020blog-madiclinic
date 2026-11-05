@@ -85,10 +85,10 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        {!preview && <JsonLd nodes={contentEntityJsonLd(content)} />}
       </head>
       <body>
         <>{preview ? children : <>
-          <JsonLd nodes={contentEntityJsonLd(content)} />
           <SiteLayout content={content}>{children}</SiteLayout>
           <RootAnalytics />
         </>}</>
