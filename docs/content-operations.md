@@ -1,6 +1,12 @@
 # 사이트 내용 운영 적용 순서
 
-이 문서는 계약 v7을 운영에 적용할 때 쓰는 순서다. 운영 설치본은 v6이다.
+이 문서는 계약 v7을 운영에 적용한 순서다. 운영 설치본은 v7이다(2026-11-05 적용).
+
+처음 설치할 때 실제로 쓴 순서와 주의점이다(2026-11-05). 결과는 [TODO](TODO.md)에 있다.
+
+- `site:content-contract:sync`는 화면 편집 템플릿의 필드 그룹이 DB에 없으면 멈춘다. 그래서 플랫폼 importer의 `provisionImportModelsAndFields`로 모델·필드 그룹을 먼저 만들고 sync한 뒤 plan·publish했다. plan에서 모델·필드는 모두 `reuse`로 나온다.
+- `--source-root`는 manifest `source.commit`의 깨끗한 체크아웃이어야 한다. 병합은 그 커밋이 main에 남도록 merge commit으로 했다.
+- 플랫폼 단건 발행 알림에는 `modelKey`가 없다. 수신 코드는 `slug`로도 공유 문서를 판별한다. 공유 문서는 `slug`가 모델 키와 같다.
 
 1. **사이트 배포**: 사용자 운영 승인 범위에서 클린 워크트리로 배포한다. 배포물에 `/preview/content/:id`, `CONTENT_EDITING_CACHE_TAG` 웹훅 분기, 계약과 runtime receipt가 함께 들어가야 한다. 이 단계에서는 공유 문서가 없어도 코드 기본값이 나온다.
 2. **계약 sync**: 기존 운영 계약과 모델을 백업·대조하고 v7을 동기화한다. 기존 글 모델 3개·metadata·팝업·블로그 하단 이미지 패턴을 보존한다. 새 모델·필드 그룹·`presentation.listPaths`도 함께 설치한다. `pages`는 비어 있어야 한다. `patternManagement`를 `code`로 바꾸지 않는다.
