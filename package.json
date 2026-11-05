@@ -16,7 +16,8 @@
     "preview": "pnpm build && next start",
     "test:e2e": "playwright test",
     "cms:faq:sheet": "tsx scripts/import-faq-sheet.ts",
-    "cms:faq:sync": "tsx scripts/sync-faq-content.ts"
+    "cms:faq:sync": "tsx scripts/sync-faq-content.ts",
+    "cms:content:export": "node --import tsx scripts/content-migration/export.ts"
   },
   "devDependencies": {
     "@playwright/test": "1.55.0",

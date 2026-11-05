@@ -1,3 +1,4 @@
+import { loadSiteContent } from '../../../../../features/site-content/source';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { withSiteTracking } from '../../../../../features/seo/with-site-tracking';
@@ -51,7 +52,7 @@ async function FaqDetailRoute({ params }: Props) {
   }
   if (!section || !topic || !entry) notFound();
   return (
-    <FaqDetailPage collection={collection} entry={entry} section={section} topic={topic} />
+    <FaqDetailPage content={await loadSiteContent()} collection={collection} entry={entry} section={section} topic={topic} />
   );
 }
 

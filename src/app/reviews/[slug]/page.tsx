@@ -1,3 +1,4 @@
+import { loadSiteContent } from '../../../features/site-content/source';
 import Link from 'next/link';
 import type { Metadata } from 'next';
 import { notFound, permanentRedirect } from 'next/navigation';
@@ -100,7 +101,7 @@ async function ReviewDetailPage({ params }: ReviewDetailPageProps) {
   }
 
   const archive = await loadReviewArchive();
-  return <ReviewDetailView post={post} archivePosts={archive.ok ? archive.data : []} />;
+  return <ReviewDetailView content={await loadSiteContent()} post={post} archivePosts={archive.ok ? archive.data : []} />;
 }
 
 export default withSiteTracking(ReviewDetailPage);

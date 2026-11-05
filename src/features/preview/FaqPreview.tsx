@@ -1,3 +1,4 @@
+import type { SiteContent } from '../site-content/bindings';
 import type { CmsPostPreviewContent } from '@roottale/cms-client/server';
 import { contentSource } from '../cms/content-source';
 import { readCmsSeo } from '../seo/cms-metadata';
@@ -8,7 +9,7 @@ import { resolveFaqCollection } from '../faq/faq-source';
 import { fetchFaqCategories } from '../faq/faq-wire';
 import { PreviewMessage, PreviewNotice } from './PreviewNotice';
 
-export default async function FaqPreview({ post }: Readonly<{ post: CmsPostPreviewContent }>) {
+export default async function FaqPreview({ post, content }: Readonly<{ post: CmsPostPreviewContent; content?: SiteContent }>) {
   try {
     const [categories, published] = await Promise.all([
       fetchFaqCategories({ apiKey: process.env.ROOTTALE_API_KEY?.trim() ?? '',
@@ -35,7 +36,7 @@ export default async function FaqPreview({ post }: Readonly<{ post: CmsPostPrevi
     const collection = { ...published, taxonomy, archive: { ...published.archive,
       entries: [...published.archive.entries.filter((item) => item.contentId !== post.id), entry],
     } };
-    return <FaqDetailPage collection={collection} entry={entry} section={section} topic={topic}
+    return <FaqDetailPage content={content} collection={collection} entry={entry} section={section} topic={topic}
       notice={<PreviewNotice expiresAt={post.preview.expiresAt} />} />;
   } catch {
     return <PreviewMessage title="분류를 불러오지 못했습니다">잠시 뒤 관리자에서 미리보기를 다시 열어 주세요.</PreviewMessage>;

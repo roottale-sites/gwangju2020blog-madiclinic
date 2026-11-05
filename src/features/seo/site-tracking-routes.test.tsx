@@ -55,7 +55,7 @@ test.each([
 test('루트 layout으로 감싼 404·미리보기에도 고정 GTM이 남지 않는다', async () => {
   const preview = await PostPreviewRoute({ postId: 'draft', token: 'old-token' });
   for (const children of [<main key="404">404</main>, preview]) {
-    const html = renderToStaticMarkup(RootLayout({ children }));
+    const html = renderToStaticMarkup(await RootLayout({ children }));
     expect(html).not.toContain('googletagmanager.com');
     expect(html).not.toContain('GTM-T7TXDQ88');
   }

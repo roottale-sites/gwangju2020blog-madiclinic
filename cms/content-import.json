@@ -1,0 +1,2428 @@
+{
+  "version": 1,
+  "source": {
+    "repository": "gwangju2020blog-madiclinic",
+    "commit": "f94fc626dd8b8ab692004cd472c22e3db70722a9"
+  },
+  "identityMap": {
+    "clinic-common/shared/clinic/hours/0": "01a1ab15-6532-7239-91b9-564904de46ed",
+    "clinic-common/shared/clinic/hours/1": "01a1ab15-6532-77af-9fe4-e4a54383b3a9",
+    "clinic-common/shared/clinic/hours/2": "01a1ab15-6532-70ac-840f-ea8dd9e53a7d",
+    "clinic-common/shared/clinic/hours/3": "01a1ab15-6532-7e14-b95d-3c8a2fae729e",
+    "clinic-common/shared/clinic/directions/0": "01a1ab15-6532-7ca2-886b-a825a2cda956",
+    "clinic-common/shared/clinic/directions/1": "01a1ab15-6532-75af-99cd-576853f7c0ea",
+    "clinic-common/shared/clinic/directions/2": "01a1ab15-6532-71d7-87c5-177bef77abc7",
+    "clinic-common/shared/clinic/directions/3": "01a1ab15-6532-78d6-89a6-e4243029add7",
+    "clinic-common/shared/clinic/schema/availableServiceNames/0": "01a1ab15-6532-7483-bb60-5a9f9d31fbb3",
+    "clinic-common/shared/clinic/schema/availableServiceNames/1": "01a1ab15-6532-714b-b572-e4bfbfeddc6d",
+    "clinic-common/shared/clinic/schema/availableServiceNames/2": "01a1ab15-6532-7bcc-8bca-0e9ddd3a1e3f",
+    "clinic-common/shared/clinic/schema/availableServiceNames/3": "01a1ab15-6532-7589-9c70-0e36e9068fba",
+    "clinic-common/shared/clinic/schema/availableServiceNames/4": "01a1ab15-6532-7ccc-aee7-81aa5132bca8",
+    "entry/clinic-common": "01a1ab15-6532-7925-972e-f605a9e77507",
+    "column-footer/footer/guide/clinic/hours/0": "01a1ab15-6532-775c-a7e0-2182841fa13f",
+    "column-footer/footer/guide/clinic/hours/1": "01a1ab15-6532-7bc6-a956-ae542e63f492",
+    "column-footer/footer/guide/clinic/hours/2": "01a1ab15-6532-7f8c-8994-5b60c0fe43fd",
+    "column-footer/footer/guide/clinic/hours/3": "01a1ab15-6532-7959-9aec-495f1dd53544",
+    "column-footer/footer/guide/clinic/directions/0": "01a1ab15-6532-777a-802f-133673358581",
+    "column-footer/footer/guide/clinic/directions/1": "01a1ab15-6532-7249-a545-788c5f8a7999",
+    "column-footer/footer/guide/clinic/directions/2": "01a1ab15-6532-739d-9bee-c0c5380757d0",
+    "column-footer/footer/guide/clinic/directions/3": "01a1ab15-6532-7d39-b3e6-bc3d842f226f",
+    "entry/column-footer": "01a1ab15-6532-7df0-9a6c-d3c0e0000010",
+    "reviews-footer/footer/guide/clinic/hours/0": "01a1ab15-6532-7935-85c3-e1c3ef6ebba6",
+    "reviews-footer/footer/guide/clinic/hours/1": "01a1ab15-6532-7363-be09-58da7b261d1e",
+    "reviews-footer/footer/guide/clinic/hours/2": "01a1ab15-6532-7792-963c-a320dc189a76",
+    "reviews-footer/footer/guide/clinic/hours/3": "01a1ab15-6532-77fb-990f-6a0c71a9c56a",
+    "reviews-footer/footer/guide/clinic/directions/0": "01a1ab15-6532-7970-a49c-41b068f137fa",
+    "reviews-footer/footer/guide/clinic/directions/1": "01a1ab15-6532-7cef-9950-d39b1abd5b25",
+    "reviews-footer/footer/guide/clinic/directions/2": "01a1ab15-6532-728b-af39-dee853651074",
+    "reviews-footer/footer/guide/clinic/directions/3": "01a1ab15-6532-783c-b978-90e44a0ea4f3",
+    "entry/reviews-footer": "01a1ab15-6532-7859-a730-2110ece54375",
+    "faq-footer/footer/guide/clinic/hours/0": "01a1ab15-6532-750e-b524-6303eebc261d",
+    "faq-footer/footer/guide/clinic/hours/1": "01a1ab15-6532-7cd8-9c65-fbe56ee39584",
+    "faq-footer/footer/guide/clinic/hours/2": "01a1ab15-6532-79ce-9ddf-39917eb69cac",
+    "faq-footer/footer/guide/clinic/hours/3": "01a1ab15-6532-7783-b875-b4b0b829a65e",
+    "faq-footer/footer/guide/clinic/directions/0": "01a1ab15-6532-74b1-b733-cd758b05541e",
+    "faq-footer/footer/guide/clinic/directions/1": "01a1ab15-6532-704d-b19c-44e10452ff4a",
+    "faq-footer/footer/guide/clinic/directions/2": "01a1ab15-6532-71ef-be1b-d7e3b8fa96c7",
+    "faq-footer/footer/guide/clinic/directions/3": "01a1ab15-6532-7e58-af5f-e134f1dfcf5b",
+    "entry/faq-footer": "01a1ab15-6532-72ed-a0c3-97b791cb1bbd"
+  },
+  "contract": {
+    "version": 7,
+    "pages": [],
+    "models": [
+      {
+        "modelKey": "faq",
+        "preset": "article",
+        "listPath": "/faq",
+        "templateKey": "faq",
+        "allowedQueryFields": [],
+        "shared": false
+      },
+      {
+        "modelKey": "column",
+        "preset": "article",
+        "listPath": "/column",
+        "templateKey": "column",
+        "allowedQueryFields": [],
+        "shared": false
+      },
+      {
+        "modelKey": "reviews",
+        "preset": "article",
+        "listPath": "/reviews",
+        "detailPath": "/reviews/:slug",
+        "templateKey": "reviews",
+        "allowedQueryFields": [],
+        "shared": false
+      },
+      {
+        "modelKey": "clinic-common",
+        "preset": "entity",
+        "templateKey": "clinic-common",
+        "allowedQueryFields": [],
+        "shared": true,
+        "sharedFieldVerification": {
+          "paths": [
+            "/column"
+          ],
+          "fields": [
+            {
+              "key": "field_shared__clinic__business_number",
+              "path": [
+                "shared",
+                "clinic",
+                "business_number"
+              ],
+              "sectionKey": "clinic",
+              "normalization": "text"
+            },
+            {
+              "key": "field_shared__clinic__representative",
+              "path": [
+                "shared",
+                "clinic",
+                "representative"
+              ],
+              "sectionKey": "clinic",
+              "normalization": "text"
+            },
+            {
+              "key": "field_shared__clinic__representative_title",
+              "path": [
+                "shared",
+                "clinic",
+                "representative_title"
+              ],
+              "sectionKey": "clinic",
+              "normalization": "text"
+            },
+            {
+              "key": "field_shared__clinic__address__line",
+              "path": [
+                "shared",
+                "clinic",
+                "address",
+                "line"
+              ],
+              "sectionKey": "clinic",
+              "normalization": "text"
+            },
+            {
+              "key": "field_shared__clinic__phone_display",
+              "path": [
+                "shared",
+                "clinic",
+                "phone_display"
+              ],
+              "sectionKey": "clinic",
+              "normalization": "phone"
+            },
+            {
+              "key": "field_shared__clinic__fax_display",
+              "path": [
+                "shared",
+                "clinic",
+                "fax_display"
+              ],
+              "sectionKey": "clinic",
+              "normalization": "phone"
+            },
+            {
+              "key": "field_shared__clinic__email",
+              "path": [
+                "shared",
+                "clinic",
+                "email"
+              ],
+              "sectionKey": "clinic",
+              "normalization": "text"
+            },
+            {
+              "key": "field_shared__clinic__copyright",
+              "path": [
+                "shared",
+                "clinic",
+                "copyright"
+              ],
+              "sectionKey": "clinic",
+              "normalization": "text"
+            }
+          ]
+        }
+      },
+      {
+        "modelKey": "column-footer",
+        "preset": "entity",
+        "templateKey": "column-footer",
+        "allowedQueryFields": [],
+        "shared": true
+      },
+      {
+        "modelKey": "reviews-footer",
+        "preset": "entity",
+        "templateKey": "reviews-footer",
+        "allowedQueryFields": [],
+        "shared": true
+      },
+      {
+        "modelKey": "faq-footer",
+        "preset": "entity",
+        "templateKey": "faq-footer",
+        "allowedQueryFields": [],
+        "shared": true
+      }
+    ],
+    "dynamicPages": [],
+    "exposureSlots": [
+      {
+        "key": "site-popup",
+        "kind": "popup",
+        "variants": [
+          "card",
+          "image-card",
+          "image"
+        ],
+        "assetKinds": [
+          "image"
+        ],
+        "pathPrefixes": [
+          "/"
+        ],
+        "repeatOptions": [
+          "always",
+          "session",
+          "day",
+          "never"
+        ],
+        "runtimeVersion": 2,
+        "homePaths": [
+          "/column",
+          "/faq",
+          "/reviews"
+        ],
+        "pathRules": [
+          {
+            "path": "/",
+            "match": "exact"
+          }
+        ],
+        "label": "커뮤니티 팝업",
+        "description": "블로그·자주 묻는 질문·후기 첫 화면의 PC·모바일 팝업. 상세 글에서는 표시하지 않습니다.",
+        "placement": "popup",
+        "imageDimensions": {
+          "desktop": {
+            "width": 600,
+            "height": 600
+          },
+          "mobile": {
+            "width": 750,
+            "height": 750
+          }
+        },
+        "sizes": [
+          "small",
+          "medium",
+          "large"
+        ]
+      }
+    ],
+    "metadata": {
+      "version": 1,
+      "routes": [
+        {
+          "routeKey": "column",
+          "label": "블로그 목록",
+          "source": {
+            "kind": "model-list",
+            "modelKey": "column"
+          },
+          "defaults": {
+            "title": "광주 남구 마디클리닉 블로그",
+            "description": "광주 남구 마디클리닉 이경무 대표원장이 통증의 원인과 비수술 중점치료를 직접 씁니다. 영상유도하 통증중재시술 의료기관."
+          },
+          "fallback": {
+            "ogImage": "https://gwangju2020blog.madiclinic.co.kr/opengraph-image.png"
+          },
+          "supportedFields": [
+            "title",
+            "description",
+            "ogImage",
+            "ogImageAlt",
+            "noindex",
+            "nofollow"
+          ]
+        },
+        {
+          "routeKey": "reviews",
+          "label": "치료후기 목록",
+          "source": {
+            "kind": "model-list",
+            "modelKey": "reviews"
+          },
+          "defaults": {
+            "title": "치료후기 | 광주 남구 마디클리닉",
+            "description": "광주 남구 마디클리닉에서 치료받은 분들이 직접 남긴 치료 경험담입니다."
+          },
+          "fallback": {
+            "ogImage": "https://gwangju2020blog.madiclinic.co.kr/opengraph-image.png"
+          },
+          "supportedFields": [
+            "title",
+            "description",
+            "ogImage",
+            "ogImageAlt",
+            "noindex",
+            "nofollow"
+          ]
+        },
+        {
+          "routeKey": "faq",
+          "label": "FAQ 목록",
+          "source": {
+            "kind": "model-list",
+            "modelKey": "faq"
+          },
+          "defaults": {
+            "title": "질환별 자주 묻는 질문 | 광주 남구 마디클리닉",
+            "description": "광주 남구 마디클리닉 이경무 대표원장이 진료실에서 자주 받는 질문에 답합니다. 통증의 원인과 검사, 비수술 중점치료와 경과를 확인하세요."
+          },
+          "fallback": {
+            "ogImage": "https://gwangju2020blog.madiclinic.co.kr/opengraph-image.png"
+          },
+          "supportedFields": [
+            "title",
+            "description",
+            "ogImage",
+            "ogImageAlt",
+            "noindex",
+            "nofollow"
+          ]
+        }
+      ],
+      "posts": {
+        "supportedFields": [
+          "title",
+          "description",
+          "ogImage",
+          "ogImageAlt",
+          "noindex",
+          "nofollow"
+        ],
+        "modelKeys": [
+          "column",
+          "reviews",
+          "faq"
+        ],
+        "titleTemplates": {
+          "column": "%s | 광주 남구 마디클리닉 블로그",
+          "reviews": "%s | 치료후기 | 광주 남구 마디클리닉",
+          "faq": "%s | 광주 남구 마디클리닉"
+        },
+        "defaultRules": {
+          "column": {
+            "title": {
+              "removeEmDashes": true
+            },
+            "description": {
+              "removeEmDashes": true,
+              "maxLength": 160,
+              "fallback": "광주 남구 마디클리닉 이경무 대표원장이 쓰는 통증·비수술 치료 칼럼입니다."
+            },
+            "useFirstBodyImage": true,
+            "imageAltSource": "title",
+            "normalizeCloudflareImages": true,
+            "fallback": {
+              "ogImage": "https://gwangju2020blog.madiclinic.co.kr/opengraph-image.png"
+            }
+          },
+          "reviews": {
+            "title": {
+              "removeEmDashes": true
+            },
+            "description": {
+              "removeEmDashes": true,
+              "maxLength": 180,
+              "fallback": "광주 남구 마디클리닉에서 치료받은 분들이 직접 남긴 치료 경험담입니다."
+            },
+            "useFirstBodyImage": true,
+            "imageAltSource": "title",
+            "normalizeCloudflareImages": true,
+            "fallback": {
+              "ogImage": "https://gwangju2020blog.madiclinic.co.kr/opengraph-image.png"
+            }
+          },
+          "faq": {
+            "title": {
+              "stripLeadingLabel": "question",
+              "replaceLineBreakTokens": true,
+              "normalizeWhitespace": true
+            },
+            "description": {
+              "stripLeadingLabel": "answer",
+              "replaceLineBreakTokens": true,
+              "normalizeWhitespace": true,
+              "maxLength": 160,
+              "ellipsis": "…",
+              "fallback": "광주 남구 마디클리닉 이경무 대표원장이 진료실에서 자주 받는 질문에 답합니다. 통증의 원인과 검사, 비수술 중점치료와 경과를 확인하세요."
+            },
+            "useFirstBodyImage": true,
+            "imageAltSource": "title",
+            "normalizeCloudflareImages": true,
+            "fallback": {
+              "ogImage": "https://gwangju2020blog.madiclinic.co.kr/opengraph-image.png"
+            }
+          }
+        }
+      },
+      "terms": {
+        "categoryIndexActivation": "required",
+        "supportedFields": [
+          "title",
+          "description",
+          "ogImage",
+          "ogImageAlt",
+          "noindex",
+          "nofollow"
+        ],
+        "modelKeys": [
+          "column",
+          "faq"
+        ],
+        "titleTemplates": {
+          "column": "%s",
+          "faq": "%s 자주 묻는 질문 | 광주 남구 마디클리닉"
+        },
+        "defaultRules": {
+          "column": {
+            "description": {
+              "fallbackWithoutParent": "광주 남구 마디클리닉 이경무 대표원장의 %s 칼럼입니다. 통증의 원인과 비수술 치료를 설명합니다.",
+              "fallback": "광주 남구 마디클리닉 이경무 대표원장이 통증의 원인과 비수술 중점치료를 직접 씁니다. 영상유도하 통증중재시술 의료기관."
+            },
+            "useTermImage": false,
+            "imageAltSource": "title",
+            "normalizeCloudflareImages": true,
+            "fallback": {
+              "ogImage": "https://gwangju2020blog.madiclinic.co.kr/opengraph-image.png"
+            }
+          },
+          "faq": {
+            "description": {
+              "fallbackWithParent": "%s의 증상·검사·치료와 경과에 관해 자주 묻는 질문입니다.",
+              "fallbackWithoutParent": "%s에 관해 진료실에서 자주 받는 질문과 답변입니다."
+            },
+            "useTermImage": false,
+            "imageAltSource": "title",
+            "normalizeCloudflareImages": true,
+            "fallback": {
+              "ogImage": "https://gwangju2020blog.madiclinic.co.kr/opengraph-image.png"
+            }
+          }
+        }
+      }
+    },
+    "fixedPatterns": [
+      {
+        "key": "column-footer-image",
+        "label": "블로그 하단 이미지",
+        "location": "모든 블로그 글에서 의료 콘텐츠 안내 아래, 블로그 목록 바로 위에 표시됩니다. 후기·FAQ에는 표시되지 않습니다."
+      }
+    ],
+    "visualEditing": {
+      "previewPath": "/preview/content/:id",
+      "templateVersion": "1",
+      "templates": [
+        {
+          "key": "clinic-common",
+          "modelKey": "clinic-common",
+          "sections": [
+            {
+              "key": "clinic",
+              "label": "병원 정보",
+              "fieldKeys": [
+                "field_shared__clinic__representative",
+                "field_shared__clinic__representative_title",
+                "field_shared__clinic__business_number",
+                "field_shared__clinic__email",
+                "field_shared__clinic__phone_display",
+                "field_shared__clinic__fax_display",
+                "field_shared__clinic__address__line",
+                "field_shared__clinic__copyright",
+                "field_shared__clinic__social__naver_booking",
+                "field_shared__clinic__social__cafe",
+                "field_shared__clinic__social__blog",
+                "field_shared__clinic__social__kakao",
+                "field_shared__clinic__social__instagram",
+                "field_shared__clinic__schema__address__street_address",
+                "field_shared__clinic__schema__address__address_locality",
+                "field_shared__clinic__schema__address__address_region",
+                "field_shared__clinic__schema__address__address_country",
+                "field_shared__clinic__schema__description",
+                "field_shared__clinic__schema__available_service_names__value",
+                "field_shared__clinic__schema__physician__description"
+              ],
+              "allowHide": false,
+              "allowDelete": false
+            },
+            {
+              "key": "physician",
+              "label": "의사 정보",
+              "fieldKeys": [
+                "field_shared__physician__alternate_name"
+              ],
+              "allowHide": false,
+              "allowDelete": false
+            },
+            {
+              "key": "footer",
+              "label": "하단 안내",
+              "fieldKeys": [
+                "field_shared__footer__business",
+                "field_shared__footer__representative",
+                "field_shared__footer__phone",
+                "field_shared__footer__fax",
+                "field_shared__footer__email"
+              ],
+              "allowHide": false,
+              "allowDelete": false
+            },
+            {
+              "key": "page-common",
+              "label": "페이지 공통 버튼·제목",
+              "fieldKeys": [
+                "field_shared__page_common__cafe",
+                "field_shared__page_common__previous",
+                "field_shared__page_common__next",
+                "field_shared__page_common__column_list",
+                "field_shared__page_common__reviews_list",
+                "field_shared__page_common__related_reviews",
+                "field_shared__page_common__all_reviews",
+                "field_shared__page_common__preferred_source"
+              ],
+              "allowHide": false,
+              "allowDelete": false
+            }
+          ]
+        },
+        {
+          "key": "column-footer",
+          "modelKey": "column-footer",
+          "sections": [
+            {
+              "key": "guide",
+              "label": "진료 안내 카드",
+              "fieldKeys": [
+                "field_footer__guide__clinic__guide_name",
+                "field_footer__guide__clinic__representative",
+                "field_footer__guide__clinic__representative_title",
+                "field_footer__guide__clinic__phone_display",
+                "field_footer__guide__clinic__address__detail",
+                "field_footer__guide__clinic__hours__label",
+                "field_footer__guide__clinic__hours__value",
+                "field_footer__guide__clinic__holiday_note",
+                "field_footer__guide__clinic__lunch_note",
+                "field_footer__guide__clinic__directions__label",
+                "field_footer__guide__clinic__directions__text",
+                "field_footer__guide__clinic__doctor_portrait__alt",
+                "field_footer__guide__clinic__social__cafe",
+                "field_footer__guide__clinic__social__naver_booking",
+                "field_footer__guide__clinic__social__blog",
+                "field_footer__guide__clinic__social__naver_talk",
+                "field_footer__guide__clinic__social__kakao",
+                "field_footer__guide__labels__phone",
+                "field_footer__guide__labels__hours",
+                "field_footer__guide__labels__question",
+                "field_footer__guide__labels__booking",
+                "field_footer__guide__labels__blog",
+                "field_footer__guide__labels__talk",
+                "field_footer__guide__labels__kakao"
+              ],
+              "allowHide": true,
+              "allowDelete": false
+            },
+            {
+              "key": "notice",
+              "label": "의료 고지",
+              "fieldKeys": [
+                "field_footer__notice__title",
+                "field_footer__notice__body"
+              ],
+              "allowHide": false,
+              "allowDelete": false
+            }
+          ]
+        },
+        {
+          "key": "reviews-footer",
+          "modelKey": "reviews-footer",
+          "sections": [
+            {
+              "key": "guide",
+              "label": "진료 안내 카드",
+              "fieldKeys": [
+                "field_footer__guide__clinic__guide_name",
+                "field_footer__guide__clinic__representative",
+                "field_footer__guide__clinic__representative_title",
+                "field_footer__guide__clinic__phone_display",
+                "field_footer__guide__clinic__address__detail",
+                "field_footer__guide__clinic__hours__label",
+                "field_footer__guide__clinic__hours__value",
+                "field_footer__guide__clinic__holiday_note",
+                "field_footer__guide__clinic__lunch_note",
+                "field_footer__guide__clinic__directions__label",
+                "field_footer__guide__clinic__directions__text",
+                "field_footer__guide__clinic__doctor_portrait__alt",
+                "field_footer__guide__clinic__social__cafe",
+                "field_footer__guide__clinic__social__naver_booking",
+                "field_footer__guide__clinic__social__blog",
+                "field_footer__guide__clinic__social__naver_talk",
+                "field_footer__guide__clinic__social__kakao",
+                "field_footer__guide__labels__phone",
+                "field_footer__guide__labels__hours",
+                "field_footer__guide__labels__question",
+                "field_footer__guide__labels__booking",
+                "field_footer__guide__labels__blog",
+                "field_footer__guide__labels__talk",
+                "field_footer__guide__labels__kakao"
+              ],
+              "allowHide": true,
+              "allowDelete": false
+            },
+            {
+              "key": "notice",
+              "label": "의료 고지",
+              "fieldKeys": [
+                "field_footer__notice__title",
+                "field_footer__notice__body"
+              ],
+              "allowHide": false,
+              "allowDelete": false
+            }
+          ]
+        },
+        {
+          "key": "faq-footer",
+          "modelKey": "faq-footer",
+          "sections": [
+            {
+              "key": "guide",
+              "label": "진료 안내 카드",
+              "fieldKeys": [
+                "field_footer__guide__clinic__guide_name",
+                "field_footer__guide__clinic__representative",
+                "field_footer__guide__clinic__representative_title",
+                "field_footer__guide__clinic__phone_display",
+                "field_footer__guide__clinic__address__detail",
+                "field_footer__guide__clinic__hours__label",
+                "field_footer__guide__clinic__hours__value",
+                "field_footer__guide__clinic__holiday_note",
+                "field_footer__guide__clinic__lunch_note",
+                "field_footer__guide__clinic__directions__label",
+                "field_footer__guide__clinic__directions__text",
+                "field_footer__guide__clinic__doctor_portrait__alt",
+                "field_footer__guide__clinic__social__cafe",
+                "field_footer__guide__clinic__social__naver_booking",
+                "field_footer__guide__clinic__social__blog",
+                "field_footer__guide__clinic__social__naver_talk",
+                "field_footer__guide__clinic__social__kakao",
+                "field_footer__guide__labels__phone",
+                "field_footer__guide__labels__hours",
+                "field_footer__guide__labels__question",
+                "field_footer__guide__labels__booking",
+                "field_footer__guide__labels__blog",
+                "field_footer__guide__labels__talk",
+                "field_footer__guide__labels__kakao"
+              ],
+              "allowHide": true,
+              "allowDelete": false
+            },
+            {
+              "key": "notice",
+              "label": "의료 고지",
+              "fieldKeys": [
+                "field_footer__notice__title",
+                "field_footer__notice__body"
+              ],
+              "allowHide": false,
+              "allowDelete": false
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "models": [
+    {
+      "key": "faq",
+      "label": "FAQ",
+      "cardinality": "collection",
+      "preset": "article",
+      "source": "site",
+      "state": "active",
+      "compatibilityCollectionKey": "faq",
+      "presentation": {
+        "kind": "category_tree",
+        "basePath": "/faq",
+        "categoryDepth": 2,
+        "entryCategory": "leaf",
+        "templateKey": "faq"
+      },
+      "editor": {
+        "labels": {
+          "title": "질문",
+          "excerpt": "요약 답변 (필수)",
+          "body": "상세 답변",
+          "categories": "영역 · 질환",
+          "tags": "검색 태그 (선택)"
+        },
+        "helpText": {
+          "excerpt": "질문에 대한 핵심 답변을 2~4문장으로 작성하세요. 발행·예약하려면 반드시 입력해야 하며, 목록과 상세 화면 상단에 표시됩니다.",
+          "body": "요약 답변 아래에 표시하는 선택 내용입니다. 여러 줄로 작성하거나 HTML로 가져올 수 있으며, [[internal:faq.영역.질환.slug|표시 문구]] 예약 링크도 사용할 수 있습니다(질환이 없는 영역의 질문은 faq.영역.slug)."
+        },
+        "categoryLevels": [
+          "영역",
+          "질환"
+        ],
+        "requiredFields": [
+          "excerpt"
+        ]
+      },
+      "publication": {
+        "feed": false,
+        "archives": false,
+        "scheduling": true,
+        "author": true
+      }
+    },
+    {
+      "key": "column",
+      "label": "칼럼",
+      "cardinality": "collection",
+      "preset": "article",
+      "source": "site",
+      "state": "active",
+      "compatibilityCollectionKey": "column",
+      "presentation": {
+        "kind": "category_tree",
+        "basePath": "/column",
+        "categoryDepth": 1,
+        "templateKey": "column",
+        "feed": true,
+        "og": true,
+        "layout": "grid",
+        "categoryCardinality": "exactly-one"
+      },
+      "publication": {
+        "feed": true,
+        "archives": false,
+        "scheduling": true,
+        "author": true
+      }
+    },
+    {
+      "key": "reviews",
+      "label": "치료후기",
+      "cardinality": "collection",
+      "preset": "article",
+      "source": "site",
+      "state": "active",
+      "compatibilityCollectionKey": "reviews",
+      "presentation": {
+        "kind": "detail",
+        "detailPath": "/reviews/:slug",
+        "templateKey": "reviews",
+        "layout": "grid"
+      },
+      "publication": {
+        "feed": true,
+        "archives": false,
+        "scheduling": true,
+        "author": true
+      }
+    },
+    {
+      "key": "clinic-common",
+      "label": "공통 병원 안내",
+      "cardinality": "collection",
+      "preset": "entity",
+      "source": "site",
+      "state": "active",
+      "presentation": {
+        "kind": "data_only",
+        "listPaths": [
+          "/column",
+          "/reviews",
+          "/faq"
+        ]
+      }
+    },
+    {
+      "key": "column-footer",
+      "label": "블로그 하단 안내",
+      "cardinality": "collection",
+      "preset": "entity",
+      "source": "site",
+      "state": "active",
+      "presentation": {
+        "kind": "data_only",
+        "listPaths": [
+          "/column"
+        ]
+      }
+    },
+    {
+      "key": "reviews-footer",
+      "label": "후기 하단 안내",
+      "cardinality": "collection",
+      "preset": "entity",
+      "source": "site",
+      "state": "active",
+      "presentation": {
+        "kind": "data_only",
+        "listPaths": [
+          "/reviews"
+        ]
+      }
+    },
+    {
+      "key": "faq-footer",
+      "label": "FAQ 하단 안내",
+      "cardinality": "collection",
+      "preset": "entity",
+      "source": "site",
+      "state": "active",
+      "presentation": {
+        "kind": "data_only",
+        "listPaths": [
+          "/faq"
+        ]
+      }
+    }
+  ],
+  "fieldGroups": [
+    {
+      "key": "group_clinic_common",
+      "title": "공통 병원 안내",
+      "source": "code",
+      "location": [
+        [
+          {
+            "param": "model_key",
+            "operator": "==",
+            "value": "clinic-common"
+          },
+          {
+            "param": "post_template",
+            "operator": "==",
+            "value": "clinic-common"
+          }
+        ]
+      ],
+      "fields": [
+        {
+          "key": "field_shared",
+          "name": "shared",
+          "label": "공통 병원 정보",
+          "type": "group",
+          "subFields": [
+            {
+              "key": "field_shared__clinic",
+              "name": "clinic",
+              "label": "병원 정보",
+              "type": "group",
+              "subFields": [
+                {
+                  "key": "field_shared__clinic__representative",
+                  "name": "representative",
+                  "label": "대표원장 이름",
+                  "type": "text"
+                },
+                {
+                  "key": "field_shared__clinic__representative_title",
+                  "name": "representative_title",
+                  "label": "대표원장 직함",
+                  "type": "text"
+                },
+                {
+                  "key": "field_shared__clinic__business_number",
+                  "name": "business_number",
+                  "label": "사업자등록번호",
+                  "type": "text"
+                },
+                {
+                  "key": "field_shared__clinic__email",
+                  "name": "email",
+                  "label": "이메일",
+                  "type": "text"
+                },
+                {
+                  "key": "field_shared__clinic__phone_display",
+                  "name": "phone_display",
+                  "label": "화면 전화번호",
+                  "type": "text"
+                },
+                {
+                  "key": "field_shared__clinic__fax_display",
+                  "name": "fax_display",
+                  "label": "팩스번호",
+                  "type": "text"
+                },
+                {
+                  "key": "field_shared__clinic__address",
+                  "name": "address",
+                  "label": "주소",
+                  "type": "group",
+                  "subFields": [
+                    {
+                      "key": "field_shared__clinic__address__line",
+                      "name": "line",
+                      "label": "푸터 주소",
+                      "type": "text"
+                    }
+                  ]
+                },
+                {
+                  "key": "field_shared__clinic__copyright",
+                  "name": "copyright",
+                  "label": "저작권",
+                  "type": "text"
+                },
+                {
+                  "key": "field_shared__clinic__social",
+                  "name": "social",
+                  "label": "외부 채널 주소",
+                  "type": "group",
+                  "subFields": [
+                    {
+                      "key": "field_shared__clinic__social__naver_booking",
+                      "name": "naver_booking",
+                      "label": "네이버 예약 주소",
+                      "type": "text"
+                    },
+                    {
+                      "key": "field_shared__clinic__social__cafe",
+                      "name": "cafe",
+                      "label": "네이버 카페 주소",
+                      "type": "text"
+                    },
+                    {
+                      "key": "field_shared__clinic__social__blog",
+                      "name": "blog",
+                      "label": "네이버 블로그 주소",
+                      "type": "text"
+                    },
+                    {
+                      "key": "field_shared__clinic__social__kakao",
+                      "name": "kakao",
+                      "label": "카카오톡 채널 주소",
+                      "type": "text"
+                    },
+                    {
+                      "key": "field_shared__clinic__social__instagram",
+                      "name": "instagram",
+                      "label": "인스타그램 주소",
+                      "type": "text"
+                    }
+                  ]
+                },
+                {
+                  "key": "field_shared__clinic__schema",
+                  "name": "schema",
+                  "label": "검색 구조화 정보",
+                  "type": "group",
+                  "subFields": [
+                    {
+                      "key": "field_shared__clinic__schema__address",
+                      "name": "address",
+                      "label": "주소",
+                      "type": "group",
+                      "subFields": [
+                        {
+                          "key": "field_shared__clinic__schema__address__street_address",
+                          "name": "street_address",
+                          "label": "도로명 주소",
+                          "type": "text"
+                        },
+                        {
+                          "key": "field_shared__clinic__schema__address__address_locality",
+                          "name": "address_locality",
+                          "label": "구",
+                          "type": "text"
+                        },
+                        {
+                          "key": "field_shared__clinic__schema__address__address_region",
+                          "name": "address_region",
+                          "label": "시·도",
+                          "type": "text"
+                        },
+                        {
+                          "key": "field_shared__clinic__schema__address__address_country",
+                          "name": "address_country",
+                          "label": "국가 코드",
+                          "type": "text"
+                        }
+                      ]
+                    },
+                    {
+                      "key": "field_shared__clinic__schema__description",
+                      "name": "description",
+                      "label": "설명",
+                      "type": "text"
+                    },
+                    {
+                      "key": "field_shared__clinic__schema__available_service_names",
+                      "name": "available_service_names",
+                      "label": "진료 항목",
+                      "type": "repeater",
+                      "max": 200,
+                      "subFields": [
+                        {
+                          "key": "field_shared__clinic__schema__available_service_names__value",
+                          "name": "value",
+                          "label": "내용",
+                          "type": "text"
+                        }
+                      ]
+                    },
+                    {
+                      "key": "field_shared__clinic__schema__physician",
+                      "name": "physician",
+                      "label": "의사 정보",
+                      "type": "group",
+                      "subFields": [
+                        {
+                          "key": "field_shared__clinic__schema__physician__description",
+                          "name": "description",
+                          "label": "설명",
+                          "type": "text"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "key": "field_shared__physician",
+              "name": "physician",
+              "label": "의사 정보",
+              "type": "group",
+              "subFields": [
+                {
+                  "key": "field_shared__physician__alternate_name",
+                  "name": "alternate_name",
+                  "label": "alternateName",
+                  "type": "text"
+                }
+              ]
+            },
+            {
+              "key": "field_shared__footer",
+              "name": "footer",
+              "label": "하단 안내",
+              "type": "group",
+              "subFields": [
+                {
+                  "key": "field_shared__footer__business",
+                  "name": "business",
+                  "label": "사업자번호 앞 문구",
+                  "type": "text"
+                },
+                {
+                  "key": "field_shared__footer__representative",
+                  "name": "representative",
+                  "label": "원장 직함과 이름 사이 구분 문구",
+                  "type": "text"
+                },
+                {
+                  "key": "field_shared__footer__phone",
+                  "name": "phone",
+                  "label": "전화번호 앞 문구",
+                  "type": "text"
+                },
+                {
+                  "key": "field_shared__footer__fax",
+                  "name": "fax",
+                  "label": "팩스번호 앞 문구",
+                  "type": "text"
+                },
+                {
+                  "key": "field_shared__footer__email",
+                  "name": "email",
+                  "label": "이메일",
+                  "type": "text"
+                }
+              ]
+            },
+            {
+              "key": "field_shared__page_common",
+              "name": "page_common",
+              "label": "페이지 공통 버튼·제목",
+              "type": "group",
+              "subFields": [
+                {
+                  "key": "field_shared__page_common__cafe",
+                  "name": "cafe",
+                  "label": "카페 질문 버튼",
+                  "type": "text"
+                },
+                {
+                  "key": "field_shared__page_common__previous",
+                  "name": "previous",
+                  "label": "이전글 버튼 문구",
+                  "type": "text"
+                },
+                {
+                  "key": "field_shared__page_common__next",
+                  "name": "next",
+                  "label": "다음글 버튼 문구",
+                  "type": "text"
+                },
+                {
+                  "key": "field_shared__page_common__column_list",
+                  "name": "column_list",
+                  "label": "블로그 목록 버튼 문구",
+                  "type": "text"
+                },
+                {
+                  "key": "field_shared__page_common__reviews_list",
+                  "name": "reviews_list",
+                  "label": "후기 목록 버튼 문구",
+                  "type": "text"
+                },
+                {
+                  "key": "field_shared__page_common__related_reviews",
+                  "name": "related_reviews",
+                  "label": "관련 후기 제목",
+                  "type": "text"
+                },
+                {
+                  "key": "field_shared__page_common__all_reviews",
+                  "name": "all_reviews",
+                  "label": "전체 후기 버튼 문구",
+                  "type": "text"
+                },
+                {
+                  "key": "field_shared__page_common__preferred_source",
+                  "name": "preferred_source",
+                  "label": "선호 출처 버튼 문구",
+                  "type": "text"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "group_column_footer",
+      "title": "블로그 하단 안내",
+      "source": "code",
+      "location": [
+        [
+          {
+            "param": "model_key",
+            "operator": "==",
+            "value": "column-footer"
+          },
+          {
+            "param": "post_template",
+            "operator": "==",
+            "value": "column-footer"
+          }
+        ]
+      ],
+      "fields": [
+        {
+          "key": "field_footer",
+          "name": "footer",
+          "label": "하단 안내",
+          "type": "group",
+          "subFields": [
+            {
+              "key": "field_footer__guide",
+              "name": "guide",
+              "label": "진료 안내 카드",
+              "type": "group",
+              "subFields": [
+                {
+                  "key": "field_footer__guide__clinic",
+                  "name": "clinic",
+                  "label": "병원 정보",
+                  "type": "group",
+                  "subFields": [
+                    {
+                      "key": "field_footer__guide__clinic__guide_name",
+                      "name": "guide_name",
+                      "label": "안내 카드 병원 이름",
+                      "type": "text"
+                    },
+                    {
+                      "key": "field_footer__guide__clinic__representative",
+                      "name": "representative",
+                      "label": "대표원장 이름",
+                      "type": "text"
+                    },
+                    {
+                      "key": "field_footer__guide__clinic__representative_title",
+                      "name": "representative_title",
+                      "label": "대표원장 직함",
+                      "type": "text"
+                    },
+                    {
+                      "key": "field_footer__guide__clinic__phone_display",
+                      "name": "phone_display",
+                      "label": "화면 전화번호",
+                      "type": "text"
+                    },
+                    {
+                      "key": "field_footer__guide__clinic__address",
+                      "name": "address",
+                      "label": "주소",
+                      "type": "group",
+                      "subFields": [
+                        {
+                          "key": "field_footer__guide__clinic__address__detail",
+                          "name": "detail",
+                          "label": "상세 주소",
+                          "type": "text"
+                        }
+                      ]
+                    },
+                    {
+                      "key": "field_footer__guide__clinic__hours",
+                      "name": "hours",
+                      "label": "진료시간",
+                      "type": "repeater",
+                      "max": 200,
+                      "subFields": [
+                        {
+                          "key": "field_footer__guide__clinic__hours__label",
+                          "name": "label",
+                          "label": "표시 이름",
+                          "type": "text"
+                        },
+                        {
+                          "key": "field_footer__guide__clinic__hours__value",
+                          "name": "value",
+                          "label": "내용",
+                          "type": "text"
+                        }
+                      ]
+                    },
+                    {
+                      "key": "field_footer__guide__clinic__holiday_note",
+                      "name": "holiday_note",
+                      "label": "휴진 안내",
+                      "type": "text"
+                    },
+                    {
+                      "key": "field_footer__guide__clinic__lunch_note",
+                      "name": "lunch_note",
+                      "label": "점심시간 안내",
+                      "type": "text"
+                    },
+                    {
+                      "key": "field_footer__guide__clinic__directions",
+                      "name": "directions",
+                      "label": "오시는 길",
+                      "type": "repeater",
+                      "max": 200,
+                      "subFields": [
+                        {
+                          "key": "field_footer__guide__clinic__directions__label",
+                          "name": "label",
+                          "label": "표시 이름",
+                          "type": "text"
+                        },
+                        {
+                          "key": "field_footer__guide__clinic__directions__text",
+                          "name": "text",
+                          "label": "설명",
+                          "type": "textarea"
+                        }
+                      ]
+                    },
+                    {
+                      "key": "field_footer__guide__clinic__doctor_portrait",
+                      "name": "doctor_portrait",
+                      "label": "원장 사진",
+                      "type": "group",
+                      "subFields": [
+                        {
+                          "key": "field_footer__guide__clinic__doctor_portrait__alt",
+                          "name": "alt",
+                          "label": "사진 설명",
+                          "type": "text"
+                        }
+                      ]
+                    },
+                    {
+                      "key": "field_footer__guide__clinic__social",
+                      "name": "social",
+                      "label": "외부 채널 주소",
+                      "type": "group",
+                      "subFields": [
+                        {
+                          "key": "field_footer__guide__clinic__social__cafe",
+                          "name": "cafe",
+                          "label": "네이버 카페 주소",
+                          "type": "text"
+                        },
+                        {
+                          "key": "field_footer__guide__clinic__social__naver_booking",
+                          "name": "naver_booking",
+                          "label": "네이버 예약 주소",
+                          "type": "text"
+                        },
+                        {
+                          "key": "field_footer__guide__clinic__social__blog",
+                          "name": "blog",
+                          "label": "네이버 블로그 주소",
+                          "type": "text"
+                        },
+                        {
+                          "key": "field_footer__guide__clinic__social__naver_talk",
+                          "name": "naver_talk",
+                          "label": "네이버톡톡 주소",
+                          "type": "text"
+                        },
+                        {
+                          "key": "field_footer__guide__clinic__social__kakao",
+                          "name": "kakao",
+                          "label": "카카오톡 채널 주소",
+                          "type": "text"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "key": "field_footer__guide__labels",
+                  "name": "labels",
+                  "label": "카드 표시 문구",
+                  "type": "group",
+                  "subFields": [
+                    {
+                      "key": "field_footer__guide__labels__phone",
+                      "name": "phone",
+                      "label": "전화번호 앞 문구",
+                      "type": "text"
+                    },
+                    {
+                      "key": "field_footer__guide__labels__hours",
+                      "name": "hours",
+                      "label": "진료시간",
+                      "type": "text"
+                    },
+                    {
+                      "key": "field_footer__guide__labels__question",
+                      "name": "question",
+                      "label": "질문 버튼 문구",
+                      "type": "text"
+                    },
+                    {
+                      "key": "field_footer__guide__labels__booking",
+                      "name": "booking",
+                      "label": "예약 버튼 문구",
+                      "type": "text"
+                    },
+                    {
+                      "key": "field_footer__guide__labels__blog",
+                      "name": "blog",
+                      "label": "블로그",
+                      "type": "text"
+                    },
+                    {
+                      "key": "field_footer__guide__labels__talk",
+                      "name": "talk",
+                      "label": "네이버톡톡 버튼 문구",
+                      "type": "text"
+                    },
+                    {
+                      "key": "field_footer__guide__labels__kakao",
+                      "name": "kakao",
+                      "label": "카카오톡",
+                      "type": "text"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "key": "field_footer__notice",
+              "name": "notice",
+              "label": "의료 고지",
+              "type": "group",
+              "subFields": [
+                {
+                  "key": "field_footer__notice__title",
+                  "name": "title",
+                  "label": "제목",
+                  "type": "text"
+                },
+                {
+                  "key": "field_footer__notice__body",
+                  "name": "body",
+                  "label": "본문",
+                  "type": "textarea"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "group_reviews_footer",
+      "title": "후기 하단 안내",
+      "source": "code",
+      "location": [
+        [
+          {
+            "param": "model_key",
+            "operator": "==",
+            "value": "reviews-footer"
+          },
+          {
+            "param": "post_template",
+            "operator": "==",
+            "value": "reviews-footer"
+          }
+        ]
+      ],
+      "fields": [
+        {
+          "key": "field_footer",
+          "name": "footer",
+          "label": "하단 안내",
+          "type": "group",
+          "subFields": [
+            {
+              "key": "field_footer__guide",
+              "name": "guide",
+              "label": "진료 안내 카드",
+              "type": "group",
+              "subFields": [
+                {
+                  "key": "field_footer__guide__clinic",
+                  "name": "clinic",
+                  "label": "병원 정보",
+                  "type": "group",
+                  "subFields": [
+                    {
+                      "key": "field_footer__guide__clinic__guide_name",
+                      "name": "guide_name",
+                      "label": "안내 카드 병원 이름",
+                      "type": "text"
+                    },
+                    {
+                      "key": "field_footer__guide__clinic__representative",
+                      "name": "representative",
+                      "label": "대표원장 이름",
+                      "type": "text"
+                    },
+                    {
+                      "key": "field_footer__guide__clinic__representative_title",
+                      "name": "representative_title",
+                      "label": "대표원장 직함",
+                      "type": "text"
+                    },
+                    {
+                      "key": "field_footer__guide__clinic__phone_display",
+                      "name": "phone_display",
+                      "label": "화면 전화번호",
+                      "type": "text"
+                    },
+                    {
+                      "key": "field_footer__guide__clinic__address",
+                      "name": "address",
+                      "label": "주소",
+                      "type": "group",
+                      "subFields": [
+                        {
+                          "key": "field_footer__guide__clinic__address__detail",
+                          "name": "detail",
+                          "label": "상세 주소",
+                          "type": "text"
+                        }
+                      ]
+                    },
+                    {
+                      "key": "field_footer__guide__clinic__hours",
+                      "name": "hours",
+                      "label": "진료시간",
+                      "type": "repeater",
+                      "max": 200,
+                      "subFields": [
+                        {
+                          "key": "field_footer__guide__clinic__hours__label",
+                          "name": "label",
+                          "label": "표시 이름",
+                          "type": "text"
+                        },
+                        {
+                          "key": "field_footer__guide__clinic__hours__value",
+                          "name": "value",
+                          "label": "내용",
+                          "type": "text"
+                        }
+                      ]
+                    },
+                    {
+                      "key": "field_footer__guide__clinic__holiday_note",
+                      "name": "holiday_note",
+                      "label": "휴진 안내",
+                      "type": "text"
+                    },
+                    {
+                      "key": "field_footer__guide__clinic__lunch_note",
+                      "name": "lunch_note",
+                      "label": "점심시간 안내",
+                      "type": "text"
+                    },
+                    {
+                      "key": "field_footer__guide__clinic__directions",
+                      "name": "directions",
+                      "label": "오시는 길",
+                      "type": "repeater",
+                      "max": 200,
+                      "subFields": [
+                        {
+                          "key": "field_footer__guide__clinic__directions__label",
+                          "name": "label",
+                          "label": "표시 이름",
+                          "type": "text"
+                        },
+                        {
+                          "key": "field_footer__guide__clinic__directions__text",
+                          "name": "text",
+                          "label": "설명",
+                          "type": "textarea"
+                        }
+                      ]
+                    },
+                    {
+                      "key": "field_footer__guide__clinic__doctor_portrait",
+                      "name": "doctor_portrait",
+                      "label": "원장 사진",
+                      "type": "group",
+                      "subFields": [
+                        {
+                          "key": "field_footer__guide__clinic__doctor_portrait__alt",
+                          "name": "alt",
+                          "label": "사진 설명",
+                          "type": "text"
+                        }
+                      ]
+                    },
+                    {
+                      "key": "field_footer__guide__clinic__social",
+                      "name": "social",
+                      "label": "외부 채널 주소",
+                      "type": "group",
+                      "subFields": [
+                        {
+                          "key": "field_footer__guide__clinic__social__cafe",
+                          "name": "cafe",
+                          "label": "네이버 카페 주소",
+                          "type": "text"
+                        },
+                        {
+                          "key": "field_footer__guide__clinic__social__naver_booking",
+                          "name": "naver_booking",
+                          "label": "네이버 예약 주소",
+                          "type": "text"
+                        },
+                        {
+                          "key": "field_footer__guide__clinic__social__blog",
+                          "name": "blog",
+                          "label": "네이버 블로그 주소",
+                          "type": "text"
+                        },
+                        {
+                          "key": "field_footer__guide__clinic__social__naver_talk",
+                          "name": "naver_talk",
+                          "label": "네이버톡톡 주소",
+                          "type": "text"
+                        },
+                        {
+                          "key": "field_footer__guide__clinic__social__kakao",
+                          "name": "kakao",
+                          "label": "카카오톡 채널 주소",
+                          "type": "text"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "key": "field_footer__guide__labels",
+                  "name": "labels",
+                  "label": "카드 표시 문구",
+                  "type": "group",
+                  "subFields": [
+                    {
+                      "key": "field_footer__guide__labels__phone",
+                      "name": "phone",
+                      "label": "전화번호 앞 문구",
+                      "type": "text"
+                    },
+                    {
+                      "key": "field_footer__guide__labels__hours",
+                      "name": "hours",
+                      "label": "진료시간",
+                      "type": "text"
+                    },
+                    {
+                      "key": "field_footer__guide__labels__question",
+                      "name": "question",
+                      "label": "질문 버튼 문구",
+                      "type": "text"
+                    },
+                    {
+                      "key": "field_footer__guide__labels__booking",
+                      "name": "booking",
+                      "label": "예약 버튼 문구",
+                      "type": "text"
+                    },
+                    {
+                      "key": "field_footer__guide__labels__blog",
+                      "name": "blog",
+                      "label": "블로그",
+                      "type": "text"
+                    },
+                    {
+                      "key": "field_footer__guide__labels__talk",
+                      "name": "talk",
+                      "label": "네이버톡톡 버튼 문구",
+                      "type": "text"
+                    },
+                    {
+                      "key": "field_footer__guide__labels__kakao",
+                      "name": "kakao",
+                      "label": "카카오톡",
+                      "type": "text"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "key": "field_footer__notice",
+              "name": "notice",
+              "label": "의료 고지",
+              "type": "group",
+              "subFields": [
+                {
+                  "key": "field_footer__notice__title",
+                  "name": "title",
+                  "label": "제목",
+                  "type": "text"
+                },
+                {
+                  "key": "field_footer__notice__body",
+                  "name": "body",
+                  "label": "본문",
+                  "type": "textarea"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "group_faq_footer",
+      "title": "FAQ 하단 안내",
+      "source": "code",
+      "location": [
+        [
+          {
+            "param": "model_key",
+            "operator": "==",
+            "value": "faq-footer"
+          },
+          {
+            "param": "post_template",
+            "operator": "==",
+            "value": "faq-footer"
+          }
+        ]
+      ],
+      "fields": [
+        {
+          "key": "field_footer",
+          "name": "footer",
+          "label": "하단 안내",
+          "type": "group",
+          "subFields": [
+            {
+              "key": "field_footer__guide",
+              "name": "guide",
+              "label": "진료 안내 카드",
+              "type": "group",
+              "subFields": [
+                {
+                  "key": "field_footer__guide__clinic",
+                  "name": "clinic",
+                  "label": "병원 정보",
+                  "type": "group",
+                  "subFields": [
+                    {
+                      "key": "field_footer__guide__clinic__guide_name",
+                      "name": "guide_name",
+                      "label": "안내 카드 병원 이름",
+                      "type": "text"
+                    },
+                    {
+                      "key": "field_footer__guide__clinic__representative",
+                      "name": "representative",
+                      "label": "대표원장 이름",
+                      "type": "text"
+                    },
+                    {
+                      "key": "field_footer__guide__clinic__representative_title",
+                      "name": "representative_title",
+                      "label": "대표원장 직함",
+                      "type": "text"
+                    },
+                    {
+                      "key": "field_footer__guide__clinic__phone_display",
+                      "name": "phone_display",
+                      "label": "화면 전화번호",
+                      "type": "text"
+                    },
+                    {
+                      "key": "field_footer__guide__clinic__address",
+                      "name": "address",
+                      "label": "주소",
+                      "type": "group",
+                      "subFields": [
+                        {
+                          "key": "field_footer__guide__clinic__address__detail",
+                          "name": "detail",
+                          "label": "상세 주소",
+                          "type": "text"
+                        }
+                      ]
+                    },
+                    {
+                      "key": "field_footer__guide__clinic__hours",
+                      "name": "hours",
+                      "label": "진료시간",
+                      "type": "repeater",
+                      "max": 200,
+                      "subFields": [
+                        {
+                          "key": "field_footer__guide__clinic__hours__label",
+                          "name": "label",
+                          "label": "표시 이름",
+                          "type": "text"
+                        },
+                        {
+                          "key": "field_footer__guide__clinic__hours__value",
+                          "name": "value",
+                          "label": "내용",
+                          "type": "text"
+                        }
+                      ]
+                    },
+                    {
+                      "key": "field_footer__guide__clinic__holiday_note",
+                      "name": "holiday_note",
+                      "label": "휴진 안내",
+                      "type": "text"
+                    },
+                    {
+                      "key": "field_footer__guide__clinic__lunch_note",
+                      "name": "lunch_note",
+                      "label": "점심시간 안내",
+                      "type": "text"
+                    },
+                    {
+                      "key": "field_footer__guide__clinic__directions",
+                      "name": "directions",
+                      "label": "오시는 길",
+                      "type": "repeater",
+                      "max": 200,
+                      "subFields": [
+                        {
+                          "key": "field_footer__guide__clinic__directions__label",
+                          "name": "label",
+                          "label": "표시 이름",
+                          "type": "text"
+                        },
+                        {
+                          "key": "field_footer__guide__clinic__directions__text",
+                          "name": "text",
+                          "label": "설명",
+                          "type": "textarea"
+                        }
+                      ]
+                    },
+                    {
+                      "key": "field_footer__guide__clinic__doctor_portrait",
+                      "name": "doctor_portrait",
+                      "label": "원장 사진",
+                      "type": "group",
+                      "subFields": [
+                        {
+                          "key": "field_footer__guide__clinic__doctor_portrait__alt",
+                          "name": "alt",
+                          "label": "사진 설명",
+                          "type": "text"
+                        }
+                      ]
+                    },
+                    {
+                      "key": "field_footer__guide__clinic__social",
+                      "name": "social",
+                      "label": "외부 채널 주소",
+                      "type": "group",
+                      "subFields": [
+                        {
+                          "key": "field_footer__guide__clinic__social__cafe",
+                          "name": "cafe",
+                          "label": "네이버 카페 주소",
+                          "type": "text"
+                        },
+                        {
+                          "key": "field_footer__guide__clinic__social__naver_booking",
+                          "name": "naver_booking",
+                          "label": "네이버 예약 주소",
+                          "type": "text"
+                        },
+                        {
+                          "key": "field_footer__guide__clinic__social__blog",
+                          "name": "blog",
+                          "label": "네이버 블로그 주소",
+                          "type": "text"
+                        },
+                        {
+                          "key": "field_footer__guide__clinic__social__naver_talk",
+                          "name": "naver_talk",
+                          "label": "네이버톡톡 주소",
+                          "type": "text"
+                        },
+                        {
+                          "key": "field_footer__guide__clinic__social__kakao",
+                          "name": "kakao",
+                          "label": "카카오톡 채널 주소",
+                          "type": "text"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "key": "field_footer__guide__labels",
+                  "name": "labels",
+                  "label": "카드 표시 문구",
+                  "type": "group",
+                  "subFields": [
+                    {
+                      "key": "field_footer__guide__labels__phone",
+                      "name": "phone",
+                      "label": "전화번호 앞 문구",
+                      "type": "text"
+                    },
+                    {
+                      "key": "field_footer__guide__labels__hours",
+                      "name": "hours",
+                      "label": "진료시간",
+                      "type": "text"
+                    },
+                    {
+                      "key": "field_footer__guide__labels__question",
+                      "name": "question",
+                      "label": "질문 버튼 문구",
+                      "type": "text"
+                    },
+                    {
+                      "key": "field_footer__guide__labels__booking",
+                      "name": "booking",
+                      "label": "예약 버튼 문구",
+                      "type": "text"
+                    },
+                    {
+                      "key": "field_footer__guide__labels__blog",
+                      "name": "blog",
+                      "label": "블로그",
+                      "type": "text"
+                    },
+                    {
+                      "key": "field_footer__guide__labels__talk",
+                      "name": "talk",
+                      "label": "네이버톡톡 버튼 문구",
+                      "type": "text"
+                    },
+                    {
+                      "key": "field_footer__guide__labels__kakao",
+                      "name": "kakao",
+                      "label": "카카오톡",
+                      "type": "text"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "key": "field_footer__notice",
+              "name": "notice",
+              "label": "의료 고지",
+              "type": "group",
+              "subFields": [
+                {
+                  "key": "field_footer__notice__title",
+                  "name": "title",
+                  "label": "제목",
+                  "type": "text"
+                },
+                {
+                  "key": "field_footer__notice__body",
+                  "name": "body",
+                  "label": "본문",
+                  "type": "text"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "entries": [
+    {
+      "id": "01a1ab15-6532-7925-972e-f605a9e77507",
+      "contractPageKey": null,
+      "modelKey": "clinic-common",
+      "templateKey": "clinic-common",
+      "path": null,
+      "title": "공통 병원 안내",
+      "slug": "clinic-common",
+      "locale": "ko",
+      "excerpt": "",
+      "seo": {},
+      "fields": {
+        "shared": {
+          "clinic": {
+            "representative": "이경무",
+            "representative_title": "대표원장",
+            "business_number": "322-91-01246",
+            "email": "madi2020@naver.com",
+            "phone_display": "062-675-0750",
+            "fax_display": "062-675-0760",
+            "address": {
+              "line": "전남광주통합특별시 남구 독립로 14 1~3F"
+            },
+            "copyright": "Copyright MADI Clinic. All rights reserved.",
+            "social": {
+              "naver_booking": "https://m.booking.naver.com/booking/13/bizes/823238?theme=place&area=pll",
+              "cafe": "https://cafe.naver.com/newzenserver",
+              "blog": "https://blog.naver.com/gshj4938",
+              "kakao": "https://pf.kakao.com/_YIYSxj",
+              "instagram": "https://instagram.com/madiclinic2020"
+            },
+            "schema": {
+              "address": {
+                "street_address": "독립로 14, 1~3층",
+                "address_locality": "남구",
+                "address_region": "전남광주통합특별시",
+                "address_country": "KR"
+              },
+              "description": "영상유도하 통증중재시술 의료기관. 인대증식술·ESWT·신경차단술·도수치료·IVNT 등 비수술 중점치료.",
+              "available_service_names": [
+                {
+                  "_id": "01a1ab15-6532-7483-bb60-5a9f9d31fbb3",
+                  "value": "인대증식술"
+                },
+                {
+                  "_id": "01a1ab15-6532-714b-b572-e4bfbfeddc6d",
+                  "value": "ESWT(체외충격파치료)"
+                },
+                {
+                  "_id": "01a1ab15-6532-7bcc-8bca-0e9ddd3a1e3f",
+                  "value": "신경차단술"
+                },
+                {
+                  "_id": "01a1ab15-6532-7589-9c70-0e36e9068fba",
+                  "value": "도수치료"
+                },
+                {
+                  "_id": "01a1ab15-6532-7ccc-aee7-81aa5132bca8",
+                  "value": "IVNT(신경치료주사)"
+                }
+              ],
+              "physician": {
+                "description": "영상유도하 통증중재시술"
+              }
+            }
+          },
+          "physician": {
+            "alternate_name": ""
+          },
+          "footer": {
+            "business": "사업자등록번호 : ",
+            "representative": " : ",
+            "phone": "TEL / ",
+            "fax": "FAX / ",
+            "email": "EMAIL / "
+          },
+          "page_common": {
+            "cafe": "카페에 질문하기",
+            "previous": "이전글",
+            "next": "다음글",
+            "column_list": "블로그 목록",
+            "reviews_list": "후기 목록",
+            "related_reviews": "다른 치료 경험",
+            "all_reviews": "전체 후기 보기",
+            "preferred_source": "선호 출처로 추가"
+          }
+        }
+      },
+      "contentEditor": {
+        "sectionStates": {},
+        "primaryTermId": null,
+        "cta": {
+          "mode": "auto",
+          "targetPostId": null
+        }
+      },
+      "source": {
+        "files": [
+          {
+            "path": "src/data/clinic.ts",
+            "sha256": "054fef03e07fff020143674373ecdd5b80679e25c707589aca6d8777d3a4931c"
+          },
+          {
+            "path": "src/features/site-content/defaults.ts",
+            "sha256": "0d52029e631ecef111c7735ac8f9418eb4daa412a6dae8062d27b3df42d8ccc3"
+          },
+          {
+            "path": "src/features/column/column-content.ts",
+            "sha256": "0e1d4b093ea2a50322bacc25742987b2bf381faa92b69d517bf098f7cb2039f2"
+          },
+          {
+            "path": "src/features/reviews/review-content.ts",
+            "sha256": "f82da0f7fa00cce47437576f315972aa0089ef871fe3e4fd3df49ff8f8122626"
+          },
+          {
+            "path": "src/features/faq/faq-content.ts",
+            "sha256": "3eef5cfa90b2b4cba0c86aa2fe7eae40434744dde68585d6ff4d47a8b8763939"
+          }
+        ],
+        "valueSha256": "971457f625a732edabe18ba21181449a23c3683bb88f100933c0f6403108381a"
+      }
+    },
+    {
+      "id": "01a1ab15-6532-7df0-9a6c-d3c0e0000010",
+      "contractPageKey": null,
+      "modelKey": "column-footer",
+      "templateKey": "column-footer",
+      "path": null,
+      "title": "블로그 하단 안내",
+      "slug": "column-footer",
+      "locale": "ko",
+      "excerpt": "",
+      "seo": {},
+      "fields": {
+        "footer": {
+          "guide": {
+            "clinic": {
+              "guide_name": "마디의원",
+              "representative": "이경무",
+              "representative_title": "대표원장",
+              "phone_display": "062-675-0750",
+              "address": {
+                "detail": "전남광주통합특별시 남구 독립로 14, 1~3층 (백운동)"
+              },
+              "hours": [
+                {
+                  "_id": "01a1ab15-6532-775c-a7e0-2182841fa13f",
+                  "label": "월·화·수",
+                  "value": "09:00~19:00"
+                },
+                {
+                  "_id": "01a1ab15-6532-7bc6-a956-ae542e63f492",
+                  "label": "목요일",
+                  "value": "09:00~13:00"
+                },
+                {
+                  "_id": "01a1ab15-6532-7f8c-8994-5b60c0fe43fd",
+                  "label": "금요일",
+                  "value": "09:00~18:00"
+                },
+                {
+                  "_id": "01a1ab15-6532-7959-9aec-495f1dd53544",
+                  "label": "토요일",
+                  "value": "09:00~13:00"
+                }
+              ],
+              "holiday_note": "일요일·공휴일 휴진",
+              "lunch_note": "평일 점심시간 13:00~14:00",
+              "directions": [
+                {
+                  "_id": "01a1ab15-6532-777a-802f-133673358581",
+                  "label": "버스",
+                  "text": "백운우체국 정류장에서 하차하시면 됩니다. 마디의원은 전남광주통합특별시 남구 백운동 백운우체국 옆, 독립로 14에 위치해 있습니다. 백운우체국 정류소 번호는 3093이며, 금남55·대촌70·대촌170·대촌171·마을715·매월06·송암68·송정99·수완12·순환01B·운림50·진월07·진월79·진월177 노선이 정차합니다."
+                },
+                {
+                  "_id": "01a1ab15-6532-7249-a545-788c5f8a7999",
+                  "label": "자가용",
+                  "text": "네이버지도·카카오맵·차량 내비게이션에서 “광주 마디의원”을 검색해 주세요. 검색이 어려운 경우 “전남광주통합특별시 남구 독립로 14”를 목적지로 입력하시면 됩니다."
+                },
+                {
+                  "_id": "01a1ab15-6532-739d-9bee-c0c5380757d0",
+                  "label": "위치",
+                  "text": "전남광주통합특별시 남구 백운동, 백운우체국 옆에 위치한 마디의원 1~3층입니다."
+                },
+                {
+                  "_id": "01a1ab15-6532-7d39-b3e6-bc3d842f226f",
+                  "label": "주차",
+                  "text": "내원 환자 주차가 가능합니다."
+                }
+              ],
+              "doctor_portrait": {
+                "alt": "마디의원 이경무 대표원장"
+              },
+              "social": {
+                "cafe": "https://cafe.naver.com/newzenserver",
+                "naver_booking": "https://m.booking.naver.com/booking/13/bizes/823238?theme=place&area=pll",
+                "blog": "https://blog.naver.com/gshj4938",
+                "naver_talk": "https://talk.naver.com/ct/w4noyc?frm=mnmb&frm=nmb_detail#nafullscreen",
+                "kakao": "https://pf.kakao.com/_YIYSxj"
+              }
+            },
+            "labels": {
+              "phone": "대표전화 : ",
+              "hours": "진료시간",
+              "question": "질문하기",
+              "booking": "예약하기",
+              "blog": "블로그",
+              "talk": "네이버톡톡",
+              "kakao": "카카오톡"
+            }
+          },
+          "notice": {
+            "title": "의료 콘텐츠 안내",
+            "body": "이 글은 환자 교육을 위한 정보 제공용 콘텐츠입니다. 개인의 상태에 따라 통증의 원인과 치료 경과는 다를 수 있으므로, 구체적인 진단과 치료는 의료진과 상담해 주세요."
+          }
+        }
+      },
+      "contentEditor": {
+        "sectionStates": {},
+        "primaryTermId": null,
+        "cta": {
+          "mode": "auto",
+          "targetPostId": null
+        }
+      },
+      "source": {
+        "files": [
+          {
+            "path": "src/data/clinic.ts",
+            "sha256": "054fef03e07fff020143674373ecdd5b80679e25c707589aca6d8777d3a4931c"
+          },
+          {
+            "path": "src/features/site-content/defaults.ts",
+            "sha256": "0d52029e631ecef111c7735ac8f9418eb4daa412a6dae8062d27b3df42d8ccc3"
+          },
+          {
+            "path": "src/features/column/column-content.ts",
+            "sha256": "0e1d4b093ea2a50322bacc25742987b2bf381faa92b69d517bf098f7cb2039f2"
+          },
+          {
+            "path": "src/features/reviews/review-content.ts",
+            "sha256": "f82da0f7fa00cce47437576f315972aa0089ef871fe3e4fd3df49ff8f8122626"
+          },
+          {
+            "path": "src/features/faq/faq-content.ts",
+            "sha256": "3eef5cfa90b2b4cba0c86aa2fe7eae40434744dde68585d6ff4d47a8b8763939"
+          }
+        ],
+        "valueSha256": "b6808974d87e237be4ba0cad041989afd8d14feb8c807f049adf44fca79d16c7"
+      }
+    },
+    {
+      "id": "01a1ab15-6532-7859-a730-2110ece54375",
+      "contractPageKey": null,
+      "modelKey": "reviews-footer",
+      "templateKey": "reviews-footer",
+      "path": null,
+      "title": "후기 하단 안내",
+      "slug": "reviews-footer",
+      "locale": "ko",
+      "excerpt": "",
+      "seo": {},
+      "fields": {
+        "footer": {
+          "guide": {
+            "clinic": {
+              "guide_name": "마디의원",
+              "representative": "이경무",
+              "representative_title": "대표원장",
+              "phone_display": "062-675-0750",
+              "address": {
+                "detail": "전남광주통합특별시 남구 독립로 14, 1~3층 (백운동)"
+              },
+              "hours": [
+                {
+                  "_id": "01a1ab15-6532-7935-85c3-e1c3ef6ebba6",
+                  "label": "월·화·수",
+                  "value": "09:00~19:00"
+                },
+                {
+                  "_id": "01a1ab15-6532-7363-be09-58da7b261d1e",
+                  "label": "목요일",
+                  "value": "09:00~13:00"
+                },
+                {
+                  "_id": "01a1ab15-6532-7792-963c-a320dc189a76",
+                  "label": "금요일",
+                  "value": "09:00~18:00"
+                },
+                {
+                  "_id": "01a1ab15-6532-77fb-990f-6a0c71a9c56a",
+                  "label": "토요일",
+                  "value": "09:00~13:00"
+                }
+              ],
+              "holiday_note": "일요일·공휴일 휴진",
+              "lunch_note": "평일 점심시간 13:00~14:00",
+              "directions": [
+                {
+                  "_id": "01a1ab15-6532-7970-a49c-41b068f137fa",
+                  "label": "버스",
+                  "text": "백운우체국 정류장에서 하차하시면 됩니다. 마디의원은 전남광주통합특별시 남구 백운동 백운우체국 옆, 독립로 14에 위치해 있습니다. 백운우체국 정류소 번호는 3093이며, 금남55·대촌70·대촌170·대촌171·마을715·매월06·송암68·송정99·수완12·순환01B·운림50·진월07·진월79·진월177 노선이 정차합니다."
+                },
+                {
+                  "_id": "01a1ab15-6532-7cef-9950-d39b1abd5b25",
+                  "label": "자가용",
+                  "text": "네이버지도·카카오맵·차량 내비게이션에서 “광주 마디의원”을 검색해 주세요. 검색이 어려운 경우 “전남광주통합특별시 남구 독립로 14”를 목적지로 입력하시면 됩니다."
+                },
+                {
+                  "_id": "01a1ab15-6532-728b-af39-dee853651074",
+                  "label": "위치",
+                  "text": "전남광주통합특별시 남구 백운동, 백운우체국 옆에 위치한 마디의원 1~3층입니다."
+                },
+                {
+                  "_id": "01a1ab15-6532-783c-b978-90e44a0ea4f3",
+                  "label": "주차",
+                  "text": "내원 환자 주차가 가능합니다."
+                }
+              ],
+              "doctor_portrait": {
+                "alt": "마디의원 이경무 대표원장"
+              },
+              "social": {
+                "cafe": "https://cafe.naver.com/newzenserver",
+                "naver_booking": "https://m.booking.naver.com/booking/13/bizes/823238?theme=place&area=pll",
+                "blog": "https://blog.naver.com/gshj4938",
+                "naver_talk": "https://talk.naver.com/ct/w4noyc?frm=mnmb&frm=nmb_detail#nafullscreen",
+                "kakao": "https://pf.kakao.com/_YIYSxj"
+              }
+            },
+            "labels": {
+              "phone": "대표전화 : ",
+              "hours": "진료시간",
+              "question": "질문하기",
+              "booking": "예약하기",
+              "blog": "블로그",
+              "talk": "네이버톡톡",
+              "kakao": "카카오톡"
+            }
+          },
+          "notice": {
+            "title": "치료 경험담 안내",
+            "body": "이 글은 환자 본인이 남긴 개인의 치료 경험입니다. 같은 치료를 받아도 증상의 원인·경과와 필요한 치료 기간은 개인마다 다를 수 있으며, 치료 효과를 보장하지 않습니다."
+          }
+        }
+      },
+      "contentEditor": {
+        "sectionStates": {},
+        "primaryTermId": null,
+        "cta": {
+          "mode": "auto",
+          "targetPostId": null
+        }
+      },
+      "source": {
+        "files": [
+          {
+            "path": "src/data/clinic.ts",
+            "sha256": "054fef03e07fff020143674373ecdd5b80679e25c707589aca6d8777d3a4931c"
+          },
+          {
+            "path": "src/features/site-content/defaults.ts",
+            "sha256": "0d52029e631ecef111c7735ac8f9418eb4daa412a6dae8062d27b3df42d8ccc3"
+          },
+          {
+            "path": "src/features/column/column-content.ts",
+            "sha256": "0e1d4b093ea2a50322bacc25742987b2bf381faa92b69d517bf098f7cb2039f2"
+          },
+          {
+            "path": "src/features/reviews/review-content.ts",
+            "sha256": "f82da0f7fa00cce47437576f315972aa0089ef871fe3e4fd3df49ff8f8122626"
+          },
+          {
+            "path": "src/features/faq/faq-content.ts",
+            "sha256": "3eef5cfa90b2b4cba0c86aa2fe7eae40434744dde68585d6ff4d47a8b8763939"
+          }
+        ],
+        "valueSha256": "d6eabb0b53fe24a954fe6c46e148c8fc49657a9faa4668f6df1ea5551d728254"
+      }
+    },
+    {
+      "id": "01a1ab15-6532-72ed-a0c3-97b791cb1bbd",
+      "contractPageKey": null,
+      "modelKey": "faq-footer",
+      "templateKey": "faq-footer",
+      "path": null,
+      "title": "FAQ 하단 안내",
+      "slug": "faq-footer",
+      "locale": "ko",
+      "excerpt": "",
+      "seo": {},
+      "fields": {
+        "footer": {
+          "guide": {
+            "clinic": {
+              "guide_name": "마디의원",
+              "representative": "이경무",
+              "representative_title": "대표원장",
+              "phone_display": "062-675-0750",
+              "address": {
+                "detail": "전남광주통합특별시 남구 독립로 14, 1~3층 (백운동)"
+              },
+              "hours": [
+                {
+                  "_id": "01a1ab15-6532-750e-b524-6303eebc261d",
+                  "label": "월·화·수",
+                  "value": "09:00~19:00"
+                },
+                {
+                  "_id": "01a1ab15-6532-7cd8-9c65-fbe56ee39584",
+                  "label": "목요일",
+                  "value": "09:00~13:00"
+                },
+                {
+                  "_id": "01a1ab15-6532-79ce-9ddf-39917eb69cac",
+                  "label": "금요일",
+                  "value": "09:00~18:00"
+                },
+                {
+                  "_id": "01a1ab15-6532-7783-b875-b4b0b829a65e",
+                  "label": "토요일",
+                  "value": "09:00~13:00"
+                }
+              ],
+              "holiday_note": "일요일·공휴일 휴진",
+              "lunch_note": "평일 점심시간 13:00~14:00",
+              "directions": [
+                {
+                  "_id": "01a1ab15-6532-74b1-b733-cd758b05541e",
+                  "label": "버스",
+                  "text": "백운우체국 정류장에서 하차하시면 됩니다. 마디의원은 전남광주통합특별시 남구 백운동 백운우체국 옆, 독립로 14에 위치해 있습니다. 백운우체국 정류소 번호는 3093이며, 금남55·대촌70·대촌170·대촌171·마을715·매월06·송암68·송정99·수완12·순환01B·운림50·진월07·진월79·진월177 노선이 정차합니다."
+                },
+                {
+                  "_id": "01a1ab15-6532-704d-b19c-44e10452ff4a",
+                  "label": "자가용",
+                  "text": "네이버지도·카카오맵·차량 내비게이션에서 “광주 마디의원”을 검색해 주세요. 검색이 어려운 경우 “전남광주통합특별시 남구 독립로 14”를 목적지로 입력하시면 됩니다."
+                },
+                {
+                  "_id": "01a1ab15-6532-71ef-be1b-d7e3b8fa96c7",
+                  "label": "위치",
+                  "text": "전남광주통합특별시 남구 백운동, 백운우체국 옆에 위치한 마디의원 1~3층입니다."
+                },
+                {
+                  "_id": "01a1ab15-6532-7e58-af5f-e134f1dfcf5b",
+                  "label": "주차",
+                  "text": "내원 환자 주차가 가능합니다."
+                }
+              ],
+              "doctor_portrait": {
+                "alt": "마디의원 이경무 대표원장"
+              },
+              "social": {
+                "cafe": "https://cafe.naver.com/newzenserver",
+                "naver_booking": "https://m.booking.naver.com/booking/13/bizes/823238?theme=place&area=pll",
+                "blog": "https://blog.naver.com/gshj4938",
+                "naver_talk": "https://talk.naver.com/ct/w4noyc?frm=mnmb&frm=nmb_detail#nafullscreen",
+                "kakao": "https://pf.kakao.com/_YIYSxj"
+              }
+            },
+            "labels": {
+              "phone": "대표전화 : ",
+              "hours": "진료시간",
+              "question": "질문하기",
+              "booking": "예약하기",
+              "blog": "블로그",
+              "talk": "네이버톡톡",
+              "kakao": "카카오톡"
+            }
+          },
+          "notice": {
+            "title": "읽기 전 확인해 주세요",
+            "body": "이 답변은 일반적인 건강 정보이며 개인의 진단을 대신하지 않습니다. 통증의 원인과 치료 선택은 진료를 통해 확인해 주세요."
+          }
+        }
+      },
+      "contentEditor": {
+        "sectionStates": {},
+        "primaryTermId": null,
+        "cta": {
+          "mode": "auto",
+          "targetPostId": null
+        }
+      },
+      "source": {
+        "files": [
+          {
+            "path": "src/data/clinic.ts",
+            "sha256": "054fef03e07fff020143674373ecdd5b80679e25c707589aca6d8777d3a4931c"
+          },
+          {
+            "path": "src/features/site-content/defaults.ts",
+            "sha256": "0d52029e631ecef111c7735ac8f9418eb4daa412a6dae8062d27b3df42d8ccc3"
+          },
+          {
+            "path": "src/features/column/column-content.ts",
+            "sha256": "0e1d4b093ea2a50322bacc25742987b2bf381faa92b69d517bf098f7cb2039f2"
+          },
+          {
+            "path": "src/features/reviews/review-content.ts",
+            "sha256": "f82da0f7fa00cce47437576f315972aa0089ef871fe3e4fd3df49ff8f8122626"
+          },
+          {
+            "path": "src/features/faq/faq-content.ts",
+            "sha256": "3eef5cfa90b2b4cba0c86aa2fe7eae40434744dde68585d6ff4d47a8b8763939"
+          }
+        ],
+        "valueSha256": "ad0364740eb6cb9db358c01c3a060339f25ffce8426f5a75b4690a10c144bdb2"
+      }
+    }
+  ],
+  "terms": [],
+  "references": []
+}

@@ -1,3 +1,4 @@
+import { loadSiteContent } from '../../../../features/site-content/source';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { withSiteTracking } from '../../../../features/seo/with-site-tracking';
@@ -84,7 +85,7 @@ async function FaqTopicRoute({ params, searchParams }: Props) {
   }
   if (route.kind === 'entry') {
     if (!route.entry) notFound();
-    return <FaqDetailPage collection={route.collection} entry={route.entry} section={route.section} />;
+    return <FaqDetailPage content={await loadSiteContent()} collection={route.collection} entry={route.entry} section={route.section} />;
   }
   const { collection, section, topic } = route;
   if (!section || !topic) notFound();

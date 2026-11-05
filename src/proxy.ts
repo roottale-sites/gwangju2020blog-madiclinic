@@ -1,3 +1,4 @@
+import { visualEditorOrigins } from './features/site-content/preview-origins';
 import { createRedirectMiddleware } from '@roottale/cms-renderer-next/routes';
 import { NextRequest, NextResponse } from 'next/server';
 
@@ -44,6 +45,20 @@ function redirectResponseForRequest(
  * 도메인 외 응답에는 검색 색인 방지 헤더를 유지한다.
  */
 export async function proxy(request: NextRequest): Promise<NextResponse> {
+  // 경로에서 직접 판정하고 클라이언트가 보낸 내부 표식은 덮어쓴다.
+  const requestHeaders = new Headers(request.headers);
+  requestHeaders.delete('x-madi-preview');
+  const preview = request.nextUrl.pathname.startsWith('/preview/content/');
+  if (preview) {
+    requestHeaders.set('x-madi-preview', '1');
+    const response = NextResponse.next({ request: { headers: requestHeaders } });
+    response.headers.set('Cache-Control', 'private, no-store');
+    response.headers.set('X-Robots-Tag', 'noindex, nofollow');
+    response.headers.set('Referrer-Policy', 'no-referrer');
+    response.headers.set('Content-Security-Policy', `frame-ancestors 'self' ${visualEditorOrigins().join(' ')}`);
+    response.headers.delete('X-Frame-Options');
+    return response;
+  }
   const requestHost = request.headers.get('host');
   const hostname = requestHost?.split(':', 1)[0] ?? request.nextUrl.hostname;
   const nonCanonicalHost = isNonCanonicalHost(hostname);
@@ -66,7 +81,7 @@ export async function proxy(request: NextRequest): Promise<NextResponse> {
     return NextResponse.redirect(canonicalUrl, 301);
   }
 
-  const response = NextResponse.next();
+  const response = NextResponse.next({ request: { headers: requestHeaders } });
 
   if (nonCanonicalHost) {
     response.headers.set('X-Robots-Tag', 'noindex, follow');

@@ -1,3 +1,4 @@
+import { loadSiteContent } from '../site-content/source';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { ColumnDetailView } from '../column/ColumnDetailRoute';
@@ -30,9 +31,10 @@ export default async function PostPreviewRoute({ postId, token }: Readonly<{ pos
   </PreviewMessage>;
   if (lookup.kind !== 'post') notFound();
   const post = lookup.post;
+  const content = await loadSiteContent();
   const notice = <PreviewNotice expiresAt={post.preview.expiresAt} />;
-  if (post.collectionKey === 'reviews') return <ReviewDetailView post={post} notice={notice} />;
-  if (post.collectionKey === 'faq') return FaqPreview({ post });
+  if (post.collectionKey === 'reviews') return <ReviewDetailView content={content} post={post} notice={notice} />;
+  if (post.collectionKey === 'faq') return FaqPreview({ post, content });
   const entry = columnEntryFromPost({ ...post, bodyHtml: post.bodyHtml ?? null,
     publishedAt: post.publishedAt || post.updatedAt,
   });
@@ -40,5 +42,5 @@ export default async function PostPreviewRoute({ postId, token }: Readonly<{ pos
     칼럼 분류를 하나 선택하면 실제 사이트와 같은 화면으로 미리보기를 볼 수 있습니다.
   </PreviewMessage>;
   const footerImage = await loadColumnFooterImage();
-  return <ColumnDetailView entry={entry} notice={notice} footerImage={footerImage} />;
+  return <ColumnDetailView content={content} entry={entry} notice={notice} footerImage={footerImage} />;
 }

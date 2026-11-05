@@ -2,9 +2,20 @@ import { renderToStaticMarkup } from 'react-dom/server';
 import { beforeEach, expect, test, vi } from 'vitest';
 import { reviewFixture } from '../reviews/review-fixture';
 import { faqFixtureCategories, faqFixtureCollection } from '../faq/faq-fixture';
+import { NextRequest } from 'next/server';
+import RootLayout from '../../app/layout';
+import { proxy } from '../../proxy';
+import { loadSiteContent } from '../site-content/source';
+import { initialContent } from '../site-content/fixtures';
+import { record } from '../site-content/bindings';
 import { loadPostPreview } from './post-preview';
 import PostPreviewRoute, { postPreviewMetadata } from './PostPreviewRoute';
 
+const { requestHeaders } = vi.hoisted(() => ({ requestHeaders: { current: new Headers() } }));
+vi.mock('next/headers', () => ({ headers: async () => requestHeaders.current }));
+vi.mock('next/navigation', async original => ({ ...await original<typeof import('next/navigation')>(), usePathname: () => '/preview/post/id' }));
+vi.mock('../site-content/source', () => ({ loadSiteContent: vi.fn() }));
+vi.mock('../analytics/RootAnalytics', () => ({ RootAnalytics: () => null }));
 vi.mock('./post-preview', () => ({ loadPostPreview: vi.fn() }));
 vi.mock('../column/column-footer-image', () => ({
   loadColumnFooterImage: async () => ({ src: '/preview-footer.webp', alt: '공통 하단 사진' }),
@@ -14,7 +25,10 @@ vi.mock('../faq/faq-wire', async (original) => ({
   fetchFaqCategories: async () => faqFixtureCategories,
 }));
 vi.mock('../faq/faq-source', () => ({ resolveFaqCollection: async () => faqFixtureCollection() }));
-beforeEach(() => vi.mocked(loadPostPreview).mockReset());
+beforeEach(() => {
+  vi.mocked(loadPostPreview).mockReset(); requestHeaders.current = new Headers();
+  vi.mocked(loadSiteContent).mockReset().mockResolvedValue(initialContent());
+});
 
 test.each(['column', 'reviews', 'faq'])('%s 미리보기는 해당 공개 상세 화면과 저장 전 본문을 사용한다', async (model) => {
   vi.mocked(loadPostPreview).mockResolvedValue({ kind: 'post', post: {
@@ -25,7 +39,22 @@ test.each(['column', 'reviews', 'faq'])('%s 미리보기는 해당 공개 상세
     }),
     preview: { expiresAt: '2026-09-22T01:00:00Z', sourceStatus: 'draft' },
   } });
-  const html = renderToStaticMarkup(await PostPreviewRoute({ postId: 'id', token: 'token' }));
+  const content = initialContent();
+  const shared = content.documents[0]!.fields.shared;
+  if (!record(shared) || !record(shared.clinic) || !record(shared.page_common)) throw new Error('fixture shared 누락');
+  shared.clinic.email = 'published@example.test'; shared.page_common.cafe = '발행된 공통 질문';
+  const footer = content.documents.find(doc => doc.modelKey === `${model}-footer`)!.fields.footer;
+  if (!record(footer) || !record(footer.guide) || !record(footer.guide.clinic)) throw new Error('fixture 하단 누락');
+  footer.guide.clinic.guide_name = `발행된 ${model} 안내`;
+  vi.mocked(loadSiteContent).mockResolvedValue(content);
+  const response = await proxy(new NextRequest('https://site.test/preview/post/id'));
+  requestHeaders.current = new Headers(response.headers.get('x-middleware-request-x-madi-preview') ? { 'x-madi-preview': '1' } : {});
+  const detail = await PostPreviewRoute({ postId: 'id', token: 'token' });
+  const html = renderToStaticMarkup(await RootLayout({ children: detail }));
+  expect(html).toContain('id="header"'); expect(html).toContain('id="bottom"');
+  expect(html).toContain('data-rt-image-gallery'); expect(html).toContain('published@example.test');
+  expect(html).toContain('발행된 공통 질문'); expect(html).toContain(`발행된 ${model} 안내`);
+  expect(html).toContain('application/ld+json'); expect(html).not.toContain('data-rt-edit');
   expect(html).toContain('저장 전 본문 확인');
   expect(html).toContain('미리보기');
   expect(html).toContain(model === 'reviews' ? 'review-detail' : model === 'faq' ? 'faq-detail' : 'column-detail');

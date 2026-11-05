@@ -76,7 +76,7 @@ canonical은 각 목록의 기본 주소로 유지한다.
 ## 전역 구조화 데이터
 
 `src/app/layout.tsx`가 모든 페이지에 `WebSite`·`MedicalClinic`(마디클리닉)·
-`Physician`(이경무) 세 노드를 넣는다(`siteEntityJsonLd`). 페이지별로는 목록·분류가
+`Physician`(이경무) 세 노드를 넣는다(`contentEntityJsonLd`). 페이지별로는 목록·분류가
 `CollectionPage`, 상세가 `WebPage`이고 칼럼 상세는 `Article`, FAQ 상세는 `FAQPage`,
 후기 상세는 후기 FAQ 블록이 있을 때 `FAQPage`를 더한다. `BreadcrumbList`는
 `MadiBreadcrumb`이 화면 브레드크럼과 같은 배열에서 만든다.

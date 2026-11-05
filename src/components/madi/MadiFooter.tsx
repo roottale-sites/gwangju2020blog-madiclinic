@@ -1,4 +1,7 @@
-import { clinic } from '../../data/clinic';
+import { bindGroup, contentAttributes as edit, verificationAttributes as verify, present, type SiteContent } from '../../features/site-content/bindings';
+import { commonDefaults } from '../../features/site-content/defaults';
+import Text from '../../features/site-content/EditableText';
+import { clinic as original } from '../../data/clinic';
 import { mainSiteOrigin } from '../../data/nav';
 
 /**
@@ -19,7 +22,8 @@ const footerMenu = [
   { label: '비급여 항목', href: `${mainSiteOrigin}/clinic/clinic02.html` },
 ] as const;
 
-export default function MadiFooter() {
+export default function MadiFooter({ content }: { content?: SiteContent } = {}) {
+  const { clinic, footer: labels } = bindGroup(content, 'clinic-common', 'shared', commonDefaults);
   return (
     <div id="bottom" className="clearFix">
       <ul className="bottomMenu clearFix">
@@ -32,33 +36,33 @@ export default function MadiFooter() {
 
       <div className="bottomArea clearFix">
         <div className="bottomCI clearFix">
-          <img src="/madi/img/bottomHI_gwangju2020_20240826.png" alt={clinic.logoAlt} />
+          <img src="/madi/img/bottomHI_gwangju2020_20240826.png" alt={original.logoAlt} />
         </div>
 
         <div className="copyrightArea clearFix">
           <ul className="companyInfo clearFix">
             <li>
               <ul>
-                <li>사업자등록번호 : {clinic.businessNumber}</li>
-                <li>
-                  {clinic.representativeTitle} : {clinic.representative}
-                </li>
+                {present(clinic.businessNumber) && <li><Text owner={labels} field="business">{labels.business}</Text><Text owner={clinic} field="businessNumber">{clinic.businessNumber}</Text></li>}
+                {(present(clinic.representative) || present(clinic.representativeTitle)) && <li>
+                  <Text owner={clinic} field="representativeTitle">{clinic.representativeTitle}</Text><Text owner={labels} field="representative">{labels.representative}</Text><Text owner={clinic} field="representative">{clinic.representative}</Text>
+                </li>}
               </ul>
             </li>
             <li>
               <ul>
-                <li>{clinic.address.line}</li>
+                {present(clinic.address.line) && <li {...edit(clinic.address, 'line')} {...verify(clinic.address, 'line')}>{clinic.address.line}</li>}
               </ul>
             </li>
             <li>
               <ul>
-                <li>TEL / {clinic.phoneDisplay}</li>
-                <li>FAX / {clinic.faxDisplay}</li>
-                <li>EMAIL / {clinic.email}</li>
+                {present(clinic.phoneDisplay) && <li><Text owner={labels} field="phone">{labels.phone}</Text><Text owner={clinic} field="phoneDisplay">{clinic.phoneDisplay}</Text></li>}
+                {present(clinic.faxDisplay) && <li><Text owner={labels} field="fax">{labels.fax}</Text><Text owner={clinic} field="faxDisplay">{clinic.faxDisplay}</Text></li>}
+                {present(clinic.email) && <li><Text owner={labels} field="email">{labels.email}</Text><Text owner={clinic} field="email">{clinic.email}</Text></li>}
               </ul>
             </li>
           </ul>
-          <p className="copyright">{clinic.copyright}</p>
+          {present(clinic.copyright) && <p className="copyright" {...edit(clinic, 'copyright')} {...verify(clinic, 'copyright')}>{clinic.copyright}</p>}
         </div>
       </div>
     </div>

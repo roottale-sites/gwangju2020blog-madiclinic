@@ -117,6 +117,80 @@
       },
       "fieldGroups": [],
       "categories": []
+    },
+    {
+      "model": {
+        "key": "clinic-common",
+        "label": "공통 병원 안내",
+        "cardinality": "collection",
+        "preset": "entity",
+        "source": "site",
+        "state": "active",
+        "presentation": {
+          "kind": "data_only",
+          "listPaths": [
+            "/column",
+            "/reviews",
+            "/faq"
+          ]
+        }
+      },
+      "fieldGroups": [],
+      "categories": []
+    },
+    {
+      "model": {
+        "key": "column-footer",
+        "label": "블로그 하단 안내",
+        "cardinality": "collection",
+        "preset": "entity",
+        "source": "site",
+        "state": "active",
+        "presentation": {
+          "kind": "data_only",
+          "listPaths": [
+            "/column"
+          ]
+        }
+      },
+      "fieldGroups": [],
+      "categories": []
+    },
+    {
+      "model": {
+        "key": "reviews-footer",
+        "label": "후기 하단 안내",
+        "cardinality": "collection",
+        "preset": "entity",
+        "source": "site",
+        "state": "active",
+        "presentation": {
+          "kind": "data_only",
+          "listPaths": [
+            "/reviews"
+          ]
+        }
+      },
+      "fieldGroups": [],
+      "categories": []
+    },
+    {
+      "model": {
+        "key": "faq-footer",
+        "label": "FAQ 하단 안내",
+        "cardinality": "collection",
+        "preset": "entity",
+        "source": "site",
+        "state": "active",
+        "presentation": {
+          "kind": "data_only",
+          "listPaths": [
+            "/faq"
+          ]
+        }
+      },
+      "fieldGroups": [],
+      "categories": []
     }
   ]
 }

@@ -336,3 +336,21 @@ describe('라우트 오류 처리', () => {
     expect(response.headers.get('cache-control')).toBe('no-store');
   });
 });
+
+describe('사이트 내용 공유 문서 발행', () => {
+  test.each(['clinic-common','column-footer','reviews-footer','faq-footer'])('%s의 경로 없는 발행도 200으로 처리하고 편집 캐시를 만료한다', async modelKey => {
+    const response = await POST(webhookRequest({ modelKey, paths: [] }));
+    expect(response.status).toBe(200);
+    const { CONTENT_EDITING_CACHE_TAG } = await import('@roottale/cms-renderer-next/routes');
+    expect(revalidateTag).toHaveBeenCalledWith(CONTENT_EDITING_CACHE_TAG, { expire: 0 });
+    if (modelKey === 'clinic-common') {
+      expect(revalidatePath).toHaveBeenCalledWith('/', 'layout');
+      for (const path of ['/column','/reviews','/faq']) expect(revalidatePath).toHaveBeenCalledWith(path);
+    } else {
+      const path = `/${modelKey.replace('-footer','')}`;
+      expect(revalidatePath).toHaveBeenCalledWith(path);
+      for (const other of ['/column','/reviews','/faq'].filter(item => item !== path)) expect(revalidatePath).not.toHaveBeenCalledWith(other);
+    }
+    expect(revalidatePath.mock.calls.some(call => call[1] === 'page')).toBe(true);
+  });
+});
