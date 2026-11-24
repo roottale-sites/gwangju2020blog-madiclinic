@@ -105,6 +105,7 @@ export const topLinks: readonly Readonly<{
   href: string;
   title: string;
   external: boolean;
+  tracking?: Readonly<{ event: 'booking_click' | 'chat_click' | 'cta_click'; cta: string; provider?: string }>;
 }>[] = [
   { className: 'home', href: `${mainSiteOrigin}/`, title: '처음으로', external: false },
   {
@@ -112,19 +113,23 @@ export const topLinks: readonly Readonly<{
     href: clinic.social.naverBooking,
     title: '예약하기',
     external: true,
+    tracking: { event: 'booking_click', cta: 'naver-booking', provider: 'naver' },
   },
-  { className: 'kakao', href: clinic.social.kakao, title: '상담하기(카카오톡)', external: true },
+  { className: 'kakao', href: clinic.social.kakao, title: '상담하기(카카오톡)', external: true,
+    tracking: { event: 'chat_click', cta: 'kakao-channel', provider: 'kakao' } },
   {
     className: 'instagram',
     href: clinic.social.instagram,
     title: 'Instagram',
     external: true,
+    tracking: { event: 'cta_click', cta: 'instagram' },
   },
   {
     className: 'blog',
     href: clinic.social.blog,
     title: '블로그',
     external: true,
+    tracking: { event: 'cta_click', cta: 'naver-blog' },
   },
 ];
 

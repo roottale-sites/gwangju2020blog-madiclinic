@@ -23,10 +23,10 @@ const communityLinks = [
 ] as const;
 
 const quickLinks = [
-  { href: `${mainSiteOrigin}/`, label: '병원 홈페이지', icon: 'home' },
-  { href: clinic.social.naverBooking, label: '네이버 진료 예약', icon: 'calendar' },
-  { href: `${mainSiteOrigin}/doctor/doctor02.html`, label: '원장 소개', icon: 'doctor' },
-  { href: `${mainSiteOrigin}/about/about02.html`, label: '오시는 길', icon: 'pin' },
+  { href: `${mainSiteOrigin}/`, label: '병원 홈페이지', icon: 'home', event: 'cta_click', cta: 'clinic-home' },
+  { href: clinic.social.naverBooking, label: '네이버 진료 예약', icon: 'calendar', event: 'booking_click', cta: 'naver-booking', provider: 'naver' },
+  { href: `${mainSiteOrigin}/doctor/doctor02.html`, label: '원장 소개', icon: 'doctor', event: 'cta_click', cta: 'doctor-profile' },
+  { href: `${mainSiteOrigin}/about/about02.html`, label: '오시는 길', icon: 'pin', event: 'cta_click', cta: 'directions' },
 ] as const;
 
 function QuickLinkIcon({ icon }: Readonly<{ icon: (typeof quickLinks)[number]['icon'] }>) {
@@ -63,7 +63,8 @@ export default function MadiNotFound({
             {message}<br />
             아래에서 필요한 정보를 다시 찾아보세요.
           </p>
-          <a className="not-found-page__home" href={`${mainSiteOrigin}/`}>
+          <a className="not-found-page__home" href={`${mainSiteOrigin}/`}
+            data-track="cta_click" data-track-cta="clinic-home" data-track-placement="error-page">
             병원 홈페이지로 <span aria-hidden="true">↗</span>
           </a>
         </section>
@@ -92,7 +93,8 @@ export default function MadiNotFound({
           <ul>
             {quickLinks.map((link) => (
               <li key={link.href}>
-                <a href={link.href}>
+                <a href={link.href} data-track={link.event} data-track-cta={link.cta}
+                  data-track-placement="error-page" data-track-provider={'provider' in link ? link.provider : undefined}>
                   <QuickLinkIcon icon={link.icon} />
                   <span>{link.label}</span>
                   <span className="not-found-page__quick-arrow" aria-hidden="true">↗</span>
