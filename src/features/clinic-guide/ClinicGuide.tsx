@@ -10,11 +10,11 @@ export default function ClinicGuide({ content, modelKey = 'column-footer' }: { c
   if (!sectionVisible(content, modelKey, 'guide')) return null;
   const phoneHref = phoneFromDisplay(clinic.phoneDisplay)?.href;
   const actions = [
-    { key: 'question', href: clinic.social.cafe, className: 'question', analytics: 'cafe-question' },
-    { key: 'booking', href: clinic.social.naverBooking, className: 'booking', analytics: 'naver-booking' },
-    { key: 'blog', href: clinic.social.blog, className: 'blog', analytics: 'naver-blog' },
-    { key: 'talk', href: clinic.social.naverTalk, className: 'talk', analytics: 'naver-talk', aria: '네이버톡톡으로 상담하기' },
-    { key: 'kakao', href: clinic.social.kakao, className: 'kakao', analytics: 'kakao-chat', aria: '카카오톡으로 상담하기' },
+    { key: 'question', href: clinic.social.cafe, className: 'question', analytics: 'cafe-question', event: 'cta_click', cta: 'cafe-question' },
+    { key: 'booking', href: clinic.social.naverBooking, className: 'booking', analytics: 'naver-booking', event: 'booking_click', cta: 'naver-booking', provider: 'naver' },
+    { key: 'blog', href: clinic.social.blog, className: 'blog', analytics: 'naver-blog', event: 'cta_click', cta: 'naver-blog' },
+    { key: 'talk', href: clinic.social.naverTalk, className: 'talk', analytics: 'naver-talk', aria: '네이버톡톡으로 상담하기', event: 'chat_click', cta: 'naver-talk', provider: 'naver' },
+    { key: 'kakao', href: clinic.social.kakao, className: 'kakao', analytics: 'kakao-chat', aria: '카카오톡으로 상담하기', event: 'chat_click', cta: 'kakao-channel', provider: 'kakao' },
   ] as const;
   return (
     <aside className="clinic-guide" aria-label="진료 안내" data-analytics-placement="clinic-guide">
@@ -22,7 +22,7 @@ export default function ClinicGuide({ content, modelKey = 'column-footer' }: { c
         <div className="clinic-guide__intro">
           {present(clinic.guideName) && <h2 {...edit(clinic, 'guideName')}>{clinic.guideName}</h2>}
           {present(clinic.address.detail) && <p {...edit(clinic.address, 'detail')}>{clinic.address.detail}</p>}
-          {present(clinic.phoneDisplay) && phoneHref && <p><Text owner={labels} field="phone">{labels.phone}</Text><a href={phoneHref} data-analytics-id="phone-call" {...edit(clinic, 'phoneDisplay')}>{clinic.phoneDisplay}</a></p>}
+          {present(clinic.phoneDisplay) && phoneHref && <p><Text owner={labels} field="phone">{labels.phone}</Text><a href={phoneHref} data-analytics-id="phone-call" data-track="phone_click" data-track-cta="phone-main" data-track-placement="clinic-guide" {...edit(clinic, 'phoneDisplay')}>{clinic.phoneDisplay}</a></p>}
         </div>
         <figure className="clinic-guide__doctor">
           <img src={original.doctorPortrait.src} width={original.doctorPortrait.width}
@@ -50,6 +50,8 @@ export default function ClinicGuide({ content, modelKey = 'column-footer' }: { c
         {actions.map(action => present(labels[action.key]) && safeContentHref(action.href) && <a key={action.key}
           className={`clinic-guide__${action.className}`} href={safeContentHref(action.href)}
           target="_blank" rel="noopener noreferrer" data-analytics-id={action.analytics}
+          data-track={action.event} data-track-cta={action.cta} data-track-placement="clinic-guide"
+          data-track-provider={'provider' in action ? action.provider : undefined}
           {...(action.key === 'question' ? { 'data-analytics-cta': 'true' } : {})}
           {...('aria' in action ? { 'aria-label': action.aria } : {})}
           {...edit(labels, action.key)}>{labels[action.key]}</a>)}

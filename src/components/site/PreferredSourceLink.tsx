@@ -12,6 +12,7 @@ export default function PreferredSourceLink({ content }: { content?: SiteContent
     <div className="preferred-source-action">
       <a className="preferred-source__link" href={preferredSourceUrl.toString()}
         target="_blank" rel="noopener noreferrer"
+        data-track="cta_click" data-track-cta="google-preferred-source" data-track-placement="article-header"
         aria-label="Google에서 마디클리닉을 선호 출처로 추가 (새 창)">
         <img src="/assets/brands/google-g.png" width="20" height="20" alt="" aria-hidden="true" />
         <span {...contentAttributes(pageCommon, 'preferredSource')}>{pageCommon.preferredSource}</span>

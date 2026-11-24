@@ -49,6 +49,10 @@ export default function MadiHeader({ pathname }: Readonly<{ pathname: string }>)
                       href={link.href}
                       className={link.className}
                       title={link.title}
+                      data-track={link.tracking?.event}
+                      data-track-cta={link.tracking?.cta}
+                      data-track-placement={link.tracking ? 'header' : undefined}
+                      data-track-provider={link.tracking?.provider}
                       {...(link.external ? { target: '_blank' } : {})}
                     />
                   </li>
@@ -106,7 +110,8 @@ export default function MadiHeader({ pathname }: Readonly<{ pathname: string }>)
             </ul>
 
             <div className="officialWeb">
-              <a href={officialWebUrl} target="_blank">
+              <a href={officialWebUrl} target="_blank"
+                data-track="cta_click" data-track-cta="official-website" data-track-placement="header">
                 <span />
                 통합마디클리닉 <u>바로가기</u>
               </a>

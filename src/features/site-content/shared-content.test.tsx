@@ -17,15 +17,17 @@ function fields(content: SiteContent, model: string, path: string[]) {
   return result;
 }
 test.each([undefined, initialContent()])('문서 누락과 초기 문서 모두 기존 공개 HTML을 그대로 유지한다', content => {
+  // CTA 계측 속성만 제외하고 기존 화면의 HTML을 대조한다.
+  const withoutTracking = (html: string) => html.replace(/ data-track(?:-(?:cta|placement|provider))?="[^"]*"/g, '');
   const footer = render(<MadiFooter content={content} />);
   // 발행 문서는 값 표식만 추가한다. 문서가 없을 때는 원 HTML을 직접 대조한다.
   const withoutVerification = footer.replace(/<span data-rt-shared-section="[^"]*" data-rt-field-check="[^"]*">([\s\S]*?)<\/span>/g, '$1')
     .replace(/ data-rt-(?:shared-section|field-check)="[^"]*"/g, '');
   expect(content ? withoutVerification : footer).toBe(baseline.footer);
-  expect(render(<ClinicGuide content={content} />)).toBe(baseline.guide);
+  expect(withoutTracking(render(<ClinicGuide content={content} />))).toBe(baseline.guide);
   expect(render(<FaqMedicalNote content={content} />)).toBe(baseline.faq);
   expect(contentEntityJsonLd(content)).toEqual(contentEntityJsonLd());
-  for (const modelKey of ['reviews-footer','faq-footer'] as const) expect(render(<ClinicGuide content={content} modelKey={modelKey} />)).toBe(baseline.guide);
+  for (const modelKey of ['reviews-footer','faq-footer'] as const) expect(withoutTracking(render(<ClinicGuide content={content} modelKey={modelKey} />))).toBe(baseline.guide);
 });
 test('키별 기본값을 쓰면서 저장된 빈 값과 공백은 줄·버튼을 숨긴다', () => {
   const content = initialContent();
