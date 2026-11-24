@@ -31,7 +31,7 @@ export function RootAnalyticsClient() {
       }
       unbind = bindClickTracking((event, dimensions) => {
         trackCustomEvent(event, { ...dimensions, ...visit.current(), attr: 1, pid, lg });
-      }, () => visit.current());
+      });
       initObservers();
     }
     // 스트리밍 응답에서 비콘이 늦게 도착해도 첫 pageview를 놓치지 않는다.

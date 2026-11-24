@@ -9,17 +9,17 @@ importers:
   .:
     dependencies:
       '@roottale/analytics-runtime':
-        specifier: 0.9.0
-        version: 0.9.0(next@16.4.6(@playwright/test@1.55.0)(@types/node@24.13.4)(react-dom@19.3.0(react@19.3.0))(react@19.3.0))(react@19.3.0)
+        specifier: 0.10.0
+        version: 0.10.0(next@16.4.6(@playwright/test@1.55.0)(@types/node@24.13.4)(react-dom@19.3.0(react@19.3.0))(react@19.3.0))(react@19.3.0)
       '@roottale/cms-client':
-        specifier: 0.75.2
-        version: 0.75.2
+        specifier: 0.79.0
+        version: 0.79.0
       '@roottale/cms-core':
-        specifier: 0.75.2
-        version: 0.75.2
+        specifier: 0.79.0
+        version: 0.79.0
       '@roottale/cms-renderer-next':
-        specifier: 0.75.2
-        version: 0.75.2(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
+        specifier: 0.79.0
+        version: 0.79.0(next@16.4.6(@playwright/test@1.55.0)(@types/node@24.13.4)(react-dom@19.3.0(react@19.3.0))(react@19.3.0))(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
       domhandler:
         specifier: ^5.0.3
         version: 5.0.3
@@ -595,8 +595,8 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@roottale/analytics-runtime@0.9.0':
-    resolution: {integrity: sha512-K/73su+VxKqzf15QI0NP5B5aE45nPs7mLEBwBqJzMZt/wazRvcMDrDKF9F3O5FT9WPUXmOQ0L8Q5X0o+aUNRRA==}
+  '@roottale/analytics-runtime@0.10.0':
+    resolution: {integrity: sha512-oitIrpQllNe+oHw86qomOIDfqQiuCjhSZ1qT8aS8kXy+dLSTsJ2ROY+MN36EZxZLqTqH4t0OcJCuKrYynkbEOA==}
     peerDependencies:
       next: ^16.0.0
       react: ^19.0.0
@@ -606,20 +606,20 @@ packages:
       react:
         optional: true
 
-  '@roottale/cms-client@0.75.2':
-    resolution: {integrity: sha512-kExYT6BLmTfvZbkr1Xf0mpGN9lXtGm7EaqxmqgJ+V/u/URzsMNVqbx1C1+aRyxkYVGLQ+kie10Hdqme0l+1OvA==}
+  '@roottale/cms-client@0.79.0':
+    resolution: {integrity: sha512-2NQaBK+54EYS6r61d26FihJITWLXPdaOvA0PQ9LSXqqBwZfR/1uAM5oo3AS6wyLgepO6p7SMg3l0zyOle4dVig==}
 
-  '@roottale/cms-core@0.75.2':
-    resolution: {integrity: sha512-lHB6gTIoHbGwmGj/Lr4UYZVE0PRRz4fGBZvzUGBwP84c7qU7rSFvUDXN4nBYdlECWU7Mwcg3cThIlDOrOdPreg==}
+  '@roottale/cms-core@0.79.0':
+    resolution: {integrity: sha512-EQtU6V4cCslGGbCiG/MvFkhcmkAlL+OY/5oDGPjRqERqy01YAly1Zw/R67HlWJ6WFovmmAjn2vBeuLBJdJDb+Q==}
 
-  '@roottale/cms-renderer-next@0.75.2':
-    resolution: {integrity: sha512-Gz5HMlFQh//UjGWnQR5nN762bUHwExNAtPjKr2NquxJlrkj8UYnLphlu+aKCUY87C8GkmpWm1XPAXsYW9e4jcw==}
+  '@roottale/cms-renderer-next@0.79.0':
+    resolution: {integrity: sha512-eMyFQdkx1l1e6ehEAjNtWWvjL7E7w4AzVPXy72WdTC3e7eZwsyRkeFowP8Ht6956PNdYUumh6SCSm3oqmVPxzw==}
     peerDependencies:
       react: ^19.0.0
       react-dom: ^19.0.0
 
-  '@roottale/inquiry-forms@0.2.0':
-    resolution: {integrity: sha512-bzu7kbNpGdAWdjMEJLHNGmCEsQFLICm4X8vklLevNpnxqKuGmL7dJJy7QR32cpeIWD+OOrzqcxoZFwQ4axoOCA==}
+  '@roottale/inquiry-forms@0.3.0':
+    resolution: {integrity: sha512-EkZxDS05c0vMuZDjseOT2pI2UK10p9yiRvBdoRgbJhNe8n/j3bQsh6/XQWxJ8IQSG9eQmI7FF9W2CeMp2nLKiw==}
 
   '@swc/helpers@0.5.23':
     resolution: {integrity: sha512-5lSsMOTXURePglDfvuAQUqkGek9Hg2kksOYay2m0+XR++b2NWYL/4sWyuvVBIs8oKnJaxkdi9whaL/sqN13afw==}
@@ -1384,32 +1384,35 @@ snapshots:
   '@rollup/rollup-win32-x64-msvc@4.63.3':
     optional: true
 
-  '@roottale/analytics-runtime@0.9.0(next@16.4.6(@playwright/test@1.55.0)(@types/node@24.13.4)(react-dom@19.3.0(react@19.3.0))(react@19.3.0))(react@19.3.0)':
+  '@roottale/analytics-runtime@0.10.0(next@16.4.6(@playwright/test@1.55.0)(@types/node@24.13.4)(react-dom@19.3.0(react@19.3.0))(react@19.3.0))(react@19.3.0)':
     optionalDependencies:
       next: 16.4.6(@playwright/test@1.55.0)(@types/node@24.13.4)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
       react: 19.3.0
 
-  '@roottale/cms-client@0.75.2':
+  '@roottale/cms-client@0.79.0':
     dependencies:
-      '@roottale/cms-core': 0.75.2
-      '@roottale/inquiry-forms': 0.2.0
+      '@roottale/cms-core': 0.79.0
+      '@roottale/inquiry-forms': 0.3.0
       jose: 5.10.0
 
-  '@roottale/cms-core@0.75.2':
+  '@roottale/cms-core@0.79.0':
     dependencies:
       postcss: 8.5.28
       sanitize-html: 2.17.6
       uuidv7: 1.2.1
       zod: 3.25.76
 
-  '@roottale/cms-renderer-next@0.75.2(react-dom@19.3.0(react@19.3.0))(react@19.3.0)':
+  '@roottale/cms-renderer-next@0.79.0(next@16.4.6(@playwright/test@1.55.0)(@types/node@24.13.4)(react-dom@19.3.0(react@19.3.0))(react@19.3.0))(react-dom@19.3.0(react@19.3.0))(react@19.3.0)':
     dependencies:
-      '@roottale/cms-client': 0.75.2
-      '@roottale/cms-core': 0.75.2
+      '@roottale/analytics-runtime': 0.10.0(next@16.4.6(@playwright/test@1.55.0)(@types/node@24.13.4)(react-dom@19.3.0(react@19.3.0))(react@19.3.0))(react@19.3.0)
+      '@roottale/cms-client': 0.79.0
+      '@roottale/cms-core': 0.79.0
       react: 19.3.0
       react-dom: 19.3.0(react@19.3.0)
+    transitivePeerDependencies:
+      - next
 
-  '@roottale/inquiry-forms@0.2.0':
+  '@roottale/inquiry-forms@0.3.0':
     dependencies:
       zod: 3.25.76
 
